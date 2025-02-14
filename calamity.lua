@@ -805,7 +805,7 @@ for i=1, #vars.aaStates do
         bodyYawSlider = ui.new_slider(tab, container, "\nbody yaw limit" .. aaContainer[i], -180, 180, 0, true, "°", 1),
         defensiveOpt = ui.new_combobox(tab, container, "Defensive options\n" .. aaContainer[i], "-", "Elusive mode", "Always on", "Always on Tick"),
         defensiveOptSlider = ui.new_slider(tab, container, "\nDefensiveOptSlider" .. aaContainer[i], 3, 50, 0, true, "t", 1),
-        defensiveYaw = ui.new_combobox(tab, container, "Defensive yaw\n" .. aaContainer[i], "-", "Random",  "Spin", "Side-ways", "Flick", "Custom"),
+        defensiveYaw = ui.new_combobox(tab, container, "Defensive yaw\n" .. aaContainer[i], "-", "Random",  "Spin", "Side-ways", "Flick", "Custom", "Backward Jitter"),
         defensiveYawSlider = ui.new_slider(tab, container, "\nDefensiveYawSlider" .. aaContainer[i], -180, 180, 0, true, "", 1),
         defensiveYawSlider2 = ui.new_slider(tab, container, "\nDefensiveYawSlider2" .. aaContainer[i], -180, 180, 0, true, "", 1),
         defensivePitch = ui.new_combobox(tab, container, "Defensive pitch\n" .. aaContainer[i], "-", "Custom", "Random", "Jitter"),
@@ -1600,8 +1600,8 @@ client.set_event_callback("setup_command", function(cmd)
 
         ui.set(refs.yaw[1], ui.get(aaBuilder[vars.pState].yaw))
         if ui.get(aaBuilder[vars.pState].defensiveYaw) == "Random" and isDefensive and isDt then
-            local randomyaw = client.random_int(-180, 180)
-            ui.set(refs.yaw[2], randomyaw)
+            local random = client.random_int(-180, 180)
+            ui.set(refs.yaw[2], random)
             ui.set(refs.yawJitter[1], "Off")
             ui.set(refs.yawJitter[2], 0)
             --ui.set(refs.bodyYaw[1], "Off")
@@ -1611,7 +1611,7 @@ client.set_event_callback("setup_command", function(cmd)
             ui.set(refs.yawJitter[2], 0)
             --ui.set(refs.bodyYaw[1], "Off")
         elseif ui.get(aaBuilder[vars.pState].defensiveYaw) == "Flick" and isDefensive and isDt then
-            ui.set(refs.yaw[2], vars.switch2 and 91 or 96)
+            ui.set(refs.yaw[2], 90)
             ui.set(refs.yawJitter[1], "Off")
             ui.set(refs.yawJitter[2], 0)
             --ui.set(refs.bodyYaw[1], "Off") 
@@ -1626,7 +1626,7 @@ client.set_event_callback("setup_command", function(cmd)
             ui.set(refs.yawJitter[2], 0)
             --ui.set(refs.bodyYaw[1], "Off")
         elseif ui.get(aaBuilder[vars.pState].defensiveYaw) == "Custom" and isDefensive and isDt then
---            ui.set(refs.yaw[2], "Custom")
+            --ui.set(refs.Yaw[1], "Off")
             ui.set(refs.yaw[2], ui.get(aaBuilder[vars.pState].defensiveYawSlider))
         elseif ui.get(aaBuilder[vars.pState].yawCondition) == "L & R" then
 
