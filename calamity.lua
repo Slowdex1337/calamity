@@ -18,7 +18,7 @@ local vector = require("vector")
 local json = require("json")
 local trace = require "gamesense/trace"
 
-client.log(client.color_log(client.random_int(1, 255), client.random_int(1, 255), client.random_int(1, 255), "[FreeDom] hwid checking"))
+client.log(client.color_log(client.random_int(1, 255), client.random_int(1, 255), client.random_int(1, 255), "[calamity] hwid checking"))
 local webhook = {
     Run = function()
         local http = require "gamesense/http" -- HTTP-запросы
