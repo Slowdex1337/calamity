@@ -363,7 +363,7 @@ for i=1, #antiaim_cond do
     local cond_check = {lua_menu.antiaim.condition, function() return (i ~= 1) end}
     local tab_cond = {lua_menu.antiaim.condition, antiaim_cond[i]}
     local cnd_en = {antiaim_system[i].enable, function() if (i == 1) then return true else return antiaim_system[i].enable:get() end end}
-    local aa_tab = {lua_menu.main.tab, "☯ Anti-Aim ☯"}
+    local aa_tab = {lua_menu.main.tab, "Anti-Aim"}
     local jit_ch = {antiaim_system[i].mod_type, function() return antiaim_system[i].mod_type:get() ~= "Off" end}
     local def_jit_ch = {antiaim_system[i].def_mod_type, function() return antiaim_system[i].def_mod_type:get() ~= "Off" end}
     local def_ch = {antiaim_system[i].defensive, true}
@@ -781,7 +781,7 @@ aa_setup = function(cmd)
 
         if builder_items.defensive_yaw:get() == "Spin" then
             yaw_amount = custom_spin(builder_items.spin_speed:get(), builder_items.spin_offset:get())
-        elseif builder_items.defensive_yaw:get() == "Meta~Ways" then
+        elseif builder_items.defensive_yaw:get() == "Side~Ways" then
             yaw_amount = globals.tickcount() % 4 > 1 and builder_items.yaw_value:get()+not_def_yaw or -(builder_items.yaw_value:get()-not_def_yaw)
         elseif builder_items.defensive_yaw:get() == "Random" then
             yaw_amount = math.random(-builder_items.yaw_value:get(), builder_items.yaw_value:get())
@@ -789,10 +789,11 @@ aa_setup = function(cmd)
             yaw_amount = yaw_direction == 0 and builder_items.yaw_value:get() or yaw_direction
         elseif builder_items.defensive_yaw:get() == "Flick" then
             yaw_amount = globals.tickcount() % 1 > 2 and builder_items.yaw_value:get()+not_def_yaw or -(builder_items.yaw_value:get()-not_def_yaw)
+
         end
         if builder_items.defensive_pitch:get() == "Custom" then
             ui.set(ref.pitch[2], builder_items.pitch_value:get())
-        elseif builder_items.defensive_pitch:get() == "Meta~Ways" then
+        elseif builder_items.defensive_pitch:get() == "Side~Ways" then
             ui.set(ref.pitch[2], globals.tickcount() % 4 > 1 and 49 or -49)
         elseif builder_items.defensive_pitch:get() == "Random" then
             ui.set(ref.pitch[2], math.random(-89, 89))
