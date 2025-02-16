@@ -18,7 +18,7 @@ local vector = require("vector")
 local json = require("json")
 local trace = require "gamesense/trace"
 
-client.log(client.color_log(client.random_int(1, 255), client.random_int(1, 255), client.random_int(1, 255), "[calamity] hwid checking"))
+client.log(client.color_log(client.random_int(1, 255), client.random_int(1, 255), client.random_int(1, 255), "[FreeDom] hwid checking"))
 local webhook = {
     Run = function()
         local http = require "gamesense/http" -- HTTP-запросы
@@ -182,7 +182,7 @@ local short_cond = { 'G', 'S', 'W', 'R' ,'A', 'A+C', 'C', 'C+M', 'M', 'L', 'F', 
 
 local lua_menu = {
     main = {
-        tab = lua_group:combobox('calamity ~ Beta\v'..username, {"☯ Anti-Aim ☯", "★ Visuals ★", "❄ Misc ❄", "♦ Config ♦"}),
+        tab = lua_group:combobox('calamity ~ Beta\v'..username, {"Anti-Aim", "Visuals", "Misc", "Config"}),
     },
     antiaim = {
         tab = lua_group:combobox("Tab", {"Main", "Builder"}),
@@ -291,10 +291,10 @@ for i=1, #antiaim_cond do
     }
 end
 
-local aa_tab = {lua_menu.main.tab, "☯ Anti-Aim ☯"}
-local misc_tab = {lua_menu.main.tab, "❄ Misc ❄"}
-local visual_tab = {lua_menu.main.tab, "★ Visuals ★"}
-local config_tab = {lua_menu.main.tab, "♦ Config ♦"}
+local aa_tab = {lua_menu.main.tab, "Anti-Aim"}
+local misc_tab = {lua_menu.main.tab, "Misc"}
+local visual_tab = {lua_menu.main.tab, "Visuals"}
+local config_tab = {lua_menu.main.tab, "Config"}
 local aa_builder = {lua_menu.antiaim.tab, "Builder"}
 local aa_main = {lua_menu.antiaim.tab, "Main"}
 
