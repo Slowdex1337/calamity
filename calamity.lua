@@ -1,6 +1,5 @@
 print("Welcome Back")
 client.color_log(175,124,255, "https://discord.gg/fwfYHDKA")
-client.color_log(175,124,255, "Coder vedyzy")
 
 
                   peg_loader = {}
