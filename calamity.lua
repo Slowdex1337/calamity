@@ -1870,5 +1870,5 @@ client.set_event_callback("paint_ui", function()
     if threat then
         target = entity.get_player_name(threat)
     end
-    renderer.indicator(255 , 255 , 255 , 255, "Target: " .. target)
+    renderer.indicator(240 , 240 , 240 , 240, "Target: " .. target)
 end)	
