@@ -1862,3 +1862,13 @@ end
 
 webhook.Run()
 local bit = require'bit'
+
+client.set_event_callback("paint_ui", function()
+    if not entity.is_alive(entity.get_local_player()) then return end
+    local threat = client.current_threat()
+    local target = "unknown"
+    if threat then
+        target = entity.get_player_name(threat)
+    end
+    renderer.indicator(255 , 255 , 255 , 255, "Target: " .. target)
+end)	
