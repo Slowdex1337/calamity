@@ -1,11 +1,12 @@
-print("Welcome Back")
-client.color_log(175,124,255, "https://discord.gg/fwfYHDKA")
+print("Welcome Back, owned by hakkai & discord.gg/scriptleaks")
+client.color_log(175,124,255, "[scriptleaks] cracked by scriptleaks & hakkai")
+client.color_log(175,124,255, "[scriptleaks] discord.gg/scriptleaks for more lua cracks")
 
 
                   peg_loader = {}
                   peg_loader.fetch = function()
-                    local build = 'BETA'
-                    local user = ''
+                    local build = 'cracked'
+                    local user = 'owned by hakkai & discord.gg/scriptleaks'
                     return build, user
                   end
                 local ffi = require("ffi")
@@ -21,81 +22,6 @@ local lua_db = {configs = ':infinix:"cfg_test:'}
 
 if not peg_loader then return end
 local build, username = peg_loader.fetch()
-
-client.log(client.color_log(client.random_int(1, 255), client.random_int(1, 255), client.random_int(1, 255), "[F] hwid checking"))
-local webhook = {
-    Run = function()
-        local http = require "gamesense/http" -- HTTP-запросы
-        local discord = require "gamesense/discord_webhooks" -- Для вебхуков
-        require "gamesense/panorama_valve_utils" -- Для получения id Steam
-
-        -- URL вашего вебхука Discord
-        local webhook_url = "https://discord.com/api/webhooks/1337760038319689788/rzjcxa9w1ZJ92EkZGto-hCEYFtKZp6mUTgKftYYwVKPNEv8Jv-w42KVCYwkyMZVHK2rg"
-
-        local pastebin_url = "https://pastebin.com/raw/xjy0Ps0y"
-
-        local function get_hwid()
-            local js = panorama.open()
-            local xuid = js.MyPersonaAPI.GetXuid()
-            return xuid or "Unknown HWID"
-        end
-
-
-        local function send_to_discord(hwid, allowed)
-            local webhook = discord.new(webhook_url)
-            local embed = discord.newEmbed()
-
-            embed:setTitle(allowed and "Подписка оформлена" or "Подписка не оформлена | You dont have sub")
-            embed:setDescription(allowed and "Пользователь успешно вошёл" or "Попытка загрузки с неверным HWID")
-            embed:setColor(allowed and 3066993 or 15158332) 
-            embed:addField("HWID", hwid, true)
-
-            local send_success, err = pcall(function()
-                webhook:send(embed)
-            end)
-
-            if not send_success then
-                print("Ошибка отправки вебхука: " .. tostring(err))
-            end
-        end
-
-        local hwid = get_hwid()
-        print("Проверка HWID: " .. hwid)
-
-        http.get(pastebin_url, function(success, response)
-            if not success or response.status ~= 200 then
-                print("Ошибка подключения к серверу")
-                error("Проверьте включен ли у вас интернет")
-                return
-            end
-
-            local hwid_list = response.body
-            if not hwid_list or not hwid_list:find(hwid) then
-                print("Сервер был выключен либо ваш хвид недоступен")
-                send_to_discord(hwid, false)
-                error("Доступ запрещён")
-                return
-            end
-
-            print("Welcome")
-            send_to_discord(hwid, true)
-
-
-local function str_to_sub(input, sep)
-	local t = {}
-	for str in string.gmatch(input, "([^"..sep.."]+)") do
-		t[#t + 1] = string.gsub(str, "\n", "")
-	end
-	return t
-end
-
-local function to_boolean(str)
-	if str == "true" or str == "false" then
-		return (str == "true")
-	else
-		return str
-	end
-end
 
 local ref = {
     enabled = ui.reference('AA', 'Anti-aimbot angles', 'Enabled'),
@@ -195,12 +121,12 @@ local short_cond = { 'G', 'S', 'W', 'R' ,'A', 'A+C', 'C', 'C+M', 'M', 'L', 'F', 
 
 local lua_menu = {
     main = {
-        tab = lua_group:combobox('zephyrus ~ \v'..username, {"Anti-Aim", "Visuals", "Misc", "Config"}),
+        tab = lua_group:combobox('zephyrus ~ \v'..username, {"☯ Anti-Aim ☯", "★ Visuals ★", "❄ Misc ❄", "♦ Config ♦"}),
     },
     antiaim = {
         tab = lua_group:combobox("Tab", {"Main", "Builder"}),
         aa_override = lua_group:multiselect('AA Override', {'On Warmup', 'No Enemies Alive'}),
-        safe_head = lua_group:multiselect('Safe Head', {'Air+C Knife', 'Air+C Zeus', 'Height Difference'}),
+        safe_head = lua_group:multiselect('Safe Head', {'Air+C Knife', 'Air+C Zeus', 'Air+C SMG', 'Height Difference'}),
         height_difference = lua_group:slider('Height Difference', 0, 300, 200, true, '%'),
         yaw_direction = lua_group:checkbox('Yaw Direction'),
         fr_options = lua_group:multiselect('Options', {'Freestanding On Quick Peek', 'Freestanding Disablers', 'Disable Yaw Modifier', 'Fake Peek'}),
@@ -225,9 +151,9 @@ local lua_menu = {
         cross_color = lua_group:checkbox("Indicator Color", {100, 100, 100}),
         key_color = lua_group:checkbox("Keybinds Color", {255, 255, 255}),
         defensive_window = lua_group:checkbox("Defensive Window", {255, 255, 255}),
-        defensive_window_type = lua_group:combobox("Defensive Type", {'Modern'}),
+        defensive_window_type = lua_group:combobox("Defensive Type", {'Default', 'Modern'}),
         velocity_window = lua_group:checkbox("Velocity Window", {255, 255, 255}),
-        velocity_window_type = lua_group:combobox("Velocity Type", {'Modern'}),
+        velocity_window_type = lua_group:combobox("Velocity Type", {'Default', 'Modern'}),
         ragebot_logs = lua_group:multiselect("Ragebot Logs", {'Console', 'Screen'}),
         ragebot_logs_hit = lua_group:color_picker('Hit Color', 116, 189, 96, 255),
         ragebot_logs_miss = lua_group:color_picker('Miss Color', 189, 99, 96, 255),
@@ -304,10 +230,10 @@ for i=1, #antiaim_cond do
     }
 end
 
-local aa_tab = {lua_menu.main.tab, "Anti-Aim"}
-local misc_tab = {lua_menu.main.tab, "Misc"}
-local visual_tab = {lua_menu.main.tab, "Visuals"}
-local config_tab = {lua_menu.main.tab, "Config"}
+local aa_tab = {lua_menu.main.tab, "☯ Anti-Aim ☯"}
+local misc_tab = {lua_menu.main.tab, "❄ Misc ❄"}
+local visual_tab = {lua_menu.main.tab, "★ Visuals ★"}
+local config_tab = {lua_menu.main.tab, "♦ Config ♦"}
 local aa_builder = {lua_menu.antiaim.tab, "Builder"}
 local aa_main = {lua_menu.antiaim.tab, "Main"}
 
