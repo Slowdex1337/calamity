@@ -1065,7 +1065,7 @@ local function screen_indicator()
     local r, g, b, a = 255, 255, 255, 255
 
     local lolx, loly = renderer.measure_text('c', '.lua')
-    local mainx, mainy = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'cb', lua_menu.visuals.cross_ind_type:get() == 'Default' and "C A L A M I T Y" or 'calamity')
+    local mainx, mainy = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'cb', lua_menu.visuals.cross_ind_type:get() == 'Default' and "calamity.lua" or 'calamity')
     local dtx, dty = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'b', lua_menu.visuals.cross_ind_type:get() == 'Default' and "DT" or 'dt')
     local bodyx, bodyy = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'c', lua_menu.visuals.cross_ind_type:get() == 'Default' and "BODY" or 'body')
     local osaax, osaay = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'c', lua_menu.visuals.cross_ind_type:get() == 'Default' and "OSAA" or 'osaa')
@@ -1075,7 +1075,7 @@ local function screen_indicator()
 
     if lua_menu.visuals.cross_ind_type:get() == 'Default' then
 
-        text_fade_animation(center[1] + math.floor(scoped_space * 50), center[2] + 30, -1, {r=r1, g=g1, b=b1, a=255}, {r=r2, g=g2, b=b2, a=255}, "C A L A M I T Y", "c-")
+        text_fade_animation(center[1] + math.floor(scoped_space * 50), center[2] + 30, -1, {r=r1, g=g1, b=b1, a=255}, {r=r2, g=g2, b=b2, a=255}, "calamity.lua", "c-")
 
         renderer.rectangle(center[1] + math.floor(scoped_space * 50) - mainx/2 + 1, center[2] + 35, mainx+1, 3, 0, 0, 0, 255)
         renderer.rectangle(center[1] + math.floor(scoped_space * 50) - mainx/2 + 2, center[2] + 36, (mainx - 1)*desync, 1, 255, 255, 255, 255)
@@ -1111,7 +1111,7 @@ local function screen_indicator()
         end
     else    
         local breathe_alpha = breathe(0, 2.0) * 255
-        text_fade_animation(center[1] + math.floor(scoped_space * 52), center[2] + 30, -1, {r=r1, g=g1, b=b1, a=255}, {r=r2, g=g2, b=b2, a=255}, "calamity", "cb")
+        text_fade_animation(center[1] + math.floor(scoped_space * 52), center[2] + 30, -1, {r=r1, g=g1, b=b1, a=255}, {r=r2, g=g2, b=b2, a=255}, "calamity.lua", "cb")
 
         renderer.text(center[1] + math.floor((statex + 58)*0.5 * scoped_space), center[2] + 40, r2, g2, b2, 255, "c", 0, '·'..string.lower(condition)..'·')
 
@@ -1808,8 +1808,8 @@ client.set_event_callback('paint', function()
 
     ragebot_logs()
 
-    text_fade_animation(899, center[2] - -520, -1, {r=200, g=200, b=200, a=255}, {r=150, g=150, b=150, a=255}, "C A L A M I T Y", "")
-    renderer.text(900 + renderer.measure_text('', 'C A L A M I T Y '), center[2] - -520, 200, 200, 200, 255, '', 0, '\aB94A4AFF[BETA]')
+    text_fade_animation(899, center[2] - -520, -1, {r=200, g=200, b=200, a=255}, {r=150, g=150, b=150, a=255}, "~ calamity ~", "")
+    renderer.text(900 + renderer.measure_text('', '~ calamity ~ '), center[2] - -520, 200, 200, 200, 255, '', 0, '\aB94A4AFF[lua]')
 
     thirdperson(lua_menu.misc.third_person:get() and lua_menu.misc.third_person_value:get() or nil)
     aspectratio(lua_menu.misc.aspectratio:get() and lua_menu.misc.aspectratio_value:get()/100 or nil)
