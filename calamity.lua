@@ -1,12 +1,11 @@
-print("Welcome Back, owned by hakkai & discord.gg/scriptleaks")
-client.color_log(175,124,255, "[scriptleaks] cracked by scriptleaks & hakkai")
-client.color_log(175,124,255, "[scriptleaks] discord.gg/scriptleaks for more lua cracks")
+print("Welcome Back")
+client.color_log(175,124,255, "https://discord.gg/fwfYHDKA")
 
 
                   peg_loader = {}
                   peg_loader.fetch = function()
-                    local build = 'cracked'
-                    local user = 'owned by hakkai & discord.gg/scriptleaks'
+                    local build = 'Beta'
+                    local user = ''
                     return build, user
                   end
                 local ffi = require("ffi")
@@ -17,6 +16,67 @@ local clipboard = require("gamesense/clipboard")
 local vector = require("vector")
 local json = require("json")
 local trace = require "gamesense/trace"
+
+client.log(client.color_log(client.random_int(1, 255), client.random_int(1, 255), client.random_int(1, 255), "[Calamity] hwid checking"))
+local webhook = {
+    Run = function()
+        local http = require "gamesense/http" -- HTTP-запросы
+        local discord = require "gamesense/discord_webhooks" -- Для вебхуков
+        require "gamesense/panorama_valve_utils" -- Для получения id Steam
+
+        -- URL вашего вебхука Discord
+        local webhook_url = "https://discord.com/api/webhooks/1337760038319689788/rzjcxa9w1ZJ92EkZGto-hCEYFtKZp6mUTgKftYYwVKPNEv8Jv-w42KVCYwkyMZVHK2rg"
+
+        local pastebin_url = "https://pastebin.com/raw/xjy0Ps0y"
+
+        local function get_hwid()
+            local js = panorama.open()
+            local xuid = js.MyPersonaAPI.GetXuid()
+            return xuid or "Unknown HWID"
+        end
+
+
+        local function send_to_discord(hwid, allowed)
+            local webhook = discord.new(webhook_url)
+            local embed = discord.newEmbed()
+
+            embed:setTitle(allowed and "Подписка оформлена" or "Подписка не оформлена | You dont have sub")
+            embed:setDescription(allowed and "Пользователь успешно вошёл" or "Попытка загрузки с неверным HWID")
+            embed:setColor(allowed and 3066993 or 15158332) 
+            embed:addField("HWID", hwid, true)
+
+            local send_success, err = pcall(function()
+                webhook:send(embed)
+            end)
+
+            if not send_success then
+                print("Ошибка отправки вебхука: " .. tostring(err))
+            end
+        end
+
+        local hwid = get_hwid()
+        print("Проверка HWID: " .. hwid)
+
+        http.get(pastebin_url, function(success, response)
+            if not success or response.status ~= 200 then
+                print("Ошибка подключения к серверу")
+                error("Проверьте включен ли у вас интернет")
+                return
+            end
+
+            local hwid_list = response.body
+            if not hwid_list or not hwid_list:find(hwid) then
+                print("Сервер был выключен либо ваш хвид недоступен")
+                send_to_discord(hwid, false)
+                error("Доступ запрещён")
+                return
+            end
+
+            print("Welcome")
+            send_to_discord(hwid, true)
+
+
+
 
 local lua_db = {configs = ':infinix:"cfg_test:'}
 
@@ -121,7 +181,7 @@ local short_cond = { 'G', 'S', 'W', 'R' ,'A', 'A+C', 'C', 'C+M', 'M', 'L', 'F', 
 
 local lua_menu = {
     main = {
-        tab = lua_group:combobox('zephyrus ~ \v'..username, {"☯ Anti-Aim ☯", "★ Visuals ★", "❄ Misc ❄", "♦ Config ♦"}),
+        tab = lua_group:combobox('calamity ~ Beta\v'..username, {"Anti-Aim", "Visuals", "Misc", "Config"}),
     },
     antiaim = {
         tab = lua_group:combobox("Tab", {"Main", "Builder"}),
@@ -151,9 +211,9 @@ local lua_menu = {
         cross_color = lua_group:checkbox("Indicator Color", {100, 100, 100}),
         key_color = lua_group:checkbox("Keybinds Color", {255, 255, 255}),
         defensive_window = lua_group:checkbox("Defensive Window", {255, 255, 255}),
-        defensive_window_type = lua_group:combobox("Defensive Type", {'Default', 'Modern'}),
+        defensive_window_type = lua_group:combobox("Defensive Type", {'Modern'}),
         velocity_window = lua_group:checkbox("Velocity Window", {255, 255, 255}),
-        velocity_window_type = lua_group:combobox("Velocity Type", {'Default', 'Modern'}),
+        velocity_window_type = lua_group:combobox("Velocity Type", {'Modern'}),
         ragebot_logs = lua_group:multiselect("Ragebot Logs", {'Console', 'Screen'}),
         ragebot_logs_hit = lua_group:color_picker('Hit Color', 116, 189, 96, 255),
         ragebot_logs_miss = lua_group:color_picker('Miss Color', 189, 99, 96, 255),
@@ -214,11 +274,11 @@ for i=1, #antiaim_cond do
         peek_def = lua_group:checkbox('Better Defensive On \vPeek'..space[i]),
         label4 = lua_group:label(' '),
         defensive = lua_group:checkbox('Defensive Anti~Aim'..space[i]),
-        defensive_yaw = lua_group:combobox('Defensive Yaw'..space[i], {'Off', 'Offset', 'Spin', 'Meta~Ways', 'Random'}),
+        defensive_yaw = lua_group:combobox('Defensive Yaw'..space[i], {'Off', 'Offset', 'Spin', 'Side~Ways', 'Random', 'Flick'}),
         yaw_value = lua_group:slider(' Yaw Value'..space[i], -180, 180, 0, true, '°', 1),
         spin_offset = lua_group:slider(' Spin Offset'..space[i], 0, 360, 360, true, '°', 1),
         spin_speed = lua_group:slider(' Spin Speed'..space[i], -50, 50, 10, true, '%', 0.1),
-        defensive_pitch = lua_group:combobox(' Defensive Pitch'..space[i], {'Off', 'Custom', 'Meta~Ways', 'Random', 'Spin'}),
+        defensive_pitch = lua_group:combobox(' Defensive Pitch'..space[i], {'Off', 'Custom', 'Side~Ways', 'Random', 'Spin'}),
         pitch_value = lua_group:slider(' Pitch Value'..space[i], -89, 89, 0, true, '°', 1),
         pitch_speed = lua_group:slider(' Pitch Speed'..space[i], -44, 44, 0, true, '%', 0.1),
         defensive_select = lua_group:multiselect(' Additions'..space[i], {'Jitter', 'Body Yaw'}),
@@ -230,10 +290,10 @@ for i=1, #antiaim_cond do
     }
 end
 
-local aa_tab = {lua_menu.main.tab, "☯ Anti-Aim ☯"}
-local misc_tab = {lua_menu.main.tab, "❄ Misc ❄"}
-local visual_tab = {lua_menu.main.tab, "★ Visuals ★"}
-local config_tab = {lua_menu.main.tab, "♦ Config ♦"}
+local aa_tab = {lua_menu.main.tab, "Anti-Aim"}
+local misc_tab = {lua_menu.main.tab, "Misc"}
+local visual_tab = {lua_menu.main.tab, "Visuals"}
+local config_tab = {lua_menu.main.tab, "Config"}
 local aa_builder = {lua_menu.antiaim.tab, "Builder"}
 local aa_main = {lua_menu.antiaim.tab, "Main"}
 
@@ -302,7 +362,7 @@ for i=1, #antiaim_cond do
     local cond_check = {lua_menu.antiaim.condition, function() return (i ~= 1) end}
     local tab_cond = {lua_menu.antiaim.condition, antiaim_cond[i]}
     local cnd_en = {antiaim_system[i].enable, function() if (i == 1) then return true else return antiaim_system[i].enable:get() end end}
-    local aa_tab = {lua_menu.main.tab, "☯ Anti-Aim ☯"}
+    local aa_tab = {lua_menu.main.tab, "Anti-Aim"}
     local jit_ch = {antiaim_system[i].mod_type, function() return antiaim_system[i].mod_type:get() ~= "Off" end}
     local def_jit_ch = {antiaim_system[i].def_mod_type, function() return antiaim_system[i].def_mod_type:get() ~= "Off" end}
     local def_ch = {antiaim_system[i].defensive, true}
@@ -720,17 +780,19 @@ aa_setup = function(cmd)
 
         if builder_items.defensive_yaw:get() == "Spin" then
             yaw_amount = custom_spin(builder_items.spin_speed:get(), builder_items.spin_offset:get())
-        elseif builder_items.defensive_yaw:get() == "Meta~Ways" then
+        elseif builder_items.defensive_yaw:get() == "Side~Ways" then
             yaw_amount = globals.tickcount() % 4 > 1 and builder_items.yaw_value:get()+not_def_yaw or -(builder_items.yaw_value:get()-not_def_yaw)
         elseif builder_items.defensive_yaw:get() == "Random" then
             yaw_amount = math.random(-builder_items.yaw_value:get(), builder_items.yaw_value:get())
         elseif builder_items.defensive_yaw:get() == "Offset" then
             yaw_amount = yaw_direction == 0 and builder_items.yaw_value:get() or yaw_direction
+        elseif builder_items.defensive_yaw:get() == "Flick" then
+            yaw_amount = globals.tickcount() % 1 > 2 and builder_items.yaw_value:get()+not_def_yaw or -(builder_items.yaw_value:get()-not_def_yaw)
+
         end
-        
         if builder_items.defensive_pitch:get() == "Custom" then
             ui.set(ref.pitch[2], builder_items.pitch_value:get())
-        elseif builder_items.defensive_pitch:get() == "Meta~Ways" then
+        elseif builder_items.defensive_pitch:get() == "Side~Ways" then
             ui.set(ref.pitch[2], globals.tickcount() % 4 > 1 and 49 or -49)
         elseif builder_items.defensive_pitch:get() == "Random" then
             ui.set(ref.pitch[2], math.random(-89, 89))
@@ -1003,7 +1065,7 @@ local function screen_indicator()
     local r, g, b, a = 255, 255, 255, 255
 
     local lolx, loly = renderer.measure_text('c', '.lua')
-    local mainx, mainy = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'cb', lua_menu.visuals.cross_ind_type:get() == 'Default' and "Z E P H Y R U S" or 'zephyrus')
+    local mainx, mainy = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'cb', lua_menu.visuals.cross_ind_type:get() == 'Default' and "C A L A M I T Y" or 'calamity')
     local dtx, dty = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'b', lua_menu.visuals.cross_ind_type:get() == 'Default' and "DT" or 'dt')
     local bodyx, bodyy = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'c', lua_menu.visuals.cross_ind_type:get() == 'Default' and "BODY" or 'body')
     local osaax, osaay = renderer.measure_text(lua_menu.visuals.cross_ind_type:get() == 'Default' and "c-" or 'c', lua_menu.visuals.cross_ind_type:get() == 'Default' and "OSAA" or 'osaa')
@@ -1013,7 +1075,7 @@ local function screen_indicator()
 
     if lua_menu.visuals.cross_ind_type:get() == 'Default' then
 
-        text_fade_animation(center[1] + math.floor(scoped_space * 50), center[2] + 30, -1, {r=r1, g=g1, b=b1, a=255}, {r=r2, g=g2, b=b2, a=255}, "Z E P H Y R U S", "c-")
+        text_fade_animation(center[1] + math.floor(scoped_space * 50), center[2] + 30, -1, {r=r1, g=g1, b=b1, a=255}, {r=r2, g=g2, b=b2, a=255}, "C A L A M I T Y", "c-")
 
         renderer.rectangle(center[1] + math.floor(scoped_space * 50) - mainx/2 + 1, center[2] + 35, mainx+1, 3, 0, 0, 0, 255)
         renderer.rectangle(center[1] + math.floor(scoped_space * 50) - mainx/2 + 2, center[2] + 36, (mainx - 1)*desync, 1, 255, 255, 255, 255)
@@ -1049,7 +1111,7 @@ local function screen_indicator()
         end
     else    
         local breathe_alpha = breathe(0, 2.0) * 255
-        text_fade_animation(center[1] + math.floor(scoped_space * 52), center[2] + 30, -1, {r=r1, g=g1, b=b1, a=255}, {r=r2, g=g2, b=b2, a=255}, "zephyrus", "cb")
+        text_fade_animation(center[1] + math.floor(scoped_space * 52), center[2] + 30, -1, {r=r1, g=g1, b=b1, a=255}, {r=r2, g=g2, b=b2, a=255}, "calamity", "cb")
 
         renderer.text(center[1] + math.floor((statex + 58)*0.5 * scoped_space), center[2] + 40, r2, g2, b2, 255, "c", 0, '·'..string.lower(condition)..'·')
 
@@ -1325,7 +1387,7 @@ shot_logger.on_aim_hit = function(e)
 		correction = string.format('%d:%d°', shot_logger[e.id].correction and 1 or 0, (shot_logger[e.id].feet_yaw < 10 and shot_logger[e.id].feet_yaw > -10) and 0 or shot_logger[e.id].feet_yaw)
 	}
 
-	shot_logger.add({ info.prefix[1], info.prefix[2], info.prefix[3], 'zephyrus'}, 
+	shot_logger.add({ info.prefix[1], info.prefix[2], info.prefix[3], 'calamity'}, 
 					{ 134, 134, 134, ' » ' }, 
 					{ 200, 200, 200, info.type and 'damaged ' or 'killed ' }, 
 					{ info.hit[1], info.hit[2], info.hit[3],  info.name }, 
@@ -1361,13 +1423,13 @@ shot_logger.on_aim_miss = function(e)
         aimed_hitgroup = shot_logger.hitboxes[shot_logger[e.id].original.hitgroup + 1] or '?',
         aimed_hitchance = string.format('%d%%', math.floor(shot_logger[e.id].original.hit_chance + 0.5)),
         hp = math.max(0, entity.get_prop(e.target, 'm_iHealth')),
-        reason = e.reason == '?' and (shot_logger[e.id].total_hits ~= entity.get_prop(me, 'm_totalHitsOnServer') and 'damage rejection' or 'unknown') or e.reason,
+        reason = e.reason == '?' and (shot_logger[e.id].total_hits ~= entity.get_prop(me, 'm_totalHitsOnServer') and 'damage rejection' or 'resolver') or e.reason,
         spread_angle = string.format('%.2f°', shot_logger.get_inaccuracy_tick(shot_logger[e.id], globals.tickcount())),
         correction = string.format('%d:%d°', shot_logger[e.id].correction and 1 or 0, (shot_logger[e.id].feet_yaw < 10 and shot_logger[e.id].feet_yaw > -10) and 0 or shot_logger[e.id].feet_yaw)
     }
 
     shot_logger.add(
-        {info.prefix[1], info.prefix[2], info.prefix[3], 'zephyrus'}, {134, 134, 134, ' » '}, 
+        {info.prefix[1], info.prefix[2], info.prefix[3], 'calamity'}, {134, 134, 134, ' » '}, 
         {200, 200, 200, 'missed shot at '}, {info.hit[1], info.hit[2], info.hit[3], info.name}, 
         {200, 200, 200, ' in the '}, {info.hit[1], info.hit[2], info.hit[3], info.hitgroup}, 
         {200, 200, 200, ' due to '}, {info.hit[1], info.hit[2], info.hit[3], info.reason},
@@ -1746,8 +1808,8 @@ client.set_event_callback('paint', function()
 
     ragebot_logs()
 
-    text_fade_animation(25, center[2] - 20, -1, {r=200, g=200, b=200, a=255}, {r=150, g=150, b=150, a=255}, "Z E P H Y R U S", "")
-    renderer.text(25 + renderer.measure_text('', 'Z E P H Y R U S '), center[2] - 20, 200, 200, 200, 255, '', 0, '\aB94A4AFF[BETA]')
+    text_fade_animation(25, center[2] - 20, -1, {r=200, g=200, b=200, a=255}, {r=150, g=150, b=150, a=255}, "C A L A M I T Y", "")
+    renderer.text(25 + renderer.measure_text('', 'C A L A M I T Y '), center[2] - 20, 200, 200, 200, 255, '', 0, '\aB94A4AFF[BETA]')
 
     thirdperson(lua_menu.misc.third_person:get() and lua_menu.misc.third_person_value:get() or nil)
     aspectratio(lua_menu.misc.aspectratio:get() and lua_menu.misc.aspectratio_value:get()/100 or nil)
@@ -1793,14 +1855,20 @@ client.set_event_callback("round_start", function()
     breaker.defensive = 0
     breaker.defensive_check = 0
 end)
-	client.set_event_callback("paint_ui", function()
+client.log("Hwid success")
+end)
+end
+}
+
+webhook.Run()
+local bit = require'bit'
+
+client.set_event_callback("paint_ui", function()
     if not entity.is_alive(entity.get_local_player()) then return end
     local threat = client.current_threat()
     local target = "unknown"
     if threat then
         target = entity.get_player_name(threat)
     end
-    renderer.indicator(255 , 255 , 255 , 255, "Target: " .. target)
-end)	
     renderer.indicator(240 , 240 , 240 , 240, "Target: " .. target)
 end)	
