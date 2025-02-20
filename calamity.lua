@@ -2252,10 +2252,10 @@ local function paint_indicator()
     if current.check_access == false then return end
     if not ui.get(misc.enable) then return end
     if entity.get_local_player() == nil or not entity.is_alive(entity.get_local_player()) then return end
-    renderer.text(20, y_ind/2, 255, 255, 255, 255, "", 0, "> Cala\a9FCA2BFFMity \aEE4444FF[Beta]")
-    renderer.text(20, y_ind/2+12, 255, 255, 255, 255, "", 0, "> resolver type: \aEE4444FF"..ui.get(misc.type))
-    renderer.text(20, y_ind/2+24, 255, 255, 255, 255, "", 0, "> Enemy: \aEE4444FF"..ent_name)
-    renderer.text(20, y_ind/2+36, 255, 255, 255, 255, "", 0, "> Eye: \aEE4444FF"..math.floor(eye_yaw))
+    renderer.text(20, y_ind/2.5, 255, 255, 255, 255, "", 0, "> Cala\a9FCA2BFFMity \aEE4444FF[Beta]")
+    renderer.text(20, y_ind/2.5+12, 255, 255, 255, 255, "", 0, "> resolver type: \aEE4444FF"..ui.get(misc.type))
+    renderer.text(20, y_ind/2.5+24, 255, 255, 255, 255, "", 0, "> Enemy: \aEE4444FF"..ent_name)
+    renderer.text(20, y_ind/2.5+36, 255, 255, 255, 255, "", 0, "> Eye: \aEE4444FF"..math.floor(eye_yaw))
 end
 
 
