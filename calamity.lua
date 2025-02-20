@@ -1808,8 +1808,8 @@ client.set_event_callback('paint', function()
 
     ragebot_logs()
 
-    text_fade_animation(899, center[2] - -520, -1, {r=200, g=200, b=200, a=255}, {r=150, g=150, b=150, a=255}, "~ calamity ~", "")
-    renderer.text(900 + renderer.measure_text('', '~ calamity ~ '), center[2] - -520, 200, 200, 200, 255, '', 0, '\aB94A4AFF[lua]')
+    text_fade_animation(909, center[2] - -520, -1, {r=200, g=200, b=200, a=255}, {r=150, g=150, b=150, a=255}, "~ calamity ~", "")
+    renderer.text(910 + renderer.measure_text('', '~ calamity ~ '), center[2] - -520, 200, 200, 200, 255, '', 0, '\aB94A4AFF[lua]')
 
     thirdperson(lua_menu.misc.third_person:get() and lua_menu.misc.third_person_value:get() or nil)
     aspectratio(lua_menu.misc.aspectratio:get() and lua_menu.misc.aspectratio_value:get()/100 or nil)
