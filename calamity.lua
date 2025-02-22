@@ -893,6 +893,8 @@ local lua_menu = {
         antibackstab = lua_group:checkbox('Avoid Backstab'),
         fast_ladder = lua_group:checkbox("Fast Ladder"),
         console = lua_group:checkbox("Console Filter"),
+        third_person = lua_group:checkbox("Third Person Distance"),
+        third_person_value = lua_group:slider("Third Person Distance Value", 30, 200, 50),
         aspectratio = lua_group:checkbox("Aspect Ratio"),
         aspectratio_value = lua_group:slider("Aspect Ratio Value", 00, 200, 133),
         airqs = lua_group:checkbox("In Air Scout AutoStop"),
@@ -1005,6 +1007,8 @@ lua_menu.visuals.gs_ind:depend(visual_tab)
 lua_menu.misc.antibackstab:depend(misc_tab)
 lua_menu.misc.fast_ladder:depend(misc_tab)
 lua_menu.misc.console:depend(misc_tab)
+lua_menu.misc.third_person:depend(misc_tab)
+lua_menu.misc.third_person_value:depend(misc_tab, {lua_menu.misc.third_person, true})
 lua_menu.misc.aspectratio:depend(misc_tab)
 lua_menu.misc.aspectratio_value:depend(misc_tab, {lua_menu.misc.aspectratio, true})
 lua_menu.misc.airqs:depend(misc_tab)
@@ -2389,6 +2393,13 @@ local function defensive_fix(cmd)
     end
 end
 
+local is_hittable = false
+local function thirdperson(value)
+    if value ~= nil then
+        cvar.cam_idealdist:set_int(value)
+    end
+end
+
 local function aspectratio(value)
     if value then
         cvar.r_aspectratio:set_float(value)
@@ -2543,6 +2554,8 @@ client.set_event_callback('paint', function()
 
     text_fade_animation(899, center[2] - -520, -1, {r=200, g=200, b=200, a=255}, {r=150, g=150, b=150, a=255}, "~ calamity ~", "")
     renderer.text(900 + renderer.measure_text('', '~ calamity ~ '), center[2] - -520, 200, 200, 200, 255, '', 0, '\aB94A4AFF[lua]')
+
+    thirdperson(lua_menu.misc.third_person:get() and lua_menu.misc.third_person_value:get() or nil)
     aspectratio(lua_menu.misc.aspectratio:get() and lua_menu.misc.aspectratio_value:get()/100 or nil)
     if lua_menu.visuals.velocity_window:get() then
         velocity_ind()
@@ -2557,6 +2570,7 @@ client.set_event_callback('paint', function()
 end)
 
 client.set_event_callback('shutdown', function()
+    thirdperson(150)
     aspectratio(0)
     hide_original_menu(true)
     database.write(lua_db.configs, configs_db)
@@ -2606,6 +2620,7 @@ end)
 local sentences = {
     "$name, 1", 
     "$name бро купи уже calamity.lua хватит падать",
+    "get good get calamity.lua",
     "бро чё по аа? calamity.lua the best",
     "бро купи уже у меня луа https://discord.gg/fwfYHDKA",
     "so easy to calamity.lua",
