@@ -657,16 +657,16 @@ client.set_event_callback(
             local xd = antiaim_funcs.get_tickbase_shifting()
             local xd2 = antiaim_funcs.get_body_yaw(2)
             local sizeX, sizeY = client.screen_size()
-        --  renderer.text(sizeX / 2 - 910, sizeY / 2 + 4, 255, 255, 255, 255, "c-", 0, "USERNAME: " .. string.upper(login.username))
-            renderer.text(sizeX / 2 - 910, sizeY / 2 + 14, 255, 255, 255, 255, "c-", 0, "" .. "")
-            renderer.text(sizeX / 2 - 910, sizeY / 2 + 24, 255, 255, 255, 255, "c-", 0, "TARGET NAME: " .. string.upper(entity.get_player_name(target)))
-            renderer.text(sizeX / 2 - 910, sizeY / 2 + 34, 255, 255, 255, 255, "c-", 0, "ENEMY YAW: " .. yaw_save)
-            renderer.text(sizeX / 2 - 910, sizeY / 2 + 44, 255, 255, 255, 255, "c-", 0, "OLD TARGET VALUE: " .. yaw_save / 2 or yaw_save * 2)
-            renderer.text(sizeX / 2 - 910, sizeY / 2 + 54, 255, 255, 255, 255, "c-", 0, "ENEMY BODY YAW: " .. math.floor(xd2))
-            renderer.text(sizeX / 2 - 910, sizeY / 2 + 64, 255, 255, 255, 255, "c-", 0, "EXPLOIT TICKS: " .. xd) 
-            renderer.text(sizeX / 2 - 910, sizeY / 2 + 74, 255, 255, 255, 255, "c-", 0, "AIMTIME DELTA: " .. yaw_save * 2)
-            renderer.text(sizeX / 2 - 910, sizeY / 2 + 84, 255, 255, 255, 255, "c-", 0, "CHOKE: " .. globals.chokedcommands())
-            renderer.text(sizeX / 2 - 910, sizeY / 2 + 94, 255, 255, 255, 255, "c-", 0, "OVERLAP: " .. math.floor(antiaim_funcs.get_overlap() * 100))
+        --  renderer.text(sizeX / 3 - 910, sizeY / 3 + 4, 255, 255, 255, 255, "c-", 0, "USERNAME: " .. string.upper(login.username))
+            renderer.text(sizeX / 3 - 910, sizeY / 3 + 14, 255, 255, 255, 255, "c-", 0, "" .. "")
+            renderer.text(sizeX / 3 - 910, sizeY / 3 + 24, 255, 255, 255, 255, "c-", 0, "TARGET NAME: " .. string.upper(entity.get_player_name(target)))
+            renderer.text(sizeX / 3 - 910, sizeY / 3 + 34, 255, 255, 255, 255, "c-", 0, "ENEMY YAW: " .. yaw_save)
+            renderer.text(sizeX / 3 - 910, sizeY / 3 + 44, 255, 255, 255, 255, "c-", 0, "OLD TARGET VALUE: " .. yaw_save / 2 or yaw_save * 2)
+            renderer.text(sizeX / 3 - 910, sizeY / 3 + 54, 255, 255, 255, 255, "c-", 0, "ENEMY BODY YAW: " .. math.floor(xd2))
+            renderer.text(sizeX / 3 - 910, sizeY / 3 + 64, 255, 255, 255, 255, "c-", 0, "EXPLOIT TICKS: " .. xd) 
+            renderer.text(sizeX / 3 - 910, sizeY / 3 + 74, 255, 255, 255, 255, "c-", 0, "AIMTIME DELTA: " .. yaw_save * 2)
+            renderer.text(sizeX / 3 - 910, sizeY / 3 + 84, 255, 255, 255, 255, "c-", 0, "CHOKE: " .. globals.chokedcommands())
+            renderer.text(sizeX / 3 - 910, sizeY / 3 + 94, 255, 255, 255, 255, "c-", 0, "OVERLAP: " .. math.floor(antiaim_funcs.get_overlap() * 100))
         end
     end
 )
@@ -887,13 +887,12 @@ local lua_menu = {
         ragebot_logs = lua_group:multiselect("Ragebot Logs", {'Console', 'Screen'}),
         ragebot_logs_hit = lua_group:color_picker('Hit Color', 116, 189, 96, 255),
         ragebot_logs_miss = lua_group:color_picker('Miss Color', 189, 99, 96, 255),
+        gs_ind = lua_group:checkbox("Gamesense indicators", {255, 255, 255}),
     },
     misc = {
         antibackstab = lua_group:checkbox('Avoid Backstab'),
         fast_ladder = lua_group:checkbox("Fast Ladder"),
         console = lua_group:checkbox("Console Filter"),
-        third_person = lua_group:checkbox("Third Person Distance"),
-        third_person_value = lua_group:slider("Third Person Distance Value", 30, 200, 50),
         aspectratio = lua_group:checkbox("Aspect Ratio"),
         aspectratio_value = lua_group:slider("Aspect Ratio Value", 00, 200, 133),
         airqs = lua_group:checkbox("In Air Scout AutoStop"),
@@ -1000,13 +999,12 @@ lua_menu.visuals.velocity_window_type:depend(visual_tab, {lua_menu.visuals.veloc
 lua_menu.visuals.ragebot_logs:depend(visual_tab)
 lua_menu.visuals.ragebot_logs_hit:depend(visual_tab, {lua_menu.visuals.ragebot_logs, function() return lua_menu.visuals.ragebot_logs:get('Console') or lua_menu.visuals.ragebot_logs:get('Screen') end})
 lua_menu.visuals.ragebot_logs_miss:depend(visual_tab, {lua_menu.visuals.ragebot_logs, function() return lua_menu.visuals.ragebot_logs:get('Console') or lua_menu.visuals.ragebot_logs:get('Screen') end})
+lua_menu.visuals.gs_ind:depend(visual_tab)
 
 --Misc
 lua_menu.misc.antibackstab:depend(misc_tab)
 lua_menu.misc.fast_ladder:depend(misc_tab)
 lua_menu.misc.console:depend(misc_tab)
-lua_menu.misc.third_person:depend(misc_tab)
-lua_menu.misc.third_person_value:depend(misc_tab, {lua_menu.misc.third_person, true})
 lua_menu.misc.aspectratio:depend(misc_tab)
 lua_menu.misc.aspectratio_value:depend(misc_tab, {lua_menu.misc.aspectratio, true})
 lua_menu.misc.airqs:depend(misc_tab)
@@ -2158,6 +2156,117 @@ local function aim_miss(e)
 end
 client.set_event_callback('aim_miss', aim_miss)
 
+
+
+local curtime = globals.curtime
+local unset_event_callback = client.unset_event_callback
+local render_circle_outline, measure_text, render_text = renderer.circle_outline, renderer.measure_text, renderer.text
+local table_insert = table.insert
+local ui_get = ui.get
+
+local x, y = client.screen_size()
+
+local Width = 6
+local Height = (y / 2) + y /12
+function lerp(a, b, t)
+    if not b or not a or not t then return end
+    return a + (b - a) * t
+end
+local indicators = {}
+
+local TIME_TO_PLANT_BOMB = 3
+local timeAtBombWillBePlanted
+
+local function innerCircleOutlinePercentage()
+	local timeElapsed = (curtime() + TIME_TO_PLANT_BOMB) - timeAtBombWillBePlanted
+	local timeElapsedInPerc = (timeElapsed / TIME_TO_PLANT_BOMB * 100) + 0.5
+	return timeElapsedInPerc * 0.01
+end
+
+-- Gap between indicators text
+local indicatorTextGap = 36
+
+-- Outer circle
+local o_circleRadius = 6
+local o_cricleThickness = o_circleRadius/2
+
+-- Inner circle
+local i_circleRadius = o_circleRadius-1
+local i_cricleThickness = (o_circleRadius-1)/3
+dtcircle = 0
+-- Main
+client.set_event_callback('paint', function ()
+    if not lua_menu.visuals.gs_ind:get() then
+        return end
+	for i=1, #indicators do
+		local indicator = indicators[i]
+
+		local text = indicator.text
+		local r, g, b, a = indicator.r, indicator.g, indicator.b, indicator.a
+
+		local textH = Height + (i*-indicatorTextGap) + (#indicators*indicatorTextGap)
+        m_textW, m_textH = measure_text('+b', text)
+        renderer.gradient(Width, textH, m_textW + 50, m_textH + 4, 0, 0, 0, 255, 0, 0, 0, 0,true)
+        renderer.blur(Width, textH, m_textW + 50, m_textH + 4)
+        renderer.rectangle(Width, textH, 3, m_textH + 4, r, g, b, a)
+		render_text(Width + 10, textH + 2, r, g, b, a, '+b', 0, text)
+        if indicator.r == 255 and indicator.g == 0 and indicator.b == 50 and text:find("DT") then
+			dtcircle = lerp(dtcircle, 0, globals.frametime() * 24)
+			elseif text:find("DT") then
+            dtcircle = lerp(dtcircle, 1, globals.frametime() * 24)
+			end			
+         if text:find("DT") then
+             renderer.circle_outline(Width + 22 + m_textW, textH + (m_textH + 4) / 2 + 2, 0, 0, 0, 200, 8, 0, 1.0, 8 / 3)
+             renderer.circle_outline(Width + 22 + m_textW, textH + (m_textH + 4) / 2 + 2, r, g, b, a, 8, 0, dtcircle, 8 / 3)
+         end        
+		if isBombBeingPlanted and text:find('Bombsite') then
+			local m_textW, m_textH = measure_text('+b', text)
+
+			local cricleW = Width+m_textW+o_circleRadius+4
+			local cricleH = textH+(m_textH/1.71)
+
+			render_circle_outline(cricleW, cricleH, 0, 0, 0, 200, o_circleRadius, 0, 1.0, o_cricleThickness)
+			render_circle_outline(cricleW, cricleH, 255, 255, 255, 200, i_circleRadius, 0, innerCircleOutlinePercentage(), i_cricleThickness)
+		end
+	end
+
+	-- Reset indicator table
+	indicators = {}
+end)
+
+client.set_event_callback('bomb_beginplant', function ()
+	timeAtBombWillBePlanted = curtime() + TIME_TO_PLANT_BOMB
+	isBombBeingPlanted = true
+end)
+
+client.set_event_callback('bomb_abortplant', function ()
+	isBombBeingPlanted = false
+end)
+
+client.set_event_callback('bomb_planted', function ()
+	isBombBeingPlanted = false
+end)
+
+--
+local function IndicatorCallback(indicator)
+    if not lua_menu.visuals.gs_ind:get() then
+        return end
+	table_insert(indicators, indicator)
+end
+
+
+client.set_event_callback('shutdown', function ()
+	unset_event_callback('indicator', IndicatorCallback)
+end)
+client.set_event_callback('paint', function ()
+    if not lua_menu.visuals.gs_ind:get() then
+	unset_event_callback('indicator', IndicatorCallback)
+    else
+        client.set_event_callback('indicator', IndicatorCallback)
+ end
+end)
+
+
 local function fastladder(e)
     local me = entity.get_local_player()
     if entity.get_prop(me, "m_MoveType") == 9 then 
@@ -2277,13 +2386,6 @@ local function defensive_fix(cmd)
     local on_ground = bit.band(entity.get_prop(lp, 'm_fFlags'), 1) == 1
     if on_ground and ui.get(ref.peek[1]) and ui.get(ref.peek[2]) and check_charge() and cmd.quick_stop then
         cmd.in_speed = 1
-    end
-end
-
-local is_hittable = false
-local function thirdperson(value)
-    if value ~= nil then
-        cvar.cam_idealdist:set_int(value)
     end
 end
 
@@ -2441,8 +2543,6 @@ client.set_event_callback('paint', function()
 
     text_fade_animation(899, center[2] - -520, -1, {r=200, g=200, b=200, a=255}, {r=150, g=150, b=150, a=255}, "~ calamity ~", "")
     renderer.text(900 + renderer.measure_text('', '~ calamity ~ '), center[2] - -520, 200, 200, 200, 255, '', 0, '\aB94A4AFF[lua]')
-
-    thirdperson(lua_menu.misc.third_person:get() and lua_menu.misc.third_person_value:get() or nil)
     aspectratio(lua_menu.misc.aspectratio:get() and lua_menu.misc.aspectratio_value:get()/100 or nil)
     if lua_menu.visuals.velocity_window:get() then
         velocity_ind()
@@ -2457,7 +2557,6 @@ client.set_event_callback('paint', function()
 end)
 
 client.set_event_callback('shutdown', function()
-    thirdperson(150)
     aspectratio(0)
     hide_original_menu(true)
     database.write(lua_db.configs, configs_db)
@@ -2503,339 +2602,3 @@ client.set_event_callback("paint_ui", function()
     end
     renderer.indicator(240 , 240 , 240 , 240, "Target: " .. target)
 end)	
--- local variables for API functions. any changes to the line below will be lost on re-generation
-local client_visible, client_eye_position, client_log, client_trace_bullet, entity_get_bounding_box, entity_get_local_player, entity_get_origin, entity_get_player_name, entity_get_player_resource, entity_get_player_weapon, entity_get_prop, entity_is_dormant, entity_is_enemy, globals_curtime, globals_maxplayers, globals_tickcount, math_max, renderer_indicator, string_format, ui_get, ui_new_checkbox, ui_new_hotkey, ui_reference, ui_set_callback, sqrt, unpack, entity_is_alive, plist_get = client.visible, client.eye_position, client.log, client.trace_bullet, entity.get_bounding_box, entity.get_local_player, entity.get_origin, entity.get_player_name, entity.get_player_resource, entity.get_player_weapon, entity.get_prop, entity.is_dormant, entity.is_enemy, globals.curtime, globals.maxplayers, globals.tickcount, math.max, renderer.indicator, string.format, ui.get, ui.new_checkbox, ui.new_hotkey, ui.reference, ui.set_callback, sqrt, unpack, entity.is_alive, plist.get
-
-local ffi = require "ffi"
-local vector = require "vector"
-local weapons = require "gamesense/csgo_weapons"
-
-local native_GetClientEntity = vtable_bind("client_panorama.dll", "VClientEntityList003", 3, "void*(__thiscall*)(void*,int)")
-local native_IsWeapon = vtable_thunk(165, "bool(__thiscall*)(void*)")
-local native_GetInaccuracy = vtable_thunk(482, "float(__thiscall*)(void*)")
-
-
-local ref = {
-	mindmg = ui_reference("RAGE", "Aimbot", "Minimum damage"),
-	dormantEsp = ui_reference("VISUALS", "Player ESP", "Dormant"),
-}
-
-local menu = {
-	dormant_switch = ui_new_checkbox("RAGE", "Aimbot", "Dormant aimbot"),
-	dormant_key = ui_new_hotkey("RAGE", "Aimbot", "Dormant aimbot", true),
-	dormant_mindmg = ui.new_slider("RAGE", "Aimbot", "Dormant minimum damage", 0, 100, 10, true),
-	dormant_indicator = ui_new_checkbox("RAGE", "Aimbot", "Dormant indicator"),
-}
-
-local player_info_prev = {}
-local roundStarted = 0
-
-local function modify_velocity(e, goalspeed)
-	local minspeed = math.sqrt((e.forwardmove * e.forwardmove) + (e.sidemove * e.sidemove))
-	if goalspeed <= 0 or minspeed <= 0 then
-		return
-	end
-
-	if e.in_duck == 1 then
-		goalspeed = goalspeed * 2.94117647
-	end
-
-	if minspeed <= goalspeed then
-		return
-	end
-
-	local speedfactor = goalspeed / minspeed
-	e.forwardmove = e.forwardmove * speedfactor
-	e.sidemove = e.sidemove * speedfactor
-end
-
-local function on_setup_command(cmd)
-	if not ui_get(menu.dormant_switch) then
-		return
-	end
-
-	local lp = entity_get_local_player()
-
-	local my_weapon = entity_get_player_weapon(lp)
-	if not my_weapon then
-		return
-	end
-
-	local ent = native_GetClientEntity(my_weapon)
-	if ent == nil or not native_IsWeapon(ent) then
-		return
-	end
-
-	local inaccuracy = native_GetInaccuracy(ent)
-	if inaccuracy == nil then
-		return
-	end
-
-	local tickcount = globals_tickcount()
-	local player_resource = entity_get_player_resource()
-	local eyepos = vector(client_eye_position())
-	local simtime = entity_get_prop(lp, "m_flSimulationTime")
-	local weapon = weapons(my_weapon)
-	local scoped = entity_get_prop(lp, "m_bIsScoped") == 1
-	local onground = bit.band(entity_get_prop(lp, 'm_fFlags'), bit.lshift(1, 0))
-	if tickcount < roundStarted then return end -- to prevent shooting at ghost dormant esp @ the beginning of round
-
-	local can_shoot
-	if weapon.is_revolver then -- for some reason can_shoot returns always false with r8 despite all 3 props being true, no idea why
-		can_shoot = simtime > entity_get_prop(my_weapon, "m_flNextPrimaryAttack") -- doing this fixes it ><
-	elseif weapon.is_melee_weapon then
-		can_shoot = false
-	else
-		can_shoot = simtime > math_max(entity_get_prop(lp, "m_flNextAttack"), entity_get_prop(my_weapon, "m_flNextPrimaryAttack"), entity_get_prop(my_weapon, "m_flNextSecondaryAttack"))
-	end
-
-	-- new player info
-	local player_info = {}
-
-	-- loop through all players and continue if they're connected
-	for player=1, globals_maxplayers() do
-		if entity_get_prop(player_resource, "m_bConnected", player) == 1 then
-			if plist_get(player, "Add to whitelist") then goto skip end
-			if entity_is_dormant(player) and entity_is_enemy(player) then
-				local can_hit
-
-				local origin = vector(entity_get_origin(player))
-				local x1, y1, x2, y2, alpha_multiplier = entity_get_bounding_box(player) -- grab alpha of the dormant esp
-				
-				if player_info_prev[player] ~= nil and origin.x ~= 0 and alpha_multiplier > 0 then -- if origin / dormant esp is valid
-					local old_origin, old_alpha, old_hittable = unpack(player_info_prev[player])
-
-					-- update check
-					local dormant_accurate = alpha_multiplier > 0.795 -- for debug purposes lower this to 0.1
-
-					if dormant_accurate then
-						local target = origin + vector(0, 0, 40)
-						local pitch, yaw = eyepos:to(target):angles()
-						local ent, dmg = client_trace_bullet(lp, eyepos.x, eyepos.y, eyepos.z, target.x, target.y, target.z, true)
-
-						can_hit = (dmg > ui_get(menu.dormant_mindmg)) and (not client_visible(target.x, target.y, target.z)) -- added visibility check to mitigate shooting at anomalies?
-						if can_shoot and can_hit and ui_get(menu.dormant_key) then
-							modify_velocity(cmd, (scoped and weapon.max_player_speed_alt or weapon.max_player_speed)*0.33)
-
-							-- autoscope
-							if not scoped and weapon.type == "sniperrifle" and cmd.in_jump == 0 and onground == 1 then
-								cmd.in_attack2 = 1
-							end
-							
-							if inaccuracy < 0.009 and cmd.chokedcommands == 0 then
-								cmd.pitch = pitch
-								cmd.yaw = yaw
-								cmd.in_attack = 1
-
-								-- dont shoot again
-								can_shoot = false
-								--client_log(string_format('Taking a shot at: %s | tickcount: %d | predcited damage: %d | inaccuracy: %.3f | Alpha: %.3f', entity.get_player_name(player), tickcount, dmg, inaccuracy, alpha_multiplier))
-							end
-						end
-					end
-				end
-				player_info[player] = {origin, alpha_multiplier, can_hit}
-			end
-		end
-		::skip::
-	end
-	player_info_prev = player_info
-end
-
-client.register_esp_flag("DORMANT AIMBOT", 255, 255, 255, function(player)
-	if ui.get(menu.dormant_switch) and entity.is_enemy(player) and player_info_prev[player] ~= nil and entity.is_alive(entity_get_local_player()) then
-		local _, _, can_hit = unpack(player_info_prev[player])
-
-		return can_hit
-	end
-end)
-local function painter()
-	if not entity_is_alive(entity_get_local_player()) then return end -- dont draw if dead :lowiqq:
-	if ui_get(menu.dormant_switch) and ui_get(menu.dormant_key) and ui_get(menu.dormant_indicator) then
-		local colors = {240,240,240,240}
-		for k, v in pairs(player_info_prev) do 
-			if k ~= nil then 
-				if v[3] == true then 
-					colors = {240,240,240,240}
-					break
-				end
-			end
-		end
-		renderer_indicator(colors[1],colors[2],colors[3],colors[4], "DORMANT AIMBOT")
-	end
-end
-local function resetter()
-	local freezetime = (cvar.mp_freezetime:get_float()+1) / globals.tickinterval() -- get freezetime plus 1 second and disable dormantbob for that amount of ticks
-	roundStarted = globals_tickcount() + freezetime
-end
-
-ui_set_callback(menu.dormant_switch, function()
-	local czechbox = ui_get(menu.dormant_switch)
-	local update_callback = czechbox and client.set_event_callback or client.unset_event_callback
-
-	if czechbox then ui.set(ref.dormantEsp, czechbox) end -- enable dormant ESP on ui toggle ( dumb proofing )
-	update_callback("setup_command", on_setup_command)
-	update_callback("paint", painter)
-	update_callback("round_prestart", resetter)
-	ui.set_visible(menu.dormant_indicator, ui_get(menu.dormant_switch))
-	ui.set_visible(menu.dormant_mindmg, ui_get(menu.dormant_switch))
-end)
-ui.set(menu.dormant_indicator, true)
-ui.set_visible(menu.dormant_indicator, ui_get(menu.dormant_switch)) -- yes
-ui.set_visible(menu.dormant_mindmg, ui_get(menu.dormant_switch)) -- yes^2
-
-local ffi = require 'ffi'
-
-local tab, container = "Rage", "Other"
-
-local current = {
-    check_access = true,
-}
-
-ffi.cdef [[
-    struct animation_layer_t {
-		bool m_bClientBlend;		 //0x0000
-		float m_flBlendIn;			 //0x0004
-		void* m_pStudioHdr;			 //0x0008
-		int m_nDispatchSequence;     //0x000C
-		int m_nDispatchSequence_2;   //0x0010
-		uint32_t m_nOrder;           //0x0014
-		uint32_t m_nSequence;        //0x0018
-		float m_flPrevCycle;       //0x001C
-		float m_flWeight;          //0x0020
-		float m_flWeightDeltaRate; //0x0024
-		float m_flPlaybackRate;    //0x0028
-		float m_flCycle;           //0x002C
-		void* m_pOwner;              //0x0030
-		char pad_0038[4];            //0x0034
-    };
-    struct c_animstate { 
-        char pad[ 3 ];
-        char m_bForceWeaponUpdate; //0x4
-        char pad1[ 91 ];
-        void* m_pBaseEntity; //0x60
-        void* m_pActiveWeapon; //0x64
-        void* m_pLastActiveWeapon; //0x68
-        float m_flPrevCycle; //0x001C
-        float m_flWeight; //0x0020
-        float m_flWeightDeltaRate; //0x0024
-        float m_flPlaybackRate; //0x0028
-        float m_flLastClientSideAnimationUpdateTime; //0x6C
-        int m_iLastClientSideAnimationUpdateFramecount; //0x70
-        float m_flAnimUpdateDelta; //0x74
-        float m_flEyeYaw; //0x78
-        float m_flPitch; //0x7C
-        float m_flGoalFeetYaw; //0x80
-        float m_flCurrentFeetYaw; //0x84   
-        float m_flCurrentTorsoYaw; //0x88
-        float m_flUnknownVelocityLean; //0x8C
-        float m_flLeanAmount; //0x90
-        char pad2[ 4 ];
-        float m_flFeetCycle; //0x98
-        float m_flFeetYawRate; //0x9C
-        char pad3[ 4 ];
-        float m_fDuckAmount; //0xA4
-        float m_fLandingDuckAdditiveSomething; //0xA8
-        char pad4[ 4 ];
-        float m_vOriginX; //0xB0
-        float m_vOriginY; //0xB4
-        float m_vOriginZ; //0xB8
-        float m_vLastOriginX; //0xBC
-        float m_vLastOriginY; //0xC0
-        float m_vLastOriginZ; //0xC4
-        float m_vVelocityX; //0xC8
-        float m_vVelocityY; //0xCC
-        char pad5[ 4 ];
-        float m_flUnknownFloat1; //0xD4
-        char pad6[ 8 ];
-        float m_flUnknownFloat2; //0xE0
-        float m_flUnknownFloat3; //0xE4
-        float m_flUnknown; //0xE8
-        float m_flSpeed2D; //0xEC
-        float m_flUpVelocity; //0xF0
-        float m_flSpeedNormalized; //0xF4
-        float m_flFeetSpeedForwardsOrSideWays; //0xF8
-        float m_flFeetSpeedUnknownForwardOrSideways; //0xFC
-        float m_flTimeSinceStartedMoving; //0x100
-        float m_flTimeSinceStoppedMoving; //0x104
-        bool m_bOnGround; //0x108
-        bool m_bInHitGroundAnimation; //0x109
-        float m_flTimeSinceInAir; //0x10A
-        float m_flLastOriginZ; //0x10E
-        float m_flHeadHeightOrOffsetFromHittingGroundAnimation; //0x112
-        float m_flStopToFullRunningFraction; //0x116
-        char pad7[ 4 ]; //0x11A
-        float m_flMagicFraction; //0x11E
-        char pad8[ 60 ]; //0x122
-        float m_flWorldForce; //0x15E
-        char pad9[ 462 ]; //0x162
-        float m_flMaxYaw; //0x334
-        float m_flMinYaw; //0x330
-    };
-]]
-
-local sentences = {
-    "$name, 1", 
-    "$name бро купи уже calamity.lua хватит падать",
-    "get good get calamity.lua",
-    "бро чё по аа? calamity.lua the best",
-    "бро купи уже у меня луа https://discord.gg/fwfYHDKA",
-    "so easy to calamity.lua",
-    "🆘 ПОМОГИТЕ ПИДОРАСУ ОН УМЕР ОТ calamity.lua",
-    " ✦calamity.lua✦ ",
-	}
-
-local ui = {
-    new_checkbox = ui.new_checkbox,
-    get = ui.get
-}
-
-local client = {
-    set_event_callback = client.set_event_callback,
-    userid_to_entindex = client.userid_to_entindex,
-    exec = client.exec,
-    log = client.log
-}
-
-local entity = {
-    get_local_player = entity.get_local_player,
-    get_player_name = entity.get_player_name
-}
-
-local killsay_enabled = ui.new_checkbox("LUA", "A", "Enable trashtalk")
-local killsayName_enabled = ui.new_checkbox("LUA","A","With name")
-
-local function on_player_death(event)
-    if not ui.get(killsay_enabled) then return end
-
-    local local_player = entity.get_local_player()
-    local attacker = client.userid_to_entindex(event.attacker)
-    local victim = client.userid_to_entindex(event.userid)
-
-    if local_player == nil or attacker == nil or victim == nil then
-        return
-    end
-
-    if attacker == local_player and victim ~= local_player then
-	
-		if ui.get(killsayName_enabled) then
-		
-		local killsay = "say " .. sentences[math.random(#sentences)]
-        killsay = string.gsub(killsay, "$name", entity.get_player_name(victim))
-        client.log(killsay)
-        client.exec(killsay)
-		
-		else
-		
-		local killsay = "say " .. sentences[math.random(#sentences)]
-        killsay = string.gsub(killsay, "$name,", " ")
-        client.log(killsay)
-        client.exec(killsay)
-		
-		end
-	end
-end
-math.randomseed(133742069)
-math.random(); math.random(); math.random()
-
-client.set_event_callback("player_death", on_player_death)
