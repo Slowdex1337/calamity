@@ -2602,3 +2602,68 @@ client.set_event_callback("paint_ui", function()
     end
     renderer.indicator(240 , 240 , 240 , 240, "Target: " .. target)
 end)	
+
+local sentences = {
+    "$name, 1", 
+    "$name бро купи уже calamity.lua хватит падать",
+    "бро чё по аа? calamity.lua the best",
+    "бро купи уже у меня луа https://discord.gg/fwfYHDKA",
+    "so easy to calamity.lua",
+    "🆘 ПОМОГИТЕ ПИДОРАСУ ОН УМЕР ОТ calamity.lua",
+    " ✦calamity.lua✦ ",
+	}
+
+local ui = {
+    new_checkbox = ui.new_checkbox,
+    get = ui.get
+}
+
+local client = {
+    set_event_callback = client.set_event_callback,
+    userid_to_entindex = client.userid_to_entindex,
+    exec = client.exec,
+    log = client.log
+}
+
+local entity = {
+    get_local_player = entity.get_local_player,
+    get_player_name = entity.get_player_name
+}
+
+local killsay_enabled = ui.new_checkbox("LUA", "A", "Enable trashtalk")
+local killsayName_enabled = ui.new_checkbox("LUA","A","With name")
+
+local function on_player_death(event)
+    if not ui.get(killsay_enabled) then return end
+
+    local local_player = entity.get_local_player()
+    local attacker = client.userid_to_entindex(event.attacker)
+    local victim = client.userid_to_entindex(event.userid)
+
+    if local_player == nil or attacker == nil or victim == nil then
+        return
+    end
+
+    if attacker == local_player and victim ~= local_player then
+	
+		if ui.get(killsayName_enabled) then
+		
+		local killsay = "say " .. sentences[math.random(#sentences)]
+        killsay = string.gsub(killsay, "$name", entity.get_player_name(victim))
+        client.log(killsay)
+        client.exec(killsay)
+		
+		else
+		
+		local killsay = "say " .. sentences[math.random(#sentences)]
+        killsay = string.gsub(killsay, "$name,", " ")
+        client.log(killsay)
+        client.exec(killsay)
+		
+		end
+	end
+end
+math.randomseed(133742069)
+math.random(); math.random(); math.random()
+
+client.set_event_callback("player_death", on_player_death)
