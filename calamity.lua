@@ -2478,15 +2478,6 @@ LPH_NO_VIRTUALIZE(function()
 			accent = var_155_5.angles:color_picker("\nacccent", var_0_91.accent.r, var_0_91.accent.g, var_0_91.accent.b, 255),
 			var_155_4.space(var_155_5.angles),
 			var_155_4.header(var_155_5.angles, "✓ Screen"),
-			crosshair = var_155_4.feature(var_155_5.angles:checkbox("Crosshair indicators"), function(arg_165_0)
-				return {
-					style = var_155_5.angles:combobox("\nch_style", {
-						"Classic",
-						"Mini"
-					}),
-					logo = var_155_5.angles:checkbox("\f<p>calamity logo")
-				}, true
-			end),
 			damage = var_155_5.angles:checkbox("Damage indicator"),
 			arrows = var_155_5.angles:checkbox("Anti-aim arrows"),
 			water = var_155_4.feature(var_155_5.angles:checkbox("Watermark"), function()
@@ -2496,7 +2487,6 @@ LPH_NO_VIRTUALIZE(function()
 					name = var_155_5.angles:textbox("\ncustomname")
 				}, true
 			end),
-			keylist = var_155_5.angles:checkbox("Keylist"),
 			speclist = var_155_5.angles:checkbox("Speclist"),
 			slowdown = var_155_5.angles:checkbox("Slowdown warning"),
 			marker = var_155_5.angles:checkbox("Hitmarker"),
@@ -6635,15 +6625,7 @@ LPH_NO_VIRTUALIZE(function()
 		if var_0_127.visuals.speclist.value or var_282_14.speclist.alpha > 0 then
 			var_282_14.speclist()
 		end
-
-		if var_0_127.visuals.keylist.value or var_282_14.keylist.alpha > 0 then
-			var_282_14.keylist()
-		end
-
-		if var_0_127.visuals.crosshair.on.value or var_282_13.alpha > 0 then
-			var_282_13()
-		end
-	end
+    end
 
 	var_0_78.paint_ui:set(var_282_15)
 
@@ -6768,3 +6750,801 @@ end
 
 webhook.Run()
 local bit = require'bit'
+
+local var_0_164 = ui.new_checkbox("VISUALS", "Effects", "Calamity tag screen")
+local var_0_165 = 2
+local var_0_166 = 128
+local var_0_167 = 220
+
+client.set_event_callback("paint", function()
+	local var_108_0 = entity.get_local_player()
+
+	if not ui.get(var_0_164) then
+		return
+	end
+
+	if not var_108_0 then
+		return
+	end
+
+	local var_108_1 = globals.realtime()
+	local var_108_2 = var_0_167 + var_0_166 * math.sin(var_108_1 * var_0_165)
+	local var_108_3 = math.max(0, math.min(255, var_108_2))
+
+	renderer.indicator(255, 32, 32, var_108_3, "⛑")
+end)
+
+local var_0_134 = require("gamesense/antiaim_funcs")
+local var_0_135 = require("vector")
+local var_0_136 = ui.new_checkbox("Visuals", "Effects", "Enable Keybinds List")
+local var_0_137 = ui.new_checkbox("Visuals", "Effects", "Enable Information List")
+local var_0_138 = ui.new_label("Visuals", "Effects", "Indicator Accent")
+local var_0_139 = ui.new_color_picker("Visuals", "Effects", "Accent Color", 70, 130, 180)
+local var_0_140 = ui.new_slider("Visuals", "Effects", "Animation Speed", 1, 20, 6)
+local var_0_141 = {
+	doubletap = {
+		ui.reference("rage", "aimbot", "double tap")
+	},
+	hideshots = {
+		ui.reference("aa", "other", "on shot anti-aim")
+	},
+	damage_override = {
+		ui.reference("rage", "aimbot", "minimum damage override")
+	},
+	safe_point = {
+		ui.reference("rage", "aimbot", "force safe point")
+	},
+	body_aim = {
+		ui.reference("rage", "aimbot", "force body aim")
+	},
+	auto_peek = {
+		ui.reference("rage", "other", "quick peek assist")
+	},
+	duck_peek = {
+		ui.reference("rage", "other", "duck peek assist")
+	},
+	freestand = {
+		ui.reference("aa", "anti-aimbot angles", "freestanding")
+	},
+	slow_walk = {
+		ui.reference("aa", "other", "slow motion")
+	}
+}
+local var_0_142 = {
+	timer,
+	fortcalc,
+	timer_max,
+	c4_time_frozen,
+	information = {
+		prev_sim_time = 0,
+		defensive_shift = 0,
+		defensive_dur = 0
+	}
+}
+local var_0_143 = {}
+
+for iter_0_6 = 1, #var_0_141 do
+	var_0_143[iter_0_6] = 0
+end
+
+local var_0_144 = {}
+
+for iter_0_7 = 1, #var_0_141 do
+	var_0_144[iter_0_7] = 0
+end
+
+local var_0_145 = {
+	dragging = false,
+	keybinds = {
+		w = 170,
+		h = 50,
+		x = database.read("keybinds_x") or 10,
+		y = database.read("keybinds_y") or 600
+	},
+	round = {
+		w = 170,
+		h = 50,
+		x = database.read("round_x") or 10,
+		y = database.read("round_y") or 900
+	}
+}
+local var_0_146 = {
+	outline = function(arg_84_0, arg_84_1, arg_84_2, arg_84_3, arg_84_4, arg_84_5, arg_84_6, arg_84_7, arg_84_8, arg_84_9)
+		arg_84_1 = arg_84_1 + arg_84_8
+
+		local var_84_0 = {
+			{
+				arg_84_0 + arg_84_8,
+				arg_84_1,
+				180
+			},
+			{
+				arg_84_0 + arg_84_2 - arg_84_8,
+				arg_84_1,
+				270
+			},
+			{
+				arg_84_0 + arg_84_8,
+				arg_84_1 + arg_84_3 - arg_84_8 * 2,
+				90
+			},
+			{
+				arg_84_0 + arg_84_2 - arg_84_8,
+				arg_84_1 + arg_84_3 - arg_84_8 * 2,
+				0
+			}
+		}
+		local var_84_1 = {
+			{
+				arg_84_0 + arg_84_8,
+				arg_84_1 - arg_84_8,
+				arg_84_2 - arg_84_8 * 2,
+				arg_84_9
+			},
+			{
+				arg_84_0 + arg_84_8,
+				arg_84_1 + arg_84_3 - arg_84_8 - arg_84_9,
+				arg_84_2 - arg_84_8 * 2,
+				arg_84_9
+			},
+			{
+				arg_84_0,
+				arg_84_1,
+				arg_84_9,
+				arg_84_3 - arg_84_8 * 2
+			},
+			{
+				arg_84_0 + arg_84_2 - arg_84_9,
+				arg_84_1,
+				arg_84_9,
+				arg_84_3 - arg_84_8 * 2
+			}
+		}
+
+		for iter_84_0, iter_84_1 in next, var_84_0 do
+			renderer.circle_outline(iter_84_1[1], iter_84_1[2], arg_84_4, arg_84_5, arg_84_6, arg_84_7, arg_84_8, iter_84_1[3], 0.25, arg_84_9)
+		end
+
+		for iter_84_2, iter_84_3 in next, var_84_1 do
+			renderer.rectangle(iter_84_3[1], iter_84_3[2], iter_84_3[3], iter_84_3[4], arg_84_4, arg_84_5, arg_84_6, arg_84_7)
+		end
+	end,
+	rounded_rectangle = function(arg_85_0, arg_85_1, arg_85_2, arg_85_3, arg_85_4, arg_85_5, arg_85_6, arg_85_7, arg_85_8)
+		arg_85_1 = arg_85_1 + arg_85_8
+
+		local var_85_0 = {
+			{
+				arg_85_0 + arg_85_8,
+				arg_85_1,
+				180
+			},
+			{
+				arg_85_0 + arg_85_2 - arg_85_8,
+				arg_85_1,
+				90
+			},
+			{
+				arg_85_0 + arg_85_8,
+				arg_85_1 + arg_85_3 - arg_85_8 * 2,
+				270
+			},
+			{
+				arg_85_0 + arg_85_2 - arg_85_8,
+				arg_85_1 + arg_85_3 - arg_85_8 * 2,
+				0
+			}
+		}
+		local var_85_1 = {
+			{
+				arg_85_0 + arg_85_8,
+				arg_85_1,
+				arg_85_2 - arg_85_8 * 2,
+				arg_85_3 - arg_85_8 * 2
+			},
+			{
+				arg_85_0 + arg_85_8,
+				arg_85_1 - arg_85_8,
+				arg_85_2 - arg_85_8 * 2,
+				arg_85_8
+			},
+			{
+				arg_85_0 + arg_85_8,
+				arg_85_1 + arg_85_3 - arg_85_8 * 2,
+				arg_85_2 - arg_85_8 * 2,
+				arg_85_8
+			},
+			{
+				arg_85_0,
+				arg_85_1,
+				arg_85_8,
+				arg_85_3 - arg_85_8 * 2
+			},
+			{
+				arg_85_0 + arg_85_2 - arg_85_8,
+				arg_85_1,
+				arg_85_8,
+				arg_85_3 - arg_85_8 * 2
+			}
+		}
+
+		for iter_85_0, iter_85_1 in next, var_85_0 do
+			renderer.circle(iter_85_1[1], iter_85_1[2], arg_85_4, arg_85_5, arg_85_6, arg_85_7, arg_85_8, iter_85_1[3], 0.25)
+		end
+
+		for iter_85_2, iter_85_3 in next, var_85_1 do
+			renderer.rectangle(iter_85_3[1], iter_85_3[2], iter_85_3[3], iter_85_3[4], arg_85_4, arg_85_5, arg_85_6, arg_85_7)
+		end
+	end,
+	outlined_string = function(arg_86_0, arg_86_1, arg_86_2, arg_86_3, arg_86_4, arg_86_5, arg_86_6, arg_86_7, ...)
+		local var_86_0 = {
+			{
+				-1,
+				1,
+				-1,
+				1
+			},
+			{
+				1,
+				1,
+				-1,
+				-1
+			}
+		}
+
+		for iter_86_0 = 1, 4 do
+			renderer.text(arg_86_0 + var_86_0[1][iter_86_0], arg_86_1 + var_86_0[2][iter_86_0], 0, 0, 0, 255, arg_86_6, arg_86_7, ...)
+		end
+
+		renderer.text(arg_86_0, arg_86_1, arg_86_2, arg_86_3, arg_86_4, 255, arg_86_6, arg_86_7, ...)
+	end,
+	lerp = function(arg_87_0, arg_87_1, arg_87_2)
+		return arg_87_0 + (arg_87_1 - arg_87_0) * arg_87_2
+	end,
+	clamp = function(arg_88_0, arg_88_1, arg_88_2)
+		if arg_88_2 < arg_88_1 then
+			return math.min(math.max(arg_88_0, arg_88_2), arg_88_1)
+		else
+			return math.min(math.max(arg_88_0, arg_88_1), arg_88_2)
+		end
+	end,
+	insert_information_board = function(arg_89_0, arg_89_1, arg_89_2, arg_89_3, arg_89_4, arg_89_5, arg_89_6, arg_89_7, arg_89_8, arg_89_9, arg_89_10, arg_89_11)
+		local var_89_0 = {
+			ui.get(var_0_139)
+		}
+
+		renderer.gradient(arg_89_0 + 1, arg_89_1, 149, 17, arg_89_4, arg_89_5, arg_89_6, 10 * arg_89_8, arg_89_4, arg_89_5, arg_89_6, 0, true)
+		renderer.rectangle(arg_89_0 + 1, arg_89_1, 1, 17, arg_89_4, arg_89_5, arg_89_6, 255 * arg_89_8)
+		renderer.text(arg_89_0 + 5, arg_89_1 + 2, 175, 175, 175, 255 * arg_89_8, "", nil, arg_89_9)
+		renderer.text(arg_89_0 + 140 + arg_89_11, arg_89_1 + 2, var_89_0[1], var_89_0[2], var_89_0[3], 255 * arg_89_8, "r", nil, arg_89_10)
+	end,
+	intersect = function(arg_90_0, arg_90_1, arg_90_2, arg_90_3)
+		local var_90_0, var_90_1 = ui.mouse_position()
+
+		return arg_90_0 <= var_90_0 and var_90_0 <= arg_90_0 + arg_90_2 and arg_90_1 <= var_90_1 and var_90_1 <= arg_90_1 + arg_90_3
+	end
+}
+
+function var_0_146.keybinds()
+	if not ui.get(var_0_136) then
+		return
+	end
+
+	local var_91_0 = var_0_145.keybinds.x
+	local var_91_1 = var_0_145.keybinds.y
+	local var_91_2, var_91_3, var_91_4, var_91_5 = ui.get(var_0_139)
+	local var_91_6 = {}
+	local var_91_7 = 0
+
+	if ui.get(var_0_141.doubletap[1]) and ui.get(var_0_141.doubletap[2]) then
+		var_91_7 = var_91_7 + 1
+		var_91_6[1] = {
+			true,
+			"doubletap",
+			var_0_134.get_double_tap() and "charged" or "recharge",
+			1
+		}
+	else
+		var_91_6[1] = {
+			false,
+			"doubletap",
+			"on",
+			1
+		}
+	end
+
+	if ui.get(var_0_141.hideshots[1]) and ui.get(var_0_141.hideshots[2]) then
+		var_91_7 = var_91_7 + 1
+		var_91_6[2] = {
+			true,
+			"hideshots",
+			var_91_6[1][1] and "conflict" or "on",
+			2
+		}
+	else
+		var_91_6[2] = {
+			false,
+			"hideshots",
+			"on",
+			2
+		}
+	end
+
+	if ui.get(var_0_141.damage_override[1]) and ui.get(var_0_141.damage_override[2]) then
+		var_91_7 = var_91_7 + 1
+		var_91_6[3] = {
+			true,
+			"damage override",
+			ui.get(var_0_141.damage_override[3]),
+			3
+		}
+	else
+		var_91_6[3] = {
+			false,
+			"damage override",
+			ui.get(var_0_141.damage_override[3]),
+			3
+		}
+	end
+
+	if ui.get(var_0_141.safe_point[1]) then
+		var_91_7 = var_91_7 + 1
+		var_91_6[4] = {
+			true,
+			"force safe point",
+			"on",
+			4
+		}
+	else
+		var_91_6[4] = {
+			false,
+			"force safe point",
+			"on",
+			4
+		}
+	end
+
+	if ui.get(var_0_141.body_aim[1]) then
+		var_91_7 = var_91_7 + 1
+		var_91_6[5] = {
+			true,
+			"force body aim",
+			"on",
+			5
+		}
+	else
+		var_91_6[5] = {
+			false,
+			"force body aim",
+			"on",
+			5
+		}
+	end
+
+	if ui.get(var_0_141.auto_peek[1]) and ui.get(var_0_141.auto_peek[2]) then
+		var_91_7 = var_91_7 + 1
+		var_91_6[6] = {
+			true,
+			"auto peek",
+			"on",
+			6
+		}
+	else
+		var_91_6[6] = {
+			false,
+			"auto peek",
+			"on",
+			6
+		}
+	end
+
+	if ui.get(var_0_141.duck_peek[1]) then
+		var_91_7 = var_91_7 + 1
+		var_91_6[7] = {
+			true,
+			"fake duck",
+			"on",
+			7
+		}
+	else
+		var_91_6[7] = {
+			false,
+			"fake duck",
+			"on",
+			7
+		}
+	end
+
+	if ui.get(var_0_141.freestand[1]) and ui.get(var_0_141.freestand[2]) then
+		var_91_7 = var_91_7 + 1
+		var_91_6[8] = {
+			true,
+			"freestand",
+			"on",
+			8
+		}
+	else
+		var_91_6[8] = {
+			false,
+			"freestand",
+			"on",
+			8
+		}
+	end
+
+	if ui.get(var_0_141.slow_walk[1]) and ui.get(var_0_141.slow_walk[2]) then
+		var_91_7 = var_91_7 + 1
+		var_91_6[9] = {
+			true,
+			"slow walk",
+			"on",
+			9
+		}
+	else
+		var_91_6[9] = {
+			false,
+			"slow walk",
+			"on",
+			9
+		}
+	end
+
+	if m_h == nil then
+		m_h = var_91_7
+	end
+
+	m_h = var_0_146.lerp(m_h, var_91_7, globals.frametime() * ui.get(var_0_140))
+
+	local var_91_8 = var_0_146.clamp(m_h, 0, m_h - 1e-13)
+
+	var_0_146.rounded_rectangle(var_91_0 + 10, var_91_1 + 30, 150, 12 + var_91_8 * 18, 13, 13, 13, 255, 5)
+
+	for iter_91_0 = 1, #var_91_6 do
+		local var_91_9 = var_91_8 - 17.9
+		local var_91_10 = var_91_6[iter_91_0][4]
+		local var_91_11 = 0
+
+		if var_91_9 >= var_91_8 * 18.1 then
+			var_0_143[var_91_10] = 0
+
+			break
+		end
+
+		if var_0_143[var_91_10] == nil or not var_91_6[iter_91_0][1] then
+			var_0_143[var_91_10] = 0
+		elseif var_0_143[var_91_10] <= 0.95 then
+			var_0_143[var_91_10] = var_0_143[var_91_10] + 0.01
+		else
+			var_0_143[var_91_10] = 1
+		end
+
+		for iter_91_1 = 1, iter_91_0 do
+			if var_91_6[iter_91_1][1] then
+				var_91_11 = var_91_11 + 1
+			end
+		end
+
+		var_0_146.insert_information_board(var_91_0 + 13, var_91_1 + 36 + 18 * (var_91_11 - 1), 150, 17, var_91_2, var_91_3, var_91_4, 10, var_0_143[iter_91_0], var_91_6[iter_91_0][2], var_91_6[iter_91_0][3], 0)
+	end
+
+	var_0_146.outline(var_91_0, var_91_1, 170, 26, 19, 19, 19, 255, 5, 17)
+	var_0_146.outline(var_91_0, var_91_1 + 20, 170, 32 + var_91_8 * 18, 19, 19, 19, 255, 5, 12)
+	var_0_146.outline(var_91_0 + 1, var_91_1 + 1, 168, 50 + var_91_8 * 18, 53, 53, 53, 255, 5, 1)
+	var_0_146.outlined_string(var_91_0 + 10, var_91_1 + 11, 255, 255, 255, 255, "", nil, "keybinds")
+	var_0_146.outline(var_91_0 + 10, var_91_1 + 30, 150, 12 + var_91_8 * 18, 53, 53, 53, 255, 5, 1)
+	var_0_146.outline(var_91_0 + 11, var_91_1 + 31, 148, 10 + var_91_8 * 18, 0, 0, 0, 255, 5, 1)
+
+	if ui.is_menu_open() then
+		local var_91_12, var_91_13 = ui.mouse_position()
+
+		if var_0_145.keybinds.dragging and not client.key_state(1) then
+			alpha = 0
+			var_0_145.keybinds.dragging = false
+		end
+
+		if var_0_145.keybinds.dragging and client.key_state(1) then
+			var_0_145.keybinds.x = var_91_12 - drag_x
+			var_0_145.keybinds.y = var_91_13 - drag_y
+		end
+
+		if var_0_146.intersect(var_0_145.keybinds.x, var_0_145.keybinds.y, 150, 50 + var_91_8 * 18) and client.key_state(1) then
+			var_0_145.keybinds.dragging = true
+			drag_x = var_91_12 - var_0_145.keybinds.x
+			drag_y = var_91_13 - var_0_145.keybinds.y
+
+			renderer.rectangle(var_0_145.keybinds.x - 2, var_0_145.keybinds.y - 2, 174, 50 + var_91_8 * 18 + 6, 255, 0, 0, 55)
+		end
+	end
+end
+
+function bomb_damage(arg_92_0)
+	local var_92_0 = var_0_135(entity.get_origin(entity.get_local_player()))
+	local var_92_1 = var_0_135(entity.get_origin(arg_92_0))
+	local var_92_2 = var_92_0:dist(var_92_1)
+	local var_92_3 = entity.get_prop(entity.get_local_player(), "m_ArmorValue")
+	local var_92_4 = 450.7 * math.exp(-((var_92_2 - 75.68) / 789.2)^2)
+
+	if var_92_3 > 0 then
+		local var_92_5 = var_92_4 * 0.5
+
+		if var_92_3 < (var_92_4 - var_92_5) * 0.5 then
+			local var_92_6 = var_92_3 * 2
+
+			var_92_5 = var_92_4 - var_92_3
+		end
+
+		var_92_4 = var_92_5
+	end
+
+	return var_92_4
+end
+
+function bomb_time(arg_93_0)
+	return math.max(entity.get_prop(arg_93_0, "m_flC4Blow") - globals.curtime(), 0)
+end
+
+function defuseable(arg_94_0)
+	local var_94_0 = bomb_time(arg_94_0)
+
+	if entity.get_prop(arg_94_0, "m_hBombDefuser") then
+		return var_0_142.c4_time_froze < entity.get_prop(arg_94_0, "m_flDefureCountDown") - globals.curtime()
+	else
+		return var_94_0 > 6
+	end
+end
+
+function invulnerable()
+	local var_95_0 = entity.get_local_player()
+	local var_95_1 = math.floor(0.5 + entity.get_prop(var_95_0, "m_flSimulationTime") / globals.tickinterval())
+	local var_95_2 = var_0_142.information.prev_sim_time
+
+	if var_95_2 == 0 then
+		var_0_142.information.prev_sim_time = var_95_1
+
+		return
+	end
+
+	local var_95_3 = var_95_1 - var_95_2
+
+	if var_95_3 < 0 then
+		local var_95_4 = math.abs(var_95_3)
+
+		var_0_142.information.defensive_dur = globals.tickcount() + var_95_4
+		var_0_142.information.defensive_shift = var_95_4
+	end
+
+	var_0_142.information.prev_sim_time = var_95_1
+end
+
+function var_0_146.round_info()
+	if not ui.get(var_0_137) then
+		return
+	end
+
+	local var_96_0 = var_0_145.round.x
+	local var_96_1 = var_0_145.round.y
+	local var_96_2, var_96_3, var_96_4, var_96_5 = ui.get(var_0_139)
+	local var_96_6 = var_0_146.clamp(renderer.measure_text("", entity.get_player_name(client.current_threat())) - 40, 0, renderer.measure_text("", entity.get_player_name(client.current_threat())))
+	local var_96_7 = {}
+	local var_96_8 = 0
+	local var_96_9 = not (client.current_threat() ~= nil and entity.is_alive(entity.get_local_player())) and 0 or var_96_6
+	local var_96_10 = entity.get_all("CPlantedC4")[1]
+
+	if var_96_10 == nil then
+		-- block empty
+	else
+		defuse_timer = entity.get_prop(var_96_10, "m_flDefuseCountDown") - globals.curtime()
+		var_0_142.timer, var_0_142.fortcalc, var_0_142.timer_max = math.ceil(bomb_time(var_96_10) * 10 - 0.5) / 10 - 0.5, bomb_time(var_96_10), client.get_cvar("mp_c4timer")
+
+		if entity.get_prop(var_96_10, "m_hBombDefuser") then
+			var_0_142.timer = math.ceil(defuse_timer * 10 - 0.5) / 10 - 0.5
+			var_0_142.fortcalc = defuse_timer
+			var_0_142.timer_max = 10
+		end
+
+		var_0_142.timer = var_0_142.timer > 0 and var_0_142.timer or 0
+		timer_calc = math.max(0, math.min(var_0_142.timer_max, var_0_142.fortcalc)) / var_0_142.timer_max
+		damage = math.floor(bomb_damage(var_96_10))
+		site = entity.get_prop(var_96_10, "m_nBombSite")
+		site = site == 1 and "b" or "a"
+	end
+
+	invulnerable()
+
+	local var_96_11 = entity.get_prop(entity.get_local_player(), "m_flVelocityModifier")
+	local var_96_12 = var_0_134.get_overlap(true)
+
+	if var_96_10 == nil or entity.get_prop(var_96_10, "m_bBombDefused") == 1 or var_0_142.timer == 0 then
+		var_96_7[1] = {
+			false,
+			"x",
+			"recharge",
+			1
+		}
+	else
+		var_96_8 = var_96_8 + 1
+		var_96_7[1] = {
+			true,
+			"bomb planted " .. site,
+			var_0_142.timer .. "s",
+			1
+		}
+	end
+
+	if var_96_10 == nil or damage == nil or damage < 1 or var_0_142.timer == 0 or not entity.is_alive(entity.get_local_player()) or entity.get_prop(var_96_10, "m_bBombDefused") == 1 then
+		var_96_7[2] = {
+			false,
+			"x",
+			"recharge",
+			2
+		}
+	else
+		var_96_8 = var_96_8 + 1
+		var_96_7[2] = {
+			true,
+			"bomb lethality",
+			damage >= entity.get_prop(entity.get_local_player(), "m_iHealth") and "fatal" or damage,
+			2
+		}
+	end
+
+	if client.current_threat() == nil or not entity.is_alive(entity.get_local_player()) then
+		var_96_7[3] = {
+			false,
+			"x",
+			"recharge",
+			3
+		}
+	else
+		var_96_8 = var_96_8 + 1
+		var_96_7[3] = {
+			true,
+			"anti-aim target",
+			entity.get_player_name(client.current_threat()),
+			3
+		}
+	end
+
+	if var_0_142.information.defensive_dur + 20 < globals.tickcount() or not entity.is_alive(entity.get_local_player()) then
+		var_96_7[4] = {
+			false,
+			"x",
+			"recharge",
+			4
+		}
+	else
+		var_96_8 = var_96_8 + 1
+		var_96_7[4] = {
+			true,
+			"defensive",
+			var_0_142.information.defensive_dur < globals.tickcount() and "switched" or "active",
+			4
+		}
+	end
+
+	if var_96_11 == 1 or not entity.is_alive(entity.get_local_player()) then
+		var_96_7[5] = {
+			false,
+			"x",
+			"recharge",
+			5
+		}
+	else
+		var_96_8 = var_96_8 + 1
+		var_96_7[5] = {
+			true,
+			"Velocity",
+			math.floor(255 * var_96_11 / 255 * 100) .. "%",
+			5
+		}
+	end
+
+	if not entity.is_alive(entity.get_local_player()) then
+		var_96_7[6] = {
+			false,
+			"x",
+			"recharge",
+			6
+		}
+	else
+		var_96_8 = var_96_8 + 1
+		var_96_7[6] = {
+			true,
+			"anti-aim overlap",
+			math.floor(var_96_12 * 100) .. "%",
+			6
+		}
+	end
+
+	if m_j == nil then
+		m_j = var_96_8
+	end
+
+	m_j = var_0_146.lerp(m_j, var_96_8, globals.frametime() * ui.get(var_0_140))
+
+	local var_96_13 = var_0_146.clamp(m_j, 0, m_j - 1e-13)
+
+	if l_j == nil then
+		l_j = var_96_9
+	end
+
+	l_j = var_0_146.lerp(l_j, var_96_9, globals.frametime() * ui.get(var_0_140))
+
+	local var_96_14 = var_0_146.clamp(l_j, 0, l_j - 1e-13)
+
+	var_0_146.rounded_rectangle(var_96_0 + 10, var_96_1 + 30, 150 + var_96_14, 12 + var_96_13 * 18, 13, 13, 13, 255, 5)
+
+	for iter_96_0 = 1, #var_96_7 do
+		local var_96_15 = var_96_13 - 17.9
+		local var_96_16 = var_96_7[iter_96_0][4]
+		local var_96_17 = 0
+
+		if var_96_15 >= var_96_13 * 18.1 then
+			var_0_144[var_96_16] = 0
+
+			break
+		end
+
+		if var_0_144[var_96_16] == nil or not var_96_7[iter_96_0][1] then
+			var_0_144[var_96_16] = 0
+		elseif var_0_144[var_96_16] <= 0.95 then
+			var_0_144[var_96_16] = var_0_144[var_96_16] + 0.01
+		else
+			var_0_144[var_96_16] = 1
+		end
+
+		for iter_96_1 = 1, iter_96_0 do
+			if var_96_7[iter_96_1][1] then
+				var_96_17 = var_96_17 + 1
+			end
+		end
+
+		var_0_146.insert_information_board(var_96_0 + 13, var_96_1 + 36 + 18 * (var_96_17 - 1), 150 + var_96_14, 17, var_96_2, var_96_3, var_96_4, 10, var_0_144[iter_96_0], var_96_7[iter_96_0][2], var_96_7[iter_96_0][3], var_96_14)
+	end
+
+	var_0_146.outline(var_96_0, var_96_1, 170 + var_96_14, 26, 19, 19, 19, 255, 5, 17)
+	var_0_146.outline(var_96_0, var_96_1 + 20, 170 + var_96_14, 32 + var_96_13 * 18, 19, 19, 19, 255, 5, 12)
+	var_0_146.outline(var_96_0 + 1, var_96_1 + 1, 168 + var_96_14, 50 + var_96_13 * 18, 53, 53, 53, 255, 5, 1)
+	var_0_146.outlined_string(var_96_0 + 10, var_96_1 + 11, 255, 255, 255, 255, "", nil, "additional information")
+	var_0_146.outline(var_96_0 + 10, var_96_1 + 30, 150 + var_96_14, 12 + var_96_13 * 18, 53, 53, 53, 255, 5, 1)
+	var_0_146.outline(var_96_0 + 11, var_96_1 + 31, 148 + var_96_14, 10 + var_96_13 * 18, 0, 0, 0, 255, 5, 1)
+
+	if ui.is_menu_open() then
+		local var_96_18, var_96_19 = ui.mouse_position()
+
+		if var_0_145.round.dragging and not client.key_state(1) then
+			alpha = 0
+			var_0_145.round.dragging = false
+		end
+
+		if var_0_145.round.dragging and client.key_state(1) then
+			var_0_145.round.x = var_96_18 - drag_x
+			var_0_145.round.y = var_96_19 - drag_y
+		end
+
+		if var_0_146.intersect(var_0_145.round.x, var_0_145.round.y, 150, 50 + var_96_13 * 18) and client.key_state(1) then
+			var_0_145.round.dragging = true
+			drag_x = var_96_18 - var_0_145.round.x
+			drag_y = var_96_19 - var_0_145.round.y
+
+			renderer.rectangle(var_0_145.round.x - 2, var_0_145.round.y - 2, 174, 50 + var_96_13 * 18 + 6, 255, 0, 0, 55)
+		end
+	end
+end
+
+local function var_0_147()
+	database.write("keybinds_x", var_0_145.keybinds.x)
+	database.write("keybinds_y", var_0_145.keybinds.y)
+	database.write("round_x", var_0_145.round.x)
+	database.write("round_y", var_0_145.round.y)
+end
+
+local function var_0_148()
+	var_0_146.keybinds()
+	var_0_146.round_info()
+end
+
+client.set_event_callback("bomb_begindefuse", function()
+	var_0_142.c4_time_frozen = math.ceil(bomb_time(entity.get_all("CPlantedC4")[1]) * 10 - 0.5) / 10 - 0.5
+end)
+client.set_event_callback("paint", var_0_148)
+client.set_event_callback("shutdown", var_0_147)
