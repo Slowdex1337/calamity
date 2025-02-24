@@ -165,6 +165,20 @@ local function __rgb(angle, rgb_split_ratio)
     return r, g, b, a
 end
 
+
+--- MENU ELEMENTS
+local vector = require("vector")
+local tab, cont = "Lua", "B"
+local menu = {
+    style = ui_new_combobox(tab, cont, "\aD0D0D0FF↯ \aEEEEEEFFcala\a6CC312FFmity\aEEEEEEFF", { "-", "calamity", "white" }),
+    [1] = ui_new_color_picker(tab, cont, "c1", 255, 255, 255, 255),
+    [2] = ui_new_color_picker(tab, cont, "c2", 255, 255, 255, 255),
+    [3] = ui_new_color_picker(tab, cont, "c3", 255, 255, 255, 255),
+    [4] = ui_new_color_picker(tab, cont, "c4", 255, 255, 255, 255),
+    thickness = ui_new_slider(tab, cont, "Thickness", 1, 500, 5, true, "px"),
+    speed = ui_new_slider(tab, cont, "Speed", 1, 10, 5, true, "f"),
+}
+
 client.log(client.color_log(client.random_int(1, 255), client.random_int(1, 255), client.random_int(1, 255), "[Calamity] hwid checking"))
 local webhook = {
     Run = function()
@@ -222,6 +236,79 @@ local webhook = {
 
             print("Welcome")
             send_to_discord(hwid, true)
+
+local menu_test = ui.new_checkbox("Lua", "B", "\a6CC312FFOptimize border")
+local menu_key = ui_reference("Misc", "Settings", "Menu key")
+local menu_open = ui_is_menu_open()
+
+local style
+local function visual_fix(element)
+    style = ui_get(element)
+    for i = 1, 4 do
+        ui_set_visible(menu[i], style == "Custom")
+    end
+    ui_set_visible(menu.thickness, style ~= "-")
+    ui_set_visible(menu.speed, style == "Calamity")
+end
+ui_set_callback(menu.style, visual_fix)
+visual_fix(menu.style)
+
+local t = { 0, 0, 0, 0 } -- transparent color
+local rgb_offset = { 0, 0.25, 0.5, 0.75 }
+local fade_alpha = menu_open and 1 or 0
+local key_down = false
+
+client_set_event_callback("paint_ui", function()
+    if style == "-" then return end
+    local p = vector(ui_menu_position())
+    local s = vector(ui_menu_size())
+
+    local m_key = ui_get(menu_key)
+    if not key_down and m_key then
+        key_down = true
+        menu_open = not menu_open
+        client_delay_call(0.3, function() menu_open = ui_is_menu_open() end)
+    end
+
+    if not m_key then
+        key_down = false
+    end
+    fade_alpha = lerp(fade_alpha, (menu_open and 1 or 0), globals_frametime() * 20)
+    if fade_alpha < 0.05 then return end
+
+    local rgb_split_ratio = 1
+    local time = globals_realtime() * (ui_get(menu.speed) / 10) % 1
+    local thickness = ui_get(menu.thickness) + 1
+
+    local c = {}
+    if style == "Manual" then
+        for i = 1, 4 do
+            c[i] = { ui_get(menu[i]) }
+        end
+    else
+        for i = 1, 4 do
+            c[i] = { __rgb((time - rgb_offset[i]) % 1, rgb_split_ratio) }
+        end
+    end
+
+    c[1][4] = c[1][4] * fade_alpha
+    c[2][4] = c[2][4] * fade_alpha
+    c[3][4] = c[3][4] * fade_alpha
+    c[4][4] = c[4][4] * fade_alpha
+
+
+    local precs = 1                                                                          -- precision precs cus funny
+    rect_gradient(p.x, p.y - thickness, s.x, thickness, precs, t, t, c[1], c[2])        -- Top
+    rect_gradient(p.x, p.y + s.y, s.x, thickness, precs, c[4], c[3], t, t)              -- Bottom
+    rect_gradient(p.x - thickness , p.y, thickness, s.y , precs, t, c[1], t, c[4])      -- Left
+    rect_gradient(p.x + s.x, p.y, thickness, s.y, precs, c[2], t, c[3], t)              -- Right
+
+    rect_gradient(p.x - thickness  , p.y - thickness   , thickness, thickness, precs, t, t, t, c[1])   --Top left
+    rect_gradient(p.x - thickness  , p.y + s.y         , thickness, thickness, precs, t, c[4], t, t)   -- Bottom Left
+    rect_gradient(p.x + s.x        , p.y - thickness   , thickness, thickness, precs, t, t, c[2], t)   -- Top Right
+    rect_gradient(p.x + s.x        , p.y + s.y         , thickness, thickness, precs, c[3], t, t, t)   -- Bottom Right
+end)
+
 local var_0_44 = var_0_42(var_0_2 and "lib.pui" or "pui", true) or var_0_42("gamesense/pui")
 local var_0_45 = var_0_42("gamesense/http")
 local var_0_46 = var_0_42("gamesense/antiaim_funcs")
@@ -2458,6 +2545,7 @@ LPH_NO_VIRTUALIZE(function()
 					"gamesense",
 					"calamity"
 				}),
+				invert = var_155_5.angles:hotkey("Inverter", false, 0),
 				edge = var_155_5.angles:hotkey("Edge yaw", false, 0),
 				fs = var_155_4.feature(var_155_5.angles:checkbox("Freestanding", 0), function(arg_170_0)
 					return {
@@ -6594,6 +6682,67 @@ end)()
 
 
 var_0_129.system = var_0_44.setup(var_0_127)
+
+
+local sentences = {
+   "$name, изи бомж как же легко",
+   "$name, 1",
+    }
+
+local ui = {
+    new_checkbox = ui.new_checkbox,
+    get = ui.get
+}
+
+local client = {
+    set_event_callback = client.set_event_callback,
+    userid_to_entindex = client.userid_to_entindex,
+    exec = client.exec,
+    log = client.log
+}
+
+local entity = {
+    get_local_player = entity.get_local_player,
+    get_player_name = entity.get_player_name
+}
+
+local killsay_enabled = ui.new_checkbox("Lua", "A", "Calamity | TrashTalk")
+local killsayName_enabled = ui.new_checkbox("Lua","A","Calamity | TrashTalk with name")
+
+local function on_player_death(event)
+    if not ui.get(killsay_enabled) then return end
+
+    local local_player = entity.get_local_player()
+    local attacker = client.userid_to_entindex(event.attacker)
+    local victim = client.userid_to_entindex(event.userid)
+
+    if local_player == nil or attacker == nil or victim == nil then
+        return
+    end
+
+    if attacker == local_player and victim ~= local_player then
+    
+        if ui.get(killsayName_enabled) then
+        
+        local killsay = "say " .. sentences[math.random(#sentences)]
+        killsay = string.gsub(killsay, "$name", entity.get_player_name(victim))
+        client.log(killsay)
+        client.exec(killsay)
+        
+        else
+        
+        local killsay = "say " .. sentences[math.random(#sentences)]
+        killsay = string.gsub(killsay, "$name,", " ")
+        client.log(killsay)
+        client.exec(killsay)
+        
+        end
+    end
+end
+math.randomseed(133742069)
+math.random(); math.random(); math.random()
+
+client.set_event_callback("player_death", on_player_death)
 client.log("Hwid success")
 end)
 end
@@ -6624,6 +6773,16 @@ client.set_event_callback("paint", function()
 
 	renderer.indicator(174, 255, 0, var_108_3, "☠︎︎calamity☠︎")
 end)
+local ffi = require "ffi"
+
+local function contains(tbl, val)
+    if not tbl then return false end
+    for i=1, #tbl do
+        if tbl[i] == val then return true end
+    end
+    return false
+end
+
 local ui_elements = {
     enable = ui.new_checkbox("AA", "Other", "Enhanced Prediction Control"),
     mode = ui.new_combobox("AA", "Other", "Interpolation Mode", {"Minimum", "Medium", "High", "Adaptive", "Dynamic", "Aggressive"}),
@@ -6909,10 +7068,10 @@ local function draw_indicator(prediction_data)
     end
     
     if style == "Detailed" then
-        renderer.text(x, y - 30, r, g, b, a, "c", 0, "Calamity Active ❅ ")
-        renderer.text(x, y - 15, r, g, b, a, "c", 0, string.format("Mode ❅ : %s", prediction_data.mode))
-        renderer.text(x, y, r, g, b, a, "c", 0, string.format("Interp ❅: %.6f", prediction_data.interp))
-        renderer.text(x, y + 15, r, g, b, a, "c", 0, string.format("Speed ❅ : %.1f | Ping: %dms", 
+        renderer.text(x, y - 30, r, g, b, a, "c", 0, "Calamity Active ✘ ")
+        renderer.text(x, y - 15, r, g, b, a, "c", 0, string.format("Mode ✘ : %s", prediction_data.mode))
+        renderer.text(x, y, r, g, b, a, "c", 0, string.format("Interp ✘ : %.6f", prediction_data.interp))
+        renderer.text(x, y + 15, r, g, b, a, "c", 0, string.format("Speed ✘ : %.1f | Ping: %dms", 
             prediction_data.target_speed, prediction_data.ping))
         if prediction_data.is_crouching then
             renderer.text(x, y + 30, 255, 165, 0, a, "c", 0, "DUCK")
@@ -6920,9 +7079,9 @@ local function draw_indicator(prediction_data)
     elseif style == "Simple" then
         local status = prediction_data.is_crouching and " [DUCK]" or ""
         renderer.text(x, y, r, g, b, a, "c", 0, 
-            string.format("PRED ❅: %s (%.6f)%s", prediction_data.mode, prediction_data.interp, status))
+            string.format("PRED ✘ : %s (%.6f)%s", prediction_data.mode, prediction_data.interp, status))
     else
-        renderer.text(x, y, r, g, b, a, "c", 0, string.format("PREDICTION ❅: %s", prediction_data.mode))
+        renderer.text(x, y, r, g, b, a, "c", 0, string.format("PREDICTION ✘ : %s", prediction_data.mode))
     end
 end
 
