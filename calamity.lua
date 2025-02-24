@@ -170,7 +170,7 @@ end
 local vector = require("vector")
 local tab, cont = "Lua", "B"
 local menu = {
-    style = ui_new_combobox(tab, cont, "\aD0D0D0FF↯ \aEEEEEEFFanti\a6CC312FFskeet\aEEEEEEFF", { "-", "calamity", "white" }),
+    style = ui_new_combobox(tab, cont, "\aD0D0D0FF↯ \aEEEEEEFFcala\a6CC312FFmity\aEEEEEEFF", { "-", "calamity", "white" }),
     [1] = ui_new_color_picker(tab, cont, "c1", 255, 255, 255, 255),
     [2] = ui_new_color_picker(tab, cont, "c2", 255, 255, 255, 255),
     [3] = ui_new_color_picker(tab, cont, "c3", 255, 255, 255, 255),
@@ -6771,7 +6771,7 @@ client.set_event_callback("paint", function()
 	local var_108_2 = var_0_167 + var_0_166 * math.sin(var_108_1 * var_0_165)
 	local var_108_3 = math.max(0, math.min(255, var_108_2))
 
-	renderer.indicator(255, 32, 32, var_108_3, "⛑")
+	renderer.indicator(174, 255, 0, var_108_3, "☠︎︎calamity☠︎")
 end)
 
 local var_0_134 = require("gamesense/antiaim_funcs")
