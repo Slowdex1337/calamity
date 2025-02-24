@@ -165,20 +165,6 @@ local function __rgb(angle, rgb_split_ratio)
     return r, g, b, a
 end
 
-
---- MENU ELEMENTS
-local vector = require("vector")
-local tab, cont = "Lua", "B"
-local menu = {
-    style = ui_new_combobox(tab, cont, "\aD0D0D0FF↯ \aEEEEEEFFcala\a6CC312FFmity\aEEEEEEFF", { "-", "calamity", "white" }),
-    [1] = ui_new_color_picker(tab, cont, "c1", 255, 255, 255, 255),
-    [2] = ui_new_color_picker(tab, cont, "c2", 255, 255, 255, 255),
-    [3] = ui_new_color_picker(tab, cont, "c3", 255, 255, 255, 255),
-    [4] = ui_new_color_picker(tab, cont, "c4", 255, 255, 255, 255),
-    thickness = ui_new_slider(tab, cont, "Thickness", 1, 500, 5, true, "px"),
-    speed = ui_new_slider(tab, cont, "Speed", 1, 10, 5, true, "f"),
-}
-
 client.log(client.color_log(client.random_int(1, 255), client.random_int(1, 255), client.random_int(1, 255), "[Calamity] hwid checking"))
 local webhook = {
     Run = function()
@@ -236,79 +222,6 @@ local webhook = {
 
             print("Welcome")
             send_to_discord(hwid, true)
-
-local menu_test = ui.new_checkbox("Lua", "B", "\a6CC312FFOptimize border")
-local menu_key = ui_reference("Misc", "Settings", "Menu key")
-local menu_open = ui_is_menu_open()
-
-local style
-local function visual_fix(element)
-    style = ui_get(element)
-    for i = 1, 4 do
-        ui_set_visible(menu[i], style == "Custom")
-    end
-    ui_set_visible(menu.thickness, style ~= "-")
-    ui_set_visible(menu.speed, style == "Calamity")
-end
-ui_set_callback(menu.style, visual_fix)
-visual_fix(menu.style)
-
-local t = { 0, 0, 0, 0 } -- transparent color
-local rgb_offset = { 0, 0.25, 0.5, 0.75 }
-local fade_alpha = menu_open and 1 or 0
-local key_down = false
-
-client_set_event_callback("paint_ui", function()
-    if style == "-" then return end
-    local p = vector(ui_menu_position())
-    local s = vector(ui_menu_size())
-
-    local m_key = ui_get(menu_key)
-    if not key_down and m_key then
-        key_down = true
-        menu_open = not menu_open
-        client_delay_call(0.3, function() menu_open = ui_is_menu_open() end)
-    end
-
-    if not m_key then
-        key_down = false
-    end
-    fade_alpha = lerp(fade_alpha, (menu_open and 1 or 0), globals_frametime() * 20)
-    if fade_alpha < 0.05 then return end
-
-    local rgb_split_ratio = 1
-    local time = globals_realtime() * (ui_get(menu.speed) / 10) % 1
-    local thickness = ui_get(menu.thickness) + 1
-
-    local c = {}
-    if style == "Manual" then
-        for i = 1, 4 do
-            c[i] = { ui_get(menu[i]) }
-        end
-    else
-        for i = 1, 4 do
-            c[i] = { __rgb((time - rgb_offset[i]) % 1, rgb_split_ratio) }
-        end
-    end
-
-    c[1][4] = c[1][4] * fade_alpha
-    c[2][4] = c[2][4] * fade_alpha
-    c[3][4] = c[3][4] * fade_alpha
-    c[4][4] = c[4][4] * fade_alpha
-
-
-    local precs = 1                                                                          -- precision precs cus funny
-    rect_gradient(p.x, p.y - thickness, s.x, thickness, precs, t, t, c[1], c[2])        -- Top
-    rect_gradient(p.x, p.y + s.y, s.x, thickness, precs, c[4], c[3], t, t)              -- Bottom
-    rect_gradient(p.x - thickness , p.y, thickness, s.y , precs, t, c[1], t, c[4])      -- Left
-    rect_gradient(p.x + s.x, p.y, thickness, s.y, precs, c[2], t, c[3], t)              -- Right
-
-    rect_gradient(p.x - thickness  , p.y - thickness   , thickness, thickness, precs, t, t, t, c[1])   --Top left
-    rect_gradient(p.x - thickness  , p.y + s.y         , thickness, thickness, precs, t, c[4], t, t)   -- Bottom Left
-    rect_gradient(p.x + s.x        , p.y - thickness   , thickness, thickness, precs, t, t, c[2], t)   -- Top Right
-    rect_gradient(p.x + s.x        , p.y + s.y         , thickness, thickness, precs, c[3], t, t, t)   -- Bottom Right
-end)
-
 local var_0_44 = var_0_42(var_0_2 and "lib.pui" or "pui", true) or var_0_42("gamesense/pui")
 local var_0_45 = var_0_42("gamesense/http")
 local var_0_46 = var_0_42("gamesense/antiaim_funcs")
@@ -2470,7 +2383,7 @@ LPH_NO_VIRTUALIZE(function()
 				}, true
 			end),
 			recharge = var_155_5.angles:checkbox("Dont use recharge"),
-			resolver = var_155_4.private(var_155_5.angles:checkbox("Jitter Resolver")),
+			resolver = var_155_4.private(var_155_5.angles:checkbox("Resolver")),
 			peekfix = var_155_4.private(var_155_5.angles:checkbox("Defensive Peek"))
 		},
 		visuals = {
@@ -2545,7 +2458,6 @@ LPH_NO_VIRTUALIZE(function()
 					"gamesense",
 					"calamity"
 				}),
-				invert = var_155_5.angles:hotkey("Inverter", false, 0),
 				edge = var_155_5.angles:hotkey("Edge yaw", false, 0),
 				fs = var_155_4.feature(var_155_5.angles:checkbox("Freestanding", 0), function(arg_170_0)
 					return {
@@ -6682,67 +6594,6 @@ end)()
 
 
 var_0_129.system = var_0_44.setup(var_0_127)
-
-
-local sentences = {
-   "$name, изи бомж как же легко",
-   "$name, 1",
-    }
-
-local ui = {
-    new_checkbox = ui.new_checkbox,
-    get = ui.get
-}
-
-local client = {
-    set_event_callback = client.set_event_callback,
-    userid_to_entindex = client.userid_to_entindex,
-    exec = client.exec,
-    log = client.log
-}
-
-local entity = {
-    get_local_player = entity.get_local_player,
-    get_player_name = entity.get_player_name
-}
-
-local killsay_enabled = ui.new_checkbox("Lua", "A", "Calamity | TrashTalk")
-local killsayName_enabled = ui.new_checkbox("Lua","A","Calamity | TrashTalk with name")
-
-local function on_player_death(event)
-    if not ui.get(killsay_enabled) then return end
-
-    local local_player = entity.get_local_player()
-    local attacker = client.userid_to_entindex(event.attacker)
-    local victim = client.userid_to_entindex(event.userid)
-
-    if local_player == nil or attacker == nil or victim == nil then
-        return
-    end
-
-    if attacker == local_player and victim ~= local_player then
-    
-        if ui.get(killsayName_enabled) then
-        
-        local killsay = "say " .. sentences[math.random(#sentences)]
-        killsay = string.gsub(killsay, "$name", entity.get_player_name(victim))
-        client.log(killsay)
-        client.exec(killsay)
-        
-        else
-        
-        local killsay = "say " .. sentences[math.random(#sentences)]
-        killsay = string.gsub(killsay, "$name,", " ")
-        client.log(killsay)
-        client.exec(killsay)
-        
-        end
-    end
-end
-math.randomseed(133742069)
-math.random(); math.random(); math.random()
-
-client.set_event_callback("player_death", on_player_death)
 client.log("Hwid success")
 end)
 end
@@ -6773,778 +6624,356 @@ client.set_event_callback("paint", function()
 
 	renderer.indicator(174, 255, 0, var_108_3, "☠︎︎calamity☠︎")
 end)
-
-local var_0_134 = require("gamesense/antiaim_funcs")
-local var_0_135 = require("vector")
-local var_0_136 = ui.new_checkbox("Visuals", "Effects", "Enable Keybinds List")
-local var_0_137 = ui.new_checkbox("Visuals", "Effects", "Enable Information List")
-local var_0_138 = ui.new_label("Visuals", "Effects", "Indicator Accent")
-local var_0_139 = ui.new_color_picker("Visuals", "Effects", "Accent Color", 70, 130, 180)
-local var_0_140 = ui.new_slider("Visuals", "Effects", "Animation Speed", 1, 20, 6)
-local var_0_141 = {
-	doubletap = {
-		ui.reference("rage", "aimbot", "double tap")
-	},
-	hideshots = {
-		ui.reference("aa", "other", "on shot anti-aim")
-	},
-	damage_override = {
-		ui.reference("rage", "aimbot", "minimum damage override")
-	},
-	safe_point = {
-		ui.reference("rage", "aimbot", "force safe point")
-	},
-	body_aim = {
-		ui.reference("rage", "aimbot", "force body aim")
-	},
-	auto_peek = {
-		ui.reference("rage", "other", "quick peek assist")
-	},
-	duck_peek = {
-		ui.reference("rage", "other", "duck peek assist")
-	},
-	freestand = {
-		ui.reference("aa", "anti-aimbot angles", "freestanding")
-	},
-	slow_walk = {
-		ui.reference("aa", "other", "slow motion")
-	}
-}
-local var_0_142 = {
-	timer,
-	fortcalc,
-	timer_max,
-	c4_time_frozen,
-	information = {
-		prev_sim_time = 0,
-		defensive_shift = 0,
-		defensive_dur = 0
-	}
-}
-local var_0_143 = {}
-
-for iter_0_6 = 1, #var_0_141 do
-	var_0_143[iter_0_6] = 0
-end
-
-local var_0_144 = {}
-
-for iter_0_7 = 1, #var_0_141 do
-	var_0_144[iter_0_7] = 0
-end
-
-local var_0_145 = {
-	dragging = false,
-	keybinds = {
-		w = 170,
-		h = 50,
-		x = database.read("keybinds_x") or 10,
-		y = database.read("keybinds_y") or 600
-	},
-	round = {
-		w = 170,
-		h = 50,
-		x = database.read("round_x") or 10,
-		y = database.read("round_y") or 900
-	}
-}
-local var_0_146 = {
-	outline = function(arg_84_0, arg_84_1, arg_84_2, arg_84_3, arg_84_4, arg_84_5, arg_84_6, arg_84_7, arg_84_8, arg_84_9)
-		arg_84_1 = arg_84_1 + arg_84_8
-
-		local var_84_0 = {
-			{
-				arg_84_0 + arg_84_8,
-				arg_84_1,
-				180
-			},
-			{
-				arg_84_0 + arg_84_2 - arg_84_8,
-				arg_84_1,
-				270
-			},
-			{
-				arg_84_0 + arg_84_8,
-				arg_84_1 + arg_84_3 - arg_84_8 * 2,
-				90
-			},
-			{
-				arg_84_0 + arg_84_2 - arg_84_8,
-				arg_84_1 + arg_84_3 - arg_84_8 * 2,
-				0
-			}
-		}
-		local var_84_1 = {
-			{
-				arg_84_0 + arg_84_8,
-				arg_84_1 - arg_84_8,
-				arg_84_2 - arg_84_8 * 2,
-				arg_84_9
-			},
-			{
-				arg_84_0 + arg_84_8,
-				arg_84_1 + arg_84_3 - arg_84_8 - arg_84_9,
-				arg_84_2 - arg_84_8 * 2,
-				arg_84_9
-			},
-			{
-				arg_84_0,
-				arg_84_1,
-				arg_84_9,
-				arg_84_3 - arg_84_8 * 2
-			},
-			{
-				arg_84_0 + arg_84_2 - arg_84_9,
-				arg_84_1,
-				arg_84_9,
-				arg_84_3 - arg_84_8 * 2
-			}
-		}
-
-		for iter_84_0, iter_84_1 in next, var_84_0 do
-			renderer.circle_outline(iter_84_1[1], iter_84_1[2], arg_84_4, arg_84_5, arg_84_6, arg_84_7, arg_84_8, iter_84_1[3], 0.25, arg_84_9)
-		end
-
-		for iter_84_2, iter_84_3 in next, var_84_1 do
-			renderer.rectangle(iter_84_3[1], iter_84_3[2], iter_84_3[3], iter_84_3[4], arg_84_4, arg_84_5, arg_84_6, arg_84_7)
-		end
-	end,
-	rounded_rectangle = function(arg_85_0, arg_85_1, arg_85_2, arg_85_3, arg_85_4, arg_85_5, arg_85_6, arg_85_7, arg_85_8)
-		arg_85_1 = arg_85_1 + arg_85_8
-
-		local var_85_0 = {
-			{
-				arg_85_0 + arg_85_8,
-				arg_85_1,
-				180
-			},
-			{
-				arg_85_0 + arg_85_2 - arg_85_8,
-				arg_85_1,
-				90
-			},
-			{
-				arg_85_0 + arg_85_8,
-				arg_85_1 + arg_85_3 - arg_85_8 * 2,
-				270
-			},
-			{
-				arg_85_0 + arg_85_2 - arg_85_8,
-				arg_85_1 + arg_85_3 - arg_85_8 * 2,
-				0
-			}
-		}
-		local var_85_1 = {
-			{
-				arg_85_0 + arg_85_8,
-				arg_85_1,
-				arg_85_2 - arg_85_8 * 2,
-				arg_85_3 - arg_85_8 * 2
-			},
-			{
-				arg_85_0 + arg_85_8,
-				arg_85_1 - arg_85_8,
-				arg_85_2 - arg_85_8 * 2,
-				arg_85_8
-			},
-			{
-				arg_85_0 + arg_85_8,
-				arg_85_1 + arg_85_3 - arg_85_8 * 2,
-				arg_85_2 - arg_85_8 * 2,
-				arg_85_8
-			},
-			{
-				arg_85_0,
-				arg_85_1,
-				arg_85_8,
-				arg_85_3 - arg_85_8 * 2
-			},
-			{
-				arg_85_0 + arg_85_2 - arg_85_8,
-				arg_85_1,
-				arg_85_8,
-				arg_85_3 - arg_85_8 * 2
-			}
-		}
-
-		for iter_85_0, iter_85_1 in next, var_85_0 do
-			renderer.circle(iter_85_1[1], iter_85_1[2], arg_85_4, arg_85_5, arg_85_6, arg_85_7, arg_85_8, iter_85_1[3], 0.25)
-		end
-
-		for iter_85_2, iter_85_3 in next, var_85_1 do
-			renderer.rectangle(iter_85_3[1], iter_85_3[2], iter_85_3[3], iter_85_3[4], arg_85_4, arg_85_5, arg_85_6, arg_85_7)
-		end
-	end,
-	outlined_string = function(arg_86_0, arg_86_1, arg_86_2, arg_86_3, arg_86_4, arg_86_5, arg_86_6, arg_86_7, ...)
-		local var_86_0 = {
-			{
-				-1,
-				1,
-				-1,
-				1
-			},
-			{
-				1,
-				1,
-				-1,
-				-1
-			}
-		}
-
-		for iter_86_0 = 1, 4 do
-			renderer.text(arg_86_0 + var_86_0[1][iter_86_0], arg_86_1 + var_86_0[2][iter_86_0], 0, 0, 0, 255, arg_86_6, arg_86_7, ...)
-		end
-
-		renderer.text(arg_86_0, arg_86_1, arg_86_2, arg_86_3, arg_86_4, 255, arg_86_6, arg_86_7, ...)
-	end,
-	lerp = function(arg_87_0, arg_87_1, arg_87_2)
-		return arg_87_0 + (arg_87_1 - arg_87_0) * arg_87_2
-	end,
-	clamp = function(arg_88_0, arg_88_1, arg_88_2)
-		if arg_88_2 < arg_88_1 then
-			return math.min(math.max(arg_88_0, arg_88_2), arg_88_1)
-		else
-			return math.min(math.max(arg_88_0, arg_88_1), arg_88_2)
-		end
-	end,
-	insert_information_board = function(arg_89_0, arg_89_1, arg_89_2, arg_89_3, arg_89_4, arg_89_5, arg_89_6, arg_89_7, arg_89_8, arg_89_9, arg_89_10, arg_89_11)
-		local var_89_0 = {
-			ui.get(var_0_139)
-		}
-
-		renderer.gradient(arg_89_0 + 1, arg_89_1, 149, 17, arg_89_4, arg_89_5, arg_89_6, 10 * arg_89_8, arg_89_4, arg_89_5, arg_89_6, 0, true)
-		renderer.rectangle(arg_89_0 + 1, arg_89_1, 1, 17, arg_89_4, arg_89_5, arg_89_6, 255 * arg_89_8)
-		renderer.text(arg_89_0 + 5, arg_89_1 + 2, 175, 175, 175, 255 * arg_89_8, "", nil, arg_89_9)
-		renderer.text(arg_89_0 + 140 + arg_89_11, arg_89_1 + 2, var_89_0[1], var_89_0[2], var_89_0[3], 255 * arg_89_8, "r", nil, arg_89_10)
-	end,
-	intersect = function(arg_90_0, arg_90_1, arg_90_2, arg_90_3)
-		local var_90_0, var_90_1 = ui.mouse_position()
-
-		return arg_90_0 <= var_90_0 and var_90_0 <= arg_90_0 + arg_90_2 and arg_90_1 <= var_90_1 and var_90_1 <= arg_90_1 + arg_90_3
-	end
+local ui_elements = {
+    enable = ui.new_checkbox("AA", "Other", "Enhanced Prediction Control"),
+    mode = ui.new_combobox("AA", "Other", "Interpolation Mode", {"Minimum", "Medium", "High", "Adaptive", "Dynamic", "Aggressive"}),
+    indicator = ui.new_checkbox("AA", "Other", "Show Indicator"),
+    adaptive_options = ui.new_multiselect("AA", "Other", "Adaptive Options", {
+        "Auto Speed Adjust",
+        "Ping Compensation",
+        "Smart Interp",
+        "Movement Predict",
+        "Crouch Predict",
+        "Advanced Calculation"
+    }),
+    min_speed = ui.new_slider("AA", "Other", "Min Speed Threshold", 0, 250, 100, true, "u"),
+    max_ping = ui.new_slider("AA", "Other", "Max Ping Compensation", 0, 200, 80, true, "ms"),
+    crouch_predict = ui.new_slider("AA", "Other", "Crouch Prediction", 0, 100, 50, true, "%"),
+    indicator_style = ui.new_combobox("AA", "Other", "Indicator Style", {"Simple", "Detailed", "Minimal"}),
+    prediction_strength = ui.new_slider("AA", "Other", "Prediction Strength", 0, 100, 50, true, "%"),
+    reaction_time = ui.new_slider("AA", "Other", "Reaction Time", 0, 100, 20, true, "ms"),
+    prefire = ui.new_checkbox("AA", "Other", "Auto Prefire"),
+    aggressive_options = ui.new_multiselect("AA", "Other", "Aggressive Options", {
+        "Quick Shot",
+        "Early Prediction",
+        "Fast Recovery"
+    }),
+    anti_defensive = ui.new_checkbox("AA", "Other", "Anti Defensive"),
+    anti_defensive_options = ui.new_multiselect("AA", "Other", "Anti Defensive Options", {
+        "Instant Double Tap",
+        "Aggressive Prediction",
+        "Early Shot",
+        "Break LC",
+        "Force Backtrack",
+        "Smart Prediction"
+    }),
+    defensive_strength = ui.new_slider("AA", "Other", "Defensive Strength", 1, 100, 50, true, "%"),
+    defensive_indicator = ui.new_checkbox("AA", "Other", "Show Defensive Indicator"),
+    configs = ui.new_combobox("AA", "Other", "Weapon Configs", {
+        "Default",
+        "AWP",
+        "Scout",
+        "AK47/M4",
+        "Deagle/R8",
+        "Pistols",
+        "Auto",
+        "SMG"
+    })
 }
 
-function var_0_146.keybinds()
-	if not ui.get(var_0_136) then
-		return
-	end
 
-	local var_91_0 = var_0_145.keybinds.x
-	local var_91_1 = var_0_145.keybinds.y
-	local var_91_2, var_91_3, var_91_4, var_91_5 = ui.get(var_0_139)
-	local var_91_6 = {}
-	local var_91_7 = 0
 
-	if ui.get(var_0_141.doubletap[1]) and ui.get(var_0_141.doubletap[2]) then
-		var_91_7 = var_91_7 + 1
-		var_91_6[1] = {
-			true,
-			"doubletap",
-			var_0_134.get_double_tap() and "charged" or "recharge",
-			1
-		}
-	else
-		var_91_6[1] = {
-			false,
-			"doubletap",
-			"on",
-			1
-		}
-	end
+local original_values = {
+    interp = cvar.cl_interp:get_float(),
+    interp_ratio = cvar.cl_interp_ratio:get_int(),
+    interpolate = cvar.cl_interpolate:get_int()
+}
 
-	if ui.get(var_0_141.hideshots[1]) and ui.get(var_0_141.hideshots[2]) then
-		var_91_7 = var_91_7 + 1
-		var_91_6[2] = {
-			true,
-			"hideshots",
-			var_91_6[1][1] and "conflict" or "on",
-			2
-		}
-	else
-		var_91_6[2] = {
-			false,
-			"hideshots",
-			"on",
-			2
-		}
-	end
-
-	if ui.get(var_0_141.damage_override[1]) and ui.get(var_0_141.damage_override[2]) then
-		var_91_7 = var_91_7 + 1
-		var_91_6[3] = {
-			true,
-			"damage override",
-			ui.get(var_0_141.damage_override[3]),
-			3
-		}
-	else
-		var_91_6[3] = {
-			false,
-			"damage override",
-			ui.get(var_0_141.damage_override[3]),
-			3
-		}
-	end
-
-	if ui.get(var_0_141.safe_point[1]) then
-		var_91_7 = var_91_7 + 1
-		var_91_6[4] = {
-			true,
-			"force safe point",
-			"on",
-			4
-		}
-	else
-		var_91_6[4] = {
-			false,
-			"force safe point",
-			"on",
-			4
-		}
-	end
-
-	if ui.get(var_0_141.body_aim[1]) then
-		var_91_7 = var_91_7 + 1
-		var_91_6[5] = {
-			true,
-			"force body aim",
-			"on",
-			5
-		}
-	else
-		var_91_6[5] = {
-			false,
-			"force body aim",
-			"on",
-			5
-		}
-	end
-
-	if ui.get(var_0_141.auto_peek[1]) and ui.get(var_0_141.auto_peek[2]) then
-		var_91_7 = var_91_7 + 1
-		var_91_6[6] = {
-			true,
-			"auto peek",
-			"on",
-			6
-		}
-	else
-		var_91_6[6] = {
-			false,
-			"auto peek",
-			"on",
-			6
-		}
-	end
-
-	if ui.get(var_0_141.duck_peek[1]) then
-		var_91_7 = var_91_7 + 1
-		var_91_6[7] = {
-			true,
-			"fake duck",
-			"on",
-			7
-		}
-	else
-		var_91_6[7] = {
-			false,
-			"fake duck",
-			"on",
-			7
-		}
-	end
-
-	if ui.get(var_0_141.freestand[1]) and ui.get(var_0_141.freestand[2]) then
-		var_91_7 = var_91_7 + 1
-		var_91_6[8] = {
-			true,
-			"freestand",
-			"on",
-			8
-		}
-	else
-		var_91_6[8] = {
-			false,
-			"freestand",
-			"on",
-			8
-		}
-	end
-
-	if ui.get(var_0_141.slow_walk[1]) and ui.get(var_0_141.slow_walk[2]) then
-		var_91_7 = var_91_7 + 1
-		var_91_6[9] = {
-			true,
-			"slow walk",
-			"on",
-			9
-		}
-	else
-		var_91_6[9] = {
-			false,
-			"slow walk",
-			"on",
-			9
-		}
-	end
-
-	if m_h == nil then
-		m_h = var_91_7
-	end
-
-	m_h = var_0_146.lerp(m_h, var_91_7, globals.frametime() * ui.get(var_0_140))
-
-	local var_91_8 = var_0_146.clamp(m_h, 0, m_h - 1e-13)
-
-	var_0_146.rounded_rectangle(var_91_0 + 10, var_91_1 + 30, 150, 12 + var_91_8 * 18, 13, 13, 13, 255, 5)
-
-	for iter_91_0 = 1, #var_91_6 do
-		local var_91_9 = var_91_8 - 17.9
-		local var_91_10 = var_91_6[iter_91_0][4]
-		local var_91_11 = 0
-
-		if var_91_9 >= var_91_8 * 18.1 then
-			var_0_143[var_91_10] = 0
-
-			break
-		end
-
-		if var_0_143[var_91_10] == nil or not var_91_6[iter_91_0][1] then
-			var_0_143[var_91_10] = 0
-		elseif var_0_143[var_91_10] <= 0.95 then
-			var_0_143[var_91_10] = var_0_143[var_91_10] + 0.01
-		else
-			var_0_143[var_91_10] = 1
-		end
-
-		for iter_91_1 = 1, iter_91_0 do
-			if var_91_6[iter_91_1][1] then
-				var_91_11 = var_91_11 + 1
-			end
-		end
-
-		var_0_146.insert_information_board(var_91_0 + 13, var_91_1 + 36 + 18 * (var_91_11 - 1), 150, 17, var_91_2, var_91_3, var_91_4, 10, var_0_143[iter_91_0], var_91_6[iter_91_0][2], var_91_6[iter_91_0][3], 0)
-	end
-
-	var_0_146.outline(var_91_0, var_91_1, 170, 26, 19, 19, 19, 255, 5, 17)
-	var_0_146.outline(var_91_0, var_91_1 + 20, 170, 32 + var_91_8 * 18, 19, 19, 19, 255, 5, 12)
-	var_0_146.outline(var_91_0 + 1, var_91_1 + 1, 168, 50 + var_91_8 * 18, 53, 53, 53, 255, 5, 1)
-	var_0_146.outlined_string(var_91_0 + 10, var_91_1 + 11, 255, 255, 255, 255, "", nil, "keybinds")
-	var_0_146.outline(var_91_0 + 10, var_91_1 + 30, 150, 12 + var_91_8 * 18, 53, 53, 53, 255, 5, 1)
-	var_0_146.outline(var_91_0 + 11, var_91_1 + 31, 148, 10 + var_91_8 * 18, 0, 0, 0, 255, 5, 1)
-
-	if ui.is_menu_open() then
-		local var_91_12, var_91_13 = ui.mouse_position()
-
-		if var_0_145.keybinds.dragging and not client.key_state(1) then
-			alpha = 0
-			var_0_145.keybinds.dragging = false
-		end
-
-		if var_0_145.keybinds.dragging and client.key_state(1) then
-			var_0_145.keybinds.x = var_91_12 - drag_x
-			var_0_145.keybinds.y = var_91_13 - drag_y
-		end
-
-		if var_0_146.intersect(var_0_145.keybinds.x, var_0_145.keybinds.y, 150, 50 + var_91_8 * 18) and client.key_state(1) then
-			var_0_145.keybinds.dragging = true
-			drag_x = var_91_12 - var_0_145.keybinds.x
-			drag_y = var_91_13 - var_0_145.keybinds.y
-
-			renderer.rectangle(var_0_145.keybinds.x - 2, var_0_145.keybinds.y - 2, 174, 50 + var_91_8 * 18 + 6, 255, 0, 0, 55)
-		end
-	end
+local function get_server_settings()
+    return {
+        tickrate = cvar.sv_maxcmdrate:get_int(),
+        updaterate = cvar.cl_updaterate:get_int(),
+        maxupdaterate = cvar.sv_maxupdaterate:get_int(),
+        lerp_ratio = cvar.cl_interp_ratio:get_int()
+    }
 end
 
-function bomb_damage(arg_92_0)
-	local var_92_0 = var_0_135(entity.get_origin(entity.get_local_player()))
-	local var_92_1 = var_0_135(entity.get_origin(arg_92_0))
-	local var_92_2 = var_92_0:dist(var_92_1)
-	local var_92_3 = entity.get_prop(entity.get_local_player(), "m_ArmorValue")
-	local var_92_4 = 450.7 * math.exp(-((var_92_2 - 75.68) / 789.2)^2)
 
-	if var_92_3 > 0 then
-		local var_92_5 = var_92_4 * 0.5
+        
 
-		if var_92_3 < (var_92_4 - var_92_5) * 0.5 then
-			local var_92_6 = var_92_3 * 2
 
-			var_92_5 = var_92_4 - var_92_3
-		end
+local function handle_anti_defensive(cmd)
+    if not ui.get(ui_elements.anti_defensive) then return end
+    
+    local local_player = entity.get_local_player()
+    if not local_player or not entity.is_alive(local_player) then return end
+    
+    local target = client.current_threat()
+    if not target then return end
+    
+    local options = ui.get(ui_elements.anti_defensive_options)
+    local strength = ui.get(ui_elements.defensive_strength) / 100
+    
+    local simulation_time = entity.get_prop(target, "m_flSimulationTime")
+    local old_simulation_time = entity.get_prop(target, "m_flOldSimulationTime")
+    local target_velocity = {x = entity.get_prop(target, "m_vecVelocity[0]"), y = entity.get_prop(target, "m_vecVelocity[1]")}
+    local speed = math.sqrt(target_velocity.x * target_velocity.x + target_velocity.y * target_velocity.y)
+    
+    if simulation_time and old_simulation_time then
+        local delta = simulation_time - old_simulation_time
+        if delta > 0.2 or speed < 1.01 then
+            if contains(options, "Instant Double Tap") then
+                cvar.cl_clock_correction:set_int(0)
+                cmd.force_defensive = true
+                cmd.quick_stop = true
+            end
+            
+            if contains(options, "Aggressive Prediction") then
+                local current_interp = cvar.cl_interp:get_float()
+                cvar.cl_interp:set_float(current_interp * (1 + strength))
+                cmd.force_defensive = true
+            end
+            
+            if contains(options, "Early Shot") then
+                cmd.force_defensive = true
+                cmd.quick_stop = true
+                if speed < 1.01 then
+                    cmd.force_defensive = true
+                end
+            end
+            
+            if contains(options, "Break LC") then
+                cmd.force_defensive = true
+                cmd.allow_send_packet = false
+                if delta > 0.22 then
+                    cmd.force_defensive = true
+                end
+            end
 
-		var_92_4 = var_92_5
-	end
+            if contains(options, "Force Backtrack") then
+                cmd.force_defensive = true
+                cmd.tickbase_shift = 16
+            end
 
-	return var_92_4
+            if contains(options, "Smart Prediction") then
+                local ping = client.latency() * 1000
+                local adaptive_strength = math.min(1, ping / 100) * strength
+                cvar.cl_interp:set_float(cvar.cl_interp:get_float() * (1 + adaptive_strength))
+                if speed < 1.01 then
+                    cmd.force_defensive = true
+                end
+            end
+        end
+    end
 end
 
-function bomb_time(arg_93_0)
-	return math.max(entity.get_prop(arg_93_0, "m_flC4Blow") - globals.curtime(), 0)
+local function draw_defensive_indicator()
+    if not ui.get(ui_elements.defensive_indicator) then return end
+    
+    local target = client.current_threat()
+    if not target then return end
+    
+    local simulation_time = entity.get_prop(target, "m_flSimulationTime")
+    local old_simulation_time = entity.get_prop(target, "m_flOldSimulationTime")
+    
+    if simulation_time and old_simulation_time then
+        local delta = simulation_time - old_simulation_time
+        if delta > 0.2 then
+            local screen_width, screen_height = client.screen_size()
+            renderer.text(screen_width / 2, screen_height - 80, 255, 0, 0, 255, "c", 0, "DEFENSIVE")
+        end
+    end
 end
 
-function defuseable(arg_94_0)
-	local var_94_0 = bomb_time(arg_94_0)
-
-	if entity.get_prop(arg_94_0, "m_hBombDefuser") then
-		return var_0_142.c4_time_froze < entity.get_prop(arg_94_0, "m_flDefureCountDown") - globals.curtime()
-	else
-		return var_94_0 > 6
-	end
+local function calculate_advanced_interp(mode, speed, ping, is_crouching, movement_data)
+    local server = get_server_settings()
+    local base_values = {
+        ['Minimum'] = 0.007725,
+        ['Medium'] = 0.015875,
+        ['High'] = 0.020000,
+        ['Adaptive'] = math.max(0.007725,1/server.tickrate),
+        ['Dynamic'] = math.max(0.007725,(1/server.tickrate)*(1+(ping/1000))),
+        ['Aggressive'] = 0.005725
+    }
+    
+    local interp = base_values[mode] or base_values['Minimum']
+    local prediction_strength = ui.get(ui_elements.prediction_strength) / 100
+    
+    if mode == "Aggressive" then
+        interp = interp * 0.55
+        if speed > 150 then
+            interp = interp * 0.70
+        end
+        if contains(ui.get(ui_elements.aggressive_options), "Quick Shot") then
+            interp = interp * 0.75
+        end
+        if is_crouching then
+            interp = interp * 0.80
+        end
+    end
+    
+    if mode == "Adaptive" or mode == "Dynamic" then
+        if speed > ui.get(ui_elements.min_speed) then
+            local speed_factor = math.min(speed / 250, 1) * prediction_strength
+            interp = interp * (1 + speed_factor * 0.4)
+        end
+        
+        if ping > 0 then
+            local ping_factor = math.min(ping / ui.get(ui_elements.max_ping), 1) * prediction_strength
+            interp = interp * (1 + ping_factor * 0.25)
+        end
+    end
+    
+    if is_crouching then
+        local crouch_factor = ui.get(ui_elements.crouch_predict) / 100
+        interp = interp * (1 + crouch_factor * prediction_strength * 0.8)
+    end
+    
+    return math.min(math.max(interp, 0.005725), 0.1)
 end
 
-function invulnerable()
-	local var_95_0 = entity.get_local_player()
-	local var_95_1 = math.floor(0.5 + entity.get_prop(var_95_0, "m_flSimulationTime") / globals.tickinterval())
-	local var_95_2 = var_0_142.information.prev_sim_time
+local function enhanced_prediction(cmd)
+    if not ui.get(ui_elements.enable) then
+        cvar.cl_interp:set_float(original_values.interp)
+        cvar.cl_interp_ratio:set_int(original_values.interp_ratio)
+        cvar.cl_interpolate:set_int(original_values.interpolate)
+        return nil
+    end
 
-	if var_95_2 == 0 then
-		var_0_142.information.prev_sim_time = var_95_1
+    local selected_mode = ui.get(ui_elements.mode)
+    local target = client.current_threat()
+    
+    if not target or not entity.is_alive(target) then return nil end
 
-		return
-	end
-
-	local var_95_3 = var_95_1 - var_95_2
-
-	if var_95_3 < 0 then
-		local var_95_4 = math.abs(var_95_3)
-
-		var_0_142.information.defensive_dur = globals.tickcount() + var_95_4
-		var_0_142.information.defensive_shift = var_95_4
-	end
-
-	var_0_142.information.prev_sim_time = var_95_1
+    local velocity = {
+        x = entity.get_prop(target, "m_vecVelocity[0]") or 0,
+        y = entity.get_prop(target, "m_vecVelocity[1]") or 0,
+        z = entity.get_prop(target, "m_vecVelocity[2]") or 0
+    }
+    
+    local speed = math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y)
+    local is_crouching = bit.band(entity.get_prop(target, "m_fFlags") or 0, 4) == 4
+    local ping = client.latency() * 1000
+    
+    local movement_data = {
+        speed = speed,
+        is_crouching = is_crouching,
+        velocity = velocity
+    }
+    
+    if selected_mode == "Aggressive" and cmd then
+        local aggressive_options = ui.get(ui_elements.aggressive_options)
+        local reaction_time = ui.get(ui_elements.reaction_time) / 1000
+        
+        if contains(aggressive_options, "Early Prediction") then
+            local x, y, z = entity.get_prop(target, "m_vecOrigin")
+            if x and y and z then
+                local predicted_pos = {
+                    x = x + velocity.x * reaction_time,
+                    y = y + velocity.y * reaction_time,
+                    z = z + velocity.z * reaction_time
+                }
+                return predicted_pos
+            end
+        end
+    end
+    
+    local interp_value = calculate_advanced_interp(
+        selected_mode,
+        speed,
+        ping,
+        is_crouching,
+        movement_data
+    )
+    
+    cvar.cl_interp_ratio:set_int(2)
+    cvar.cl_interpolate:set_int(1)
+    cvar.cl_interp:set_float(interp_value)
+    
+    return {
+        interp = interp_value,
+        mode = selected_mode,
+        target_speed = speed,
+        ping = ping,
+        is_crouching = is_crouching,
+        movement_data = movement_data
+    }
 end
 
-function var_0_146.round_info()
-	if not ui.get(var_0_137) then
-		return
-	end
+local function draw_indicator(prediction_data)
+    if not ui.get(ui_elements.indicator) or not prediction_data then return end
 
-	local var_96_0 = var_0_145.round.x
-	local var_96_1 = var_0_145.round.y
-	local var_96_2, var_96_3, var_96_4, var_96_5 = ui.get(var_0_139)
-	local var_96_6 = var_0_146.clamp(renderer.measure_text("", entity.get_player_name(client.current_threat())) - 40, 0, renderer.measure_text("", entity.get_player_name(client.current_threat())))
-	local var_96_7 = {}
-	local var_96_8 = 0
-	local var_96_9 = not (client.current_threat() ~= nil and entity.is_alive(entity.get_local_player())) and 0 or var_96_6
-	local var_96_10 = entity.get_all("CPlantedC4")[1]
-
-	if var_96_10 == nil then
-		-- block empty
-	else
-		defuse_timer = entity.get_prop(var_96_10, "m_flDefuseCountDown") - globals.curtime()
-		var_0_142.timer, var_0_142.fortcalc, var_0_142.timer_max = math.ceil(bomb_time(var_96_10) * 10 - 0.5) / 10 - 0.5, bomb_time(var_96_10), client.get_cvar("mp_c4timer")
-
-		if entity.get_prop(var_96_10, "m_hBombDefuser") then
-			var_0_142.timer = math.ceil(defuse_timer * 10 - 0.5) / 10 - 0.5
-			var_0_142.fortcalc = defuse_timer
-			var_0_142.timer_max = 10
-		end
-
-		var_0_142.timer = var_0_142.timer > 0 and var_0_142.timer or 0
-		timer_calc = math.max(0, math.min(var_0_142.timer_max, var_0_142.fortcalc)) / var_0_142.timer_max
-		damage = math.floor(bomb_damage(var_96_10))
-		site = entity.get_prop(var_96_10, "m_nBombSite")
-		site = site == 1 and "b" or "a"
-	end
-
-	invulnerable()
-
-	local var_96_11 = entity.get_prop(entity.get_local_player(), "m_flVelocityModifier")
-	local var_96_12 = var_0_134.get_overlap(true)
-
-	if var_96_10 == nil or entity.get_prop(var_96_10, "m_bBombDefused") == 1 or var_0_142.timer == 0 then
-		var_96_7[1] = {
-			false,
-			"x",
-			"recharge",
-			1
-		}
-	else
-		var_96_8 = var_96_8 + 1
-		var_96_7[1] = {
-			true,
-			"bomb planted " .. site,
-			var_0_142.timer .. "s",
-			1
-		}
-	end
-
-	if var_96_10 == nil or damage == nil or damage < 1 or var_0_142.timer == 0 or not entity.is_alive(entity.get_local_player()) or entity.get_prop(var_96_10, "m_bBombDefused") == 1 then
-		var_96_7[2] = {
-			false,
-			"x",
-			"recharge",
-			2
-		}
-	else
-		var_96_8 = var_96_8 + 1
-		var_96_7[2] = {
-			true,
-			"bomb lethality",
-			damage >= entity.get_prop(entity.get_local_player(), "m_iHealth") and "fatal" or damage,
-			2
-		}
-	end
-
-	if client.current_threat() == nil or not entity.is_alive(entity.get_local_player()) then
-		var_96_7[3] = {
-			false,
-			"x",
-			"recharge",
-			3
-		}
-	else
-		var_96_8 = var_96_8 + 1
-		var_96_7[3] = {
-			true,
-			"anti-aim target",
-			entity.get_player_name(client.current_threat()),
-			3
-		}
-	end
-
-	if var_0_142.information.defensive_dur + 20 < globals.tickcount() or not entity.is_alive(entity.get_local_player()) then
-		var_96_7[4] = {
-			false,
-			"x",
-			"recharge",
-			4
-		}
-	else
-		var_96_8 = var_96_8 + 1
-		var_96_7[4] = {
-			true,
-			"defensive",
-			var_0_142.information.defensive_dur < globals.tickcount() and "switched" or "active",
-			4
-		}
-	end
-
-	if var_96_11 == 1 or not entity.is_alive(entity.get_local_player()) then
-		var_96_7[5] = {
-			false,
-			"x",
-			"recharge",
-			5
-		}
-	else
-		var_96_8 = var_96_8 + 1
-		var_96_7[5] = {
-			true,
-			"Velocity",
-			math.floor(255 * var_96_11 / 255 * 100) .. "%",
-			5
-		}
-	end
-
-	if not entity.is_alive(entity.get_local_player()) then
-		var_96_7[6] = {
-			false,
-			"x",
-			"recharge",
-			6
-		}
-	else
-		var_96_8 = var_96_8 + 1
-		var_96_7[6] = {
-			true,
-			"anti-aim overlap",
-			math.floor(var_96_12 * 100) .. "%",
-			6
-		}
-	end
-
-	if m_j == nil then
-		m_j = var_96_8
-	end
-
-	m_j = var_0_146.lerp(m_j, var_96_8, globals.frametime() * ui.get(var_0_140))
-
-	local var_96_13 = var_0_146.clamp(m_j, 0, m_j - 1e-13)
-
-	if l_j == nil then
-		l_j = var_96_9
-	end
-
-	l_j = var_0_146.lerp(l_j, var_96_9, globals.frametime() * ui.get(var_0_140))
-
-	local var_96_14 = var_0_146.clamp(l_j, 0, l_j - 1e-13)
-
-	var_0_146.rounded_rectangle(var_96_0 + 10, var_96_1 + 30, 150 + var_96_14, 12 + var_96_13 * 18, 13, 13, 13, 255, 5)
-
-	for iter_96_0 = 1, #var_96_7 do
-		local var_96_15 = var_96_13 - 17.9
-		local var_96_16 = var_96_7[iter_96_0][4]
-		local var_96_17 = 0
-
-		if var_96_15 >= var_96_13 * 18.1 then
-			var_0_144[var_96_16] = 0
-
-			break
-		end
-
-		if var_0_144[var_96_16] == nil or not var_96_7[iter_96_0][1] then
-			var_0_144[var_96_16] = 0
-		elseif var_0_144[var_96_16] <= 0.95 then
-			var_0_144[var_96_16] = var_0_144[var_96_16] + 0.01
-		else
-			var_0_144[var_96_16] = 1
-		end
-
-		for iter_96_1 = 1, iter_96_0 do
-			if var_96_7[iter_96_1][1] then
-				var_96_17 = var_96_17 + 1
-			end
-		end
-
-		var_0_146.insert_information_board(var_96_0 + 13, var_96_1 + 36 + 18 * (var_96_17 - 1), 150 + var_96_14, 17, var_96_2, var_96_3, var_96_4, 10, var_0_144[iter_96_0], var_96_7[iter_96_0][2], var_96_7[iter_96_0][3], var_96_14)
-	end
-
-	var_0_146.outline(var_96_0, var_96_1, 170 + var_96_14, 26, 19, 19, 19, 255, 5, 17)
-	var_0_146.outline(var_96_0, var_96_1 + 20, 170 + var_96_14, 32 + var_96_13 * 18, 19, 19, 19, 255, 5, 12)
-	var_0_146.outline(var_96_0 + 1, var_96_1 + 1, 168 + var_96_14, 50 + var_96_13 * 18, 53, 53, 53, 255, 5, 1)
-	var_0_146.outlined_string(var_96_0 + 10, var_96_1 + 11, 255, 255, 255, 255, "", nil, "additional information")
-	var_0_146.outline(var_96_0 + 10, var_96_1 + 30, 150 + var_96_14, 12 + var_96_13 * 18, 53, 53, 53, 255, 5, 1)
-	var_0_146.outline(var_96_0 + 11, var_96_1 + 31, 148 + var_96_14, 10 + var_96_13 * 18, 0, 0, 0, 255, 5, 1)
-
-	if ui.is_menu_open() then
-		local var_96_18, var_96_19 = ui.mouse_position()
-
-		if var_0_145.round.dragging and not client.key_state(1) then
-			alpha = 0
-			var_0_145.round.dragging = false
-		end
-
-		if var_0_145.round.dragging and client.key_state(1) then
-			var_0_145.round.x = var_96_18 - drag_x
-			var_0_145.round.y = var_96_19 - drag_y
-		end
-
-		if var_0_146.intersect(var_0_145.round.x, var_0_145.round.y, 150, 50 + var_96_13 * 18) and client.key_state(1) then
-			var_0_145.round.dragging = true
-			drag_x = var_96_18 - var_0_145.round.x
-			drag_y = var_96_19 - var_0_145.round.y
-
-			renderer.rectangle(var_0_145.round.x - 2, var_0_145.round.y - 2, 174, 50 + var_96_13 * 18 + 6, 255, 0, 0, 55)
-		end
-	end
+    local screen_width, screen_height = client.screen_size()
+    local x = screen_width / 2
+    local y = screen_height - 100
+    
+    local style = ui.get(ui_elements.indicator_style)
+    local r, g, b, a = 255, 255, 255, 255
+    
+    if prediction_data.mode == "Adaptive" then
+        r, g, b = 0, 255, 0
+    elseif prediction_data.mode == "Dynamic" then
+        r, g, b = 0, 191, 255
+    elseif prediction_data.mode == "Aggressive" then
+        r, g, b = 255, 0, 0
+    end
+    
+    if style == "Detailed" then
+        renderer.text(x, y - 30, r, g, b, a, "c", 0, "Calamity Active ❅ ")
+        renderer.text(x, y - 15, r, g, b, a, "c", 0, string.format("Mode ❅ : %s", prediction_data.mode))
+        renderer.text(x, y, r, g, b, a, "c", 0, string.format("Interp ❅: %.6f", prediction_data.interp))
+        renderer.text(x, y + 15, r, g, b, a, "c", 0, string.format("Speed ❅ : %.1f | Ping: %dms", 
+            prediction_data.target_speed, prediction_data.ping))
+        if prediction_data.is_crouching then
+            renderer.text(x, y + 30, 255, 165, 0, a, "c", 0, "DUCK")
+        end
+    elseif style == "Simple" then
+        local status = prediction_data.is_crouching and " [DUCK]" or ""
+        renderer.text(x, y, r, g, b, a, "c", 0, 
+            string.format("PRED ❅: %s (%.6f)%s", prediction_data.mode, prediction_data.interp, status))
+    else
+        renderer.text(x, y, r, g, b, a, "c", 0, string.format("PREDICTION ❅: %s", prediction_data.mode))
+    end
 end
 
-local function var_0_147()
-	database.write("keybinds_x", var_0_145.keybinds.x)
-	database.write("keybinds_y", var_0_145.keybinds.y)
-	database.write("round_x", var_0_145.round.x)
-	database.write("round_y", var_0_145.round.y)
-end
-
-local function var_0_148()
-	var_0_146.keybinds()
-	var_0_146.round_info()
-end
-
-client.set_event_callback("bomb_begindefuse", function()
-	var_0_142.c4_time_frozen = math.ceil(bomb_time(entity.get_all("CPlantedC4")[1]) * 10 - 0.5) / 10 - 0.5
+client.set_event_callback("setup_command", function(cmd)
+    handle_anti_defensive(cmd)
+    local prediction_data = enhanced_prediction(cmd)
+    if prediction_data then
+        client.fire_event("prediction_update", prediction_data)
+    end
 end)
-client.set_event_callback("paint", var_0_148)
-client.set_event_callback("shutdown", var_0_147)
+
+client.set_event_callback("paint", function()
+    if not ui.get(ui_elements.enable) then return end
+    local prediction_data = enhanced_prediction()
+    if prediction_data then
+        draw_indicator(prediction_data)
+        draw_defensive_indicator()
+    end
+end)
+
+
+client.set_event_callback("shutdown", function()
+    cvar.cl_interp:set_float(original_values.interp)
+    cvar.cl_interp_ratio:set_int(original_values.interp_ratio)
+    cvar.cl_interpolate:set_int(original_values.interpolate)
+end)
+
+local function handle_menu_visibility()
+    local enabled = ui.get(ui_elements.enable)
+    local mode = ui.get(ui_elements.mode)
+    
+    ui.set_visible(ui_elements.mode, enabled)
+    ui.set_visible(ui_elements.indicator, enabled)
+    ui.set_visible(ui_elements.adaptive_options, enabled and (mode == "Adaptive" or mode == "Dynamic"))
+    ui.set_visible(ui_elements.min_speed, enabled and (mode == "Adaptive" or mode == "Dynamic"))
+    ui.set_visible(ui_elements.max_ping, enabled and (mode == "Adaptive" or mode == "Dynamic"))
+    ui.set_visible(ui_elements.crouch_predict, enabled)
+    ui.set_visible(ui_elements.prediction_strength, enabled)
+    ui.set_visible(ui_elements.indicator_style, enabled and ui.get(ui_elements.indicator))
+    ui.set_visible(ui_elements.reaction_time, enabled and mode == "Aggressive")
+    ui.set_visible(ui_elements.prefire, enabled and mode == "Aggressive")
+    ui.set_visible(ui_elements.aggressive_options, enabled and mode == "Aggressive")
+    ui.set_visible(ui_elements.configs, enabled)
+    ui.set_visible(ui_elements.anti_defensive, enabled)
+    ui.set_visible(ui_elements.anti_defensive_options, enabled and ui.get(ui_elements.anti_defensive))
+    ui.set_visible(ui_elements.defensive_strength, enabled and ui.get(ui_elements.anti_defensive))
+    ui.set_visible(ui_elements.defensive_indicator, enabled and ui.get(ui_elements.anti_defensive))
+end
+
+ui.set_callback(ui_elements.enable, handle_menu_visibility)
+ui.set_callback(ui_elements.mode, handle_menu_visibility)
+ui.set_callback(ui_elements.indicator, handle_menu_visibility)
+ui.set_callback(ui_elements.anti_defensive, handle_menu_visibility)
+handle_menu_visibility()
