@@ -6783,356 +6783,171 @@ local function contains(tbl, val)
     return false
 end
 
-local ui_elements = {
-    enable = ui.new_checkbox("AA", "Other", "Enhanced Prediction Control"),
-    mode = ui.new_combobox("AA", "Other", "Interpolation Mode", {"Minimum", "Medium", "High", "Adaptive", "Dynamic", "Aggressive"}),
-    indicator = ui.new_checkbox("AA", "Other", "Show Indicator"),
-    adaptive_options = ui.new_multiselect("AA", "Other", "Adaptive Options", {
-        "Auto Speed Adjust",
-        "Ping Compensation",
-        "Smart Interp",
-        "Movement Predict",
-        "Crouch Predict",
-        "Advanced Calculation"
-    }),
-    min_speed = ui.new_slider("AA", "Other", "Min Speed Threshold", 0, 250, 100, true, "u"),
-    max_ping = ui.new_slider("AA", "Other", "Max Ping Compensation", 0, 200, 80, true, "ms"),
-    crouch_predict = ui.new_slider("AA", "Other", "Crouch Prediction", 0, 100, 50, true, "%"),
-    indicator_style = ui.new_combobox("AA", "Other", "Indicator Style", {"Simple", "Detailed", "Minimal"}),
-    prediction_strength = ui.new_slider("AA", "Other", "Prediction Strength", 0, 100, 50, true, "%"),
-    reaction_time = ui.new_slider("AA", "Other", "Reaction Time", 0, 100, 20, true, "ms"),
-    prefire = ui.new_checkbox("AA", "Other", "Auto Prefire"),
-    aggressive_options = ui.new_multiselect("AA", "Other", "Aggressive Options", {
-        "Quick Shot",
-        "Early Prediction",
-        "Fast Recovery"
-    }),
-    anti_defensive = ui.new_checkbox("AA", "Other", "Anti Defensive"),
-    anti_defensive_options = ui.new_multiselect("AA", "Other", "Anti Defensive Options", {
-        "Instant Double Tap",
-        "Aggressive Prediction",
-        "Early Shot",
-        "Break LC",
-        "Force Backtrack",
-        "Smart Prediction"
-    }),
-    defensive_strength = ui.new_slider("AA", "Other", "Defensive Strength", 1, 100, 50, true, "%"),
-    defensive_indicator = ui.new_checkbox("AA", "Other", "Show Defensive Indicator"),
-    configs = ui.new_combobox("AA", "Other", "Weapon Configs", {
-        "Default",
-        "AWP",
-        "Scout",
-        "AK47/M4",
-        "Deagle/R8",
-        "Pistols",
-        "Auto",
-        "SMG"
-    })
-}
+local b_2 = {}
+local local_player, callback_reg, dt_charged = nil, false, false
 
+client.exec("Clear")
+client.exec("con_filter_enable 0")
 
+local corsa = "Calamity Prediction ~ "
 
-local original_values = {
-    interp = cvar.cl_interp:get_float(),
-    interp_ratio = cvar.cl_interp_ratio:get_int(),
-    interpolate = cvar.cl_interpolate:get_int()
-}
-
-local function get_server_settings()
-    return {
-        tickrate = cvar.sv_maxcmdrate:get_int(),
-        updaterate = cvar.cl_updaterate:get_int(),
-        maxupdaterate = cvar.sv_maxupdaterate:get_int(),
-        lerp_ratio = cvar.cl_interp_ratio:get_int()
-    }
-end
-
-
-        
-
-
-local function handle_anti_defensive(cmd)
-    if not ui.get(ui_elements.anti_defensive) then return end
-    
-    local local_player = entity.get_local_player()
-    if not local_player or not entity.is_alive(local_player) then return end
-    
-    local target = client.current_threat()
-    if not target then return end
-    
-    local options = ui.get(ui_elements.anti_defensive_options)
-    local strength = ui.get(ui_elements.defensive_strength) / 100
-    
-    local simulation_time = entity.get_prop(target, "m_flSimulationTime")
-    local old_simulation_time = entity.get_prop(target, "m_flOldSimulationTime")
-    local target_velocity = {x = entity.get_prop(target, "m_vecVelocity[0]"), y = entity.get_prop(target, "m_vecVelocity[1]")}
-    local speed = math.sqrt(target_velocity.x * target_velocity.x + target_velocity.y * target_velocity.y)
-    
-    if simulation_time and old_simulation_time then
-        local delta = simulation_time - old_simulation_time
-        if delta > 0.2 or speed < 1.01 then
-            if contains(options, "Instant Double Tap") then
-                cvar.cl_clock_correction:set_int(0)
-                cmd.force_defensive = true
-                cmd.quick_stop = true
-            end
-            
-            if contains(options, "Aggressive Prediction") then
-                local current_interp = cvar.cl_interp:get_float()
-                cvar.cl_interp:set_float(current_interp * (1 + strength))
-                cmd.force_defensive = true
-            end
-            
-            if contains(options, "Early Shot") then
-                cmd.force_defensive = true
-                cmd.quick_stop = true
-                if speed < 1.01 then
-                    cmd.force_defensive = true
-                end
-            end
-            
-            if contains(options, "Break LC") then
-                cmd.force_defensive = true
-                cmd.allow_send_packet = false
-                if delta > 0.22 then
-                    cmd.force_defensive = true
-                end
-            end
-
-            if contains(options, "Force Backtrack") then
-                cmd.force_defensive = true
-                cmd.tickbase_shift = 16
-            end
-
-            if contains(options, "Smart Prediction") then
-                local ping = client.latency() * 1000
-                local adaptive_strength = math.min(1, ping / 100) * strength
-                cvar.cl_interp:set_float(cvar.cl_interp:get_float() * (1 + adaptive_strength))
-                if speed < 1.01 then
-                    cmd.force_defensive = true
-                end
-            end
-        end
-    end
-end
-
-local function draw_defensive_indicator()
-    if not ui.get(ui_elements.defensive_indicator) then return end
-    
-    local target = client.current_threat()
-    if not target then return end
-    
-    local simulation_time = entity.get_prop(target, "m_flSimulationTime")
-    local old_simulation_time = entity.get_prop(target, "m_flOldSimulationTime")
-    
-    if simulation_time and old_simulation_time then
-        local delta = simulation_time - old_simulation_time
-        if delta > 0.2 then
-            local screen_width, screen_height = client.screen_size()
-            renderer.text(screen_width / 2, screen_height - 80, 255, 0, 0, 255, "c", 0, "DEFENSIVE")
-        end
-    end
-end
-
-local function calculate_advanced_interp(mode, speed, ping, is_crouching, movement_data)
-    local server = get_server_settings()
-    local base_values = {
-        ['Minimum'] = 0.007725,
-        ['Medium'] = 0.015875,
-        ['High'] = 0.020000,
-        ['Adaptive'] = math.max(0.007725,1/server.tickrate),
-        ['Dynamic'] = math.max(0.007725,(1/server.tickrate)*(1+(ping/1000))),
-        ['Aggressive'] = 0.005725
-    }
-    
-    local interp = base_values[mode] or base_values['Minimum']
-    local prediction_strength = ui.get(ui_elements.prediction_strength) / 100
-    
-    if mode == "Aggressive" then
-        interp = interp * 0.55
-        if speed > 150 then
-            interp = interp * 0.70
-        end
-        if contains(ui.get(ui_elements.aggressive_options), "Quick Shot") then
-            interp = interp * 0.75
-        end
-        if is_crouching then
-            interp = interp * 0.80
-        end
-    end
-    
-    if mode == "Adaptive" or mode == "Dynamic" then
-        if speed > ui.get(ui_elements.min_speed) then
-            local speed_factor = math.min(speed / 250, 1) * prediction_strength
-            interp = interp * (1 + speed_factor * 0.4)
-        end
-        
-        if ping > 0 then
-            local ping_factor = math.min(ping / ui.get(ui_elements.max_ping), 1) * prediction_strength
-            interp = interp * (1 + ping_factor * 0.25)
-        end
-    end
-    
-    if is_crouching then
-        local crouch_factor = ui.get(ui_elements.crouch_predict) / 100
-        interp = interp * (1 + crouch_factor * prediction_strength * 0.8)
-    end
-    
-    return math.min(math.max(interp, 0.005725), 0.1)
-end
-
-local function enhanced_prediction(cmd)
-    if not ui.get(ui_elements.enable) then
-        cvar.cl_interp:set_float(original_values.interp)
-        cvar.cl_interp_ratio:set_int(original_values.interp_ratio)
-        cvar.cl_interpolate:set_int(original_values.interpolate)
-        return nil
-    end
-
-    local selected_mode = ui.get(ui_elements.mode)
-    local target = client.current_threat()
-    
-    if not target or not entity.is_alive(target) then return nil end
-
-    local velocity = {
-        x = entity.get_prop(target, "m_vecVelocity[0]") or 0,
-        y = entity.get_prop(target, "m_vecVelocity[1]") or 0,
-        z = entity.get_prop(target, "m_vecVelocity[2]") or 0
-    }
-    
-    local speed = math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y)
-    local is_crouching = bit.band(entity.get_prop(target, "m_fFlags") or 0, 4) == 4
-    local ping = client.latency() * 1000
-    
-    local movement_data = {
-        speed = speed,
-        is_crouching = is_crouching,
-        velocity = velocity
-    }
-    
-    if selected_mode == "Aggressive" and cmd then
-        local aggressive_options = ui.get(ui_elements.aggressive_options)
-        local reaction_time = ui.get(ui_elements.reaction_time) / 1000
-        
-        if contains(aggressive_options, "Early Prediction") then
-            local x, y, z = entity.get_prop(target, "m_vecOrigin")
-            if x and y and z then
-                local predicted_pos = {
-                    x = x + velocity.x * reaction_time,
-                    y = y + velocity.y * reaction_time,
-                    z = z + velocity.z * reaction_time
-                }
-                return predicted_pos
-            end
-        end
-    end
-    
-    local interp_value = calculate_advanced_interp(
-        selected_mode,
-        speed,
-        ping,
-        is_crouching,
-        movement_data
-    )
-    
-    cvar.cl_interp_ratio:set_int(2)
-    cvar.cl_interpolate:set_int(1)
-    cvar.cl_interp:set_float(interp_value)
-    
-    return {
-        interp = interp_value,
-        mode = selected_mode,
-        target_speed = speed,
-        ping = ping,
-        is_crouching = is_crouching,
-        movement_data = movement_data
-    }
-end
-
-local function draw_indicator(prediction_data)
-    if not ui.get(ui_elements.indicator) or not prediction_data then return end
-
-    local screen_width, screen_height = client.screen_size()
-    local x = screen_width / 2
-    local y = screen_height - 100
-    
-    local style = ui.get(ui_elements.indicator_style)
-    local r, g, b, a = 255, 255, 255, 255
-    
-    if prediction_data.mode == "Adaptive" then
-        r, g, b = 0, 255, 0
-    elseif prediction_data.mode == "Dynamic" then
-        r, g, b = 0, 191, 255
-    elseif prediction_data.mode == "Aggressive" then
-        r, g, b = 255, 0, 0
-    end
-    
-    if style == "Detailed" then
-        renderer.text(x, y - 30, r, g, b, a, "c", 0, "Calamity Active ✘ ")
-        renderer.text(x, y - 15, r, g, b, a, "c", 0, string.format("Mode ✘ : %s", prediction_data.mode))
-        renderer.text(x, y, r, g, b, a, "c", 0, string.format("Interp ✘ : %.6f", prediction_data.interp))
-        renderer.text(x, y + 15, r, g, b, a, "c", 0, string.format("Speed ✘ : %.1f | Ping: %dms", 
-            prediction_data.target_speed, prediction_data.ping))
-        if prediction_data.is_crouching then
-            renderer.text(x, y + 30, 255, 165, 0, a, "c", 0, "DUCK")
-        end
-    elseif style == "Simple" then
-        local status = prediction_data.is_crouching and " [DUCK]" or ""
-        renderer.text(x, y, r, g, b, a, "c", 0, 
-            string.format("PRED ✘ : %s (%.6f)%s", prediction_data.mode, prediction_data.interp, status))
-    else
-        renderer.text(x, y, r, g, b, a, "c", 0, string.format("PREDICTION ✘ : %s", prediction_data.mode))
-    end
-end
-
-client.set_event_callback("setup_command", function(cmd)
-    handle_anti_defensive(cmd)
-    local prediction_data = enhanced_prediction(cmd)
-    if prediction_data then
-        client.fire_event("prediction_update", prediction_data)
-    end
-end)
+local menu_color = ui.reference("MISC", "Settings", "Menu color")
 
 client.set_event_callback("paint", function()
-    if not ui.get(ui_elements.enable) then return end
-    local prediction_data = enhanced_prediction()
-    if prediction_data then
-        draw_indicator(prediction_data)
-        draw_defensive_indicator()
+    local r, g, b, a = ui.get(menu_color)
+end)
+
+client.color_log(149, 149, 201, corsa.."Welcome back")
+client.delay_call(2, function()
+end)
+
+local function lerp(a, b, t)
+    return a + (b - a) * t
+end
+
+local vector = require("vector")
+local y = 0
+local alpha = 150
+client.set_event_callback('paint_ui', function()
+local screen = vector(client.screen_size())
+local ladd = "Calamity Ragebot enchantements"
+local size = vector(screen.x, screen.y)
+
+local sizing = lerp(0.1, 0.9, math.sin(globals.realtime() * 0.9) * 0.5 + 0.5)
+local rotation = lerp(0, 360, globals.realtime() % 1)
+alpha = lerp(alpha, 0, globals.frametime() * 0.5)
+y = lerp(y, 20, globals.frametime() * 2)
+
+renderer.rectangle(0, 0, size.x, size.y, 13, 13, 13, alpha)
+renderer.circle_outline(screen.x/2, screen.y/2, 149, 149, 201, alpha, 20, rotation, sizing, 3)
+renderer.text(screen.x/2, screen.y/2 + 40, 149, 149, 201, alpha, 'c', 0, 'Loaded !')
+renderer.text(screen.x/2, screen.y/2 + 60, 149, 149, 201, alpha, 'c', 0, 'Welcome - '..ladd..' [BETA]')
+ end)
+
+
+
+local options = { "Head", "Chest", "Stomach" }
+local levl = {"Jitter", "Combined","Desync"}
+local topchik = {"High", "Medium", "Low"}
+
+b_2.rage = {
+    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾", ui.get(menu_color))),
+    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF• Predict Enemies •", ui.get(menu_color))),
+    predict = ui.new_checkbox("rage", "other", string.format("\v\rPredict Features by \a%02X%02X%02XFFCalamity\v\r", ui.get(menu_color))),
+    --color = ui.new_color_picker('rage', 'other', 123,51,233),
+    pingpos = ui.new_combobox("rage", "other", string.format("Latency \a%02X%02X%02XFFDepending", ui.get(menu_color)), {"High Ping > 60", "Low Ping < 45"}),
+    hitboxes = ui.new_multiselect('rage', 'other', 'Inverse Hitboxes at time-line', 'Head', 'Chest', 'Stomach'),
+    pingpos1 = ui.new_slider("rage", "other", "Attach BackTrack At", 1, 3, 1, true, "", 1, {"Head", "Chest", "Stomach"}),
+    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾", ui.get(menu_color))),
+    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF• Resolver enchantements by Calamity •", ui.get(menu_color))),
+    jittercorrectionresolvercorsas = ui.new_checkbox("rage", "other", "Jitter " .. string.format("\a%02X%02X%02XFFCorrection", ui.get(menu_color))),
+    pingpofass = ui.new_slider("rage", "other", "Correction " .. string.format("\a%02X%02X%02XFFMode", ui.get(menu_color)), 1, 3, 1, true, "", 1, {"Jitter", "Combined","Desync"}),
+    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾", ui.get(menu_color))),
+    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF• Resolver helper •", ui.get(menu_color))),
+    interesting = ui.new_checkbox('rage', 'other', string.format("\v\rJitter accuracy \a%02X%02X%02XFFboost\v\r", ui.get(menu_color))),
+    boost = ui.new_slider('rage', 'other', 'Intensive boost', 1, 3, 2, true, "", 2, {"High", "Medium", "Low"}),
+    interlude = ui.new_checkbox('rage', 'other', string.format("\v\rInterlude \a%02X%02X%02XFFAI\v\r", ui.get(menu_color)))
+}
+
+
+
+
+
+local ref = {
+    aimbot = ui.reference('RAGE', 'Aimbot', 'Enabled'),
+    doubletap = {
+        main = { ui.reference('RAGE', 'Aimbot', 'Double tap') },
+        fakelag_limit = ui.reference('RAGE', 'Aimbot', 'Double tap fake lag limit')
+    }
+}
+
+client.set_event_callback("paint", function()
+    rgba_to_hex = function(c,d,e,f)
+        return string.format('%02x%02x%02x%02x',c,d,e,f)
+    end
+  end)
+client.set_event_callback("paint", function()
+    if ui.get(b_2.rage.predict) then
+      local r,g,b = ui.get(menu_color)
+        renderer.indicator(r,g,b,255, "\a"..rgba_to_hex(r,g,b,255 * math.abs(math.cos(globals.curtime()*1))).."predict active?")
     end
 end)
 
-
-client.set_event_callback("shutdown", function()
-    cvar.cl_interp:set_float(original_values.interp)
-    cvar.cl_interp_ratio:set_int(original_values.interp_ratio)
-    cvar.cl_interpolate:set_int(original_values.interpolate)
-end)
-
-local function handle_menu_visibility()
-    local enabled = ui.get(ui_elements.enable)
-    local mode = ui.get(ui_elements.mode)
-    
-    ui.set_visible(ui_elements.mode, enabled)
-    ui.set_visible(ui_elements.indicator, enabled)
-    ui.set_visible(ui_elements.adaptive_options, enabled and (mode == "Adaptive" or mode == "Dynamic"))
-    ui.set_visible(ui_elements.min_speed, enabled and (mode == "Adaptive" or mode == "Dynamic"))
-    ui.set_visible(ui_elements.max_ping, enabled and (mode == "Adaptive" or mode == "Dynamic"))
-    ui.set_visible(ui_elements.crouch_predict, enabled)
-    ui.set_visible(ui_elements.prediction_strength, enabled)
-    ui.set_visible(ui_elements.indicator_style, enabled and ui.get(ui_elements.indicator))
-    ui.set_visible(ui_elements.reaction_time, enabled and mode == "Aggressive")
-    ui.set_visible(ui_elements.prefire, enabled and mode == "Aggressive")
-    ui.set_visible(ui_elements.aggressive_options, enabled and mode == "Aggressive")
-    ui.set_visible(ui_elements.configs, enabled)
-    ui.set_visible(ui_elements.anti_defensive, enabled)
-    ui.set_visible(ui_elements.anti_defensive_options, enabled and ui.get(ui_elements.anti_defensive))
-    ui.set_visible(ui_elements.defensive_strength, enabled and ui.get(ui_elements.anti_defensive))
-    ui.set_visible(ui_elements.defensive_indicator, enabled and ui.get(ui_elements.anti_defensive))
+--ui.set_visible
+local function checks1()
+if ui.get(b_2.rage.predict) == true then
+--ui.set_visible(b_2.rage.color, true)
+ui.set_visible(b_2.rage.pingpos, true)
+ui.set_visible(b_2.rage.pingpos1, true)
+ui.set_visible(b_2.rage.hitboxes, true)
+else
+--ui.set_visible(b_2.rage.color, false)
+ui.set_visible(b_2.rage.pingpos, false)
+ui.set_visible(b_2.rage.pingpos1, false)
+ui.set_visible(b_2.rage.hitboxes, false)
+end
 end
 
-ui.set_callback(ui_elements.enable, handle_menu_visibility)
-ui.set_callback(ui_elements.mode, handle_menu_visibility)
-ui.set_callback(ui_elements.indicator, handle_menu_visibility)
-ui.set_callback(ui_elements.anti_defensive, handle_menu_visibility)
-handle_menu_visibility()
+checks1()
+
+ui.set_callback(b_2.rage.predict, function ()
+    checks1()
+end)
+----
+local function checks2()
+if ui.get(b_2.rage.jittercorrectionresolvercorsas) == true then
+ui.set_visible(b_2.rage.pingpofass, true)
+else
+ui.set_visible(b_2.rage.pingpofass, false)
+end
+end
+
+checks2()
+
+ui.set_callback(b_2.rage.jittercorrectionresolvercorsas, function ()
+    checks2()
+end)
+---- 
+local function checks()
+if ui.get(b_2.rage.interesting) == true then
+ui.set_visible(b_2.rage.boost, true)
+else
+ui.set_visible(b_2.rage.boost, false)
+end
+end
+
+checks()
+
+to_hex = function(r, g, b, a)
+        return string.format("%02x%02x%02x%02x", r, g, b, a)
+    end
+
+ui.set_callback(b_2.rage.interesting, function ()
+    checks()
+end)
+
+predict = function()
+    local lp = entity.get_local_player()
+    if not lp then return end
+    if ui.get(b_2.rage.predict) then
+        if ui.get(b_2.rage.pingpos) == "Low" then
+            cvar.cl_interpolate:set_int(0)
+            cvar.cl_interp_ratio:set_int(1)
+
+            cvar.cl_interp:set_float(0.031000)
+
+        else
+            cvar.cl_interp:set_float(0.031000)
+            cvar.cl_interp_ratio:set_int(1)
+            cvar.cl_interpolate:set_int(0)
+        end
+    else
+        cvar.cl_interp:set_float(0.016000)
+        cvar.cl_interp_ratio:set_int(1)
+        cvar.cl_interpolate:set_int(0)
+    end
+end
+
+client.set_event_callback("setup_command", function()
+  predict()
+end)
