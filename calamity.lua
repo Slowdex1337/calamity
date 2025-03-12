@@ -552,7 +552,7 @@ local v50 =
                 v106:button(
                 v103:clr("gray") .. "\a708090FF  Discord server\r",
                 function()
-                    v37.SteamOverlayAPI.OpenExternalBrowserURL("https://discord.gg/3qgb4ZnWGj")
+                    v37.SteamOverlayAPI.OpenExternalBrowserURL("https://discord.gg/cFFR3Pzz")
                 end
             )
             v103.menu.antiaim.mode = v104:combobox(v107 .. "Anti-aim tab", {"Constructor", "Features"})
