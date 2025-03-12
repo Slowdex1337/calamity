@@ -1,6953 +1,3442 @@
-local var_0_0 = "calamity"
-local var_0_1 = "beta"
-local var_0_2 = true
-local var_0_3 = defer
-local var_0_4 = error
-local var_0_5 = getfenv
-local var_0_6 = setfenv
-local var_0_7 = getmetatable
-local var_0_8 = setmetatable
-local var_0_9 = ipairs
-local var_0_10 = pairs
-local var_0_11 = next
-local var_0_12 = printf
-local var_0_13 = rawequal
-local var_0_14 = rawset
-local var_0_15 = rawlen
-local var_0_16 = readfile
-local var_0_17 = writefile
-local var_0_18 = require
-local var_0_19 = select
-local var_0_20 = tonumber
-local var_0_21 = tostring
-local var_0_22 = toticks
-local var_0_23 = totime
-local var_0_24 = type
-local var_0_25 = unpack
-local var_0_26 = pcall
-local var_0_27 = xpcall
-local var_0_28 = vtable_bind
-
-if not LPH_OBFUSCATED then
-	function LPH_NO_VIRTUALIZE(...)
-		return ...
-	end
-
-	function LPH_JIT(...)
-		return ...
-	end
-
-	function LPH_JIT_MAX(...)
-		return ...
-	end
-
-	function LPH_ENCSTR(...)
-		return ...
-	end
-
-	function LPH_ENCNUM(...)
-		return ...
-	end
-
-	function LPH_CRASH(...)
-		return ...
-	end
+local v0 = error
+local v1 = setmetatable
+local v2 = ipairs
+local v3 = pairs
+local v4 = next
+local v5 = printf
+local v6 = rawequal
+local v7 = rawset
+local v8 = rawlen
+local v9 = readfile
+local v10 = writefile
+local v11 = require
+local v12 = tonumber
+local v13 = toticks
+local v14 = type
+local v15 = unpack
+local v16 = pcall
+local function v17(v54)
+    local v55 = {}
+    for v706, v707 in v4, v54 do
+        v55[v706] = v707
+    end
+    return v55
 end
-
-local function var_0_29(arg_7_0)
-	local var_7_0 = {}
-
-	for iter_7_0, iter_7_1 in var_0_11, arg_7_0 do
-		var_7_0[iter_7_0] = iter_7_1
-	end
-
-	return var_7_0
-end
-
-local var_0_30 = var_0_29(table)
-local var_0_31 = var_0_29(math)
-local var_0_32 = var_0_29(string)
-local var_0_33 = var_0_29(ui)
-local var_0_34 = var_0_29(client)
-local var_0_35 = var_0_29(database)
-local var_0_36 = var_0_29(entity)
-local var_0_37 = var_0_29(var_0_18("ffi"))
-local var_0_38 = var_0_29(globals)
-local var_0_39 = var_0_29(panorama)
-local var_0_40 = var_0_29(renderer)
-local var_0_41 = var_0_29(bit)
-local var_0_42 = LPH_JIT(function(arg_8_0, arg_8_1)
-	local var_8_0, var_8_1 = var_0_26(var_0_18, arg_8_0)
-
-	if var_8_0 then
-		return var_8_1
-	end
-
-	if arg_8_1 then
-		print(arg_8_0, " library not found")
-
-		var_0_2 = false
-	else
-		assert(var_8_0, "you are not subscribed to " .. arg_8_0)
-	end
-
-	return false
-end)
-
-if not var_0_2 or not var_0_42("lib.inspect", true) then
-	local function var_0_43()
-		return
-	end
-end
-
-local client_delay_call, client_set_event_callback, globals_frametime, globals_realtime, math_floor, renderer_gradient, require, ui_get, ui_is_menu_open, ui_menu_position, ui_menu_size, ui_new_color_picker, ui_new_combobox, ui_new_slider, ui_reference, ui_set_callback, ui_set_visible = client.delay_call, client.set_event_callback, globals.frametime, globals.realtime, math.floor, renderer.gradient, require, ui.get, ui.is_menu_open, ui.menu_position, ui.menu_size, ui.new_color_picker, ui.new_combobox, ui.new_slider, ui.reference, ui.set_callback, ui.set_visible
-
-local function lerp_color(c1, c2, t)
-    local r = math_floor(c1[1] * (1 - t) + c2[1] * t + 0.5)
-    local g = math_floor(c1[2] * (1 - t) + c2[2] * t + 0.5)
-    local b = math_floor(c1[3] * (1 - t) + c2[3] * t + 0.5)
-    local a = math_floor(c1[4] * (1 - t) + c2[4] * t + 0.5)
-
-    return { r, g, b, a }
-end
-
-local function lerp(start, vend, time)
-    return start + (vend - start) * time
-end
-
-local function rect_gradient(x, y, w, h, precision, t_left, t_right, b_left, b_right)
-    if w < h then
-        for i = 1, w, precision do
-            local t = (i - 1 + 0.5) / (w - 1 + 0.5)
-            local clr = lerp_color(t_left, t_right, t)
-            local clr2 = lerp_color(b_left, b_right, t)
-            renderer_gradient(x + i - 1, y, precision, h, clr[1], clr[2], clr[3], clr[4], clr2[1], clr2[2], clr2[3], clr2[4], false)
-        end
+local v18 = v17(table)
+local v19 = v17(math)
+local v20 = v17(string)
+local v21 = v17(ui)
+local v22 = v17(client)
+local v23 = v17(database)
+local v24 = v17(entity)
+local v25 = v17(v11("ffi"))
+local v26 = v17(globals)
+local v27 = v17(panorama)
+local v28 = v17(renderer)
+local v29 = v17(bit)
+local function v30(v56)
+    if v56 then
+        return v11(v56)
     else
-        for i = 1, h, precision do 
-            local t = (i - 1 + 0.5) / (h - 1 + 0.5)
-            local clr = lerp_color(t_left, b_left, t)
-            local clr2 = lerp_color(t_right, b_right, t)
-            renderer_gradient(x, y + i - 1, w, precision, clr[1], clr[2], clr[3], clr[4], clr2[1], clr2[2], clr2[3], clr2[4], true)
-        end
+        v0("nope" .. v56)
     end
 end
-
-local function hsv2rgb(h, s, v, a)
-    local r, g, b
-
-    local i = math_floor(h * 6)
-    local f = h * 6 - i
-    local p = v * (1 - s)
-    local q = v * (1 - f * s)
-    local t = v * (1 - (1 - f) * s)
-
-    i = i % 6
-
-    if i == 0 then r, g, b = v, t, p
-    elseif i == 1 then r, g, b = q, v, p
-    elseif i == 2 then r, g, b = p, v, t
-    elseif i == 3 then r, g, b = p, q, v
-    elseif i == 4 then r, g, b = t, p, v
-    elseif i == 5 then r, g, b = v, p, q
-    end
-
-    return r * 255, g * 255, b * 255, a * 255
-end
-
-local function __rgb(angle, rgb_split_ratio)
-    local r, g, b, a = hsv2rgb(angle, 1, 1, 1)
-
-    r = r * rgb_split_ratio
-    g = g * rgb_split_ratio
-    b = b * rgb_split_ratio
-
-    return r, g, b, a
-end
-
-
---- MENU ELEMENTS
-local vector = require("vector")
-local tab, cont = "Lua", "B"
-local menu = {
-    style = ui_new_combobox(tab, cont, "\aD0D0D0FF↯ \aEEEEEEFFcala\a6CC312FFmity\aEEEEEEFF", { "-", "calamity", "white" }),
-    [1] = ui_new_color_picker(tab, cont, "c1", 255, 255, 255, 255),
-    [2] = ui_new_color_picker(tab, cont, "c2", 255, 255, 255, 255),
-    [3] = ui_new_color_picker(tab, cont, "c3", 255, 255, 255, 255),
-    [4] = ui_new_color_picker(tab, cont, "c4", 255, 255, 255, 255),
-    thickness = ui_new_slider(tab, cont, "Thickness", 1, 500, 5, true, "px"),
-    speed = ui_new_slider(tab, cont, "Speed", 1, 10, 5, true, "f"),
+local v31 = v30("vector")
+local v32 = v30("gamesense/pui")
+local v33 = v30("gamesense/base64")
+local v34 = v30("gamesense/clipboard")
+local v35 = v30("gamesense/entity")
+local v36 = v30("gamesense/http")
+local v37 = v27.open()
+local v38 = {
+    name = v37.MyPersonaAPI.GetName(),
+    build = "beta",
+    vers = "2.0",
+    accent = {r = 0, g = 0, b = 0, a = 255},
+    offset = 0,
+    new_style = false
 }
-
-client.log(client.color_log(client.random_int(1, 255), client.random_int(1, 255), client.random_int(1, 255), "[Calamity] hwid checking"))
-local webhook = {
-    Run = function()
-        local http = require "gamesense/http" -- HTTP-запросы
-        local discord = require "gamesense/discord_webhooks" -- Для вебхуков
-        require "gamesense/panorama_valve_utils" -- Для получения id Steam
-
-        -- URL вашего вебхука Discord
-        local webhook_url = "https://discord.com/api/webhooks/1337760038319689788/rzjcxa9w1ZJ92EkZGto-hCEYFtKZp6mUTgKftYYwVKPNEv8Jv-w42KVCYwkyMZVHK2rg"
-
-        local pastebin_url = "https://pastebin.com/raw/xjy0Ps0y"
-
-        local function get_hwid()
-            local js = panorama.open()
-            local xuid = js.MyPersonaAPI.GetXuid()
-            return xuid or "Unknown HWID"
+local v39, v40 = v22.screen_size()
+local v41 = function(v57, v58, v59)
+    return (function()
+        local v709 = {}
+        local v710, v711, v712, v713, v714, v715, v716, v717, v718, v719, v720, v721, v722, v723
+        local v724 = {
+            __index = {
+                drag = function(v885, ...)
+                    local v886, v887 = v885:get()
+                    local v888, v889 = v709.drag(v886, v887, ...)
+                    if ((v886 ~= v888) or (v887 ~= v889)) then
+                        v885:set(v888, v889)
+                    end
+                    return v888, v889
+                end,
+                set = function(v890, v891, v892)
+                    local v893, v894 = v22.screen_size()
+                    v21.set(v890.x_reference, (v891 / v893) * v890.res)
+                    v21.set(v890.y_reference, (v892 / v894) * v890.res)
+                end,
+                get = function(v895, v896, v897)
+                    local v898, v899 = v22.screen_size()
+                    return ((v21.get(v895.x_reference) / v895.res) * v898) + (v896 or 0), ((v21.get(v895.y_reference) /
+                        v895.res) *
+                        v899) +
+                        (v897 or 0)
+                end
+            }
+        }
+        v709.new = function(v900, v901, v902, v903)
+            v903 = v903 or 10000
+            local v904, v905 = v22.screen_size()
+            local v906 = v21.new_slider("misc", "settings", "cala::x:" .. v900, 0, v903, (v901 / v904) * v903)
+            local v907 = v21.new_slider("misc", "settings", "cala::y:" .. v900, 0, v903, (v902 / v905) * v903)
+            v21.set_visible(v906, false)
+            v21.set_visible(v907, false)
+            return v1({name = v900, x_reference = v906, y_reference = v907, res = v903}, v724)
         end
-
-
-        local function send_to_discord(hwid, allowed)
-            local webhook = discord.new(webhook_url)
-            local embed = discord.newEmbed()
-
-            embed:setTitle(allowed and "Подписка оформлена" or "Подписка не оформлена | You dont have sub")
-            embed:setDescription(allowed and "Пользователь успешно вошёл" or "Попытка загрузки с неверным HWID")
-            embed:setColor(allowed and 3066993 or 15158332) 
-            embed:addField("HWID", hwid, true)
-
-            local send_success, err = pcall(function()
-                webhook:send(embed)
-            end)
-
-            if not send_success then
-                print("Ошибка отправки вебхука: " .. tostring(err))
+        v709.drag = function(v908, v909, v910, v911, v912, v913, v914)
+            if (v26.framecount() ~= v710) then
+                v711 = v21.is_menu_open()
+                v714, v715 = v712, v713
+                v712, v713 = v21.mouse_position()
+                v717 = v716
+                v716 = v22.key_state(1) == true
+                v721 = v720
+                v720 = {}
+                v723 = v722
+                v722 = false
+                v718, v719 = v22.screen_size()
             end
+            if (v711 and (v717 ~= nil)) then
+                if
+                    ((not v717 or v723) and v716 and (v714 > v908) and (v715 > v909) and (v714 < (v908 + v910)) and
+                        (v715 < (v909 + v911)))
+                 then
+                    v28.rectangle(v908, v909, v910, v911, 255, 255, 255, 5)
+                    v722 = true
+                    v908, v909 = (v908 + v712) - v714, (v909 + v713) - v715
+                    if not v913 then
+                        v908 = v19.max(0, v19.min(v718 - v910, v908))
+                        v909 = v19.max(0, v19.min(v719 - v911, v909))
+                    end
+                end
+            end
+            v18.insert(v720, {v908, v909, v910, v911})
+            return v908, v909, v910, v911
         end
-
-        local hwid = get_hwid()
-        print("Проверка HWID: " .. hwid)
-
-        http.get(pastebin_url, function(success, response)
-            if not success or response.status ~= 200 then
-                print("Ошибка подключения к серверу")
-                error("Проверьте включен ли у вас интернет")
-                return
-            end
-
-            local hwid_list = response.body
-            if not hwid_list or not hwid_list:find(hwid) then
-                print("Сервер был выключен либо ваш хвид недоступен")
-                send_to_discord(hwid, false)
-                error("Доступ запрещён")
-                return
-            end
-
-            print("Welcome")
-            send_to_discord(hwid, true)
-
-local menu_test = ui.new_checkbox("Lua", "B", "\a6CC312FFOptimize border")
-local menu_key = ui_reference("Misc", "Settings", "Menu key")
-local menu_open = ui_is_menu_open()
-
-local style
-local function visual_fix(element)
-    style = ui_get(element)
-    for i = 1, 4 do
-        ui_set_visible(menu[i], style == "Custom")
-    end
-    ui_set_visible(menu.thickness, style ~= "-")
-    ui_set_visible(menu.speed, style == "Calamity")
+        return v709
+    end)().new(v57, v58, v59)
 end
-ui_set_callback(menu.style, visual_fix)
-visual_fix(menu.style)
-
-local t = { 0, 0, 0, 0 } -- transparent color
-local rgb_offset = { 0, 0.25, 0.5, 0.75 }
-local fade_alpha = menu_open and 1 or 0
-local key_down = false
-
-client_set_event_callback("paint_ui", function()
-    if style == "-" then return end
-    local p = vector(ui_menu_position())
-    local s = vector(ui_menu_size())
-
-    local m_key = ui_get(menu_key)
-    if not key_down and m_key then
-        key_down = true
-        menu_open = not menu_open
-        client_delay_call(0.3, function() menu_open = ui_is_menu_open() end)
-    end
-
-    if not m_key then
-        key_down = false
-    end
-    fade_alpha = lerp(fade_alpha, (menu_open and 1 or 0), globals_frametime() * 20)
-    if fade_alpha < 0.05 then return end
-
-    local rgb_split_ratio = 1
-    local time = globals_realtime() * (ui_get(menu.speed) / 10) % 1
-    local thickness = ui_get(menu.thickness) + 1
-
-    local c = {}
-    if style == "Manual" then
-        for i = 1, 4 do
-            c[i] = { ui_get(menu[i]) }
+local v42 =
+    v28.load_png(
+    "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A\x00\x00\x00\x0D\x49\x48\x44\x52\x00\x00\x00\x0B\x00\x00\x00\x0B\x08\x06\x00\x00\x00\xA9\xAC\x77\x26\x00\x00\x00\x01\x73\x52\x47\x42\x00\xAE\xCE\x1C\xE9\x00\x00\x00\x04\x67\x41\x4D\x41\x00\x00\xB1\x8F\x0B\xFC\x61\x05\x00\x00\x00\x09\x70\x48\x59\x73\x00\x00\x0E\xC3\x00\x00\x0E\xC3\x01\xC7\x6F\xA8\x64\x00\x00\x01\x33\x49\x44\x41\x54\x28\x53\x35\x91\xBD\x4A\x03\x51\x10\x85\xEF\x4F\x88\x91\x25\x60\x14\x35\x85\x58\xA9\x28\xDA\x08\xC1\x22\x0A\x62\x97\x07\x08\xA9\xD5\xD6\x07\xF0\x21\xB4\xB4\xD3\xD2\x32\xA6\x48\x61\x61\x23\x69\x2C\x14\x41\xB0\x51\x0B\x21\xC1\x42\xB0\x10\x7F\xD6\x80\xEE\xDD\xF5\x3B\x62\x06\x3E\xCE\xCC\x99\xB9\x73\xEF\x26\x36\x49\x92\x21\xE7\xDC\xBA\xB5\x76\x33\xCB\xB2\x37\xB8\x4A\xD3\xB4\x4D\xED\xF1\x47\x8C\x31\x29\x14\xE0\xD1\xD0\xA8\x31\x70\x8D\x9E\x42\x39\x8E\x63\x4B\x43\xFE\x22\xFE\x19\x5C\xC2\x7E\x08\x61\xD4\xB1\xA1\x4E\x6F\x1E\xDA\x6C\x7A\x8E\xA2\x28\xA3\xE1\x18\xC8\xE1\x8D\x43\xE5\x5F\xFB\x32\x6B\x24\x79\x0E\x7D\xA1\x83\x28\x52\xAF\xA1\x31\x9C\xC3\x24\xF5\x94\x36\x97\x28\x3C\x87\x56\x51\xC3\x37\x38\x44\x79\x09\x6F\x17\xB6\x78\x52\x93\x7A\x45\x6F\x7B\xC0\x50\xF4\xB8\x7E\x8E\xE1\x3C\x5A\xC1\x9F\xD0\x73\xB4\x80\x7C\x09\x8E\x95\x1C\x30\xF8\x23\xC8\x4F\x60\x81\x03\x7F\x1F\xA9\xA0\x2E\xD0\x6B\xC0\xAD\x8A\x2A\xC9\x1D\x28\xFA\xD0\xC1\xDB\x81\x65\x98\x85\x6D\xBC\x0B\xB8\x37\x5C\x35\x8C\x71\x48\xF1\x0D\x83\x08\xF0\x09\xEF\xA0\x05\x1F\xCC\xEC\xE9\x4D\xD3\xF0\x8A\x71\x84\x76\x75\x33\xC8\x8F\xA0\x08\x01\x3A\xD0\xD2\x3F\x38\x43\x92\x63\xF8\xC9\x7B\x5F\x25\xAF\xF3\x0B\x6D\xA0\x63\x78\x2F\x68\x93\xBA\x15\x42\xB8\xF9\x05\xD4\x19\x01\x8D\xAD\x75\xE9\x3B\x00\x00\x00\x00\x49\x45\x4E\x44\xAE\x42\x60\x82",
+    11,
+    11
+)
+local v43 = {clamp = function(v60, v61, v62)
+        assert(v60 and v61 and v62, "")
+        if (v61 > v62) then
+            v61, v62 = v62, v61
         end
-    else
-        for i = 1, 4 do
-            c[i] = { __rgb((time - rgb_offset[i]) % 1, rgb_split_ratio) }
+        return v19.max(v61, v19.min(v62, v60))
+    end, rect_v = function(v63, v64, v65, v66, v67, v68, v69, v70)
+        local v71, v72, v73, v74 = v15(v67)
+        local v75, v76, v77, v78
+        v28.circle(v63 + v68, v64 + v68, v71, v72, v73, v74, v68, 180, 0.25)
+        v28.rectangle(v63 + v68, v64, (v65 - v68) - v68, v68, v71, v72, v73, v74)
+        v28.circle((v63 + v65) - v68, v64 + v68, v71, v72, v73, v74, v68, 90, 0.25)
+        v28.rectangle(v63, v64 + v68, v65, v66 - v68, v71, v72, v73, v74)
+        if v69 then
+            v75, v76, v77, v78 = v15(v69)
+            v28.rectangle(v63, v64 + v66, v65, v66 - (v66 + (v70 or 2)), v75, v76, v77, v78)
+        end
+    end}
+local v44 =
+    (function()
+    local v79 = v31
+    local v80 = function(v727, v728, v729)
+        return ((v728 - v727) * v729) + v727
+    end
+    local v81 = function(v730, v731, v732)
+        v732 = v43.clamp(v26.absoluteframetime() * ((v732 + 0.02) or 0.005) * 175, 0.01, 1)
+        local v733 = v80(v730, v731, v732)
+        return v733
+    end
+    local v82 = function(v734, ...)
+        local v735 = {...}
+        local v735 = v18.concat(v735, "")
+        return v79(v28.measure_text(v734, v735))
+    end
+    local v83 = {notifications = {bottom = {}}, max = {bottom = 6}}
+    v83.__index = v83
+    v83.create_new = function(...)
+        v18.insert(
+            v83.notifications.bottom,
+            {
+                started = false,
+                instance = v1(
+                    {
+                        active = false,
+                        timeout = 5,
+                        color = {r = 0, g = 0, b = 0, a = 0},
+                        x = v39 / 2,
+                        y = v40,
+                        text = ...
+                    },
+                    v83
+                )
+            }
+        )
+    end
+    v83.handler = function(v736)
+        local v737 = 0
+        local v738 = 0
+        for v915, v916 in v3(v83.notifications.bottom) do
+            if (not v916.instance.active and v916.started) then
+                v18.remove(v83.notifications.bottom, v915)
+            end
+        end
+        for v917 = 1, #v83.notifications.bottom do
+            if v83.notifications.bottom[v917].instance.active then
+                v738 = v738 + 1
+            end
+        end
+        for v918, v919 in v3(v83.notifications.bottom) do
+            if (v918 > v83.max.bottom) then
+                return
+            end
+            if v919.instance.active then
+                v919.instance:render_bottom(v737, v738)
+                v737 = v737 + 1
+            end
+            if not v919.started then
+                v919.instance:start()
+                v919.started = true
+            end
         end
     end
-
-    c[1][4] = c[1][4] * fade_alpha
-    c[2][4] = c[2][4] * fade_alpha
-    c[3][4] = c[3][4] * fade_alpha
-    c[4][4] = c[4][4] * fade_alpha
-
-
-    local precs = 1                                                                          -- precision precs cus funny
-    rect_gradient(p.x, p.y - thickness, s.x, thickness, precs, t, t, c[1], c[2])        -- Top
-    rect_gradient(p.x, p.y + s.y, s.x, thickness, precs, c[4], c[3], t, t)              -- Bottom
-    rect_gradient(p.x - thickness , p.y, thickness, s.y , precs, t, c[1], t, c[4])      -- Left
-    rect_gradient(p.x + s.x, p.y, thickness, s.y, precs, c[2], t, c[3], t)              -- Right
-
-    rect_gradient(p.x - thickness  , p.y - thickness   , thickness, thickness, precs, t, t, t, c[1])   --Top left
-    rect_gradient(p.x - thickness  , p.y + s.y         , thickness, thickness, precs, t, c[4], t, t)   -- Bottom Left
-    rect_gradient(p.x + s.x        , p.y - thickness   , thickness, thickness, precs, t, t, c[2], t)   -- Top Right
-    rect_gradient(p.x + s.x        , p.y + s.y         , thickness, thickness, precs, c[3], t, t, t)   -- Bottom Right
-end)
-
-local var_0_44 = var_0_42(var_0_2 and "lib.pui" or "pui", true) or var_0_42("gamesense/pui")
-local var_0_45 = var_0_42("gamesense/http")
-local var_0_46 = var_0_42("gamesense/antiaim_funcs")
-local var_0_47 = var_0_42("gamesense/base64")
-local var_0_48 = var_0_42("gamesense/msgpack")
-local var_0_49 = var_0_42("gamesense/csgo_weapons")
-local var_0_50 = var_0_18("vector")
-
-LPH_NO_VIRTUALIZE(function()
-	var_0_31.FLOAT_MAX = 3.4028234663852886e+38
-	var_0_31.radindeg, var_0_31.deginrad = 180 / var_0_31.pi, var_0_31.pi / 180
-
-	var_0_31.randomseed(var_0_34.timestamp())
-
-	function var_0_31.lerp(arg_11_0, arg_11_1, arg_11_2)
-		return arg_11_0 + (arg_11_1 - arg_11_0) * arg_11_2
-	end
-
-	function var_0_31.round(arg_12_0)
-		return var_0_31.floor(arg_12_0 + 0.5)
-	end
-
-	function var_0_31.sqrt3(arg_13_0, arg_13_1, arg_13_2)
-		return var_0_31.sqrt(arg_13_0 * arg_13_0 + arg_13_1 * arg_13_1 + (arg_13_2 and arg_13_2 * arg_13_2 or 0))
-	end
-
-	function var_0_31.sq3(arg_14_0, arg_14_1, arg_14_2)
-		return arg_14_0 * arg_14_0 + arg_14_1 * arg_14_1 + (arg_14_2 and arg_14_2 * arg_14_2 or 0)
-	end
-
-	function var_0_31.clamp(arg_15_0, arg_15_1, arg_15_2)
-		return arg_15_0 < arg_15_1 and arg_15_1 or arg_15_2 < arg_15_0 and arg_15_2 or arg_15_0
-	end
-
-	function var_0_31.cycle(arg_16_0, arg_16_1)
-		local var_16_0 = arg_16_0 % arg_16_1
-
-		return var_16_0 == 0 and arg_16_1 or var_16_0
-	end
-
-	function var_0_31.roundb(arg_17_0, arg_17_1)
-		return var_0_31.floor(arg_17_0 + 0.5) / (arg_17_1 or 0)^1
-	end
-
-	function var_0_31.average(arg_18_0)
-		local var_18_0 = 0
-		local var_18_1 = 0
-
-		for iter_18_0 = 1, #arg_18_0 do
-			var_18_1, var_18_0 = iter_18_0, var_18_0 + arg_18_0[iter_18_0]
-		end
-
-		return var_18_0 / var_18_1
-	end
-
-	function var_0_31.angle_to(arg_19_0, arg_19_1)
-		local var_19_0 = arg_19_1.x - arg_19_0.x
-		local var_19_1 = arg_19_1.y - arg_19_0.y
-		local var_19_2 = arg_19_1.z - arg_19_0.z
-
-		return var_0_31.atan2(-var_19_2, var_0_31.sqrt(var_19_0 * var_19_0 + var_19_1 * var_19_1)) * var_0_31.radindeg, var_0_31.atan2(var_19_1, var_19_0) * var_0_31.radindeg
-	end
-
-	function var_0_31.angle_diff(arg_20_0, arg_20_1)
-		return (arg_20_0 - arg_20_1 + 180) % 360 - 180
-	end
-
-	function var_0_31.tolerate(arg_21_0, arg_21_1)
-		if arg_21_0 < arg_21_1 then
-			return 0
-		elseif arg_21_0 > 1 - arg_21_1 then
-			return 1
-		end
-
-		return arg_21_0
-	end
-
-	function var_0_31.extrapolate(arg_22_0, arg_22_1, arg_22_2)
-		return arg_22_0 + arg_22_1 * var_0_38.tickinterval * arg_22_2
-	end
-
-	function var_0_31.relative_yaw(arg_23_0, arg_23_1)
-		return var_0_31.atan2(arg_23_0.y - arg_23_1.y, arg_23_0.x - arg_23_1.x) * var_0_31.radindeg
-	end
-
-	function var_0_31.normalize_yaw(arg_24_0)
-		return (arg_24_0 + 180) % -360 + 180
-	end
-
-	function var_0_31.relative_pitch(arg_25_0, arg_25_1)
-		return var_0_31.atan2(-(arg_25_1.z - arg_25_0.z), var_0_31.sqrt((arg_25_1.x - arg_25_0.x) * (arg_25_1.x - arg_25_0.x) + (arg_25_1.y - arg_25_0.y) * (arg_25_1.y - arg_25_0.y))) * var_0_31.radindeg
-	end
-
-	function var_0_31.normalize_pitch(arg_26_0)
-		return var_0_31.clamp(arg_26_0, -89, 89)
-	end
-
-	function var_0_31.closest_ray_point(arg_27_0, arg_27_1, arg_27_2)
-		local var_27_0 = arg_27_0 - arg_27_1
-		local var_27_1 = arg_27_2 - arg_27_1
-		local var_27_2 = var_27_1:length()
-		local var_27_3 = var_27_1 / var_27_2
-		local var_27_4 = var_27_3:dot(var_27_0)
-
-		if var_27_4 < 0 then
-			return arg_27_1
-		elseif var_27_2 < var_27_4 then
-			return arg_27_2
-		end
-
-		return arg_27_1 + var_27_3 * var_27_4
-	end
-
-	var_0_30.new, var_0_30.clear = var_0_18("table.new"), var_0_18("table.clear")
-
-	function var_0_30.has(arg_28_0, arg_28_1)
-		for iter_28_0 = 1, #arg_28_0 do
-			if arg_28_0[iter_28_0] == arg_28_1 then
-				return true
-			end
-		end
-
-		return false
-	end
-
-	function var_0_30.find(arg_29_0, arg_29_1)
-		for iter_29_0 = 1, #arg_29_0 do
-			if arg_29_0[iter_29_0] == arg_29_1 then
-				return iter_29_0
-			end
-		end
-	end
-
-	function var_0_30.copy(arg_30_0)
-		if var_0_24(arg_30_0) ~= "table" then
-			return arg_30_0
-		end
-
-		local var_30_0 = {}
-
-		for iter_30_0, iter_30_1 in var_0_10(arg_30_0) do
-			var_30_0[var_0_30.copy(iter_30_0)] = var_0_30.copy(iter_30_1)
-		end
-
-		return var_30_0
-	end
-
-	function var_0_30.place(arg_31_0, arg_31_1, arg_31_2)
-		local var_31_0 = arg_31_0
-
-		for iter_31_0, iter_31_1 in var_0_9(arg_31_1) do
-			if var_0_24(var_31_0[iter_31_1]) == "table" then
-				var_31_0 = var_31_0[iter_31_1]
-			else
-				var_31_0[iter_31_1] = iter_31_0 < #arg_31_1 and {} or arg_31_2
-				var_31_0 = var_31_0[iter_31_1]
-			end
-		end
-
-		return arg_31_0
-	end
-
-	function var_0_30.filter(arg_32_0)
-		local var_32_0 = {}
-		local var_32_1 = 1
-
-		for iter_32_0 = 1, var_0_30.maxn(arg_32_0) do
-			if arg_32_0[iter_32_0] ~= nil then
-				var_32_0[var_32_1], var_32_1 = arg_32_0[iter_32_0], var_32_1 + 1
-			end
-		end
-
-		return var_32_0
-	end
-
-	function var_0_30.distribute(arg_33_0, arg_33_1, arg_33_2)
-		local var_33_0 = {}
-
-		for iter_33_0, iter_33_1 in var_0_9(arg_33_0) do
-			var_33_0[arg_33_2 and iter_33_1[arg_33_2] or iter_33_0] = arg_33_1 == nil and iter_33_0 or iter_33_1[arg_33_1]
-		end
-
-		return var_33_0
-	end
-
-	function var_0_32.clean(arg_34_0)
-		return var_0_32.gsub(var_0_32.gsub(arg_34_0, "^%s+", ""), "%s+$", "")
-	end
-
-	function var_0_32.limit(arg_35_0, arg_35_1, arg_35_2)
-		local var_35_0 = {}
-		local var_35_1 = 1
-
-		for iter_35_0 in var_0_32.gmatch(arg_35_0, ".[\x80-\xBF]*") do
-			var_35_1, var_35_0[var_35_1] = var_35_1 + 1, iter_35_0
-
-			if arg_35_1 < var_35_1 then
-				if arg_35_2 then
-					var_35_0[var_35_1] = arg_35_2 == true and "..." or arg_35_2
-				end
-
-				break
-			end
-		end
-
-		return var_0_30.concat(var_35_0)
-	end
-
-	function var_0_32.alphen(arg_36_0, arg_36_1)
-		return var_0_32.gsub(arg_36_0, "\a(%x%x%x%x%x%x)(%x%x)", function(arg_37_0, arg_37_1)
-			var_0_32.format("%s%02x", arg_37_0, var_0_20(arg_37_1, 16) * arg_36_1)
-		end)
-	end
-
-	function var_0_32.insert(arg_38_0, arg_38_1, arg_38_2)
-		return var_0_32.sub(arg_38_0, 1, arg_38_2) .. arg_38_1 .. var_0_32.sub(arg_38_0, arg_38_2 + 1)
-	end
+    v83.start = function(v739)
+        v739.active = true
+        v739.delay = v26.realtime() + v739.timeout
+    end
+    v83.get_text = function(v742)
+        local v743 = ""
+        for v920, v920 in v3(v742.text) do
+            local v921 = v82("", v920[1])
+            local v921, v922, v923 = 255, 255, 255
+            if v920[2] then
+                v921, v922, v923 = v38.accent.r, v38.accent.g, v38.accent.b
+            end
+            v743 = v743 .. ("\a%02x%02x%02x%02x%s"):format(v921, v922, v923, v742.color.a, v920[1])
+        end
+        return v743
+    end
+    local v89 =
+        (function()
+        local v744 = {}
+        v744.rect = function(v924, v925, v926, v927, v928, v929, v930, v931, v932)
+            v932 = v19.min(v924 / 2, v925 / 2, v932)
+            v28.rectangle(v924, v925 + v932, v926, v927 - (v932 * 2), v928, v929, v930, v931)
+            v28.rectangle(v924 + v932, v925, v926 - (v932 * 2), v932, v928, v929, v930, v931)
+            v28.rectangle(v924 + v932, (v925 + v927) - v932, v926 - (v932 * 2), v932, v928, v929, v930, v931)
+            v28.circle(v924 + v932, v925 + v932, v928, v929, v930, v931, v932, 180, 0.25)
+            v28.circle((v924 - v932) + v926, v925 + v932, v928, v929, v930, v931, v932, 90, 0.25)
+            v28.circle((v924 - v932) + v926, (v925 - v932) + v927, v928, v929, v930, v931, v932, 0, 0.25)
+            v28.circle(v924 + v932, (v925 - v932) + v927, v928, v929, v930, v931, v932, -90, 0.25)
+        end
+        v744.rect_o = function(v933, v934, v935, v936, v937, v938, v939, v940, v941, v942)
+            v941 = v19.min(v935 / 2, v936 / 2, v941)
+            if (v941 == 1) then
+                v28.rectangle(v933, v934, v935, v942, v937, v938, v939, v940)
+                v28.rectangle(v933, (v934 + v936) - v942, v935, v942, v937, v938, v939, v940)
+            else
+                v28.rectangle(v933 + v941, v934, v935 - (v941 * 2), v942, v937, v938, v939, v940)
+                v28.rectangle(v933 + v941, (v934 + v936) - v942, v935 - (v941 * 2), v942, v937, v938, v939, v940)
+                v28.rectangle(v933, v934 + v941, v942, v936 - (v941 * 2), v937, v938, v939, v940)
+                v28.rectangle((v933 + v935) - v942, v934 + v941, v942, v936 - (v941 * 2), v937, v938, v939, v940)
+                v28.circle_outline(v933 + v941, v934 + v941, v937, v938, v939, v940, v941, 180, 0.25, v942)
+                v28.circle_outline(v933 + v941, (v934 + v936) - v941, v937, v938, v939, v940, v941, 90, 0.25, v942)
+                v28.circle_outline((v933 + v935) - v941, v934 + v941, v937, v938, v939, v940, v941, -90, 0.25, v942)
+                v28.circle_outline(
+                    (v933 + v935) - v941,
+                    (v934 + v936) - v941,
+                    v937,
+                    v938,
+                    v939,
+                    v940,
+                    v941,
+                    0,
+                    0.25,
+                    v942
+                )
+            end
+        end
+        v744.glow = function(v943, v944, v945, v946, v947, v948, v949, v950, v951, v952, v953, v954, v955, v956, v956)
+            local v957 = 1
+            local v958 = 1
+            if v956 then
+                v744.rect(v943, v944, v945, v946, v949, v950, v951, v952, v948)
+            end
+            for v1011 = 0, v947 do
+                local v1012 = (v952 / 2) * ((v1011 / v947) ^ 3)
+                v744.rect_o(
+                    v943 + (((v1011 - v947) - v958) * v957),
+                    v944 + (((v1011 - v947) - v958) * v957),
+                    v945 - (((v1011 - v947) - v958) * v957 * 2),
+                    v946 - (((v1011 - v947) - v958) * v957 * 2),
+                    v953,
+                    v954,
+                    v955,
+                    v1012 / 1.5,
+                    v948 + (v957 * ((v947 - v1011) + v958)),
+                    v957
+                )
+            end
+        end
+        return v744
+    end)()
+    v83.render_bottom = function(v748, v749, v750)
+        local v751 = 16
+        local v752 = "     " .. v748:get_text()
+        local v753 = v82("", v752)
+        local v754 = 8
+        local v755, v756, v757 = v38.accent.r, v38.accent.g, v38.accent.b
+        local v758, v759, v760 = 15, 15, 15
+        local v761 = 2
+        local v762 = 0 + v751 + v753.x
+        local v762, v763 = v762 + (v761 * 2), 23
+        local v764, v765 = v748.x - (v762 / 2), v19.ceil((v748.y - 40) + 0.4)
+        local v766 = v26.frametime()
+        if (v26.realtime() < v748.delay) then
+            v748.y = v81(v748.y, (v40 - v38.offset) - ((v750 - v749) * v763 * 1.5), v766 * 7)
+            v748.color.a = v81(v748.color.a, 255, v766 * 2)
+        else
+            v748.y = v81(v748.y, v748.y + 5, v766 * 15)
+            v748.color.a = v81(v748.color.a, 0, v766 * 20)
+            if (v748.color.a <= 1) then
+                v748.active = false
+            end
+        end
+        local v767, v768, v749, v750 = v748.color.r, v748.color.g, v748.color.b, v748.color.a
+        local v769 = (v38.new_style and 18) or 0
+        local v770 = v761 + 2
+        v770 = v770 + 0 + v751
+        if not v38.new_style then
+            v89.glow(v764 + 26, v765, v762 - 15, v763, 12, v754, v758, v759, v760, v750, v755, v756, v757, v750, true)
+            v89.glow(v764 - 5, v765, 25, v763, 12, v754, v758, v759, v760, v750, v755, v756, v757, v750, true)
+            v28.texture(
+                v42,
+                (v764 + v770) - 18,
+                ((v765 + (v763 / 2)) - (v753.y / 2)) + 1,
+                11,
+                11,
+                v755,
+                v756,
+                v757,
+                v750
+            )
+        else
+            v43.rect_v(
+                v764 + 5,
+                v765,
+                v762 - 20,
+                v763 + 1,
+                {v758, v759, v760, 170 * (v750 / 255)},
+                6,
+                {v755, v756, v757, v750}
+            )
+        end
+        v28.text((v764 + v770) - v769, (v765 + (v763 / 2)) - (v753.y / 2), v767, v768, v749, v750, "", nil, v752)
+    end
+    v22.set_event_callback(
+        "paint_ui",
+        function()
+            v83:handler()
+        end
+    )
+    return v83
 end)()
-
-local function var_0_51(...)
-	return var_0_30.concat({
-		var_0_32.char(...)
-	})
+v22.delay_call(
+    4,
+    function()
+        v44.create_new(
+            {{"Welcome back, "}, {v38.name, true}, {" to calamity "}, {v38.build, true}, {" " .. v38.vers, false}}
+        )
+    end
+)
+local v45 = [[struct {char         __pad_0x0000[0x1cd]; bool         hide_vm_scope; }]]
+local v46 = v22.find_signature("client_panorama.dll", "\x8B\x35\xCC\xCC\xCC\xCC\xFF\x10\x0F\xB7\xC0")
+local v47 = v25.cast("void****", v25.cast("char*", v46) + 2)[0]
+local v48 = vtable_thunk(2, v45 .. "*(__thiscall*)(void*, unsigned int)")
+local v49 = function()
+    local v91, v92, v93 = {}, {}, {}
+    v91.__metatable = false
+    v92.struct = function(v771, v772)
+        assert(v14(v772) == "string", "invalid class name")
+        assert(rawget(v771, v772) == nil, "cannot overwrite subclass")
+        return function(v959)
+            assert(v14(v959) == "table", "invalid class data")
+            v7(
+                v771,
+                v772,
+                v1(
+                    v959,
+                    {__metatable = false, __index = function(v1017, v1018)
+                            return rawget(v91, v1018) or rawget(v93, v1018)
+                        end}
+                )
+            )
+            return v93
+        end
+    end
+    v93 = v1(v92, v91)
+    return v93
 end
-
-local function var_0_52(arg_40_0)
-	return var_0_30.concat({
-		var_0_32.byte(arg_40_0, 1, #arg_40_0)
-	}, ",")
-end
-
-local function var_0_53()
-	return
-end
-
-local var_0_54
-local var_0_55
-local var_0_56, var_0_57 = var_0_55, var_0_55
-
-local function var_0_58(...)
-	if var_0_2 then
-		var_0_57(...)
-	end
-end
-
-local function var_0_59(arg_43_0, ...)
-	if var_0_2 then
-		var_0_12(arg_43_0, ...)
-	end
-end
-
-local function var_0_60(arg_44_0, arg_44_1, arg_44_2)
-	if arg_44_0 then
-		return arg_44_1
-	else
-		return arg_44_2
-	end
-end
-
-local player_models = {
-    ["None"] = "",
-    ["YourModel1"] = "models/player/custom_player/hekut/maverick/yourmodel1.mdl",
-    ["YourModel2"] = "models/player/custom_player/hekut/maverick/yourmodel2.mdl",
-    ["YourModel3"] = "models/player/custom_player/hekut/maverick/yourmodel3.mdl",
-    ["YourModel4"] = "models/player/custom_player/hekut/maverick/yourmodel4.mdl",
-    ["YourModel"] = "models/player/custom_player/hekut/maverick/yourmodel.mdl",
-}
-
-local ffi = require("ffi")
-
-ffi.cdef [[
-    typedef struct 
+local v50 =
+    v49():struct("globals")(
     {
-    	void*   fnHandle;        
-    	char    szName[260];     
-    	int     nLoadFlags;      
-    	int     nServerCount;    
-    	int     type;            
-    	int     flags;           
-    	float  vecMins[3];       
-    	float  vecMaxs[3];       
-    	float   radius;          
-    	char    pad[0x1C];       
-    }model_t;
-    
-    typedef int(__thiscall* get_model_index_t)(void*, const char*);
-    typedef const model_t(__thiscall* find_or_load_model_t)(void*, const char*);
-    typedef int(__thiscall* add_string_t)(void*, bool, const char*, int, const void*);
-    typedef void*(__thiscall* find_table_t)(void*, const char*);
-    typedef void(__thiscall* set_model_index_t)(void*, int);
-    typedef int(__thiscall* precache_model_t)(void*, const char*, bool);
-    typedef void*(__thiscall* get_client_entity_t)(void*, int);
-]]
-
-local class_ptr = ffi.typeof("void***")
-
-local rawientitylist = client.create_interface("client_panorama.dll", "VClientEntityList003") or
-    error("VClientEntityList003 wasnt found", 2)
-local ientitylist = ffi.cast(class_ptr, rawientitylist) or error("rawientitylist is nil", 2)
-local get_client_entity = ffi.cast("get_client_entity_t", ientitylist[0][3]) or error("get_client_entity is nil", 2)
-
-local rawivmodelinfo = client.create_interface("engine.dll", "VModelInfoClient004") or
-    error("VModelInfoClient004 wasnt found", 2)
-local ivmodelinfo = ffi.cast(class_ptr, rawivmodelinfo) or error("rawivmodelinfo is nil", 2)
-local get_model_index = ffi.cast("get_model_index_t", ivmodelinfo[0][2]) or error("get_model_info is nil", 2)
-local find_or_load_model = ffi.cast("find_or_load_model_t", ivmodelinfo[0][39]) or error("find_or_load_model is nil", 2)
-
-local rawnetworkstringtablecontainer = client.create_interface("engine.dll", "VEngineClientStringTable001") or
-    error("VEngineClientStringTable001 wasnt found", 2)
-local networkstringtablecontainer = ffi.cast(class_ptr, rawnetworkstringtablecontainer) or
-    error("rawnetworkstringtablecontainer is nil", 2)
-local find_table = ffi.cast("find_table_t", networkstringtablecontainer[0][3]) or error("find_table is nil", 2)
-
-local model_names = {}
-
-for key, value in pairs(player_models) do
-    table.insert(model_names, key)
-end
-
-local localplayer_model_all = ui.new_combobox("lua", "b", "\aEEEEEEFFCustomMod\a6CC312FFelChanger", model_names)
-
-local function precache_model(modelname)
-    local rawprecache_table = find_table(networkstringtablecontainer, "modelprecache") or
-        error("couldnt find modelprecache", 2)
-    if rawprecache_table then
-        local precache_table = ffi.cast(class_ptr, rawprecache_table) or error("couldnt cast precache_table", 2)
-        if precache_table then
-            local add_string = ffi.cast("add_string_t", precache_table[0][8]) or error("add_string is nil", 2)
-
-            find_or_load_model(ivmodelinfo, modelname)
-            local idx = add_string(precache_table, false, modelname, -1, nil)
-            if idx == -1 then
+        states = {
+            "stand",
+            "slow walk",
+            "run",
+            "crouch",
+            "sneak",
+            "aerobic",
+            "aerobic+",
+            "manual left",
+            "manual right",
+            "fakelag",
+            "hideshots"
+        },
+        extended_states = {
+            "global",
+            "stand",
+            "slow walk",
+            "run",
+            "crouch",
+            "sneak",
+            "aerobic",
+            "aerobic+",
+            "manual left",
+            "manual right",
+            "fakelag",
+            "hideshots"
+        },
+        def_ways = {"1-way", "2-way", "3-way", "4-way", "5-way"},
+        keylist_icon = v28.load_png(
+            "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A\x00\x00\x00\x0D\x49\x48\x44\x52\x00\x00\x00\x0F\x00\x00\x00\x0F\x08\x06\x00\x00\x00\x3B\xD6\x95\x4A\x00\x00\x00\x01\x73\x52\x47\x42\x00\xAE\xCE\x1C\xE9\x00\x00\x00\x04\x67\x41\x4D\x41\x00\x00\xB1\x8F\x0B\xFC\x61\x05\x00\x00\x00\x09\x70\x48\x59\x73\x00\x00\x0E\xC3\x00\x00\x0E\xC3\x01\xC7\x6F\xA8\x64\x00\x00\x00\xE7\x49\x44\x41\x54\x38\x4F\x8D\x92\x0D\x11\x82\x40\x10\x85\xB9\x06\x44\x30\x02\x36\x20\x02\x11\x8C\x60\x03\x23\x18\xC1\x08\x46\xD0\x06\x44\x20\x02\x36\x38\xDF\x77\xEC\x02\x07\xC7\xE8\x37\xF3\xC6\xDB\x3F\xEE\xF6\x8D\xD5\x2F\x62\x8C\xB5\x74\x97\x46\x09\x9E\x52\x63\xE5\x63\xD4\xC4\x20\xCD\x30\x48\xAF\xE9\x98\x38\xFE\x80\x8A\xEB\x41\x6E\xAE\x2D\xDF\xA6\x4C\x8C\x7D\x6A\xDC\xA2\x42\x71\xD0\x51\xDC\x4B\x63\xB0\x38\xC3\x9A\x79\x16\xBF\xEF\x10\xC2\x87\x3C\x58\x6D\x7F\x2B\x05\x69\x6D\x0E\x7B\x76\x56\x4E\x28\x7E\xA4\x4A\x8C\x37\x4B\xCD\x83\xFE\x54\x8C\xF1\x33\xF8\xBE\x3E\xC8\xB3\xA7\x55\x38\x48\xD9\x8E\xD2\x55\xEA\xA4\x8B\xC5\x7F\x0F\x22\x87\x1A\x03\xB0\x0C\x82\x02\x06\x20\x73\x55\x67\x6E\x65\x67\xC0\x03\x56\x59\x06\x45\x50\x62\xB0\xF3\x79\xED\x2A\xA8\xE6\x66\x65\x8E\xCF\xA8\x01\x76\xD6\x2B\xB7\xDF\x71\x8B\x0A\xFE\x97\x6B\x2D\x2E\x9B\x53\x42\xC5\x53\x6A\x9B\xE0\x43\x65\x73\x8E\x50\x53\x23\xB9\xE3\x98\x93\x99\x57\xA6\xAA\xBE\xA0\xF9\xAC\x5A\x7A\x41\x0B\x0E\x00\x00\x00\x00\x49\x45\x4E\x44\xAE\x42\x60\x82",
+            15,
+            15
+        ),
+        tick = 0
+    }
+):struct("ref")(
+    {
+        aa = {
+            enabled = {v21.reference("aa", "anti-aimbot angles", "enabled")},
+            pitch = {v21.reference("aa", "anti-aimbot angles", "pitch")},
+            yaw_base = {v21.reference("aa", "anti-aimbot angles", "Yaw base")},
+            yaw = {v21.reference("aa", "anti-aimbot angles", "Yaw")},
+            yaw_jitter = {v21.reference("aa", "anti-aimbot angles", "Yaw Jitter")},
+            body_yaw = {v21.reference("aa", "anti-aimbot angles", "Body yaw")},
+            freestanding_body_yaw = {v21.reference("aa", "anti-aimbot angles", "Freestanding body yaw")},
+            freestand = {v21.reference("aa", "anti-aimbot angles", "Freestanding")},
+            roll = {v21.reference("aa", "anti-aimbot angles", "Roll")},
+            edge_yaw = {v21.reference("aa", "anti-aimbot angles", "Edge yaw")},
+            fake_peek = {v21.reference("aa", "other", "Fake peek")}
+        },
+        misc = {
+            log = {v21.reference("misc", "miscellaneous", "Log damage dealt")},
+            fov = v21.reference("misc", "miscellaneous", "Override FOV"),
+            override_zf = v21.reference("misc", "miscellaneous", "Override zoom FOV")
+        },
+        fakelag = {
+            enable = {v21.reference("aa", "fake lag", "enabled")},
+            amount = {v21.reference("aa", "fake lag", "amount")},
+            variance = {v21.reference("aa", "fake lag", "variance")},
+            limit = {v21.reference("aa", "fake lag", "limit")},
+            lg = {v21.reference("aa", "other", "Leg movement")}
+        },
+        aa_other = {
+            sw = {v21.reference("aa", "other", "Slow motion")},
+            hide_shots = {v21.reference("aa", "other", "On shot anti-aim")}
+        },
+        rage = {
+            enable = v21.reference("rage", "aimbot", "Enabled"),
+            dt = {v21.reference("rage", "aimbot", "Double tap")},
+            always = {v21.reference("rage", "other", "Automatic fire")},
+            fd = {v21.reference("rage", "other", "Duck peek assist")},
+            os = {v21.reference("aa", "other", "On shot anti-aim")},
+            mindmg = {v21.reference("rage", "aimbot", "minimum damage")},
+            baim = {v21.reference("rage", "aimbot", "force body aim")},
+            safe = {v21.reference("rage", "aimbot", "force safe point")},
+            ovr = {v21.reference("rage", "aimbot", "minimum damage override")}
+        },
+        slow_motion = {v21.reference("aa", "other", "Slow motion")}
+    }
+):struct("ui")(
+    {
+        menu = {global = {}, home = {}, antiaim = {}, tools = {}},
+        header = function(v96, v97)
+            local v98 = "\a373737FF"
+            local v99 = "──────────────────────────"
+            return v97:label(v98 .. v99)
+        end,
+        clr = function(v100, v101)
+            local v102 = {gray = "\a808080FF", l_gray = "\a909090FF", d_gray = "\a606060FF", red = "\aff0000ff"}
+            for v773, v774 in v3(v102) do
+                if (v101 == v773) then
+                    return v774
+                end
+            end
+            return "error color"
+        end,
+        execute = function(v103)
+            local v104 = v32.group("AA", "anti-aimbot angles")
+            local v105 = v32.group("AA", "Fake lag")
+            local v106 = v32.group("AA", "Other")
+            local v107 = "\a808080FF•\r  "
+            v103.menu.global.title_name = v105:label("\vтрахни меня☭ //\r  " .. v103.helpers:limit_ch(v38.name, 13, "..."))
+            v103.menu.global.tab = v105:combobox("\n tabs", {" Home", " Anti-Aim", " Tools"})
+            v103.menu.global.color =
+                v105:color_picker("\naccent", 164, 210, 212, 255):depend({v103.menu.global.tab, " Home"})
+            v103:header(v105)
+            v103.menu.global.export =
+                v105:button(
+                v103:clr("d_gray") .. "\r Export config",
+                function()
+                    v34.set(v103.config:export("config"))
+                end
+            ):depend({v103.menu.global.tab, " Anti-Aim", true})
+            v103.menu.global.import =
+                v105:button(
+                v103:clr("d_gray") .. "\r  Import config",
+                function()
+                    v103.config:import(v34.get(), "config")
+                end
+            ):depend({v103.menu.global.tab, " Anti-Aim", true})
+            v103.menu.home.welcomer = v104:label("Welcome to \vcalamity\r " .. v38.vers .. " ☭")
+            v103.menu.home.space = v103:header(v104)
+            v103.menu.home.list = v104:listbox("configs", {})
+            v103.menu.home.list:set_callback(
+                function()
+                    if v21.is_menu_open() then
+                        v103.config:update_name()
+                    end
+                end
+            )
+            v103.menu.home.name = v104:textbox("config name")
+            v103.menu.home.load =
+                v104:button(
+                v103:clr("d_gray") .. "\r  Load",
+                function()
+                    v103.config:load("config")
+                end
+            )
+            v103.menu.home.save =
+                v104:button(
+                v103:clr("d_gray") .. "\r Save",
+                function()
+                    v103.config:save()
+                end
+            )
+            v103.menu.home.delete =
+                v104:button(
+                v103:clr("red") .. " Delete",
+                function()
+                    v103.config:delete()
+                end
+            )
+            v103.menu.home.discord_l = v106:label("\n")
+            v103.menu.home.discord =
+                v106:button(
+                v103:clr("gray") .. "\a708090FF  Discord server\r",
+                function()
+                    v37.SteamOverlayAPI.OpenExternalBrowserURL("https://discord.gg/3qgb4ZnWGj")
+                end
+            )
+            v103.menu.antiaim.mode = v104:combobox(v107 .. "Anti-aim tab", {"Constructor", "Features"})
+            v103.menu.antiaim.space = v103:header(v104):depend({v103.menu.antiaim.mode, "Features"})
+            v103.menu.antiaim.freestanding =
+                v104:multiselect("Freestanding \v", {"Force static", "Disablers"}, 0):depend(
+                {v103.menu.antiaim.mode, "Features"}
+            )
+            v103.menu.antiaim.freestanding_disablers =
+                v104:multiselect("\nfreestanding disablers", v103.globals.states):depend(
+                {v103.menu.antiaim.freestanding, "Disablers"}
+            ):depend({v103.menu.antiaim.mode, "Features"})
+            v103.menu.antiaim.edge_yaw = v104:label("Edge yaw", 0):depend({v103.menu.antiaim.mode, "Features"})
+            v103.menu.antiaim.manual_aa = v104:checkbox("Manual aa \v"):depend({v103.menu.antiaim.mode, "Features"})
+            v103.menu.antiaim.manual_static =
+                v104:checkbox(v107 .. "Manual static"):depend({v103.menu.antiaim.manual_aa, true}):depend(
+                {v103.menu.antiaim.mode, "Features"}
+            )
+            v103.menu.antiaim.manual_left =
+                v104:hotkey(v107 .. "Manual left"):depend({v103.menu.antiaim.manual_aa, true}):depend(
+                {v103.menu.antiaim.mode, "Features"}
+            )
+            v103.menu.antiaim.manual_right =
+                v104:hotkey(v107 .. "Manual right"):depend({v103.menu.antiaim.manual_aa, true}):depend(
+                {v103.menu.antiaim.mode, "Features"}
+            )
+            v103.menu.antiaim.manual_forward =
+                v104:hotkey(v107 .. "Manual forward"):depend({v103.menu.antiaim.manual_aa, true}):depend(
+                {v103.menu.antiaim.mode, "Features"}
+            )
+            v103.menu.antiaim.fakelag_type =
+                v105:combobox("Fake lag type", {"Maximum", "Dynamic", "Fluctuate"}):depend(
+                {v103.menu.antiaim.mode, "Features"}
+            )
+            v103.menu.antiaim.fakelag_var =
+                v105:slider(v107 .. "Variance", 0, 100, 100, true, "%"):depend({v103.menu.antiaim.mode, "Features"})
+            v103.menu.antiaim.fakelag_lim =
+                v105:slider(v107 .. "Limit", 1, 15, 15):depend({v103.menu.antiaim.mode, "Features"})
+            v103.menu.antiaim.state =
+                v104:combobox("\n current condition", v103.globals.extended_states):depend(
+                {v103.menu.antiaim.mode, "Constructor"}
+            )
+            v103.menu.antiaim.states = {}
+            for v775, v776 in v2(v103.globals.extended_states) do
+                v103.menu.antiaim.states[v776] = {}
+                local v778 = v103.menu.antiaim.states[v776]
+                if (v776 ~= "global") then
+                    v778.enable = v104:checkbox("Activate \v" .. v776)
+                end
+                local v779 = "\n" .. v776
+                v778.options =
+                    v106:multiselect(v107 .. "Features" .. v779, {"Enable defensive", "Avoid backstab", "Safe head"})
+                v778.head_1 = v103:header(v106)
+                v778.defensive_conditions =
+                    v106:multiselect(
+                    v107 .. "Defensive triggers\v" .. v779,
+                    {
+                        "Always",
+                        "On hide-shots",
+                        "Tick-Base",
+                        "On weapon switch",
+                        "On reload",
+                        "On hittable",
+                        "On freestand"
+                    }
+                ):depend({v778.options, "Enable defensive"})
+                v778.defensive_conditions_tick =
+                    v106:slider("\n Tick" .. v779, 1, 15, 8, true, "t", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_conditions, "Tick-Base"}
+                )
+                v778.defensive_yaw = v104:checkbox("Defensive yaw" .. v779):depend({v778.options, "Enable defensive"})
+                v778.defensive_yaw_mode =
+                    v104:combobox(
+                    "\ndefensive yaw mode" .. v779,
+                    {"Jitter", "Random", "Custom spin", "Spin-way", "Switch 5-way"}
+                ):depend({v778.options, "Enable defensive"}, {v778.defensive_yaw, true})
+                v778.defensive_yaw_1_random =
+                    v104:slider("\n 1 random yaw def" .. v779, -359, 359, 180, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Random"}
+                )
+                v778.defensive_yaw_2_random =
+                    v104:slider("\n 2 random yaw def" .. v779, -359, 359, -180, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Random"}
+                )
+                v778.defensive_yaw_1_Spin_way =
+                    v104:slider("\n 1 stage Spin-way" .. v779, -180, 180, -180, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Spin-way"}
+                )
+                v778.defensive_yaw_2_Spin_way =
+                    v104:slider("\n 2 stage Spin-way" .. v779, -180, 180, 180, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Spin-way"}
+                )
+                v778.defensive_yaw_speed_Spin_way =
+                    v104:slider(v107 .. "Delay" .. v779, 0, 16, 6, true, "t", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Spin-way"}
+                )
+                v778.defensive_yaw_randomizer_Spin_way =
+                    v104:slider(v107 .. "Randomizer" .. v779, 0, 180, 0, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Spin-way"}
+                )
+                v778.defensive_yaw_jitter_radius_1 =
+                    v104:slider("\n JiTter 1" .. v779, -180, 180, 30, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Jitter"}
+                )
+                v778.defensive_yaw_jitter_delay =
+                    v104:slider(v107 .. "Delayed" .. v779, 1, 12, 6, true, "t", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Jitter"}
+                )
+                v778.defensive_yaw_jitter_random =
+                    v104:slider(v107 .. "Randomize" .. v779, 0, 180, 0, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Jitter"}
+                )
+                v778.defensive_yaw_way_delay =
+                    v104:slider(v107 .. "Interpolation \v" .. v779, 0, 16, 4, true, "t", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Switch 5-way"}
+                )
+                for v960 = 1, 5 do
+                    v778["defensive_yaw_way_switch" .. v960] =
+                        v104:slider(
+                        (((v960 == 1) and (v107 .. "Ways")) or "\n") .. "\v \n" .. v960 .. v779,
+                        0,
+                        360,
+                        30,
+                        true,
+                        "°",
+                        1
+                    ):depend(
+                        {v778.options, "Enable defensive"},
+                        {v778.defensive_yaw, true},
+                        {v778.defensive_yaw_mode, "Switch 5-way"}
+                    )
+                end
+                v778.defensive_yaw_way_randomly =
+                    v104:checkbox(v107 .. "Increase yaw \v" .. v779):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Switch 5-way"}
+                )
+                v778.defensive_yaw_way_randomly_value =
+                    v104:slider("\n ramdom yaw value" .. v779, 0, 360, 20, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Switch 5-way"},
+                    {v778.defensive_yaw_way_randomly, true}
+                )
+                v778.defensive_yaw_wayspin_combo =
+                    v104:combobox(v107 .. "Select spin way yaw" .. v779, v103.globals.def_ways):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Switch 5-way"}
+                )
+                for v962 = 1, 5 do
+                    local v963 = v962 .. "-way"
+                    v778["defensive_yaw_enable_way_spin" .. v962] =
+                        v104:checkbox("Enable spin \n " .. v962 .. v779):depend(
+                        {v778.options, "Enable defensive"},
+                        {v778.defensive_yaw, true},
+                        {v778.defensive_yaw_mode, "Switch 5-way"},
+                        {v778.defensive_yaw_wayspin_combo, v963}
+                    )
+                    v778["defensive_yaw_way_spin_limit" .. v962] =
+                        v104:slider("\n limit  way-" .. v962 .. " " .. v779, 0, 360, 0, true, "°", 1):depend(
+                        {v778.options, "Enable defensive"},
+                        {v778.defensive_yaw, true},
+                        {v778.defensive_yaw_mode, "Switch 5-way"},
+                        {v778["defensive_yaw_enable_way_spin" .. v962], true},
+                        {v778.defensive_yaw_wayspin_combo, v963}
+                    )
+                    v778["defensive_yaw_way_speed" .. v962] =
+                        v104:slider("\n speed way-" .. v962 .. " " .. v779, 1, 12, 8, true, "t", 1):depend(
+                        {v778.options, "Enable defensive"},
+                        {v778.defensive_yaw, true},
+                        {v778.defensive_yaw_mode, "Switch 5-way"},
+                        {v778["defensive_yaw_enable_way_spin" .. v962], true},
+                        {v778.defensive_yaw_wayspin_combo, v963}
+                    )
+                end
+                v778.defensive_yaw_spin_limit =
+                    v104:slider("\n limit spin yaw" .. v779, 15, 360, 360, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true}
+                ):depend({v778.defensive_yaw_mode, "Custom spin"})
+                v778.defensive_yaw_speedtick =
+                    v104:slider("\n spin speed" .. v779, 1, 12, 6, true, "t", 0.5):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_yaw, true},
+                    {v778.defensive_yaw_mode, "Custom spin"}
+                )
+                v778.defensive_pitch_enable =
+                    v105:checkbox("Defensive pitch" .. v779):depend({v778.options, "Enable defensive"})
+                v778.defensive_pitch_mode =
+                    v105:combobox(
+                    "\n defensive pitch mode" .. v779,
+                    {"Static", "Spin", "Random", "Clocking", "Jitter", "5way"}
+                ):depend({v778.options, "Enable defensive"}, {v778.defensive_pitch_enable, true})
+                v778.defensive_pitch_custom =
+                    v105:slider("\n pitch custom limit" .. v779, -89, 89, 0, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_pitch_enable, true},
+                    {v778.defensive_pitch_mode, "Clocking", true}
+                )
+                v778.defensive_pitch_spin_random2 =
+                    v105:slider("\n pitch def random2" .. v779, -89, 89, 0, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_pitch_enable, true},
+                    {v778.defensive_pitch_mode, "Random"}
+                )
+                v778.defensive_pitch_spin_limit2 =
+                    v105:slider("\n spin speed 2" .. v779, -89, 89, 0, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_pitch_enable, true},
+                    {v778.defensive_pitch_mode, "Spin"}
+                )
+                v778.defensive_pitch_speedtick =
+                    v105:slider("\n spin speed" .. v779, 1, 64, 32, true, "t", 0.1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_pitch_enable, true},
+                    {v778.defensive_pitch_mode, "Spin"}
+                )
+                v778.defensive_pitch_way_label =
+                    v105:label(v107 .. "On \v5-way\r yaw to more \vsettings"):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_pitch_enable, true},
+                    {v778.defensive_pitch_mode, "5way"},
+                    {v778.defensive_yaw_mode, "Switch 5-way", true}
+                )
+                for v967 = 2, 5 do
+                    v778["defensive_pitch_way" .. v967] =
+                        v105:slider("\n pitch way " .. v967 .. v779, -89, 89, 0, true, "°", 1):depend(
+                        {v778.options, "Enable defensive"},
+                        {v778.defensive_pitch_enable, true},
+                        {v778.defensive_pitch_mode, "5way"}
+                    ):depend({v778.defensive_yaw_mode, "Switch 5-way"})
+                end
+                v778.defensive_pitch_way_randomly =
+                    v105:checkbox(v107 .. "Increase pitch \v" .. v779):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_pitch_enable, true},
+                    {v778.defensive_pitch_mode, "5way"}
+                ):depend({v778.defensive_yaw_mode, "Switch 5-way"})
+                v778.defensive_pitch_way_randomly_value =
+                    v105:slider("\n ramdom pitch value" .. v779, 0, 89, 20, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_pitch_enable, true},
+                    {v778.defensive_pitch_mode, "5way"},
+                    {v778.defensive_pitch_way_randomly, true}
+                ):depend({v778.defensive_yaw_mode, "Switch 5-way"})
+                v778.defensive_pitch_way_spin_combo =
+                    v105:combobox(v107 .. "Select spin way pitch" .. v779, v103.globals.def_ways):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_pitch_enable, true},
+                    {v778.defensive_pitch_mode, "5way"}
+                ):depend({v778.defensive_yaw_mode, "Switch 5-way"})
+                for v969 = 1, #v103.globals.def_ways do
+                    local v970 = v103.globals.def_ways[v969]
+                    v778["defensive_pitch_enable_way_spin" .. v969] =
+                        v105:checkbox("Enable spin \n " .. v969 .. v779):depend(
+                        {v778.options, "Enable defensive"},
+                        {v778.defensive_pitch_enable, true},
+                        {v778.defensive_pitch_mode, "5way"},
+                        {v778.defensive_pitch_way_spin_combo, v970}
+                    ):depend({v778.defensive_yaw_mode, "Switch 5-way"})
+                    for v1020 = 1, 2 do
+                        v778["defensive_pitch_way_spin_limit" .. v969 .. v1020] =
+                            v105:slider("\n limit  way-" .. v969 .. v1020 .. " " .. v779, -89, 89, 89, true, "°", 1):depend(
+                            {v778.options, "Enable defensive"},
+                            {v778["defensive_pitch_enable_way_spin" .. v969], true},
+                            {v778.defensive_pitch_enable, true},
+                            {v778.defensive_pitch_mode, "5way"},
+                            {v778.defensive_pitch_way_spin_combo, v970}
+                        ):depend({v778.defensive_yaw_mode, "Switch 5-way"})
+                    end
+                    v778["defensive_pitch_way_speed" .. v969] =
+                        v105:slider("\n speed way-" .. v969 .. " " .. v779, 1, 12, 8, true, "t", 1):depend(
+                        {v778.options, "Enable defensive"},
+                        {v778["defensive_pitch_enable_way_spin" .. v969], true},
+                        {v778.defensive_pitch_enable, true},
+                        {v778.defensive_pitch_mode, "5way"},
+                        {v778.defensive_pitch_way_spin_combo, v970}
+                    ):depend({v778.defensive_yaw_mode, "Switch 5-way"})
+                end
+                v778.defensive_pitch_clock =
+                    v105:slider("\n pitch clock limit" .. v779, -89, 89, 0, true, "°", 1):depend(
+                    {v778.options, "Enable defensive"},
+                    {v778.defensive_pitch_enable, true},
+                    {v778.defensive_pitch_mode, "Jitter"}
+                )
+                v778.head_2 = v103:header(v104)
+                v778.yaw_base = v104:combobox(v107 .. "Yaw" .. v779, {"At targets", "Local view"})
+                v778.yaw_jitter =
+                    v104:combobox(
+                    "\nyaw jitter" .. v779,
+                    {"Off", "Offset", "Center", "Skitter", "Smoothnes", "Fractal", "Random"}
+                )
+                v778.yaw_jitter_add =
+                    v104:slider("\nyaw jitter add" .. v779, -90, 90, 0, true, "°", 1):depend(
+                    {v778.yaw_jitter, "Off", true}
+                )
+                v778.yaw_fractals =
+                    v104:slider(v107 .. "Fractals \v" .. v779, 1, 14, 0, true, "°", 1, {[14] = "Random"}):depend(
+                    {v778.yaw_jitter, "Off", true},
+                    {v778.yaw_jitter, "Fractal"}
+                )
+                v778.yaw_add = v104:slider(v107 .. "Yaw add \v" .. v779, -180, 180, 0, true, "°", 1)
+                v778.yaw_add_r = v104:slider("\n yaw add (R)" .. v779, -180, 180, 0, true, "°", 1)
+                v778.jitter_delay =
+                    v104:slider(
+                    v107 .. "Yaw delay  \v" .. v779,
+                    0,
+                    4,
+                    0,
+                    true,
+                    "x",
+                    1,
+                    {[1] = "Randomly", [0] = "Off"}
+                )
+                v778.yaw_random =
+                    v104:slider(v107 .. "Yaw randomize \v" .. v779, 0, 100, 0, true, "%", 1):depend(
+                    {v778.yaw_jitter, "Off", true}
+                )
+                v778.head_3 = v103:header(v104)
+                v778.body_yaw = v104:combobox(v107 .. "Body yaw" .. v779, {"Off", "Opposite", "Static", "Jitter"})
+                v778.body_yaw_side =
+                    v104:combobox("\n Body yaw side" .. v779, {"Left", "Right", "Freestanding"}):depend(
+                    {v778.body_yaw, "Static", false}
+                )
+                for v973, v974 in v3(v778) do
+                    local v975 = {{v103.menu.antiaim.state, v776}, {v103.menu.antiaim.mode, "Constructor"}}
+                    if ((v973 ~= "enable") and (v776 ~= "global")) then
+                        v975 = {
+                            {v103.menu.antiaim.state, v776},
+                            {v103.menu.antiaim.mode, "Constructor"},
+                            {v778.enable, true}
+                        }
+                    end
+                    v974:depend(v18.unpack(v975))
+                end
+            end
+            v103.menu.antiaim.export =
+                v106:button(
+                v103:clr("d_gray") .. "\r  Export condition",
+                function()
+                    data = v103.config:export("state", v103.menu.antiaim.state:get())
+                    v34.set(data)
+                end
+            ):depend({v103.menu.antiaim.mode, "Constructor"})
+            v103.menu.antiaim.import =
+                v106:button(
+                v103:clr("d_gray") .. "\r  Import condition ",
+                function()
+                    local v824 = v34.get()
+                    local v825 = v824:match("{calamity:(.+)}")
+                    v103.config:import(v824, v825, v103.menu.antiaim.state:get())
+                end
+            ):depend({v103.menu.antiaim.mode, "Constructor"})
+            v103.menu.tools.subtub = v104:combobox(v107 .. "Active tab", {"Helpers", "Visuals"})
+            v103.menu.tools.subtub_n = v104:label("\n")
+            local v142 = v103.menu.tools.subtub
+            v103.menu.tools.indicators_gamesense =
+                v104:checkbox("\v\r Debug indicators \v[secret] \r☭"):depend({v142, "Visuals"})
+            v103.menu.tools.indicators = v104:checkbox("\v\r Crosshair indicators ☭"):depend({v142, "Visuals"})
+            v103.menu.tools.indicator_pos =
+                v104:combobox("\n position ind", {"Left", "Right"}):depend({v103.menu.tools.indicators, true}):depend(
+                {v142, "Visuals"}
+            )
+            v103.menu.tools.indicatorfont =
+                v104:combobox(v107 .. "Indicator style", {"Default", "New", "Renewed", "calamity"}):depend(
+                {v103.menu.tools.indicators, true}
+            ):depend({v142, "Visuals"})
+            v103.menu.tools.indicator_bind =
+                v104:checkbox(v107 .. "Show binds"):depend(
+                {v103.menu.tools.indicators, true},
+                {v142, "Visuals"},
+                {v103.menu.tools.indicatorfont, "calamity"}
+            )
+            v103.menu.tools.indicatoroffset =
+                v104:slider("\n Offset indcator ", 0, 90, 35, true, "px"):depend({v103.menu.tools.indicators, true}):depend(
+                {v142, "Visuals"}
+            )
+            v103.menu.tools.manuals = v104:checkbox("\v\r Manual arrows ☭"):depend({v142, "Visuals"})
+            v103.menu.tools.manuals_style =
+                v104:combobox("\n arrows style", {"calamity", "New"}):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.manuals, true}
+            )
+            v103.menu.tools.manuals_global =
+                v104:checkbox("Arrows side"):depend({v142, "Visuals"}, {v103.menu.tools.manuals, true})
+            v103.menu.tools.manuals_offset =
+                v104:slider("\n arrows offset", 0, 100, 15, true, "px"):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.manuals, true}
+            )
+            v103.menu.tools.animscope = v104:checkbox("\v\r Animated scope ☭"):depend({v142, "Visuals"})
+            v103.menu.tools.animscope_fov_slider =
+                v104:slider(v107 .. "Fov value", 105, 135, 130, true, "%", 1):depend({v103.menu.tools.animscope, true}):depend(
+                {v142, "Visuals"}
+            )
+            v103.menu.tools.animscope_slider =
+                v104:slider("\n Anim scope value", 0, 100, 5, true, "%", 1):depend({v103.menu.tools.animscope, true}):depend(
+                {v142, "Visuals"}
+            )
+            v103.menu.tools.indicator_dmg = v104:checkbox("\v\r Damage indicator ☭"):depend({v142, "Visuals"})
+            v103.menu.tools.indicator_dmg_color =
+                v104:color_picker("\ncolor dmg", 255, 255, 255):depend({v103.menu.tools.indicator_dmg, true}):depend(
+                {v142, "Visuals"}
+            )
+            v103.menu.tools.indicator_dmg_weapon =
+                v104:checkbox(v107 .. "Only min damage"):depend({v103.menu.tools.indicator_dmg, true}):depend(
+                {v142, "Visuals"}
+            )
+            v103.menu.tools.visual_head_1 = v104:label("\n"):depend({v142, "Visuals"})
+            v103.menu.tools.style = v104:combobox("\v\r Widgets style ☭", {"New", "Default"}):depend({v142, "Visuals"})
+            v103.menu.tools.watermark = v104:checkbox("\v\r Watermark ☭"):depend({v142, "Visuals"})
+            v103.menu.tools.keylist = v104:checkbox("\v\r Hotkeys ☭"):depend({v142, "Visuals"})
+            v103.menu.tools.notify_master = v104:checkbox("\v\r Logging ☭"):depend({v142, "Visuals"})
+            v103.menu.tools.notify_vibor =
+                v104:multiselect("\n Log type", {"Hit", "Miss", "Get harmed", "Detect shot", "Preview"}):depend(
+                {v103.menu.tools.notify_master, true}
+            ):depend({v142, "Visuals"})
+            v103.menu.tools.notify_offset =
+                v104:slider("\n Offset notifys ", 0, 900, 45, true, "px", 1):depend(
+                {v103.menu.tools.notify_master, true}
+            ):depend({v142, "Visuals"})
+            v103.menu.tools.notify_test =
+                v104:button(
+                "\v✨",
+                function()
+                    v44.create_new({{"Example: "}, {"logging ", true}, {"12345"}})
+                end
+            ):depend({v103.menu.tools.notify_vibor, "Preview"}, {v103.menu.tools.notify_master, true}):depend(
+                {v142, "Visuals"}
+            )
+            v103.menu.tools.visual_head_2 = v104:label("\n"):depend({v142, "Visuals"})
+            v103.menu.tools.gs_ind = v104:checkbox("\v\r Indicators left gs ☭"):depend({v142, "Visuals"})
+            v103.menu.tools.gs_inds =
+                v104:multiselect("\n inds selc", {"Target", "..."}):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.gs_ind, true}
+            )
+            v103.menu.tools.viewmodel_on = v104:checkbox("\v\r Viewmodel modifier ☭"):depend({v142, "Visuals"})
+            v103.menu.tools.viewmodel_scope = v104:checkbox("\v\r Show weapon scoped ☭"):depend({v142, "Visuals"})
+            v103.menu.tools.viewmodel_mod =
+                v104:combobox("\nstyleview", {"Without-scope", "In-scope"}):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.viewmodel_on, true}
+            )
+            v103.menu.tools.viewmodel_x1 =
+                v104:slider("\nviewwithoscope-x", -100, 100, 0, true, "x", 1):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.viewmodel_on, true},
+                {v103.menu.tools.viewmodel_mod, "Without-scope"}
+            )
+            v103.menu.tools.viewmodel_y1 =
+                v104:slider("\nviewwithoscope-y", -100, 100, -5, true, "y", 1):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.viewmodel_on, true},
+                {v103.menu.tools.viewmodel_mod, "Without-scope"}
+            )
+            v103.menu.tools.viewmodel_z1 =
+                v104:slider("\nviewwithoscope-z", -100, 100, -1, true, "z", 1):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.viewmodel_on, true},
+                {v103.menu.tools.viewmodel_mod, "Without-scope"}
+            )
+            v103.menu.tools.viewmodel_fov1 =
+                v104:slider(v107 .. "Fov\n without scope", 0, 170, 61, true, "x", 1):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.viewmodel_on, true},
+                {v103.menu.tools.viewmodel_mod, "Without-scope"}
+            )
+            v103.menu.tools.viewmodel_inscope =
+                v104:checkbox("Override scope"):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.viewmodel_on, true},
+                {v103.menu.tools.viewmodel_mod, "In-scope"}
+            )
+            v103.menu.tools.viewmodel_x2 =
+                v104:slider("\nview with x", -100, 100, -4, true, "x", 1):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.viewmodel_on, true},
+                {v103.menu.tools.viewmodel_mod, "In-scope"},
+                {v103.menu.tools.viewmodel_inscope, true}
+            )
+            v103.menu.tools.viewmodel_y2 =
+                v104:slider("\nview with y", -100, 100, -5, true, "y", 1):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.viewmodel_on, true},
+                {v103.menu.tools.viewmodel_mod, "In-scope"},
+                {v103.menu.tools.viewmodel_inscope, true}
+            )
+            v103.menu.tools.viewmodel_z2 =
+                v104:slider("\nview with z", -100, 100, -1, true, "z", 1):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.viewmodel_on, true},
+                {v103.menu.tools.viewmodel_mod, "In-scope"},
+                {v103.menu.tools.viewmodel_inscope, true}
+            )
+            v103.menu.tools.viewmodel_fov2 =
+                v104:slider(v107 .. "Fov\n with ov", 0, 170, 61, true, "x", 1):depend(
+                {v142, "Visuals"},
+                {v103.menu.tools.viewmodel_on, true},
+                {v103.menu.tools.viewmodel_mod, "In-scope"},
+                {v103.menu.tools.viewmodel_inscope, true}
+            )
+            v103.menu.tools.air_stop = v104:checkbox("\v\aFAF0E6FF Jumpscout ☭", 0):depend({v142, "Helpers"})
+            v103.menu.tools.air_stop_distance =
+                v104:slider("\n Distance", 1, 25, 2, true, "ft", 5, {[25] = "Always"}):depend(
+                {v142, "Helpers"},
+                {v103.menu.tools.air_stop, true}
+            )
+            v103.menu.tools.unsafe_charge = v104:checkbox("\v\a00BFFFFF Unsafe charge \r☭"):depend({v142, "Helpers"})
+            v103.menu.tools.fast_ladder = v104:checkbox("\v\aFF0000FF Fast ladder \r☭"):depend({v142, "Helpers"})
+            v103.menu.tools.trashtalk = v104:checkbox("\v\aFAF0E6FF Trashtalk ☭"):depend({v142, "Helpers"})
+            v103.menu.tools.trashtalk_type =
+                v104:combobox("\n trashtalk type", {"Default type", "Custom phrase", "1 MOD"}):depend(
+                {v103.menu.tools.trashtalk, true}
+            ):depend({v142, "Helpers"})
+            v103.menu.tools.trashtalk_check2 =
+                v104:checkbox(v107 .. "with player name (enemy)"):depend(
+                {v103.menu.tools.trashtalk, true},
+                {v103.menu.tools.trashtalk_type, "1 MOD"}
+            ):depend({v142, "Helpers"})
+            v103.menu.tools.trashtalk_custom =
+                v104:textbox("\n phrase"):depend(
+                {v103.menu.tools.trashtalk, true},
+                {v103.menu.tools.trashtalk_type, "Custom phrase"}
+            ):depend({v142, "Helpers"})
+            v103.menu.tools.animations = v104:checkbox("\v\a00BFFFFF Animations breakers \r☭"):depend({v142, "Helpers"})
+            v103.menu.tools.animations_selector =
+                v104:multiselect(
+                "\n Animations",
+                {
+                    "Reset pitch on land",
+                    "Body lean",
+                    "Static legs",
+                    "Jitter air",
+                    "Jitter ground",
+                    "Kangaroo",
+                    "Moonwalk",
+                    "Yaw break",
+                    "Pitch break"
+                }
+            ):depend({v103.menu.tools.animations, true}):depend({v142, "Helpers"})
+            v103.menu.tools.animations_body =
+                v104:slider("\n Body lean ", 0, 100, 74, true, ""):depend({v103.menu.tools.animations, true}):depend(
+                {v103.menu.tools.animations_selector, "Body lean"}
+            ):depend({v142, "Helpers"})
+            v103.menu.tools.autobuy = v104:checkbox("\v\aFF0000FF Auto buy \r☭"):depend({v142, "Helpers"})
+            v103.menu.tools.autobuy_v =
+                v104:combobox("\n auto buy vibor", {"Awp", "Scar/g3sg1", "Scout"}):depend(
+                {v103.menu.tools.autobuy, true}
+            ):depend({v142, "Helpers"})
+            v32.traverse(
+                v103.menu.home,
+                function(v826)
+                    v826:depend({v103.menu.global.tab, " Home"})
+                end
+            )
+            v32.traverse(
+                v103.menu.antiaim,
+                function(v827)
+                    v827:depend({v103.menu.global.tab, " Anti-Aim"})
+                end
+            )
+            v32.traverse(
+                v103.menu.tools,
+                function(v828)
+                    v828:depend({v103.menu.global.tab, " Tools"})
+                end
+            )
+        end,
+        shutdown = function(v196)
+            v196.helpers:menu_visibility(true)
+        end
+    }
+):struct("helpers")(
+    {
+        anim = {},
+        contains = function(v197, v198, v199)
+            for v829, v830 in v3(v198) do
+                if (v830 == v199) then
+                    return true
+                end
+            end
+            return false
+        end,
+        lerp = function(v200, v201, v202, v203)
+            return ((v202 - v201) * v203) + v201
+        end,
+        math_anim2 = function(v204, v205, v206, v207)
+            v207 = v43.clamp(v26.frametime() * ((v207 / 100) or 0.08) * 175, 0.01, 1)
+            local v208 = v204:lerp(v205, v206, v207)
+            return v12(v20.format("%.3f", v208))
+        end,
+        new_anim = function(v209, v210, v211, v212)
+            if (v209.anim[v210] == nil) then
+                v209.anim[v210] = v211
+            end
+            local v213 = v209:math_anim2(v209.anim[v210], v211, v212)
+            v209.anim[v210] = v213
+            return v209.anim[v210]
+        end,
+        rgba_to_hex = function(v215, v216, v217, v218, v219)
+            return v29.tohex(
+                (v19.floor(v216 + 0.5) * 16777216) + (v19.floor(v217 + 0.5) * 65536) + (v19.floor(v218 + 0.5) * 256) +
+                    (v19.floor(v219 + 0.5))
+            )
+        end,
+        limit_ch = function(v220, v221, v222, v223)
+            local v224 = {}
+            local v225 = 1
+            for v831 in v20.gmatch(v221, ".[\x80-\xBF]*") do
+                v225, v224[v225] = v225 + 1, v831
+                if (v222 < v225) then
+                    if v223 then
+                        v224[v225] = ((v223 == true) and "...") or v223
+                    end
+                    break
+                end
+            end
+            return v18.concat(v224)
+        end,
+        animate_pulse = function(v226, v227, v228)
+            local v229, v230, v231, v232 = v15(v227)
+            local v233 = v229 * v19.abs(v19.cos(v26.curtime() * v228))
+            local v234 = v230 * v19.abs(v19.cos(v26.curtime() * v228))
+            local v235 = v231 * v19.abs(v19.cos(v26.curtime() * v228))
+            local v236 = v232 * v19.abs(v19.cos(v26.curtime() * v228))
+            return v233, v234, v235, v236
+        end,
+        animate_text = function(v237, v238, v239, v240, v241, v242, v243)
+            local v244, v245 = {}, 1
+            local v246 = v239:len() - 1
+            local v247 = 255 - v240
+            local v248 = 255 - v241
+            local v249 = 255 - v242
+            local v250 = 155 - v243
+            for v833 = 1, #v239 do
+                local v834 = ((v833 - 1) / (#v239 - 1)) + v238
+                v244[v245] =
+                    "\a" ..
+                    v237:rgba_to_hex(
+                        v240 + (v247 * v19.abs(v19.cos(v834))),
+                        v241 + (v248 * v19.abs(v19.cos(v834))),
+                        v242 + (v249 * v19.abs(v19.cos(v834))),
+                        v243 + (v250 * v19.abs(v19.cos(v834)))
+                    )
+                v244[v245 + 1] = v239:sub(v833, v833)
+                v245 = v245 + 2
+            end
+            return v244
+        end,
+        rounded_side_v = function(v251, v252, v253, v254, v255, v256, v257, v258, v259, v260, v261, v262)
+            v252, v253, v254, v255, v260 = v252 * 1, v253 * 1, v254 * 1, v255 * 1, (v260 or 0) * 1
+            v261, v262 = v261 or false, v262 or false
+            local v263 = v256
+            local v264 = v257
+            local v265 = v258
+            local v266 = v259
+            v28.rectangle(v252 + v260, v253, v254 - v260, v255, v263, v264, v265, v266)
+            if v261 then
+                v28.circle(v252 + v260, v253 + v260, v263, v264, v265, v266, v260, 180, 0.25)
+                v28.circle(v252 + v260, (v253 + v255) - v260, v263, v264, v265, v266, v260, 270, 0.25)
+                v28.rectangle(v252, v253 + v260, (v254 - v254) + v260, (v255 - v260) - v260, v263, v264, v265, v266)
+            end
+            if v262 then
+                v28.circle(v252 + v254, v253 + v260, v263, v264, v265, v266, v260, 90, 0.25)
+                v28.circle(v252 + v254, (v253 + v255) - v260, v263, v264, v265, v266, v260, 0, 0.25)
+                v28.rectangle(
+                    v252 + v254,
+                    v253 + v260,
+                    (v254 - v254) + v260,
+                    (v255 - v260) - v260,
+                    v263,
+                    v264,
+                    v265,
+                    v266
+                )
+            end
+        end,
+        get_camera_pos = function(v267, v268)
+            local v269, v270, v271 = v24.get_prop(v268, "m_vecOrigin")
+            if (v269 == nil) then
+                return
+            end
+            local v272, v272, v273 = v24.get_prop(v268, "m_vecViewOffset")
+            v271 = v271 + (v273 - (v24.get_prop(v268, "m_flDuckAmount") * 16))
+            return v269, v270, v271
+        end,
+        fired_shot = function(v274, v275, v276, v277)
+            local v278 = {v274:get_camera_pos(v276)}
+            if (v278[1] == nil) then
+                return
+            end
+            local v279 = {v24.hitbox_position(v275, 0)}
+            local v280 = {v279[1] - v278[1], v279[2] - v278[2], v279[3] - v278[3]}
+            local v281 = {v277[1] - v278[1], v277[2] - v278[2], v277[3] - v278[3]}
+            local v282 =
+                ((v280[1] * v281[1]) + (v280[2] * v281[2]) + (v280[3] * v281[3])) /
+                (v19.pow(v281[1], 2) + v19.pow(v281[2], 2) + v19.pow(v281[3], 2))
+            local v283 = {v278[1] + (v281[1] * v282), v278[2] + (v281[2] * v282), v278[3] + (v281[3] * v282)}
+            local v284 =
+                v19.abs(
+                v19.sqrt(v19.pow(v279[1] - v283[1], 2) + v19.pow(v279[2] - v283[2], 2) + v19.pow(v279[3] - v283[3], 2))
+            )
+            local v285 = v22.trace_line(v276, v277[1], v277[2], v277[3], v279[1], v279[2], v279[3])
+            local v286 = v22.trace_line(v275, v283[1], v283[2], v283[3], v279[1], v279[2], v279[3])
+            return (v284 < 69) and ((v285 > 0.99) or (v286 > 0.99))
+        end,
+        get_damage = function(v287)
+            local v288 = v21.get(v287.ref.rage.mindmg[1])
+            if (v21.get(v287.ref.rage.ovr[1]) and v21.get(v287.ref.rage.ovr[2])) then
+                return v21.get(v287.ref.rage.ovr[3])
+            else
+                return v288
+            end
+        end,
+        get_charge = function(v289)
+            local v290 = v24.get_local_player()
+            if (not v290 or not v24.is_alive(v290)) then
+                return
+            end
+            local v291 = v24.get_prop(v290, "m_flNextAttack")
+            local v292 = v24.get_prop(v24.get_player_weapon(v290), "m_flNextPrimaryAttack")
+            local v293 = not (v19.max(v292, v291) > v26.curtime()) and (v289.globals.tick ~= 3)
+            return v293
+        end,
+        normalize_yaw = function(v294, v295)
+            v295 = v295 % 360
+            v295 = (v295 + 360) % 360
+            if (v295 > 180) then
+                v295 = v295 - 360
+            end
+            return v295
+        end,
+        normalize_pitch = function(v296, v297)
+            return v43.clamp(v297, -89, 89)
+        end,
+        distance = function(v298, v299, v300, v301, v302, v303, v304)
+            return v19.sqrt(((v302 - v299) ^ 2) + ((v303 - v300) ^ 2) + ((v304 - v301) ^ 2))
+        end,
+        flags = {HIT = {11, 2048}},
+        entity_has_flag = function(v305, v306, v307)
+            if (not v306 or not v307) then
                 return false
             end
+            local v308 = v305.flags[v307]
+            if (v308 == nil) then
+                return false
+            end
+            local v309 = v24.get_esp_data(v306) or {}
+            return v29.band(v309.flags or 0, v29.lshift(1, v308[1])) == v308[2]
+        end,
+        get_target = function(v310)
+            local v311 = v24.get_local_player()
+            local v312 = v22.current_threat()
+            local v313 = "None"
+            if (not v311 or not v312) then
+                v313 = "None"
+            else
+                v313 = v24.get_player_name(v312)
+            end
+            return v313
+        end,
+        menu_visibility = function(v314, v315)
+            local v316 = {v314.ref.aa, v314.ref.fakelag, v314.ref.aa_other}
+            for v837, v838 in v2(v316) do
+                for v977, v978 in v3(v838) do
+                    for v1022, v1023 in v2(v978) do
+                        v21.set_visible(v1023, v315)
+                    end
+                end
+            end
+            v21.set_enabled(v314.ref.misc.log[1], v315)
+            v21.set_enabled(v314.ref.misc.override_zf, v315)
+            v21.set(v314.ref.misc.log[1], false)
+        end,
+        in_air = function(v317, v318)
+            local v319 = v24.get_prop(v318, "m_fFlags")
+            return v29.band(v319, 1) == 0
+        end,
+        in_duck = function(v320, v321)
+            local v322 = v24.get_prop(v321, "m_fFlags")
+            return v29.band(v322, 4) == 4
+        end,
+        get_state = function(v323)
+            local v324 = v24.get_local_player()
+            local v325 = v24.get_prop(v324, "m_vecVelocity")
+            local v326 = v31(v325):length2d()
+            local v327 = v323:in_duck(v324) or v21.get(v323.ref.rage.fd[1])
+            local v328 = v323.ui.menu.antiaim.states
+            local v329 = v323.antiaim:get_manual()
+            local v330 = v21.get(v323.ref.rage.dt[1]) and v21.get(v323.ref.rage.dt[2])
+            local v331 = v21.get(v323.ref.rage.os[1]) and v21.get(v323.ref.rage.os[2])
+            local v332 = v21.get(v323.ref.rage.fd[1])
+            local v333 = "global"
+            if (v326 > 1.5) then
+                if v328["run"].enable() then
+                    v333 = "run"
+                end
+            elseif v328["stand"].enable() then
+                v333 = "stand"
+            end
+            if v323:in_air(v324) then
+                if v327 then
+                    if v328["aerobic+"].enable() then
+                        v333 = "aerobic+"
+                    end
+                elseif v328["aerobic"].enable() then
+                    v333 = "aerobic"
+                end
+            elseif (v327 and (v326 > 1.5) and v328["sneak"].enable()) then
+                v333 = "sneak"
+            elseif
+                ((v326 > 1) and v21.get(v323.ref.slow_motion[1]) and v21.get(v323.ref.slow_motion[2]) and
+                    v328["slow walk"].enable())
+             then
+                v333 = "slow walk"
+            elseif ((v329 == -90) and v328["manual left"].enable()) then
+                v333 = "manual left"
+            elseif ((v329 == 90) and v328["manual right"].enable()) then
+                v333 = "manual right"
+            elseif (v327 and v328["crouch"].enable()) then
+                v333 = "crouch"
+            end
+            if v326 then
+                if (v328["fakelag"].enable() and ((not v330 and not v331) or v332)) then
+                    v333 = "fakelag"
+                end
+                if (v328["hideshots"].enable() and v331 and not v330 and not v332) then
+                    v333 = "hideshots"
+                end
+            end
+            return v333
         end
-    end
-    return true
-end
-
-local function set_model_index(entity, idx)
-    local raw_entity = get_client_entity(ientitylist, entity)
-    if raw_entity then
-        local gce_entity = ffi.cast(class_ptr, raw_entity)
-        local a_set_model_index = ffi.cast("set_model_index_t", gce_entity[0][75])
-        if a_set_model_index == nil then
-            error("set_model_index is nil")
-        end
-        a_set_model_index(gce_entity, idx)
-    end
-end
-
-local function change_model(ent, model)
-    if model:len() > 5 then
-        if precache_model(model) == false then
-            error("invalid model", 2)
-        end
-        local idx = get_model_index(ivmodelinfo, model)
-        if idx == -1 then
-            return
-        end
-        set_model_index(ent, idx)
-    end
-end
-
-client.set_event_callback("pre_render", function()
-    local me = entity.get_local_player()
-    if me == nil then return end
-
-    local team = entity.get_prop(me, 'm_iTeamNum')
-
-    if (team == 2) or (team == 3) then
-        change_model(me, player_models[ui.get(localplayer_model_all)])
-    end
-end)
-
-
-local function var_0_61(arg_45_0, ...)
-	local var_45_0, var_45_1 = var_0_26(arg_45_0, ...)
-
-	return var_45_0 and var_45_1
-end
-
-local var_0_62
-local var_0_63
-local var_0_64
-local var_0_65 = {
-	build = "beta",
-	level = 0,
-	user = _USER_NAME or var_0_2 and "admin" or "user",
-	script = _SCRIPT_NAME or var_0_2 and "calamity • debug" or "calamity • beta",
-	version = var_0_1
-}
-local var_0_66 = {
-	calamity = {
-		1,
-		"beta"
-	},
-	["calamity • bliss"] = {
-		2,
-		"bliss"
-	},
-	["calamity • beta"] = {
-		3,
-		"beta"
-	},
-	["calamity • debug"] = {
-		4,
-		"debug"
-	}
-}
-
-var_0_65.level, var_0_65.build = var_0_66[var_0_65.script][1], var_0_66[var_0_65.script][2]
-
-local var_0_67, var_0_68 = var_0_65.level, var_0_65.level >= 2
-local var_0_69 = {}
-local var_0_70 = "filesystem_stdio.dll"
-local var_0_71 = "VFileSystem017"
-local var_0_72 = var_0_28(var_0_70, var_0_71, 11, "void (__thiscall*)(void*, const char*, const char*, int)")
-local var_0_73 = var_0_28(var_0_70, var_0_71, 12, "bool (__thiscall*)(void*, const char*, const char*)")
-local var_0_74 = var_0_28(var_0_70, var_0_71, 1, "int (__thiscall*)(void*, void const*, int, void*)")
-local var_0_75 = var_0_28(var_0_70, var_0_71, 2, "void* (__thiscall*)(void*, const char*, const char*, const char*)")
-local var_0_76 = var_0_28(var_0_70, var_0_71, 3, "void (__thiscall*)(void*, void*)")
-local var_0_77 = var_0_28("engine.dll", "VEngineClient014", 36, "const char*(__thiscall*)(void*)")
-
-var_0_69.game_directory = var_0_32.sub(var_0_37.string(var_0_77()), 1, -5)
-
-var_0_72(var_0_69.game_directory, "ROOT_PATH", 0)
-var_0_3(function()
-	var_0_73(var_0_69.game_directory, "ROOT_PATH")
-end)
-
-var_0_69.create_directory = var_0_28(var_0_70, var_0_71, 22, "void (__thiscall*)(void*, const char*, const char*)")
-
-var_0_69.create_directory(var_0_0, "ROOT_PATH")
-
-function var_0_69.write(arg_47_0, arg_47_1)
-	local var_47_0 = var_0_75(arg_47_0, "wb", "ROOT_PATH")
-
-	var_0_74(arg_47_1, #arg_47_1, var_47_0)
-	var_0_76(var_47_0)
-end
-
-local var_0_78
-
-LPH_NO_VIRTUALIZE(function()
-	local var_48_0 = {
-		set = var_0_34.set_event_callback,
-		unset = var_0_34.unset_event_callback,
-		fire = var_0_34.fire_event
-	}
-	local var_48_1
-
-	var_48_1 = {
-		set = function(arg_49_0, arg_49_1)
-			if var_0_24(arg_49_1) == "function" and arg_49_0.proxy[arg_49_1] == nil then
-				local var_49_0 = #arg_49_0.callbacks + 1
-
-				arg_49_0.proxy[arg_49_1], arg_49_0.callbacks[var_49_0] = var_49_0, arg_49_1
-			end
-		end,
-		unset = function(arg_50_0, arg_50_1)
-			local var_50_0 = arg_50_0.proxy[arg_50_1]
-
-			if var_50_0 == nil then
-				return
-			end
-
-			var_0_30.remove(arg_50_0.callbacks, var_50_0)
-
-			arg_50_0.proxy[arg_50_1] = nil
-
-			for iter_50_0, iter_50_1 in var_0_11, arg_50_0.proxy do
-				if var_50_0 < iter_50_1 then
-					arg_50_0.proxy[iter_50_0] = iter_50_1 - 1
-				end
-			end
-		end,
-		__call = function(arg_51_0, arg_51_1, arg_51_2)
-			if arg_51_1 then
-				var_48_1.set(arg_51_0, arg_51_2)
-			else
-				var_48_1.unset(arg_51_0, arg_51_2)
-			end
-		end,
-		fire = function(arg_52_0, ...)
-			return arg_52_0.hook(...)
-		end,
-		gfire = function(arg_53_0, ...)
-			var_48_0.fire(arg_53_0[0], ...)
-		end,
-		unhook = function(arg_54_0)
-			var_48_0.unset(arg_54_0[0], arg_54_0.hook)
-		end
-	}
-	var_48_1.__index = var_48_1
-	var_0_78 = var_0_8({}, {
-		__index = function(arg_55_0, arg_55_1)
-			local var_55_0 = var_0_8({
-				[0] = arg_55_1,
-				proxy = {},
-				callbacks = {}
-			}, var_48_1)
-
-			function var_55_0.hook(...)
-				local var_56_0
-
-				for iter_56_0 = 1, #var_55_0.callbacks do
-					if var_55_0.callbacks[iter_56_0] then
-						local var_56_1 = var_55_0.callbacks[iter_56_0](...)
-
-						if var_56_1 ~= nil then
-							var_56_0 = var_56_1
-						end
-					end
-				end
-
-				return var_56_0
-			end
-
-			var_48_0.set(var_55_0[0], var_55_0.hook)
-			var_0_14(arg_55_0, arg_55_1, var_55_0)
-
-			return var_55_0
-		end
-	})
-end)()
-
-local var_0_79
-
-LPH_NO_VIRTUALIZE(function()
-	local var_57_0 = var_0_37.typeof("struct { uint8_t r; uint8_t g; uint8_t b; uint8_t a; }")
-
-	local function var_57_1(arg_58_0, arg_58_1)
-		return var_0_32.format(arg_58_1 and "%02X%02X%02X" or "%02X%02X%02X%02X", arg_58_0.r, arg_58_0.g, arg_58_0.b, arg_58_0.a)
-	end
-
-	local function var_57_2(arg_59_0)
-		arg_59_0 = var_0_32.gsub(arg_59_0, "^#", "")
-
-		return var_0_20(var_0_32.sub(arg_59_0, 1, 2), 16), var_0_20(var_0_32.sub(arg_59_0, 3, 4), 16), var_0_20(var_0_32.sub(arg_59_0, 5, 6), 16), var_0_20(var_0_32.sub(arg_59_0, 7, 8), 16) or 255
-	end
-
-	local var_57_3
-	local var_57_4 = {
-		__eq = function(arg_60_0, arg_60_1)
-			return arg_60_0.r == arg_60_1.r and arg_60_0.g == arg_60_1.g and arg_60_0.b == arg_60_1.b and arg_60_0.a == arg_60_1.a
-		end,
-		lerp = function(arg_61_0, arg_61_1, arg_61_2)
-			return var_57_3(arg_61_0.r + (arg_61_1.r - arg_61_0.r) * arg_61_2, arg_61_0.g + (arg_61_1.g - arg_61_0.g) * arg_61_2, arg_61_0.b + (arg_61_1.b - arg_61_0.b) * arg_61_2, arg_61_0.a + (arg_61_1.a - arg_61_0.a) * arg_61_2)
-		end,
-		to_hex = var_57_1,
-		alphen = function(arg_62_0, arg_62_1, arg_62_2)
-			return var_57_3(arg_62_0.r, arg_62_0.g, arg_62_0.b, arg_62_2 and arg_62_1 * arg_62_0.a or arg_62_1)
-		end,
-		unpack = function(arg_63_0)
-			return arg_63_0.r, arg_63_0.g, arg_63_0.b, arg_63_0.a
-		end
-	}
-
-	var_57_4.__index = var_57_4
-	var_57_3 = var_0_37.metatype(var_57_0, var_57_4)
-
-	local function var_57_5(arg_64_0, arg_64_1, arg_64_2, arg_64_3)
-		arg_64_0 = arg_64_0 and var_0_31.min(arg_64_0, 255) or 255
-
-		return var_57_3(arg_64_0, arg_64_1 and var_0_31.min(arg_64_1, 255) or arg_64_0, arg_64_2 and var_0_31.min(arg_64_2, 255) or arg_64_0, arg_64_3 and var_0_31.min(arg_64_3, 255) or 255)
-	end
-
-	local function var_57_6(arg_65_0)
-		return var_57_3(var_57_2(arg_65_0))
-	end
-
-	var_0_79 = var_0_8({
-		rgb = var_57_5,
-		hex = var_57_6,
-		rgb_to_hex = var_57_1,
-		hex_to_rgb = var_57_2
-	}, {
-		__call = function(arg_66_0, arg_66_1, arg_66_2, arg_66_3, arg_66_4)
-			return var_0_24(arg_66_1) == "string" and var_57_6(arg_66_1) or var_57_5(arg_66_1, arg_66_2, arg_66_3, arg_66_4)
-		end
-	})
-end)()
-
-local var_0_80
-local var_0_81 = var_0_37.typeof("char[?]")
-local var_0_82 = var_0_28("vgui2.dll", "VGUI_System010", 7, "int(__thiscall*)(void*)")
-local var_0_83 = var_0_28("vgui2.dll", "VGUI_System010", 9, "void(__thiscall*)(void*, const char*, int)")
-local var_0_84 = var_0_28("vgui2.dll", "VGUI_System010", 11, "int(__thiscall*)(void*, int, const char*, int)")
-local var_0_85 = {
-	get = function()
-		local var_67_0 = var_0_82()
-
-		if var_67_0 == 0 then
-			return
-		end
-
-		local var_67_1 = var_0_81(var_67_0)
-
-		var_0_84(0, var_67_1, var_67_0)
-
-		return var_0_37.string(var_67_1, var_67_0 - 1)
-	end,
-	set = function(arg_68_0)
-		arg_68_0 = var_0_21(arg_68_0)
-
-		var_0_83(arg_68_0, #arg_68_0)
-	end
-}
-local var_0_86
-
-LPH_NO_VIRTUALIZE(function()
-	local var_69_0 = var_0_28("vstdlib.dll", "VEngineCvar007", 25, "void(__cdecl*)(void*, const void*, const char*, ...)")
-	local var_69_1 = var_0_79.rgb(217, 217, 217)
-	local var_69_2 = {
-		["\r"] = "\aD9D9D9",
-		["\v"] = "\aA0F020"
-	}
-	local var_69_3 = "[\r\v]"
-	local var_69_4 = "\a(%x%x%x%x%x%x)([^\a]*)"
-
-	var_0_78.accent_recolor:set(function(arg_70_0, arg_70_1)
-		var_69_2["\v"] = arg_70_1
-	end)
-
-	function var_0_86(...)
-		local var_71_0 = {
-			...
-		}
-
-		for iter_71_0 = 1, #var_71_0 do
-			for iter_71_1, iter_71_2 in var_0_32.gmatch("\aD9D9D9" .. var_0_32.gsub(var_0_21(var_71_0[iter_71_0]), var_69_3, var_69_2), var_69_4) do
-				var_69_0(var_0_79.hex(iter_71_1), iter_71_2)
-			end
-		end
-
-		var_69_0(var_69_1, "\n")
-	end
-
-	function var_0_57(...)
-		var_0_86("\vcalamity\r ", ...)
-	end
-end)()
-
-local var_0_87
-local var_0_88 = {
-	version = 2,
-	key = var_0_0 .. "::db"
-}
-local var_0_89 = var_0_35.read(var_0_88.key)
-
-if not var_0_89 then
-	var_0_89 = {
-		version = var_0_88.version,
-		configs = {},
-		servers = {},
-		stats = {
-			killed = 0,
-			playtime = 0,
-			loaded = 1,
-			evaded = 0
-		}
-	}
-
-	var_0_35.write(var_0_88.key, var_0_89)
-end
-
-if var_0_89.version ~= var_0_88.version then
-	var_0_89.stats.candies = nil
-	var_0_89.version = var_0_88.version
-end
-
-if not var_0_89.stats.killed then
-	var_0_89.stats.killed = 0
-end
-
-if not var_0_89.stats.evaded then
-	var_0_89.stats.evaded = 0
-end
-
-if not var_0_89.stats.playtime then
-	var_0_89.stats.playtime = 0
-end
-
-if not var_0_89.stats.loaded then
-	var_0_89.stats.loaded = 1
-end
-
-var_0_89.stats.loaded = var_0_89.stats.loaded + 1
-
-local function var_0_90()
-	var_0_78.database_pre_save:fire()
-	var_0_35.write(var_0_88.key, var_0_89)
-	var_0_34.delay_call(300, var_0_90)
-end
-
-var_0_34.delay_call(300, var_0_90)
-var_0_3(function()
-	var_0_35.write(var_0_88.key, var_0_89)
-	var_0_35.flush()
-end)
-
-var_0_88.stats = var_0_8({}, {
-	__index = function(arg_75_0, arg_75_1)
-		local var_75_0 = var_0_89.stats[arg_75_1]
-
-		if var_75_0 then
-			return var_75_0
-		else
-			var_0_89.stats[arg_75_1] = 0
-
-			return 0
-		end
-	end,
-	__newindex = function(arg_76_0, arg_76_1, arg_76_2)
-		var_0_89.stats[arg_76_1] = arg_76_2
-
-		var_0_78.stats_update:fire()
-	end
-})
-
-var_0_8(var_0_88, {
-	__index = var_0_89,
-	__call = function(arg_77_0, arg_77_1)
-		var_0_35.write(var_0_88.key, var_0_89)
-
-		if arg_77_1 == true then
-			var_0_35.flush()
-		end
-	end
-})
-
-function var_0_33.is_active(arg_78_0, arg_78_1)
-	arg_78_1 = arg_78_1 == nil and true or arg_78_1
-
-	return arg_78_0.value == arg_78_1 and arg_78_0.hotkey:get()
-end
-
-var_0_34.open_link = var_0_39.open().SteamOverlayAPI.OpenExternalBrowserURL
-
-function var_0_34.extrapolate(arg_79_0, arg_79_1, arg_79_2, arg_79_3, arg_79_4)
-	local var_79_0 = var_0_38.tickinterval() * arg_79_4
-
-	return arg_79_0 + arg_79_3.x * var_79_0, arg_79_1 + arg_79_3.y * var_79_0, arg_79_2 + arg_79_3.z * var_79_0
-end
-
-LPH_NO_VIRTUALIZE(function()
-	local var_80_0 = var_0_37.typeof("struct { char pad0[0x18]; float anim_update_timer; char pad1[0xC]; float started_moving_time; float last_move_time; char pad2[0x10]; float last_lby_time; char pad3[0x8]; float run_amount; char pad4[0x10]; void* entity; void* active_weapon; void* last_active_weapon; float last_client_side_animation_update_time; int\t last_client_side_animation_update_framecount; float eye_timer; float eye_angles_y; float eye_angles_x; float goal_feet_yaw; float current_feet_yaw; float torso_yaw; float last_move_yaw; float lean_amount; char pad5[0x4]; float feet_cycle; float feet_yaw_rate; char pad6[0x4]; float duck_amount; float landing_duck_amount; char pad7[0x4]; float current_origin[3]; float last_origin[3]; float velocity_x; float velocity_y; char pad8[0x4]; float unknown_float1; char pad9[0x8]; float unknown_float2; float unknown_float3; float unknown; float m_velocity; float jump_fall_velocity; float clamped_velocity; float feet_speed_forwards_or_sideways; float feet_speed_unknown_forwards_or_sideways; float last_time_started_moving; float last_time_stopped_moving; bool on_ground; bool hit_in_ground_animation; char pad10[0x4]; float time_since_in_air; float last_origin_z; float head_from_ground_distance_standing; float stop_to_full_running_fraction; char pad11[0x4]; float magic_fraction; char pad12[0x3C]; float world_force; char pad13[0x1CA]; float min_yaw; float max_yaw; } **")
-	local var_80_1 = var_0_37.typeof("struct { char pad_0x0000[0x18]; uint32_t sequence; float prev_cycle; float weight; float weight_delta_rate; float playback_rate; float cycle;void *entity;char pad_0x0038[0x4]; } **")
-	local var_80_2 = var_0_28("client.dll", "VClientEntityList003", 3, "void*(__thiscall*)(void*, int)")
-
-	function var_0_36.get_pointer(arg_81_0)
-		return var_80_2(arg_81_0)
-	end
-
-	function var_0_36.get_animstate(arg_82_0)
-		local var_82_0 = arg_82_0 and var_80_2(arg_82_0)
-
-		if var_82_0 then
-			return var_0_37.cast(var_80_0, var_0_37.cast("char*", var_0_37.cast("void***", var_82_0)) + 39264)[0]
-		end
-	end
-
-	function var_0_36.get_animlayer(arg_83_0, arg_83_1)
-		local var_83_0 = var_80_2(arg_83_0)
-
-		if var_83_0 then
-			return var_0_37.cast(var_80_1, var_0_37.cast("char*", var_0_37.cast("void***", var_83_0)) + 10640)[0][arg_83_1 or 0]
-		end
-	end
-
-	function var_0_36.get_simtime(arg_84_0)
-		local var_84_0 = var_80_2(arg_84_0)
-
-		if var_84_0 then
-			return var_0_36.get_prop(arg_84_0, "m_flSimulationTime"), var_0_37.cast("float*", var_0_37.cast("uintptr_t", var_84_0) + 620)[0]
-		else
-			return 0
-		end
-	end
-
-	function var_0_36.get_max_desync(arg_85_0)
-		local var_85_0 = var_0_31.clamp(arg_85_0.feet_speed_forwards_or_sideways, 0, 1)
-		local var_85_1 = (arg_85_0.stop_to_full_running_fraction * -0.3 - 0.2) * var_85_0 + 1
-		local var_85_2 = arg_85_0.duck_amount
-
-		if var_85_2 > 0 then
-			var_85_1 = var_85_1 + var_85_2 * var_85_0 * (0.5 - var_85_1)
-		end
-
-		return var_0_31.clamp(var_85_1, 0.5, 1)
-	end
-end)()
-
-local var_0_91 = {
-	hex = "\a74A6A9FF",
-	hexs = "\a74A6A9",
-	accent = var_0_79.hex("74A6A9"),
-	back = var_0_79.rgb(23, 26, 28),
-	dark = var_0_79.rgb(5, 6, 8),
-	white = var_0_79.rgb(255),
-	black = var_0_79.rgb(0),
-	null = var_0_79.rgb(0, 0, 0, 0),
-	text = var_0_79.rgb(230),
-	panel = {
-		l1 = var_0_79.rgb(5, 6, 8, 96),
-		g1 = var_0_79.rgb(5, 6, 8, 140),
-		l2 = var_0_79.rgb(23, 26, 28, 96),
-		g2 = var_0_79.rgb(23, 26, 28, 140)
-	}
-}
-local var_0_92 = 1
-local var_0_93, var_0_94 = var_0_34.screen_size()
-local var_0_95 = var_0_93
-local var_0_96 = var_0_94
-local var_0_97 = {
-	x = var_0_93 * 0.5,
-	y = var_0_94 * 0.5
-}
-local var_0_98 = {
-	x = var_0_95 * 0.5,
-	y = var_0_96 * 0.5
-}
-local var_0_99 = LPH_NO_VIRTUALIZE(function()
-	local var_86_0 = 1
-	local var_86_1 = {}
-	local var_86_2 = ""
-	local var_86_3
-	local var_86_4 = var_0_33.reference("MISC", "Settings", "DPI scale")
-
-	var_86_3 = {
-		scalable = false,
-		callback = function()
-			local var_87_0 = var_0_92
-
-			var_0_92 = var_86_3.scalable and var_0_20(var_0_32.sub(var_0_33.get(var_86_4), 1, -2)) * 0.01 or 1
-			var_0_95, var_0_96 = var_0_34.screen_size()
-			var_0_93, var_0_94 = var_0_95 / var_0_92, var_0_96 / var_0_92
-			var_0_97.x, var_0_97.y = var_0_93 * 0.5, var_0_94 * 0.5
-			var_86_2 = var_0_92 ~= 1 and "d" or ""
-
-			if var_87_0 ~= var_0_92 then
-				var_0_78.dpi_change:fire(var_0_92, var_87_0)
-
-				local var_87_1 = var_0_92
-			end
-		end
-	}
-
-	var_86_3.callback()
-	var_0_33.set_callback(var_86_4, var_86_3.callback)
-
-	local function var_86_5()
-		if var_0_93 == 0 or var_0_94 == 0 then
-			var_86_3.callback()
-		else
-			var_0_78.paint_ui:unset(var_86_5)
-		end
-	end
-
-	var_0_78.paint_ui:set(var_86_5)
-
-	local var_86_6 = var_0_31.floor
-
-	render = var_0_8({
-		valid = false,
-		cheap = true,
-		dpi_t = var_86_3,
-		push_alpha = function(arg_89_0)
-			local var_89_0 = #var_86_1
-
-			if var_89_0 > 255 then
-				var_0_4("founded 255 stack write bartik")
-			end
-
-			var_86_1[var_89_0 + 1] = arg_89_0
-			var_86_0 = var_86_0 * var_86_1[var_89_0 + 1] * (var_86_1[var_89_0] or 1)
-		end,
-		pop_alpha = function()
-			local var_90_0 = #var_86_1
-			local var_90_1
-
-			var_86_1[var_90_0], var_90_1 = nil, var_90_0 - 1
-			var_86_0 = var_90_1 == 0 and 1 or var_86_1[var_90_1] * (var_86_1[var_90_1 - 1] or 1)
-		end,
-		get_alpha = function()
-			return var_86_0
-		end,
-		blur = function(arg_92_0, arg_92_1, arg_92_2, arg_92_3, arg_92_4, arg_92_5)
-			if not render.cheap and render.valid and (arg_92_4 or 1) * var_86_0 > 0.25 then
-				blurs[#blurs + 1] = {
-					var_86_6(arg_92_0 * var_0_92),
-					var_86_6(arg_92_1 * var_0_92),
-					var_86_6(arg_92_2 * var_0_92),
-					var_86_6(arg_92_3 * var_0_92)
-				}
-			end
-		end,
-		gradient = function(arg_93_0, arg_93_1, arg_93_2, arg_93_3, arg_93_4, arg_93_5, arg_93_6)
-			var_0_40.gradient(var_86_6(arg_93_0 * var_0_92), var_86_6(arg_93_1 * var_0_92), var_86_6(arg_93_2 * var_0_92), var_86_6(arg_93_3 * var_0_92), arg_93_4.r, arg_93_4.g, arg_93_4.b, arg_93_4.a * var_86_0, arg_93_5.r, arg_93_5.g, arg_93_5.b, arg_93_5.a * var_86_0, arg_93_6 or false)
-		end,
-		gradient_outline = function(arg_94_0, arg_94_1, arg_94_2, arg_94_3, arg_94_4, arg_94_5, arg_94_6, arg_94_7)
-			arg_94_0, arg_94_1, arg_94_2, arg_94_3, arg_94_7 = var_86_6(arg_94_0 * var_0_92), var_86_6(arg_94_1 * var_0_92), var_86_6(arg_94_2 * var_0_92), var_86_6(arg_94_3 * var_0_92), var_86_6((arg_94_7 or 1) * var_0_92)
-
-			local var_94_0 = arg_94_4.r
-			local var_94_1 = arg_94_4.g
-			local var_94_2 = arg_94_4.b
-			local var_94_3 = arg_94_4.a * var_86_0
-			local var_94_4 = arg_94_5.r
-			local var_94_5 = arg_94_5.g
-			local var_94_6 = arg_94_5.b
-			local var_94_7 = arg_94_5.a * var_86_0
-
-			if arg_94_6 then
-				var_0_40.gradient(arg_94_0, arg_94_1, arg_94_2 - arg_94_7, arg_94_7, var_94_0, var_94_1, var_94_2, var_94_3, var_94_4, var_94_5, var_94_6, var_94_7, arg_94_6)
-				var_0_40.rectangle(arg_94_0, arg_94_1 + arg_94_7, arg_94_7, arg_94_3 - arg_94_7, var_94_0, var_94_1, var_94_2, var_94_3)
-				var_0_40.rectangle(arg_94_0 + arg_94_2 - arg_94_7, arg_94_1, arg_94_7, arg_94_3 - arg_94_7, var_94_4, var_94_5, var_94_6, var_94_7)
-				var_0_40.gradient(arg_94_0 + arg_94_7, arg_94_1 + arg_94_3 - arg_94_7, arg_94_2 - arg_94_7, arg_94_7, var_94_0, var_94_1, var_94_2, var_94_3, var_94_4, var_94_5, var_94_6, var_94_7, arg_94_6)
-			else
-				var_0_40.rectangle(arg_94_0, arg_94_1, arg_94_2 - arg_94_7, arg_94_7, var_94_0, var_94_1, var_94_2, var_94_3, arg_94_6)
-				var_0_40.gradient(arg_94_0, arg_94_1 + arg_94_7, arg_94_7, arg_94_3 - arg_94_7, var_94_0, var_94_1, var_94_2, var_94_3, var_94_4, var_94_5, var_94_6, var_94_7, arg_94_6)
-				var_0_40.gradient(arg_94_0 + arg_94_2 - arg_94_7, arg_94_1, arg_94_7, arg_94_3 - arg_94_7, var_94_0, var_94_1, var_94_2, var_94_3, var_94_4, var_94_5, var_94_6, var_94_7, arg_94_6)
-				var_0_40.rectangle(arg_94_0 + arg_94_7, arg_94_1 + arg_94_3 - arg_94_7, arg_94_2 - arg_94_7, arg_94_7, var_94_4, var_94_5, var_94_6, var_94_7, arg_94_6)
-			end
-		end,
-		line = function(arg_95_0, arg_95_1, arg_95_2, arg_95_3, arg_95_4)
-			var_0_40.line(var_86_6(arg_95_0 * var_0_92), var_86_6(arg_95_1 * var_0_92), var_86_6(arg_95_2 * var_0_92), var_86_6(arg_95_3 * var_0_92), arg_95_4.r, arg_95_4.g, arg_95_4.b, arg_95_4.a * var_86_0)
-		end,
-		rectangle = function(arg_96_0, arg_96_1, arg_96_2, arg_96_3, arg_96_4, arg_96_5)
-			arg_96_0, arg_96_1, arg_96_2, arg_96_3, arg_96_5 = var_86_6(arg_96_0 * var_0_92), var_86_6(arg_96_1 * var_0_92), var_86_6(arg_96_2 * var_0_92), var_86_6(arg_96_3 * var_0_92), arg_96_5 and var_86_6(arg_96_5 * var_0_92) or 0
-
-			local var_96_0 = arg_96_4.r
-			local var_96_1 = arg_96_4.g
-			local var_96_2 = arg_96_4.b
-			local var_96_3 = arg_96_4.a * var_86_0
-
-			if arg_96_5 == 0 then
-				var_0_40.rectangle(arg_96_0, arg_96_1, arg_96_2, arg_96_3, var_96_0, var_96_1, var_96_2, var_96_3)
-			else
-				var_0_40.circle(arg_96_0 + arg_96_5, arg_96_1 + arg_96_5, var_96_0, var_96_1, var_96_2, var_96_3, arg_96_5, 180, 0.25)
-				var_0_40.rectangle(arg_96_0 + arg_96_5, arg_96_1, arg_96_2 - arg_96_5 - arg_96_5, arg_96_5, var_96_0, var_96_1, var_96_2, var_96_3)
-				var_0_40.circle(arg_96_0 + arg_96_2 - arg_96_5, arg_96_1 + arg_96_5, var_96_0, var_96_1, var_96_2, var_96_3, arg_96_5, 90, 0.25)
-				var_0_40.rectangle(arg_96_0, arg_96_1 + arg_96_5, arg_96_2, arg_96_3 - arg_96_5 - arg_96_5, var_96_0, var_96_1, var_96_2, var_96_3)
-				var_0_40.circle(arg_96_0 + arg_96_5, arg_96_1 + arg_96_3 - arg_96_5, var_96_0, var_96_1, var_96_2, var_96_3, arg_96_5, 270, 0.25)
-				var_0_40.rectangle(arg_96_0 + arg_96_5, arg_96_1 + arg_96_3 - arg_96_5, arg_96_2 - arg_96_5 - arg_96_5, arg_96_5, var_96_0, var_96_1, var_96_2, var_96_3)
-				var_0_40.circle(arg_96_0 + arg_96_2 - arg_96_5, arg_96_1 + arg_96_3 - arg_96_5, var_96_0, var_96_1, var_96_2, var_96_3, arg_96_5, 0, 0.25)
-			end
-		end,
-		rect_outline = function(arg_97_0, arg_97_1, arg_97_2, arg_97_3, arg_97_4, arg_97_5, arg_97_6)
-			arg_97_0, arg_97_1, arg_97_2, arg_97_3, arg_97_5, arg_97_6 = var_86_6(arg_97_0 * var_0_92), var_86_6(arg_97_1 * var_0_92), var_86_6(arg_97_2 * var_0_92), var_86_6(arg_97_3 * var_0_92), arg_97_5 and var_86_6(arg_97_5 * var_0_92) or 0, var_86_6((arg_97_6 or 1) * var_0_92)
-
-			local var_97_0 = arg_97_4.r
-			local var_97_1 = arg_97_4.g
-			local var_97_2 = arg_97_4.b
-			local var_97_3 = arg_97_4.a * var_86_0
-
-			if arg_97_5 == 0 then
-				var_0_40.rectangle(arg_97_0, arg_97_1, arg_97_2 - arg_97_6, arg_97_6, var_97_0, var_97_1, var_97_2, var_97_3)
-				var_0_40.rectangle(arg_97_0, arg_97_1 + arg_97_6, arg_97_6, arg_97_3 - arg_97_6, var_97_0, var_97_1, var_97_2, var_97_3)
-				var_0_40.rectangle(arg_97_0 + arg_97_2 - arg_97_6, arg_97_1, arg_97_6, arg_97_3 - arg_97_6, var_97_0, var_97_1, var_97_2, var_97_3)
-				var_0_40.rectangle(arg_97_0 + arg_97_6, arg_97_1 + arg_97_3 - arg_97_6, arg_97_2 - arg_97_6, arg_97_6, var_97_0, var_97_1, var_97_2, var_97_3)
-			else
-				var_0_40.circle_outline(arg_97_0 + arg_97_5, arg_97_1 + arg_97_5, var_97_0, var_97_1, var_97_2, var_97_3, arg_97_5, 180, 0.25, arg_97_6)
-				var_0_40.rectangle(arg_97_0 + arg_97_5, arg_97_1, arg_97_2 - arg_97_5 - arg_97_5, arg_97_6, var_97_0, var_97_1, var_97_2, var_97_3)
-				var_0_40.circle_outline(arg_97_0 + arg_97_2 - arg_97_5, arg_97_1 + arg_97_5, var_97_0, var_97_1, var_97_2, var_97_3, arg_97_5, 270, 0.25, arg_97_6)
-				var_0_40.rectangle(arg_97_0, arg_97_1 + arg_97_5, arg_97_6, arg_97_3 - arg_97_5 - arg_97_5, var_97_0, var_97_1, var_97_2, var_97_3)
-				var_0_40.circle_outline(arg_97_0 + arg_97_5, arg_97_1 + arg_97_3 - arg_97_5, var_97_0, var_97_1, var_97_2, var_97_3, arg_97_5, 90, 0.25, arg_97_6)
-				var_0_40.rectangle(arg_97_0 + arg_97_5, arg_97_1 + arg_97_3 - arg_97_6, arg_97_2 - arg_97_5 - arg_97_5, arg_97_6, var_97_0, var_97_1, var_97_2, var_97_3)
-				var_0_40.circle_outline(arg_97_0 + arg_97_2 - arg_97_5, arg_97_1 + arg_97_3 - arg_97_5, var_97_0, var_97_1, var_97_2, var_97_3, arg_97_5, 0, 0.25, arg_97_6)
-				var_0_40.rectangle(arg_97_0 + arg_97_2 - arg_97_6, arg_97_1 + arg_97_5, arg_97_6, arg_97_3 - arg_97_5 - arg_97_5, var_97_0, var_97_1, var_97_2, var_97_3)
-			end
-		end,
-		triangle = function(arg_98_0, arg_98_1, arg_98_2, arg_98_3, arg_98_4, arg_98_5, arg_98_6)
-			arg_98_0, arg_98_1, arg_98_2, arg_98_3, arg_98_4, arg_98_5 = arg_98_0 * var_0_92, arg_98_1 * var_0_92, arg_98_2 * var_0_92, arg_98_3 * var_0_92, arg_98_4 * var_0_92, arg_98_5 * var_0_92
-
-			var_0_40.triangle(arg_98_0, arg_98_1, arg_98_2, arg_98_3, arg_98_4, arg_98_5, arg_98_6.r, arg_98_6.g, arg_98_6.b, arg_98_6.a * var_86_0)
-		end,
-		circle = function(arg_99_0, arg_99_1, arg_99_2, arg_99_3, arg_99_4, arg_99_5)
-			var_0_40.circle(arg_99_0 * var_0_92, arg_99_1 * var_0_92, arg_99_2.r, arg_99_2.g, arg_99_2.b, arg_99_2.a * var_86_0, arg_99_3 * var_0_92, arg_99_4 or 0, arg_99_5 or 1)
-		end,
-		circle_outline = function(arg_100_0, arg_100_1, arg_100_2, arg_100_3, arg_100_4, arg_100_5, arg_100_6)
-			var_0_40.circle(arg_100_0 * var_0_92, arg_100_1 * var_0_92, arg_100_2.r, arg_100_2.g, arg_100_2.b, arg_100_2.a * var_86_0, arg_100_3 * var_0_92, arg_100_4 or 0, arg_100_5 or 1, arg_100_6 * var_0_92)
-		end,
-		screen_size = function(arg_101_0)
-			local var_101_0, var_101_1 = var_0_34.screen_size()
-
-			if arg_101_0 then
-				return var_101_0, var_101_1
-			else
-				return var_101_0 / var_0_92, var_101_1 / var_0_92
-			end
-		end,
-		load_rgba = function(arg_102_0, arg_102_1, arg_102_2)
-			return var_0_40.load_rgba(arg_102_0, arg_102_1, arg_102_2)
-		end,
-		load_jpg = function(arg_103_0, arg_103_1, arg_103_2)
-			return var_0_40.load_jpg(arg_103_0, arg_103_1, arg_103_2)
-		end,
-		load_png = function(arg_104_0, arg_104_1, arg_104_2)
-			return var_0_40.load_png(arg_104_0, arg_104_1, arg_104_2)
-		end,
-		load_svg = function(arg_105_0, arg_105_1, arg_105_2)
-			return var_0_40.load_svg(arg_105_0, arg_105_1, arg_105_2)
-		end,
-		texture = function(arg_106_0, arg_106_1, arg_106_2, arg_106_3, arg_106_4, arg_106_5, arg_106_6)
-			if not arg_106_0 then
-				return
-			end
-
-			var_0_40.texture(arg_106_0, var_86_6(arg_106_1 * var_0_92), var_86_6(arg_106_2 * var_0_92), var_86_6(arg_106_3 * var_0_92), var_86_6(arg_106_4 * var_0_92), arg_106_5.r, arg_106_5.g, arg_106_5.b, arg_106_5.a * var_86_0, arg_106_6 or "f")
-		end,
-		text = function(arg_107_0, arg_107_1, arg_107_2, arg_107_3, arg_107_4, ...)
-			var_0_40.text(arg_107_0 * var_0_92, arg_107_1 * var_0_92, arg_107_2.r, arg_107_2.g, arg_107_2.b, arg_107_2.a * var_86_0, (arg_107_3 or "") .. var_86_2, arg_107_4 or 0, ...)
-		end,
-		measure_text = function(arg_108_0, arg_108_1)
-			local var_108_0, var_108_1 = var_0_40.measure_text((arg_108_0 or "") .. var_86_2, arg_108_1)
-
-			return var_108_0 / var_0_92, var_108_1 / var_0_92
-		end
-	}, {
-		__index = var_0_40
-	})
-
-	return render
-end)()
-local var_0_100 = LPH_NO_VIRTUALIZE(function()
-	local var_109_0 = var_0_8({}, {
-		__mode = "kv"
-	})
-	local var_109_1 = var_0_38.absoluteframetime()
-	local var_109_2 = 1
-	local var_109_3 = {
-		pow = {
-			function(arg_110_0, arg_110_1)
-				return 1 - (1 - arg_110_0)^(arg_110_1 or 3)
-			end,
-			function(arg_111_0, arg_111_1)
-				return arg_111_0^(arg_111_1 or 3)
-			end,
-			function(arg_112_0, arg_112_1)
-				return arg_112_0 < 0.5 and 4 * var_0_31.pow(arg_112_0, arg_112_1 or 3) or 1 - var_0_31.pow(-2 * arg_112_0 + 2, arg_112_1 or 3) * 0.5
-			end
-		}
-	}
-
-	anima = {
-		pulse = 0,
-		easings = var_109_3,
-		lerp = function(arg_113_0, arg_113_1, arg_113_2, arg_113_3)
-			local var_113_0 = arg_113_0 + (arg_113_1 - arg_113_0) * var_109_1 * (arg_113_2 or 8) * var_109_2
-
-			return var_0_31.abs(arg_113_1 - var_113_0) < (arg_113_3 or 0.005) and arg_113_1 or var_113_0
-		end,
-		condition = function(arg_114_0, arg_114_1, arg_114_2, arg_114_3)
-			local var_114_0 = arg_114_0[1] and arg_114_0 or var_109_0[arg_114_0]
-
-			if not var_114_0 then
-				var_109_0[arg_114_0] = {
-					arg_114_1 and 1 or 0,
-					arg_114_1
-				}
-				var_114_0 = var_109_0[arg_114_0]
-			end
-
-			arg_114_2 = arg_114_2 or 4
-
-			local var_114_1 = arg_114_2
-
-			if var_0_24(arg_114_2) == "table" then
-				var_114_1 = arg_114_1 and arg_114_2[1] or arg_114_2[2]
-			end
-
-			var_114_0[1] = var_0_31.clamp(var_114_0[1] + var_109_1 * var_0_31.abs(var_114_1) * var_109_2 * (arg_114_1 and 1 or -1), 0, 1)
-
-			return (var_114_0[1] % 1 == 0 or var_114_1 < 0) and var_114_0[1] or var_109_3.pow[arg_114_3 and (arg_114_1 and arg_114_3[1][1] or arg_114_3[2][1]) or arg_114_1 and 1 or 3](var_114_0[1], arg_114_3 and (arg_114_1 and arg_114_3[1][2] or arg_114_3[2][2]) or 3)
-		end
-	}
-
-	var_0_78.paint_ui:set(function()
-		anima.pulse = var_0_31.sin(var_0_38.realtime()) * 0.5 + 0.5
-		var_109_1 = var_0_38.frametime()
-	end)
-
-	return anima
-end)()
-local var_0_101
-local var_0_102 = {
-	corner_h = var_0_99.load_svg("<svg width=\"4\" height=\"5.87\" viewBox=\"0 0 4 6\"><path fill=\"#fff\" d=\"M0 6V4c0-2 2-4 4-4v2C2 2 0 4 0 6Z\"/></svg>", 8, 12),
-	corner_v = var_0_99.load_svg("<svg width=\"5.87\" height=\"4\" viewBox=\"0 0 6 4\"><path fill=\"#fff\" d=\"M2 0H0c0 2 2 4 4 4h2C4 4 2 2 2 0Z\"/></svg>", 12, 8),
-	warning = var_0_99.load_svg("<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\"><path fill=\"#fff\" d=\"m13.259 13h-10.518c-0.35787 0.0023-0.68906-0.1889-0.866-0.5-0.18093-0.3088-0.18093-0.6912 0-1l5.259-9.015c0.1769-0.31014 0.50696-0.50115 0.864-0.5 0.3568-0.00121 0.68659 0.18986 0.863 0.5l5.26 9.015c0.1809 0.3088 0.1809 0.6912 0 1-0.1764 0.3097-0.5056 0.5006-0.862 0.5zm-6.259-3v2h2v-2zm0-5v4h2v-4z\"/></svg>", 16, 16),
-	manual = var_0_99.load_svg("<svg width=\"8\" height=\"10\" viewBox=\"0 0 8 10\"><path fill=\"#fff\" d=\"m0.384 5.802c-0.24286-0.19453-0.3842-0.48884-0.3842-0.8s0.14134-0.60547 0.3842-0.8l6.08-4c0.29513-0.22371 0.69277-0.25727 1.0212-0.086202 0.32846 0.17107 0.52889 0.51613 0.51477 0.8862l-1.92 3.96 1.92 4.04c0.01412 0.37007-0.18631 0.71513-0.51477 0.8862-0.32846 0.1711-0.7261 0.1375-1.0212-0.0862z\"/></svg>", 10, 10),
-}
-local var_0_103 = var_0_16("calamity/p.png")
-
-local function var_0_104(arg_116_0)
-	var_0_102.butterfly = var_0_99.load_png(arg_116_0, 1024, 1024)
-	var_0_102.butterfly_s = var_0_99.load_png(arg_116_0, 64, 64)
-end
-
-if not var_0_103 then
-	var_0_45.get("https://previews.dropbox.com/p/thumb/AChkyrgbL9RV7RDPl84poMjGlHfburLQvBaKidpgBjop8rAFY7tXmqtclylEClWrc8cy50rkrAeqNMVL5UYOjEAWlVizgqbiF8zjFr5Ej6LffsmtcnjsuMW-7geZAZAA2LF9k5vjwV9anFH9H4DALzJtYROf16x83Fy5esp6hB3S6OkrY9Fv0S0qQ3M19BeFdnJm1sJBI07KY0F2BvkyGDU9Z3M13tutn3ANkidNLVc3kLOoF_V-xurSSA7KuWeCUecRHaT9LxJQ6caUb5B-J3v3UR25KBwJhFnbAdITDHg8E76-GSMxgTYwQMZ3V6-m7Go/p.png", function(arg_117_0, arg_117_1)
-		if arg_117_0 and var_0_32.sub(arg_117_1.body, 2, 4) == "PNG" then
-			var_0_104(arg_117_1.body)
-			var_0_17("calamity/p.png", arg_117_1.body)
-		end
-	end)
-else
-	var_0_104(var_0_103)
-end
-
-if _AZAZI then
-	var_0_45.get("https://previews.dropbox.com/p/thumb/AChkyrgbL9RV7RDPl84poMjGlHfburLQvBaKidpgBjop8rAFY7tXmqtclylEClWrc8cy50rkrAeqNMVL5UYOjEAWlVizgqbiF8zjFr5Ej6LffsmtcnjsuMW-7geZAZAA2LF9k5vjwV9anFH9H4DALzJtYROf16x83Fy5esp6hB3S6OkrY9Fv0S0qQ3M19BeFdnJm1sJBI07KY0F2BvkyGDU9Z3M13tutn3ANkidNLVc3kLOoF_V-xurSSA7KuWeCUecRHaT9LxJQ6caUb5B-J3v3UR25KBwJhFnbAdITDHg8E76-GSMxgTYwQMZ3V6-m7Go/p.png", function(arg_118_0, arg_118_1)
-		if arg_118_0 and var_0_32.sub(arg_118_1.body, 2, 4) == "PNG" then
-			var_0_102.logo_l = var_0_99.load_png(arg_118_1.body, 35, 15)
-		end
-	end)
-	var_0_45.get("https://previews.dropbox.com/p/thumb/AChkyrgbL9RV7RDPl84poMjGlHfburLQvBaKidpgBjop8rAFY7tXmqtclylEClWrc8cy50rkrAeqNMVL5UYOjEAWlVizgqbiF8zjFr5Ej6LffsmtcnjsuMW-7geZAZAA2LF9k5vjwV9anFH9H4DALzJtYROf16x83Fy5esp6hB3S6OkrY9Fv0S0qQ3M19BeFdnJm1sJBI07KY0F2BvkyGDU9Z3M13tutn3ANkidNLVc3kLOoF_V-xurSSA7KuWeCUecRHaT9LxJQ6caUb5B-J3v3UR25KBwJhFnbAdITDHg8E76-GSMxgTYwQMZ3V6-m7Go/p.png", function(arg_119_0, arg_119_1)
-		if arg_119_0 and var_0_32.sub(arg_119_1.body, 2, 4) == "PNG" then
-			var_0_102.logo_r = var_0_99.load_png(arg_119_1.body, 35, 15)
-		end
-	end)
-end
-
-local var_0_105 = LPH_NO_VIRTUALIZE(function()
-	local var_120_0
-	local var_120_1 = {}
-	local var_120_2 = {
-		bg = var_0_79(255),
-		line = var_0_79(255)
-	}
-	local var_120_3 = 0
-	local var_120_4 = 0
-	local var_120_5 = 0
-	local var_120_6 = 0
-	local var_120_7 = 0
-	local var_120_8 = 0
-
-	var_0_78.paint_ui:set(function()
-		var_120_3, var_120_4 = var_0_33.mouse_position()
-		var_120_3, var_120_4 = var_120_3 / var_0_92, var_120_4 / var_0_92
-		var_120_5, var_120_6 = var_0_33.menu_position()
-		var_120_7, var_120_8 = var_0_33.menu_size()
-		var_120_5, var_120_6, var_120_7, var_120_8 = var_120_5 / var_0_92, var_120_6 / var_0_92, var_120_7 / var_0_92, var_120_8 / var_0_92
-	end)
-
-	local function var_120_9(arg_122_0, arg_122_1, arg_122_2, arg_122_3, arg_122_4, arg_122_5)
-		return arg_122_2 <= arg_122_0 and arg_122_3 <= arg_122_1 and arg_122_0 <= arg_122_4 and arg_122_1 <= arg_122_5
-	end
-
-	local var_120_10 = {
-		menu = {
-			0
-		},
-		bg = {
-			0
-		}
-	}
-
-	var_0_78.paint_ui:set(function()
-		local var_123_0 = var_0_100.condition(var_120_10.bg, var_120_0 ~= nil, 2)
-
-		if var_123_0 == 0 then
-			return
-		end
-
-		var_0_99.push_alpha(var_123_0)
-		var_0_99.rectangle(0, 0, var_0_93, var_0_94, var_0_91.panel.l1)
-		var_0_99.pop_alpha()
-	end)
-
-	local function var_120_11(arg_124_0)
-		local var_124_0 = arg_124_0.__drag
-
-		if var_124_0.locked or not var_0_44.menu_open then
-			return
-		end
-
-		local var_124_1 = var_0_34.key_state(1)
-		local var_124_2 = var_120_9(var_120_3, var_120_4, arg_124_0.x, arg_124_0.y, arg_124_0.x + arg_124_0.w, arg_124_0.y + arg_124_0.h) and not var_120_9(var_120_3, var_120_4, var_120_5, var_120_6, var_120_5 + var_120_7, var_120_6 + var_120_8)
-
-		if var_124_1 and var_124_0.ready == nil then
-			var_124_0.ready = var_124_2
-			var_124_0.ix, var_124_0.iy = arg_124_0.x, arg_124_0.y
-			var_124_0.px, var_124_0.py = arg_124_0.x - var_120_3, arg_124_0.y - var_120_4
-		end
-
-		if var_124_1 and var_124_0.ready then
-			if var_120_0 == nil and var_124_0.on_held then
-				var_124_0.on_held(arg_124_0, var_124_0)
-			end
-
-			var_120_0 = var_124_0.ready and var_120_0 == nil and arg_124_0.id or var_120_0
-			var_124_0.active = var_120_0 == arg_124_0.id
-		elseif not var_124_1 then
-			if var_124_0.active and var_124_0.on_release then
-				var_124_0.on_release(arg_124_0, var_124_0)
-			end
-
-			var_124_0.active = false
-			var_120_0, var_124_0.ready, var_124_0.aligning, var_124_0.px, var_124_0.py, var_124_0.ix, var_124_0.iy = nil
-		end
-
-		var_124_0.hovered = var_124_2 or var_124_0.active
-
-		local var_124_3 = {}
-		local var_124_4 = arg_124_0.x * var_0_92
-		local var_124_5 = arg_124_0.y * var_0_92
-		local var_124_6 = arg_124_0.w * var_0_92
-		local var_124_7 = arg_124_0.h * var_0_92
-		local var_124_8 = var_124_0.px and (var_124_0.px + var_120_3) * var_0_92 or var_124_4
-		local var_124_9 = var_124_0.py and (var_124_0.py + var_120_4) * var_0_92 or var_124_5
-		local var_124_10 = var_124_4 + var_124_6 * 0.5
-		local var_124_11 = var_124_5 + var_124_7 * 0.5
-		local var_124_12 = var_0_100.condition(var_124_0.progress[1], var_124_0.hovered, 4)
-		local var_124_13 = var_0_100.condition(var_124_0.progress[2], var_124_0.active, 4)
-
-		var_0_99.rectangle(arg_124_0.x - 3, arg_124_0.y - 3, arg_124_0.w + 6, arg_124_0.h + 6, var_120_2.bg:alphen(12 + 24 * var_124_12), 6)
-		var_0_99.push_alpha(var_124_13)
-
-		if not var_0_34.key_state(162) then
-			local var_124_14 = (var_124_8 + var_124_6 * 0.5) / var_0_92
-			local var_124_15 = (var_124_9 + var_124_7 * 0.5) / var_0_92
-
-			for iter_124_0, iter_124_1 in var_0_9(var_124_0.rulers) do
-				local var_124_16 = iter_124_1[2] / var_0_92
-				local var_124_17 = iter_124_1[3] / var_0_92
-				local var_124_18 = var_0_31.abs(iter_124_1[1] and var_124_14 - var_124_16 or var_124_15 - var_124_17) < 10 * var_0_92
-				local var_124_19 = iter_124_1[1] and 1 or 2
-
-				if not var_124_3[var_124_19] then
-					var_124_3[var_124_19] = var_124_18 and (iter_124_1[1] and var_124_16 - arg_124_0.w * 0.5 or var_124_17 - arg_124_0.h * 0.5) or nil
-				end
-
-				iter_124_1.p = iter_124_1.p or {
-					0
-				}
-
-				local var_124_20 = var_0_31.abs(iter_124_1[1] and var_124_10 - var_124_16 or var_124_11 - var_124_17)
-				local var_124_21 = var_0_100.condition(iter_124_1.p, var_124_18 or var_124_20 < 10 * var_0_92, -8) * 0.35 + 0.1
-
-				var_0_99.rectangle(var_124_16, var_124_17, iter_124_1[1] and 1 or iter_124_1[4], iter_124_1[1] and iter_124_1[4] or 1, var_120_2.line:alphen(var_124_21, true))
-			end
-
-			if var_124_0.border[5] then
-				local var_124_22 = var_124_0.border[1]
-				local var_124_23 = var_124_0.border[2]
-				local var_124_24 = var_124_0.border[3]
-				local var_124_25 = var_124_0.border[4]
-				local var_124_26 = var_120_9(arg_124_0.x, arg_124_0.y, var_124_22, var_124_23, var_124_24 - arg_124_0.w * 0.5 - 1, var_124_25 - arg_124_0.h * 0.5 - 1)
-				local var_124_27 = var_0_100.condition(var_124_0.progress[3], not var_124_26)
-
-				var_0_99.rect_outline(var_124_22, var_124_23, var_124_24 - var_124_22, var_124_25 - var_124_23, var_120_2.line:alphen(var_124_27 * 0.75 + 0.25, true), 4)
-			end
-		end
-
-		var_0_99.pop_alpha()
-
-		if var_124_0.active then
-			local var_124_28 = var_124_3[1] or var_124_8 / var_0_92
-			local var_124_29 = var_124_3[2] or var_124_9 / var_0_92
-			local var_124_30 = (var_124_0.border[1] - var_124_6 * 0.5) / var_0_92
-			local var_124_31 = (var_124_0.border[2] - var_124_7 * 0.5) / var_0_92
-			local var_124_32 = (var_124_0.border[3] - var_124_6 * 0.5) / var_0_92
-			local var_124_33 = (var_124_0.border[4] - var_124_7 * 0.5) / var_0_92
-			local var_124_34 = var_0_31.clamp(var_124_28, var_0_31.max(var_124_30, 0), var_0_31.min(var_124_32, var_0_93 - arg_124_0.w))
-			local var_124_35 = var_0_31.clamp(var_124_29, var_0_31.max(var_124_31, 0), var_0_31.min(var_124_33, var_0_94 - arg_124_0.h))
-
-			arg_124_0:set_position(var_124_34, var_124_35)
-
-			if var_124_0.on_active then
-				var_124_0.on_active(arg_124_0, var_124_0, fin)
-			end
-		end
-	end
-
-	drag = {
-		data = var_120_1,
-		new = function(arg_125_0, arg_125_1)
-			var_120_1[arg_125_0.id] = {
-				x = var_0_44.slider("MISC", "Settings", var_0_32.format("%s::%s-x", var_0_0, arg_125_0.id), 0, 10000, arg_125_0.x / var_0_93 * 10000),
-				y = var_0_44.slider("MISC", "Settings", var_0_32.format("%s::%s-y", var_0_0, arg_125_0.id), 0, 10000, arg_125_0.y / var_0_94 * 10000)
-			}
-
-			var_120_1[arg_125_0.id].x:set_visible(false)
-			var_120_1[arg_125_0.id].y:set_visible(false)
-			var_120_1[arg_125_0.id].x:set_callback(function(arg_126_0)
-				arg_125_0.x = var_0_31.round(arg_126_0.value * 0.0001 * var_0_93)
-			end, true)
-			var_120_1[arg_125_0.id].y:set_callback(function(arg_127_0)
-				arg_125_0.y = var_0_31.round(arg_127_0.value * 0.0001 * var_0_94)
-			end, true)
-
-			arg_125_1 = var_0_24(arg_125_1) == "table" and arg_125_1 or {}
-			arg_125_0.__drag = {
-				locked = false,
-				active = false,
-				config = var_120_1[arg_125_0.id],
-				progress = {
-					{
-						0
-					},
-					{
-						0
-					},
-					{
-						0
-					}
-				},
-				ix = arg_125_0.x,
-				iy = arg_125_0.y,
-				rulers = arg_125_1.rulers or {},
-				border = arg_125_1.border or {
-					0,
-					0,
-					var_0_95,
-					var_0_96
-				},
-				on_release = arg_125_1.on_release,
-				on_held = arg_125_1.on_held,
-				on_active = arg_125_1.on_active,
-				work = var_120_11
-			}
-
-			var_0_78.dpi_change:set(function()
-				var_120_1[arg_125_0.id].x:set(var_120_1[arg_125_0.id].x.value)
-				var_120_1[arg_125_0.id].y:set(var_120_1[arg_125_0.id].y.value)
-
-				arg_125_0.x, arg_125_0.y = var_0_31.round(var_120_1[arg_125_0.id].x.value * 0.0001 * var_0_93), var_0_31.round(var_120_1[arg_125_0.id].y.value * 0.0001 * var_0_94)
-			end)
-			var_0_78.setup_command:set(function(arg_129_0)
-				if var_0_44.menu_open and (arg_125_0.__drag.hovered or arg_125_0.__drag.active) then
-					arg_129_0.in_attack = 0
-				end
-			end)
-		end
-	}
-
-	return drag
-end)()
-local var_0_106 = LPH_NO_VIRTUALIZE(function()
-	local var_130_0
-
-	var_130_0 = {
-		update = function(arg_131_0)
-			return 1
-		end,
-		paint = function(arg_132_0, arg_132_1, arg_132_2, arg_132_3, arg_132_4)
-			return
-		end,
-		set_position = function(arg_133_0, arg_133_1, arg_133_2)
-			if arg_133_0.__drag then
-				if arg_133_1 then
-					arg_133_0.__drag.config.x:set(arg_133_1 / var_0_93 * 10000)
-
-					arg_133_0.x = arg_133_1
-				end
-
-				if arg_133_2 then
-					arg_133_0.__drag.config.y:set(arg_133_2 / var_0_94 * 10000)
-
-					arg_133_0.y = arg_133_2
-				end
-			else
-				arg_133_0.x, arg_133_0.y = arg_133_1 or arg_133_0.x, arg_133_2 or arg_133_0.y
-			end
-		end,
-		get_position = function(arg_134_0)
-			local var_134_0 = arg_134_0.__drag and arg_134_0.__drag.config
-
-			if not var_134_0 then
-				return arg_134_0.x, arg_134_0.y
-			end
-
-			return var_134_0.x.value * 0.0001 * var_0_93, var_134_0.y.value * 0.0001 * var_0_94
-		end,
-		__call = function(arg_135_0)
-			local var_135_0 = arg_135_0.__list
-			local var_135_1 = arg_135_0.__drag
-
-			if var_135_0 then
-				var_135_0.items, var_135_0.active = var_135_0.collect(), 0
-
-				for iter_135_0 = 1, #var_135_0.items do
-					if var_135_0.items[iter_135_0].active then
-						var_135_0.active = var_135_0.active + 1
-					end
-				end
-			end
-
-			arg_135_0.alpha = arg_135_0:update()
-
-			var_0_99.push_alpha(arg_135_0.alpha)
-
-			if arg_135_0.alpha > 0 then
-				if var_135_1 then
-					var_135_1.work(arg_135_0)
-				end
-
-				if var_135_0 then
-					var_130_0.traverse(arg_135_0)
-				end
-
-				arg_135_0:paint(arg_135_0.x, arg_135_0.y, arg_135_0.w, arg_135_0.h)
-			end
-
-			var_0_99.pop_alpha()
-		end,
-		enlist = function(arg_136_0, arg_136_1, arg_136_2)
-			arg_136_0.__list = {
-				active = 0,
-				longest = 0,
-				items = {},
-				progress = var_0_8({}, {
-					__mode = "k"
-				}),
-				minwidth = arg_136_0.w,
-				collect = arg_136_1,
-				paint = arg_136_2
-			}
-		end,
-		traverse = function(arg_137_0)
-			local var_137_0 = arg_137_0.__list
-			local var_137_1 = 0
-			local var_137_2 = 0
-			local var_137_3 = 0
-
-			var_137_0.active, var_137_0.longest = 0, 0
-
-			for iter_137_0 = 1, #var_137_0.items do
-				local var_137_4 = var_137_0.items[iter_137_0]
-				local var_137_5 = var_137_4.name or iter_137_0
-
-				var_137_0.progress[var_137_5] = var_137_0.progress[var_137_5] or {
-					0
-				}
-
-				local var_137_6 = var_0_100.condition(var_137_0.progress[var_137_5], var_137_4.active)
-
-				if var_137_6 > 0 then
-					var_0_99.push_alpha(var_137_6)
-
-					local var_137_7, var_137_8 = var_137_0.paint(arg_137_0, var_137_4, var_137_1, var_137_6)
-
-					var_0_99.pop_alpha()
-
-					var_137_0.active, var_137_1 = var_137_0.active + 1, var_137_1 + var_137_8 * var_137_6
-					var_137_0.longest = var_0_31.max(var_137_0.longest, var_137_7)
-				end
-			end
-
-			arg_137_0.w = var_0_100.lerp(arg_137_0.w, var_0_31.max(var_137_0.longest, var_137_0.minwidth), 10, 0.5)
-		end,
-		lock = function(arg_138_0, arg_138_1)
-			if not arg_138_0.__drag then
-				return
-			end
-
-			arg_138_0.__drag.locked = arg_138_1 and true or false
-		end
-	}
-	var_130_0.__index = var_130_0
-	widget = {
-		new = function(arg_139_0, arg_139_1, arg_139_2, arg_139_3, arg_139_4, arg_139_5)
-			local var_139_0 = {
-				type = 0,
-				alpha = 0,
-				id = arg_139_0,
-				x = arg_139_1 or 0,
-				y = arg_139_2 or 0,
-				w = arg_139_3 or 0,
-				h = arg_139_4 or 0,
-				progress = {
-					0
-				}
-			}
-
-			if arg_139_5 then
-				var_0_105.new(var_139_0, arg_139_5)
-			end
-
-			return var_0_8(var_139_0, var_130_0)
-		end
-	}
-
-	return widget
-end)()
-local var_0_107
-local var_0_108 = {
-	states = {
-		{
-			"default",
-			"Default",
-			"D"
-		},
-		{
-			"stand",
-			"Standing",
-			"S"
-		},
-		{
-			"run",
-			"Running",
-			"R"
-		},
-		{
-			"walk",
-			"Walking",
-			"W"
-		},
-		{
-			"air",
-			"Air",
-			"A"
-		},
-		{
-			"airc",
-			"Air & crouch",
-			"AC"
-		},
-		{
-			"crouch",
-			"Crouching",
-			"C"
-		},
-		{
-			"sneak",
-			"Sneaking",
-			"3"
-		},
-		{
-			"fakelag",
-			"Fakelag",
-			"FL"
-		}
-	},
-	snaps = {
-		{
-			"default",
-			"Default",
-			"D"
-		},
-		{
-			"air",
-			"Air",
-			"A"
-		},
-		{
-			"airc",
-			"Air & crouch",
-			"AC"
-		},
-		{
-			"crouch",
-			"Crouching",
-			"C"
-		},
-		{
-			"sneak",
-			"Sneaking",
-			"S"
-		},
-		{
-			"peek",
-			"On peek",
-			"P"
-		}
-	}
-}
-local var_0_109 = {
-	hitgroups = {
-		[0] = "generic",
-		"head",
-		"chest",
-		"stomach",
-		"left arm",
-		"right arm",
-		"left leg",
-		"right leg",
-		"neck",
-		"generic",
-		"gear"
-	},
-	states = var_0_30.distribute(var_0_108.states, nil, 1),
-	snaps = var_0_30.distribute(var_0_108.snaps, nil, 1),
-	build = {
-		stable = {
-			"",
-			""
-		},
-		beta = {
-			"β",
-			""
-		},
-		debug = {
-			"♪",
-			""
-		}
-	},
-	exploit = {
-		OS = 2,
-		DT = 1
-	},
-	aspect_ratios = {
-		{
-			125,
-			"5:4"
-		},
-		{
-			133,
-			"4:3"
-		},
-		{
-			150,
-			"3:2"
-		},
-		{
-			160,
-			"16:10"
-		},
-		{
-			178,
-			"16:9"
-		},
-		{
-			200,
-			"2:1"
-		}
-	}
-}
-local var_0_110 = {
-	builder = {
-		custom = {}
-	},
-	snap = {
-		custom = {}
-	}
-}
-local var_0_111
-local var_0_112
-local var_0_113, var_0_114 = {
-	vulnerable = false,
-	side = 0,
-	duck_amount = 0,
-	max_speed = 0,
-	peeking = false,
-	velocity_sqr = 0,
-	valid = false,
-	velocity = 0,
-	self = var_0_36.get_local_player(),
-	origin = var_0_50(),
-	threat = var_0_34.current_threat(),
-	exploit = {
-		lc_left = 0,
-		defensive = false,
-		ready = false
-	},
-	predicted = {
-		velocity = 0
-	}
-}, {}
-local var_0_115 = 0
-local var_0_116 = 0
-local var_0_117
-
-var_0_78.predict_command:set(function(arg_140_0)
-	if not var_0_113.valid or var_0_117 ~= arg_140_0.command_number then
-		return
-	end
-
-	var_0_115 = var_0_36.get_prop(var_0_113.weapon, "m_flPostponeFireReadyTime")
-
-	local var_140_0 = var_0_36.get_prop(var_0_113.self, "m_nTickBase") or 0
-
-	if var_0_31.abs(var_140_0 - var_0_116) > 64 then
-		var_0_116 = 0
-	end
-
-	if var_140_0 > var_0_116 then
-		var_0_116 = var_140_0
-	elseif var_140_0 < var_0_116 then
-		-- block empty
-	end
-
-	var_0_113.exploit.lc_left = var_0_31.min(14, var_0_31.max(0, var_0_116 - var_140_0 - 1))
-	var_0_113.exploit.defensive = var_0_113.exploit.lc_left > 0
-end)
-var_0_78.run_command:set(function(arg_141_0)
-	var_0_117 = arg_141_0.command_number
-end)
-
-local function var_0_118(arg_142_0)
-	if not var_0_113.weapon then
-		return false
-	end
-
-	if not var_0_36.get_prop(var_0_113.weapon, "m_bPinPulled") then
-		return
-	end
-
-	local var_142_0 = var_0_36.get_prop(var_0_113.weapon, "m_fThrowTime")
-
-	return var_142_0 and var_142_0 ~= 0
-end
-
-local function var_0_119()
-	if not var_0_113.valid or not var_0_113.weapon or not var_0_113.weapon_t then
-		return
-	end
-
-	if var_0_113.weapon_t.weapon_type_int == 9 or var_0_113.weapon_t.name == "Medi-Shot" or var_0_113.weapon_t.type == "c4" then
-		return
-	end
-
-	if var_0_36.get_prop(var_0_113.weapon, "m_iClip1") == 0 then
-		return
-	end
-
-	local var_143_0 = var_0_36.get_prop(var_0_113.self, "m_nTickBase") * var_0_38.tickinterval()
-	local var_143_1 = var_0_36.get_prop(var_0_113.self, "m_flNextAttack")
-	local var_143_2 = var_0_36.get_prop(var_0_113.weapon, "m_flNextPrimaryAttack")
-
-	if not var_143_1 or not var_143_2 then
-		return
-	end
-
-	if var_0_36.get_prop(var_0_113.weapon, "m_iItemDefinitionIndex") == 64 and not (var_0_115 < var_0_38.curtime()) then
-		return
-	end
-
-	return var_143_1 <= var_143_0 and var_143_2 <= var_143_0
-end
-
-local function var_0_120()
-	local var_144_0 = false
-	local var_144_1 = false
-	local var_144_2 = var_0_50(var_0_36.get_prop(var_0_113.self, "m_vecVelocity"))
-	local var_144_3 = var_0_107.misc.settings.maxshift.value - var_0_107.rage.aimbot.dt_fl[1].value + 1
-	local var_144_4 = var_0_50(var_0_34.eye_position())
-	local var_144_5 = var_0_50(var_0_34.extrapolate(var_144_4.x, var_144_4.y, var_144_4.z, var_144_2, var_144_3))
-
-	for iter_144_0 = 1, #var_0_114 do
-		local var_144_6 = var_0_114[iter_144_0]
-
-		if var_0_36.is_enemy(var_144_6) then
-			if var_0_41.band(var_0_36.get_esp_data(var_144_6).flags or 0, var_0_41.lshift(1, 11)) == 0 then
-				local var_144_7 = {
-					var_0_36.hitbox_position(var_144_6, 0)
-				}
-				local var_144_8 = {
-					var_0_34.extrapolate(var_144_7[1], var_144_7[2], var_144_7[3], var_144_2, 4)
-				}
-				local var_144_9 = {
-					var_0_34.trace_bullet(var_0_113.self, var_144_5.x, var_144_5.y, var_144_5.z, var_144_8[1], var_144_8[2], var_144_8[3])
-				}
-
-				if var_144_9[2] and var_144_9[2] > 0 then
-					var_144_0 = true
-
-					break
-				end
-			else
-				var_144_1 = true
-			end
-		end
-	end
-
-	return var_144_0, var_144_1
-end
-
-local function var_0_121()
-	if not var_0_113.weapon_t then
-		return 0
-	end
-
-	if var_0_36.get_prop(var_0_113.self, "m_bIsScoped") == 1 then
-		return var_0_113.weapon_t.max_player_speed_alt
-	else
-		return var_0_113.weapon_t.max_player_speed
-	end
-end
-
-local function var_0_122(arg_146_0)
-	var_0_113.self = var_0_36.get_local_player()
-	var_0_113.valid = var_0_113.self and var_0_36.is_alive(var_0_113.self) and true or false
-	var_0_113.threat = var_0_113.valid and var_0_34.current_threat() or nil
-	var_0_113.weapon = var_0_113.valid and var_0_36.get_player_weapon(var_0_113.self) or nil
-	var_0_113.weapon_t = var_0_113.weapon and var_0_49(var_0_113.weapon)
-
-	if var_0_113.valid then
-		var_0_113.exploit.active = var_0_107.rage.aimbot.double_tap[1].value and var_0_107.rage.aimbot.double_tap[1].hotkey:get() and var_0_109.exploit.DT or var_0_107.aa.other.onshot.value and var_0_107.aa.other.onshot.hotkey:get() and var_0_109.exploit.OS or var_0_109.exploit.OFF
-
-		if var_0_107.rage.other.duck:get() then
-			var_0_113.exploit.active = nil
-		end
-
-		var_0_113.exploit.ready = var_0_46.get_double_tap()
-		var_0_113.origin = var_0_50(var_0_36.get_origin(var_0_113.self))
-		var_0_113.animstate = var_0_36.get_animstate(var_0_113.self)
-
-		if arg_146_0 then
-			local var_146_0 = var_0_36.get_prop(var_0_113.self, "m_fFlags")
-
-			var_0_113.throwing_nade = var_0_118(arg_146_0) or false
-			var_0_113.can_shoot = var_0_119() or false
-			var_0_113.using = arg_146_0.in_use == 1
-			var_0_113.in_score = arg_146_0.in_score == 1
-			var_0_113.on_ground = var_0_41.band(var_146_0, var_0_41.lshift(1, 0)) == 1
-			var_0_113.jumping = not var_0_113.on_ground or arg_146_0.in_jump == 1
-			var_0_113.walking = var_0_113.velocity > 5 and arg_146_0.in_speed == 1
-			var_0_113.crouching = arg_146_0.in_duck == 1
-			var_0_113.side = arg_146_0.in_moveright == 1 and -1 or arg_146_0.in_moveleft == 1 and 1 or 0
-		end
-	end
-end
-
-local function var_0_123(arg_147_0)
-	var_0_113.self = var_0_36.get_local_player()
-	var_0_113.valid = var_0_113.self and var_0_36.is_alive(var_0_113.self) and true or false
-	var_0_113.in_game = true
-	var_0_99.valid = var_0_113.valid
-	var_0_113.threat = var_0_113.valid and var_0_34.current_threat() or nil
-	var_0_113.weapon = var_0_113.valid and var_0_36.get_player_weapon(var_0_113.self) or nil
-	var_0_114 = var_0_36.get_players()
-
-	if var_0_113.valid then
-		var_0_113.origin = var_0_50(var_0_36.get_origin(var_0_113.self))
-		var_0_113.duck_amount = var_0_36.get_prop(var_0_113.self, "m_flDuckAmount")
-		var_0_113.max_speed = var_0_121()
-
-		local var_147_0, var_147_1, var_147_2 = var_0_36.get_prop(var_0_113.self, "m_vecVelocity")
-
-		var_0_113.velocity = var_0_31.sqrt3(var_147_0, var_147_1, var_147_2)
-		var_0_113.movetype = var_0_36.get_prop(var_0_113.self, "m_MoveType")
-	end
-end
-
-local function var_0_124(arg_148_0)
-	if var_0_113.valid then
-		var_0_113.peeking, var_0_113.vulnerable = var_0_120()
-	end
-end
-
-local function var_0_125()
-	var_0_113.self = var_0_36.get_local_player()
-	var_0_113.valid = var_0_113.self and var_0_36.is_alive(var_0_113.self) and true or false
-	var_0_113.gamerules = var_0_36.get_game_rules()
-end
-
-var_0_78.setup_command:set(var_0_122)
-var_0_78.run_command:set(var_0_123)
-var_0_78.predict_command:set(var_0_124)
-var_0_78.net_update_end:set(var_0_125)
-var_0_78.player_death:set(function(arg_150_0)
-	if var_0_34.userid_to_entindex(arg_150_0.userid) ~= var_0_113.self then
-		return
-	end
-
-	var_0_78.local_death:fire(arg_150_0)
-end)
-var_0_78.player_spawn:set(function(arg_151_0)
-	if var_0_34.userid_to_entindex(arg_151_0.userid) ~= var_0_113.self then
-		return
-	end
-
-	var_0_78.local_spawn:fire(arg_151_0)
-end)
-var_0_78.player_connect_full:set(function(arg_152_0)
-	if var_0_34.userid_to_entindex(arg_152_0.userid) ~= var_0_113.self then
-		return
-	end
-
-	var_0_78.local_connect_full:fire(arg_152_0)
-end)
-
-local var_0_126
-
-var_0_78.paint_ui:set(function()
-	local var_153_0 = var_0_38.mapname() ~= nil
-
-	if var_0_126 and not var_153_0 then
-		var_0_113.self, var_0_113.valid = nil, false
-		var_0_113.in_game = false
-
-		var_0_78.local_disconnect:fire()
-
-		var_0_126 = false
-	end
-
-	var_0_126 = var_153_0
-end)
-
-function var_0_36.is_lethal(arg_154_0)
-	if not var_0_113.weapon_t or not arg_154_0 or var_0_36.is_dormant(arg_154_0) then
-		return false
-	end
-
-	local var_154_0 = var_0_113.weapon_t.damage * 1.25
-
-	return var_0_31.ceil(var_0_113.weapon_t.armor_ratio * 0.5 * var_154_0) >= var_0_36.get_prop(arg_154_0, "m_iHealth")
-end
-
-local var_0_127
-local var_0_128
-
-LPH_NO_VIRTUALIZE(function()
-	var_0_107 = {
-		rage = {
-			weapon = var_0_44.reference("RAGE", "Weapon type", "Weapon type"),
-			aimbot = {
-				enable = var_0_44.reference("RAGE", "Aimbot", "Enabled"),
-				force_baim = var_0_44.reference("RAGE", "Aimbot", "Force body aim"),
-				force_sp = var_0_44.reference("RAGE", "Aimbot", "Force safe point"),
-				hit_chance = var_0_44.reference("RAGE", "Aimbot", "Minimum hit chance"),
-				damage = var_0_44.reference("RAGE", "Aimbot", "Minimum damage"),
-				damage_ovr = {
-					var_0_44.reference("RAGE", "Aimbot", "Minimum damage override")
-				},
-				double_tap = {
-					var_0_44.reference("RAGE", "Aimbot", "Double tap")
-				},
-				dt_fl = {
-					var_0_44.reference("RAGE", "Aimbot", "Double tap fake lag limit")
-				}
-			},
-			other = {
-				peek = var_0_44.reference("RAGE", "Other", "Quick peek assist"),
-				duck = var_0_44.reference("RAGE", "Other", "Duck peek assist"),
-				log_misses = var_0_44.reference("RAGE", "Other", "Log misses due to spread")
-			}
-		},
-		aa = {
-			angles = {
-				enable = var_0_44.reference("AA", "Anti-Aimbot angles", "Enabled"),
-				pitch = {
-					var_0_44.reference("AA", "Anti-Aimbot angles", "Pitch")
-				},
-				yaw = {
-					var_0_44.reference("AA", "Anti-Aimbot angles", "Yaw")
-				},
-				base = var_0_44.reference("AA", "Anti-Aimbot angles", "Yaw base"),
-				jitter = {
-					var_0_44.reference("AA", "Anti-Aimbot angles", "Yaw jitter")
-				},
-				body = {
-					var_0_44.reference("AA", "Anti-Aimbot angles", "Body yaw")
-				},
-				edge = var_0_44.reference("AA", "Anti-Aimbot angles", "Edge yaw"),
-				fs_body = var_0_44.reference("AA", "Anti-Aimbot angles", "Freestanding body yaw"),
-				freestand = var_0_44.reference("AA", "Anti-Aimbot angles", "Freestanding"),
-				roll = var_0_44.reference("AA", "Anti-Aimbot angles", "Roll")
-			},
-			fakelag = {
-				enable = var_0_44.reference("AA", "Fake lag", "Enabled"),
-				amount = var_0_44.reference("AA", "Fake lag", "Amount"),
-				variance = var_0_44.reference("AA", "Fake lag", "Variance"),
-				limit = var_0_44.reference("AA", "Fake lag", "Limit")
-			},
-			other = {
-				slowmo = var_0_44.reference("AA", "Other", "Slow motion"),
-				legs = var_0_44.reference("AA", "Other", "Leg movement"),
-				onshot = var_0_44.reference("AA", "Other", "On shot anti-aim"),
-				fp = var_0_44.reference("AA", "Other", "Fake peek")
-			}
-		},
-		misc = {
-			clantag = var_0_44.reference("MISC", "Miscellaneous", "Clan tag spammer"),
-			log_damage = var_0_44.reference("MISC", "Miscellaneous", "Log damage dealt"),
-			ping_spike = var_0_44.reference("MISC", "Miscellaneous", "Ping spike"),
-			settings = {
-				dpi = var_0_44.reference("MISC", "Settings", "DPI scale"),
-				accent = var_0_44.reference("MISC", "Settings", "Menu color"),
-				maxshift = var_0_44.reference("MISC", "Settings", "sv_maxusrcmdprocessticks2")
-			},
-			helper = var_0_61(var_0_44.reference, "VISUALS", "Other ESP", "Helper")
-		}
-	}
-
-	local var_155_0
-	local var_155_1
-	local var_155_2
-	local var_155_3 = {}
-
-	var_0_34.delay_call(0.1, function()
-		for iter_156_0 = 1, #var_155_3 do
-			local var_156_0 = var_155_3[iter_156_0]
-
-			var_156_0[1]:set_callback(function()
-				var_156_0[1]:set(var_156_0[2])
-
-				if var_156_0[3] then
-					var_156_0[1]:set_visible(false)
-				else
-					var_156_0[1]:set_enabled(false)
-				end
-			end, true)
-		end
-	end)
-
-	local var_155_4 = {
-		tabs = {
-			{
-				"home",
-				"Home"
-			},
-			{
-				"settings",
-				"Settings"
-			},
-			{
-				"antiaim",
-				"Anti-aim"
-			}
-		},
-		header = function(arg_158_0, arg_158_1)
-			local var_158_0
-
-			if arg_158_1 then
-				var_158_0 = {
-					arg_158_0:label(var_0_32.format("\v%s", arg_158_1)),
-					arg_158_0:label("\a373737FF‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
-				}
-			else
-				var_158_0 = arg_158_0:label("\a373737FF‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
-			end
-
-			return var_158_0
-		end,
-		feature = function(arg_159_0, arg_159_1)
-			arg_159_0 = arg_159_0.__type == "pui::element" and {
-				arg_159_0
-			} or arg_159_0
-
-			local var_159_0, var_159_1 = arg_159_1(arg_159_0[1])
-
-			for iter_159_0, iter_159_1 in var_0_10(var_159_0) do
-				iter_159_1:depend({
-					arg_159_0[1],
-					var_159_1
-				})
-			end
-
-			var_159_0[arg_159_0.key or "on"] = arg_159_0[1]
-
-			return var_159_0
-		end,
-		space = function(arg_160_0)
-			return arg_160_0:label("\n")
-		end,
-		private = function(arg_161_0, arg_161_1, arg_161_2)
-			arg_161_1 = arg_161_1 or 2
-
-			if arg_161_1 > var_0_67 then
-				var_155_3[#var_155_3 + 1] = {
-					arg_161_0,
-					arg_161_2 or false,
-					arg_161_1 >= 3
-				}
-			end
-
-			return arg_161_0
-		end
-	}
-	local var_155_5 = {
-		other = var_0_44.group("AA", "Other"),
-		angles = var_0_44.group("AA", "Anti-aimbot angles"),
-		fakelag = var_0_44.group("AA", "Fake lag")
-	}
-
-	var_0_44.macros.calamity = "\a74A6A9FF"
-	var_0_44.macros.dot = "\v•\r  "
-	var_0_44.macros.p = "\aCDCDCD50—  \r"
-	var_0_44.macros.silent = "\aCDCDCD50"
-	var_0_44.macros.insecure = "\aB6B665FF"
-	var_0_128 = {
-		title = var_155_5.fakelag:label("calamity"),
-		selector = var_155_5.fakelag:combobox("\nawselector", var_0_30.distribute(var_155_4.tabs, 2, nil)),
-		var_155_4.header(var_155_5.fakelag),
-		home = {
-			info = {
-				user = var_155_5.fakelag:label(var_0_32.format("Hello, \v%s", var_0_65.user)),
-				version = var_155_5.fakelag:label(var_0_32.format("Version, \v%s", var_0_65.version))
-			},
-			config = {
-				var_155_4.header(var_155_5.other, "New config"),
-				name = var_155_5.other:textbox("Name"),
-				create = var_155_5.other:button("Create"),
-				import = var_155_5.other:button("Import (paste)"),
-				var_155_4.header(var_155_5.angles, "Your configs"),
-				list = var_155_5.angles:listbox("Configs", {
-					"Default"
-				}),
-				selected = var_155_5.angles:label("Selected: \vDefault"),
-				list_report = var_155_5.angles:label("REPORT"),
-				load = var_155_5.angles:button("\f<calamity>Load"),
-				loadaa = var_155_5.angles:button("Load Anti-Aim only"),
-				save = var_155_5.angles:button("Save"),
-				export = var_155_5.angles:button("Export"),
-				delete = var_155_5.angles:button("\aD95148FFDelete"),
-				deleteb = var_155_5.angles:button("\aD9514840Delete")
-			},
-			verify = {
-				var_155_4.space(var_155_5.other),
-				var_155_4.header(var_155_5.other, "✓ calamity Channels"),
-				var_155_5.other:button("Lua discord", function()
-					var_0_34.open_link("https://discord.gg/MDbXa8Bk")
-				end),
-				auth = var_155_5.other:button("Slowdex Dev")
-			}
-		},
-		servers = {
-			list = {
-				var_155_4.header(var_155_5.angles, "Your servers"),
-				[0] = var_155_5.angles:listbox("Servers", {
-					""
-				}),
-				connect = var_155_5.angles:button("Connect"),
-				export = var_155_5.angles:button("Export"),
-				delete = var_155_5.angles:button("Delete")
-			},
-			new = {
-				var_155_4.header(var_155_5.other, "New server"),
-				var_155_5.other:label("IP"),
-				ip = var_155_5.other:textbox("IP"),
-				paste = var_155_5.other:button("Paste IP"),
-				var_155_5.other:label("Name"),
-				name = var_155_5.other:textbox("Name"),
-				create = var_155_5.other:button("Create"),
-				var_155_4.header(var_155_5.other),
-				import = var_155_5.other:button("Import")
-			}
-		},
-		settings = {
-			tab = var_155_5.angles:combobox("\nstab", {
-				"Features",
-				"Visual"
-			}),
-			space = var_155_4.space(var_155_5.angles)
-		}
-	}
-	var_0_127 = {
-		rage = {
-			var_155_4.header(var_155_5.angles, "⁜ Ragebot"),
-			teleport = var_155_4.feature({
-				var_155_5.angles:checkbox("Auto teleport", 0)
-			}, function(arg_163_0)
-				return {
-					land = var_155_5.angles:checkbox("\f<p>Ensure landing"),
-					pistol = var_155_5.angles:checkbox("\f<p>Allow pistols")
-				}, true
-			end),
-			exswitch = var_155_4.feature({
-				var_155_5.angles:checkbox("Auto hide shots")
-			}, function(arg_164_0)
-				return {
-					allow = var_155_5.angles:multiselect("\f<p>Additional weapons", {
-						"Pistols",
-						"Desert Eagle"
-					})
-				}, true
-			end),
-			recharge = var_155_5.angles:checkbox("Dont use recharge"),
-			resolver = var_155_4.private(var_155_5.angles:checkbox("Resolver")),
-			peekfix = var_155_4.private(var_155_5.angles:checkbox("Defensive Peek"))
-		},
-		visuals = {
-			var_155_5.angles:label("Visual color:"),
-			accent = var_155_5.angles:color_picker("\nacccent", var_0_91.accent.r, var_0_91.accent.g, var_0_91.accent.b, 255),
-			var_155_4.space(var_155_5.angles),
-			var_155_4.header(var_155_5.angles, "✓ Screen"),
-			damage = var_155_5.angles:checkbox("Damage indicator"),
-			arrows = var_155_5.angles:checkbox("Anti-aim arrows"),
-			water = var_155_4.feature(var_155_5.angles:checkbox("Watermark"), function()
-				return {
-					hide = var_155_5.angles:checkbox("\f<p>Hide logo"),
-					var_155_5.angles:label("\f<p>Custom name"),
-					name = var_155_5.angles:textbox("\ncustomname")
-				}, true
-			end),
-			speclist = var_155_5.angles:checkbox("Speclist"),
-			slowdown = var_155_5.angles:checkbox("Slowdown warning"),
-			marker = var_155_5.angles:checkbox("Hitmarker"),
-			var_155_4.space(var_155_5.angles),
-			var_155_4.header(var_155_5.angles, "⁕ Other"),
-			aspect = var_155_4.feature(var_155_5.angles:checkbox("Aspect ratio"), function()
-				return {
-					ratio = var_155_5.angles:slider("\naratio", 80, 200, 133, true, nil, 0.01, var_0_30.distribute(var_0_109.aspect_ratios, 2, 1))
-				}, true
-			end),
-			dpi = var_155_5.angles:checkbox("Use skeet DPI")
-		},
-		misc = {
-			var_155_4.space(var_155_5.angles),
-			var_155_4.header(var_155_5.angles, "▷ Miscellaneous"),
-			clantag = var_155_5.angles:checkbox("\aADF3FD✓ Clantag"),
-			filter = var_155_5.angles:checkbox("\aADF3FD✓ Console filter"),
-			logs = var_155_4.feature(var_155_5.angles:checkbox("Eventlogger"), function(arg_168_0)
-				return {
-					events = var_155_5.angles:multiselect("\f<p>Events", {
-						"Ragebot shots",
-						"Harming enemies",
-						"Getting harmed",
-						"Anti-aim info"
-					}),
-					output = var_155_5.angles:multiselect("\f<p>Output", {
-						"Console",
-						"Screen"
-					})
-				}, true
-			end),
-			ladder = var_155_5.angles:checkbox("Fast ladder"),
-			breaker = var_155_4.feature(var_155_5.angles:checkbox("Animation breaker"), function(arg_169_0)
-				return {
-					pitch = var_155_5.angles:checkbox("\f<p>Pitch 0 on land"),
-					slia = var_155_5.angles:checkbox("\f<p>Static legs in air"),
-					legs = var_155_5.angles:combobox("\f<p>Legs", {
-						"None",
-						"Static",
-						"Jitter",
-						"No step back"
-					})
-				}, true
-			end)
-		},
-		antiaim = {
-			on = var_155_5.fakelag:checkbox("Enable\naa"),
-			tab = var_155_5.fakelag:combobox("\naatab", {
-				"General",
-				"Builder",
-				"Defensive"
-			}, nil, false),
-			general = {
-				var_155_4.header(var_155_5.angles, "General"),
-				mode = var_155_5.angles:combobox("Anti-aim operator", {
-					"gamesense",
-					"calamity"
-				}),
-				invert = var_155_5.angles:hotkey("Inverter", false, 0),
-				edge = var_155_5.angles:hotkey("Edge yaw", false, 0),
-				fs = var_155_4.feature(var_155_5.angles:checkbox("Freestanding", 0), function(arg_170_0)
-					return {
-						static = var_155_5.angles:checkbox("\f<p>Static\nfs")
-					}, true
-				end),
-				manual = var_155_4.feature(var_155_5.angles:checkbox("Manual yaw"), function()
-					return {
-						static = var_155_5.angles:checkbox("\f<p>Static\nmy"),
-						left = var_155_5.angles:hotkey("\f<p>Left \f<silent>HK\r", false, 0),
-						right = var_155_5.angles:hotkey("\f<p>Right \f<silent>HK\r", false, 0),
-						reset = var_155_5.angles:hotkey("\f<p>Reset \f<silent>HK\r", false, 0)
-					}, true
-				end),
-				var_155_4.space(var_155_5.angles),
-				var_155_4.header(var_155_5.angles, "Misc"),
-				head = var_155_4.feature(var_155_5.angles:checkbox("Safe head"), function()
-					return {}, true
-				end),
-				jmove = var_155_5.angles:checkbox("Jitter move"),
-				stab = var_155_5.angles:checkbox("Avoid backstab"),
-				use = var_155_5.angles:checkbox("Legit AA"),
-				fl = var_155_4.feature(var_155_5.angles:checkbox("Fakelag"), function()
-					return {
-						mode = var_155_5.angles:combobox("\nflmode", {
-							"Dynamic",
-							"Maximum",
-							"Fluctuate"
-						}),
-						limit = var_155_5.angles:slider("\nflLimit", 1, 15, 14, true, "t")
-					}, true
-				end)
-			},
-			state = {
-				var_155_4.header(var_155_5.angles, "States builder"),
-				selector = var_155_5.angles:combobox("\nstateselector", var_0_30.distribute(var_0_108.states, 2), nil, false),
-				var_155_4.header(var_155_5.angles)
-			},
-			builder = {},
-			def = {
-				var_155_4.header(var_155_5.other, "General"),
-				snap = var_155_4.feature(var_155_5.other:checkbox("\f<insecure>Defensive AA", 0), function()
-					return {
-						os = var_155_5.other:checkbox("\f<p>Allow with On shot AA")
-					}, true
-				end),
-				var_155_4.space(var_155_5.other),
-				var_155_4.header(var_155_5.other, "Misc"),
-				triggers = var_155_5.other:multiselect("LC break triggers", {
-					"Jumping",
-					"Crouching",
-					"Weapon change"
-				}),
-				setup = {
-					var_155_4.header(var_155_5.angles, "Defensive setup"),
-					selector = var_155_5.angles:combobox("\nstateselector", var_0_30.distribute(var_0_108.snaps, 2), nil, false),
-					var_155_4.header(var_155_5.angles)
-				}
-			},
-			snaps = {}
-		},
-		drag = var_0_105.data
-	}
-
-	local function var_155_6(arg_175_0, arg_175_1)
-		arg_175_1:set_callback(function(arg_176_0)
-			var_0_30.place(var_0_110.builder.custom, arg_175_0, arg_176_0.value)
-		end, true)
-
-		return arg_175_1
-	end
-
-	local var_155_7 = {
-		delay = {
-			[1] = "Off"
-		}
-	}
-
-	for iter_155_0, iter_155_1 in var_0_9(var_0_108.states) do
-		local var_155_8 = iter_155_1[1]
-		local var_155_9 = iter_155_1[2]
-		local var_155_10 = iter_155_1[3]
-
-		var_0_127.antiaim.builder[var_155_8], var_0_44.macros.z = {}, "\n" .. var_155_10
-
-		local var_155_11 = var_0_127.antiaim.builder[var_155_8]
-		local var_155_12 = var_155_5.angles
-
-		if not (var_155_8 == "default") then
-			var_155_11.override = var_155_6({
-				var_155_8,
-				"override"
-			}, var_155_12:checkbox("Override \v" .. var_0_32.lower(var_155_9)))
-			var_155_11[#var_155_11 + 1] = var_155_12:label("\n")
-		end
-
-		var_155_11[#var_155_11 + 1] = var_155_12:label("\vYaw")
-		var_155_11.off = var_155_6({
-			var_155_8,
-			"off"
-		}, var_155_12:slider("Offset\f<z>", -60, 60, 0, true, "°"))
-		var_155_11.add = var_155_4.feature(var_155_6({
-			var_155_8,
-			"add",
-			"on"
-		}, var_155_12:checkbox("Add yaw left / right\f<z>")), function(arg_177_0)
-			return {
-				l = var_155_6({
-					var_155_8,
-					"add",
-					"l"
-				}, var_155_12:slider("\f<z>addyawl", -60, 60, 0, true, "°")),
-				r = var_155_6({
-					var_155_8,
-					"add",
-					"r"
-				}, var_155_12:slider("\f<z>addyawr", -60, 60, 0, true, "°"))
-			}, true
-		end)
-		var_155_11.mod = var_155_4.feature(var_155_6({
-			var_155_8,
-			"mod",
-			"type"
-		}, var_155_12:combobox("Modifier\f<z>", {
-			"Off",
-			"Jitter",
-			"Ways",
-			"Skitter",
-			"Rotate",
-			"Random"
-		})), function(arg_178_0)
-			return {
-				ways = var_155_6({
-					var_155_8,
-					"mod",
-					"ways"
-				}, var_155_12:slider("\f<p>Ways\f<z>", 3, 7, 3)):depend({
-					arg_178_0,
-					"Ways",
-					"Skitter"
-				}),
-				deg = var_155_6({
-					var_155_8,
-					"mod",
-					"deg"
-				}, var_155_12:slider("\f<p>Degree\f<z>", 0, 60, 0, true, "°"))
-			}, function(arg_179_0)
-				return arg_179_0.value ~= "Off"
-			end
-		end)
-		var_155_11[#var_155_11 + 1] = var_155_12:label("\n")
-		var_155_11[#var_155_11 + 1] = var_155_12:label("\vBody yaw")
-		var_155_11.des = var_155_4.feature(var_155_6({
-			var_155_8,
-			"des",
-			"on"
-		}, var_155_12:checkbox("Desync\f<z>")), function()
-			return {
-				j = var_155_6({
-					var_155_8,
-					"des",
-					"j"
-				}, var_155_12:checkbox("\f<p>Jitter\f<z>des")),
-				l = var_155_6({
-					var_155_8,
-					"des",
-					"l"
-				}, var_155_12:slider("\f<p>Left / right\f<z>des", 0, 60, 60, true, "°")):depend({
-					var_0_127.antiaim.general.mode,
-					"calamity"
-				}),
-				r = var_155_6({
-					var_155_8,
-					"des",
-					"r"
-				}, var_155_12:slider("\ndesright\f<z>", 0, 60, 60, true, "°")):depend({
-					var_0_127.antiaim.general.mode,
-					"calamity"
-				})
-			}, true
-		end)
-		var_155_11.delay = var_155_6({
-			var_155_8,
-			"delay"
-		}, var_155_12:slider("Delay\f<z>", 1, 16, 0, true, "t", 1, var_155_7.delay))
-
-		var_0_44.traverse(var_155_11, function(arg_181_0, arg_181_1)
-			arg_181_0:depend({
-				var_0_127.antiaim.state.selector,
-				var_155_9
-			}, arg_181_1[1] ~= "override" and var_155_11.override or nil)
-		end)
-	end
-
-	local function var_155_13(arg_182_0, arg_182_1)
-		arg_182_1:set_callback(function(arg_183_0)
-			var_0_30.place(var_0_110.snap.custom, arg_182_0, arg_183_0.value)
-		end, true)
-
-		return arg_182_1
-	end
-
-	local var_155_14 = {
-		delay = {
-			[0] = "Off"
-		},
-		duration = {
-			[13] = "Max"
-		},
-		pitch = {
-			[0] = "Zero",
-			[89] = "Down",
-			[-89] = "Up"
-		}
-	}
-
-	for iter_155_2, iter_155_3 in var_0_9(var_0_108.snaps) do
-		local var_155_15 = iter_155_3[1]
-		local var_155_16 = iter_155_3[2]
-
-		var_0_127.antiaim.snaps[var_155_15], var_0_44.macros.z = {}, "\nS" .. iter_155_3[3]
-
-		local var_155_17 = var_0_127.antiaim.snaps[var_155_15]
-		local var_155_18 = var_155_5.angles
-		local var_155_19 = var_155_15 == "default"
-
-		var_155_17.on = var_155_13({
-			var_155_15,
-			"on"
-		}, var_155_18:combobox("\f<z>", var_155_19 and {
-			"Off",
-			"Custom"
-		} or {
-			"Default",
-			"Off",
-			"Custom"
-		}))
-		var_155_17[#var_155_17 + 1] = var_155_4.space(var_155_18)
-		var_155_17.pitch = var_155_4.feature(var_155_13({
-			var_155_15,
-			"x",
-			"on"
-		}, var_155_18:checkbox("\vPitch\f<z>")), function()
-			local var_184_0 = var_155_13({
-				var_155_15,
-				"x",
-				"mode"
-			}, var_155_18:combobox("\f<p>Mode\f<z>x", {
-				"Static",
-				"Jitter",
-				"Random",
-				"Random Static",
-				"Spin",
-				"Camera",
-				"At target"
-			}))
-
-			return {
-				mode = var_184_0,
-				ang = var_155_13({
-					var_155_15,
-					"x",
-					"ang"
-				}, var_155_18:slider("\f<p>Angle\f<z>x", -89, 89, -89, true, "°", 1, var_155_14.pitch)):depend({
-					var_184_0,
-					"Static",
-					"Jitter",
-					"Random",
-					"Random Static",
-					"Spin",
-					"Camera",
-					"At target"
-				}),
-				ang2 = var_155_13({
-					var_155_15,
-					"x",
-					"ang2"
-				}, var_155_18:slider("\f<p>Angle 2\f<z>x", -89, 89, -89, true, "°", 1, var_155_14.pitch)):depend({
-					var_184_0,
-					"Jitter",
-					"Random",
-					"Random Static",
-					"Spin"
-				}),
-				speed = var_155_13({
-					var_155_15,
-					"x",
-					"speed"
-				}, var_155_18:slider("\f<p>Speed\f<z>x", -50, 50, 20, true, "", 0.1)):depend({
-					var_184_0,
-					"Spin"
-				})
-			}, true
-		end)
-		var_155_17[#var_155_17 + 1] = var_155_4.space(var_155_18)
-		var_155_17.yaw = var_155_4.feature(var_155_13({
-			var_155_15,
-			"y",
-			"on"
-		}, var_155_18:checkbox("\vYaw\f<z>")), function()
-			local var_185_0 = var_155_13({
-				var_155_15,
-				"y",
-				"mode"
-			}, var_155_18:combobox("\f<p>Mode\f<z>y", {
-				"Static",
-				"Jitter",
-				"Random",
-				"Random Jitter",
-				"Random Static",
-				"Spin",
-				"Spin Jitter",
-				"90w",
-				"180v",
-				"Camera",
-				"At target",
-				"Opposite"
-			}))
-
-			return {
-				mode = var_185_0,
-				ang = var_155_13({
-					var_155_15,
-					"y",
-					"ang"
-				}, var_155_18:slider("\f<p>Angle\f<z>y", 0, 360, 180, true, "°")):depend({
-					var_185_0,
-					"Static",
-					"Jitter",
-					"Random",
-					"Random Jitter",
-					"Random Static",
-					"Spin",
-					"Spin Jitter",
-					"90w",
-					"180v",
-					"Camera",
-					"At target"
-				}),
-				delay = var_155_13({
-					var_155_15,
-					"y",
-					"delay"
-				}, var_155_18:slider("\f<p>Delay\f<z>y", 0, 14, 0, true, "t", 1, var_155_14.delay)):depend({
-					var_185_0,
-					"Jitter",
-					"Spin Jitter"
-				}),
-				speed = var_155_13({
-					var_155_15,
-					"y",
-					"speed"
-				}, var_155_18:slider("\f<p>Speed\f<z>y", -50, 50, 20, true, "", 0.1)):depend({
-					var_185_0,
-					"Spin",
-					"Spin Jitter",
-					"90w",
-					"180v"
-				})
-			}, true
-		end)
-		var_155_17[#var_155_17 + 1] = var_155_4.space(var_155_18)
-		var_155_17[#var_155_17 + 1] = var_155_18:label("\vMisc")
-		var_155_17.time = var_155_13({
-			var_155_15,
-			"time"
-		}, var_155_18:slider("Duration\f<z>", 1, 13, 13, true, "t", 1, var_155_14.duration))
-		var_155_17.sd = var_155_13({
-			var_155_15,
-			"sd"
-		}, var_155_18:checkbox("Control desync side\f<z>"))
-
-		var_0_44.traverse(var_155_17, function(arg_186_0, arg_186_1)
-			arg_186_0:depend({
-				var_0_127.antiaim.def.setup.selector,
-				var_155_16
-			}, {
-				var_0_127.antiaim.def.snap.on,
-				true
-			}, arg_186_1[1] ~= "on" and {
-				var_155_17.on,
-				"Custom"
-			} or nil)
-		end)
-	end
-
-	var_0_44.traverse(var_0_127.antiaim.def.setup, function(arg_187_0, arg_187_1)
-		arg_187_0:depend({
-			var_0_127.antiaim.def.snap.on,
-			true
-		})
-	end)
-
-	var_0_44.macros.z = nil
-
-	var_0_44.traverse(var_0_107.aa, function(arg_188_0)
-		arg_188_0:set_visible(false)
-	end)
-	var_0_107.aa.angles.yaw[2]:depend({
-		var_0_107.aa.angles.yaw[1],
-		1
-	})
-	var_0_107.aa.angles.pitch[2]:depend({
-		var_0_107.aa.angles.pitch[1],
-		1
-	})
-	var_0_107.aa.angles.jitter[1]:depend({
-		var_0_107.aa.angles.yaw[1],
-		1
-	})
-	var_0_107.aa.angles.jitter[2]:depend({
-		var_0_107.aa.angles.jitter[1],
-		1
-	})
-	var_0_107.aa.angles.body[2]:depend({
-		var_0_107.aa.angles.body[1],
-		1
-	})
-	var_0_107.aa.angles.fs_body:depend({
-		var_0_107.aa.angles.body[1],
-		1
-	})
-
-	for iter_155_4, iter_155_5 in var_0_11, var_0_107.aa.other do
-		if iter_155_4 ~= "legs" then
-			iter_155_5:depend({
-				var_0_128.selector,
-				"Settings"
-			})
-
-			if iter_155_5.hotkey then
-				iter_155_5.hotkey:depend({
-					var_0_128.selector,
-					"Settings"
-				})
-			end
-		end
-	end
-
-	var_0_78.shutdown:set(function()
-		var_0_44.traverse(var_0_107.aa, function(arg_190_0)
-			arg_190_0:set_visible(true)
-		end)
-	end)
-
-	local var_155_20
-
-	var_0_44.traverse(var_0_128.home, function(arg_191_0)
-		arg_191_0:depend({
-			var_0_128.selector,
-			"Home"
-		})
-	end)
-	var_0_44.traverse(var_0_128.servers, function(arg_192_0)
-		arg_192_0:depend({
-			var_0_128.selector,
-			"Servers"
-		})
-	end)
-
-	local var_155_21 = {
-		"Features",
-		"Features",
-		"Visual"
-	}
-
-	for iter_155_6, iter_155_7 in var_0_11, var_0_128.settings do
-		iter_155_7:depend({
-			var_0_128.selector,
-			"Settings"
-		})
-	end
-
-	var_0_44.traverse({
-		var_0_127.misc,
-		var_0_127.rage,
-		var_0_127.visuals
-	}, function(arg_193_0, arg_193_1)
-		arg_193_0:depend({
-			var_0_128.selector,
-			"Settings"
-		}, {
-			var_0_128.settings.tab,
-			var_155_21[arg_193_1[1]]
-		})
-	end)
-
-	var_155_21 = {
-		def = "Defensive",
-		general = "General",
-		state = "Builder",
-		snaps = "Defensive",
-		builder = "Builder"
-	}
-
-	var_0_44.traverse(var_0_127.antiaim, function(arg_194_0, arg_194_1)
-		local var_194_0 = var_155_21[arg_194_1[1]]
-
-		arg_194_0:depend({
-			var_0_128.selector,
-			"Anti-aim"
-		}, arg_194_1[1] ~= "on" and {
-			var_0_127.antiaim.on,
-			true
-		} or nil, var_194_0 and {
-			var_0_127.antiaim.tab,
-			var_194_0
-		})
-	end)
-
-	var_155_21 = nil
-
-	var_0_127.visuals.accent:set_callback(function(arg_195_0)
-		local var_195_0, var_195_1, var_195_2 = var_0_25(arg_195_0.value)
-		local var_195_3 = var_0_79.rgb(var_195_0, var_195_1, var_195_2, 255)
-
-		var_0_78.accent_recolor:fire(var_195_3, var_0_91.hexs, var_0_91.hex)
-
-		var_0_91.accent = var_195_3
-		var_0_91.hexs = var_0_32.format("\a%02X%02X%02X", var_195_0, var_195_1, var_195_2)
-		var_0_91.hex = var_0_91.hexs .. "FF"
-	end, true)
-	var_0_127.visuals.dpi:set_callback(function(arg_196_0)
-		var_0_99.dpi_t.scalable = arg_196_0.value
-
-		var_0_99.dpi_t.callback()
-	end, true)
-
-	local var_155_22 = {}
-
-	for iter_155_8 in var_0_32.gmatch("calamity", ".[\x80-\xBF]*") do
-		var_155_22[#var_155_22 + 1] = {
-			n = 0,
-			d = false,
-			w = iter_155_8,
-			p = {
-				0
-			}
-		}
-	end
-
-	local var_155_23 = false
-
-	var_0_78.paint_ui:set(function()
-		if not var_0_44.menu_open then
-			if var_155_23 then
-				collectgarbage()
-
-				var_155_23 = false
-			end
-
-			return
-		end
-
-		var_155_23 = true
-
-		if var_0_38.frametime() % 2 == 0 then
-			return
-		end
-
-		local var_197_0 = var_0_38.realtime()
-		local var_197_1 = {}
-		local var_197_2 = var_0_79(var_0_25(var_0_107.misc.settings.accent.value))
-		local var_197_3 = var_0_79.rgb(205, 205, 205, 80)
-
-		for iter_197_0 = 1, #var_155_22 do
-			local var_197_4 = var_155_22[iter_197_0]
-
-			if var_197_0 >= var_197_4.n then
-				var_197_4.d = not var_197_4.d
-				var_197_4.n = var_197_0 + var_0_34.random_float(1, 3)
-			end
-
-			local var_197_5 = var_0_100.condition(var_197_4.p, var_197_4.d, -1)
-			local var_197_6 = var_197_3:lerp(var_197_2, var_0_31.min(var_197_5 + 0.5, 1))
-
-			var_197_1[#var_197_1 + 1] = var_0_32.format("\a%02x%02x%02x%02x%s", var_197_6.r, var_197_6.g, var_197_6.b, 200 * var_197_5 + 55, var_197_4.w)
-		end
-
-		if var_0_67 > 1 then
-			var_197_1[#var_197_1 + 1] = var_0_32.format("\f<silent> — %s", var_0_65.build)
-		end
-
-		var_0_128.title:set(var_0_30.concat(var_197_1))
-	end)
-end)()
-
-local var_0_129
-
-LPH_NO_VIRTUALIZE(function()
-	var_0_129 = {
-		default = "calamity::GS::KG15IHByZXNldClbYWRtaW5de4WkZHJhZ4ioc3BlY2xpc3SCoXnNE4iheM0LZKZhcnJvd3OCoXnNE2KheM0Sfqljcm9zc2hhaXKCoXnNFLCheM0TC6hzbG93ZG93boKhec0NvqF4zRJPp2tleWxpc3SCoXnNE4iheM0LZKZkYW1hZ2WCoXnNE62heM0TnKl3YXRlcm1hcmuDoXnMuaF4zSa2oWECpGxvZ3OCoXnNHBGheM0Qeqd2aXN1YWxzjKNkcGnCpWNoZWFww6Zhc3BlY3SCpXJhdGlvzIWib27Cpm1hcmtlcsOoc3BlY2xpc3TCpmFycm93c8Ona2V5bGlzdMKoc2xvd2Rvd27DpmFjY2VudKkjNzRBNkE5RkamZGFtYWdlw6V3YXRlcoOkaGlkZcKkbmFtZaCib27DqWNyb3NzaGFpcoOkbG9nb8Olc3R5bGWnQ2xhc3NpY6JvbsOkbWlzY4WmZmlsdGVyw6ZsYWRkZXLCp2NsYW50YWfCp2JyZWFrZXKEpHNsaWHCpXBpdGNowqJvbsKkbGVnc6ROb25lpGxvZ3ODpmV2ZW50c5WtUmFnZWJvdCBzaG90c69IYXJtaW5nIGVuZW1pZXOuR2V0dGluZyBoYXJtZWStQW50aS1haW0gaW5mb6Fz113Zpm91dHB1dJOnQ29uc29sZaZTY3JlZW6hfqJvbsOnYW50aWFpbYWnYnVpbGRlcomlc25lYWuGo2Rlc4ShcjyhasKhbDyib27Co21vZIOjZGVnAKR3YXlzA6JvbqNPZmajb2ZmAKVkZWxheQGjYWRkg6FyAKFsAKJvbsKob3ZlcnJpZGXCp2Zha2VsYWeGo2Rlc4ShcjyhasKhbDyib27Co21vZIOjZGVnAKR3YXlzA6JvbqNPZmajb2ZmAKVkZWxheQGjYWRkg6FyAKFsAKJvbsKob3ZlcnJpZGXCpHdhbGuGo2Rlc4Shch6hasOhbB6ib27Do21vZIOjZGVnDqR3YXlzA6JvbqZSYW5kb22jb2ZmAKVkZWxheQijYWRkg6FyGaFs5KJvbsOob3ZlcnJpZGXDo2FpcoajZGVzhKFyHqFqw6FsHqJvbsOjbW9kg6NkZWcdpHdheXMDom9upkppdHRlcqNvZmYHpWRlbGF5AqNhZGSDoXIAoWwAom9uwqhvdmVycmlkZcOkYWlyY4ajZGVzhKFyPKFqw6FsPKJvbsOjbW9kg6NkZWchpHdheXMDom9upkppdHRlcqNvZmYHpWRlbGF5AaNhZGSDoXIooWznom9uwqhvdmVycmlkZcOlc3RhbmSGo2Rlc4ShcjyhasOhbDyib27Do21vZIOjZGVnAKR3YXlzA6JvbqNPZmajb2ZmAKVkZWxheQGjYWRkg6FyAKFsAKJvbsKob3ZlcnJpZGXDpmNyb3VjaIajZGVzhKFyPKFqwqFsPKJvbsKjbW9kg6NkZWcApHdheXMDom9uo09mZqNvZmYApWRlbGF5AaNhZGSDoXIAoWwAom9uwqhvdmVycmlkZcKjcnVuhqNkZXOEoXI8oWrDoWw8om9uw6Ntb2SDo2RlZyGkd2F5cwOib26mSml0dGVyo29mZgalZGVsYXkBo2FkZIOhcgChbACib27CqG92ZXJyaWRlw6dkZWZhdWx0haNkZXOEoXIeoWrDoWweom9uw6Ntb2SDo2RlZx2kd2F5cwOib26mSml0dGVyo29mZgelZGVsYXkCo2FkZIOhcgChbACib27CpXNuYXBzhqRwZWVrhaVwaXRjaIWkYW5nMtCno2FuZ9Cnom9uwqRtb2RlplN0YXRpY6VzcGVlZBSkdGltZQ2ic2TCom9upkN1c3RvbaN5YXeFpWRlbGF5AKNhbmfMtKJvbsKkbW9kZaM5MHelc3BlZWQUo2FpcoWlcGl0Y2iFpGFuZzIAo2FuZ9Cnom9uw6Rtb2RlrVJhbmRvbSBTdGF0aWOlc3BlZWQUpHRpbWUNonNkwqJvbqZDdXN0b22jeWF3haVkZWxheQCjYW5nzPCib27DpG1vZGWtUmFuZG9tIFN0YXRpY6VzcGVlZAqkYWlyY4WlcGl0Y2iFpGFuZzIto2FuZwCib27DpG1vZGWmU3RhdGljpXNwZWVkFKR0aW1lDaJzZMKib26mQ3VzdG9to3lhd4WlZGVsYXkAo2FuZ80BaKJvbsOkbW9kZaRTcGlupXNwZWVkCqZjcm91Y2iFpXBpdGNohaRhbmcy0KejYW5n0Keib27DpG1vZGWmU3RhdGljpXNwZWVkFKR0aW1lDaJzZMOib26mQ3VzdG9to3lhd4WlZGVsYXkAo2FuZ8y0om9uw6Rtb2RlplN0YXRpY6VzcGVlZBSlc25lYWuFpXBpdGNohaRhbmcy0KejYW5n0Keib27CpG1vZGWmU3RhdGljpXNwZWVkFKR0aW1lDaJzZMKib26nRGVmYXVsdKN5YXeFpWRlbGF5AKNhbmfMtKJvbsKkbW9kZaZTdGF0aWOlc3BlZWQUp2RlZmF1bHSFpXBpdGNohaRhbmcy0KejYW5n0Keib27CpG1vZGWmU3RhdGljpXNwZWVkFKR0aW1lDaJzZMKib26mQ3VzdG9to3lhd4WlZGVsYXkAo2FuZ8y0om9uwqRtb2RlplN0YXRpY6VzcGVlZBSnZ2VuZXJhbIqjdXNlw6ZpbnZlcnSTAQChfqJmbIOlbGltaXQOpG1vZGWnRHluYW1pY6JvbsOkaGVhZIGib27Dpm1hbnVhbIWlcmlnaHSTAQChfqRsZWZ0kwEAoX6lcmVzZXSTAQChfqJvbsKmc3RhdGljwqRlZGdlkwEAoX6lam1vdmXDomZzg6Rvbl9okwEAoX6ib27CpnN0YXRpY8Kkc3RhYsOoaW1wbGljaXTCom9uw6NkZWaCpHNuYXCDom9zwqRvbl9okwAAoX6ib27DqHRyaWdnZXJzlKdKdW1waW5nqUNyb3VjaGluZ61XZWFwb24gY2hhbmdloX6kcmFnZYWocmVjaGFyZ2XDqGV4c3dpdGNogqVhbGxvd5GhfqJvbsKodGVsZXBvcnSEpG9uX2iTAQChfqZwaXN0b2zCom9uwqRsYW5kwqdwZWVrZml4wqhyZXNvbHZlcsJ9",
-		name = "",
-		selected = 0,
-		badge = var_0_44.format("\v•\r "),
-		list = {}
-	}
-
-	local var_198_0 = var_0_128.home.config
-
-	var_198_0.save:depend(true, {
-		var_198_0.list,
-		0,
-		true
-	})
-	var_198_0.export:depend(true, {
-		var_198_0.list,
-		0,
-		true
-	})
-	var_198_0.delete:depend({
-		var_198_0.list,
-		0,
-		true
-	})
-	var_198_0.deleteb:depend({
-		var_198_0.list,
-		0
-	})
-	var_198_0.deleteb:depend(true, {
-		var_198_0.list,
-		0,
-		true
-	})
-
-	local var_198_1 = {
-		eval = function(arg_199_0, arg_199_1)
-			if not arg_199_0 then
-				return "\fConfig not found."
-			end
-
-			local var_199_0, var_199_1, var_199_2 = var_0_32.match(arg_199_0, "^calamity::(%a+)::([%w%+%/]+)(_*)")
-
-			if var_199_0 ~= "GS" then
-				return "\fNot for gamesense"
-			end
-
-			local var_199_3
-
-			var_199_3 = var_199_2 and var_0_32.rep("=", #var_199_2) or ""
-
-			local var_199_4 = var_0_32.gsub(var_199_1, "z%d%d%dZ", {
-				z113Z = "+",
-				z143Z = "/"
-			})
-			local var_199_5 = var_0_47.decode(var_199_4 .. var_199_3)
-			local var_199_6, var_199_7, var_199_8 = var_0_32.match(var_199_5, "^%((.*)%)%[(.*)%]%{(.+)%}")
-
-			return var_199_6, var_199_7, arg_199_1 ~= true and var_199_8 ~= nil and var_0_48.unpack(var_199_8) or {}
-		end
-	}
-
-	function var_198_1.save(arg_200_0, arg_200_1)
-		if arg_200_0 == "Default" then
-			return "\fCan't overwrite Default"
-		end
-
-		arg_200_0 = var_0_21(arg_200_0)
-
-		local var_200_0
-		local var_200_1
-
-		if arg_200_1 == true then
-			local var_200_2
-
-			var_200_2, var_200_1 = var_198_1.eval(var_0_88.configs[arg_200_0], true)
-		end
-
-		local var_200_3 = var_0_129.system:save()
-		local var_200_4 = var_0_32.format("(%s)[%s]{%s}", arg_200_0, var_200_1 or var_0_65.user, var_0_48.pack(var_200_3))
-		local var_200_5 = var_0_32.gsub(var_0_47.encode(var_200_4), "[%+%/%=]", {
-			["="] = "_",
-			["/"] = "z143Z",
-			["+"] = "z113Z"
-		})
-		local var_200_6 = var_0_32.format("calamity::GS::%s", var_200_5)
-
-		var_0_88.configs[arg_200_0] = var_200_6
-
-		return "\a" .. arg_200_0 .. " saved"
-	end
-
-	function var_198_1.create(arg_201_0)
-		if arg_201_0 == "" then
-			return "\fEnter the name"
-		elseif arg_201_0 == "Default" then
-			return "\fCan't overwrite Default"
-		elseif #arg_201_0 > 24 then
-			return "\fThis name is too long"
-		elseif var_0_88.configs[arg_201_0] then
-			return "\f" .. arg_201_0 .. " is in the list"
-		end
-
-		return var_198_1.save(arg_201_0, true)
-	end
-
-	function var_198_1.delete(arg_202_0)
-		var_0_88.configs[arg_202_0] = nil
-	end
-
-	function var_198_1.export(arg_203_0)
-		if not arg_203_0 or arg_203_0 == "" then
-			return "\fNot selected"
-		end
-
-		var_0_85.set(var_0_88.configs[arg_203_0])
-
-		return "\aCopied to clipboard."
-	end
-
-	function var_198_1.import()
-		local var_204_0 = var_0_85.get()
-
-		if not var_204_0 then
-			return "\fEmpty clipboard"
-		end
-
-		local var_204_1, var_204_2, var_204_3 = var_198_1.eval(var_204_0, true)
-
-		if not var_204_2 then
-			return var_204_1
-		end
-
-		local var_204_4 = var_204_0:match("^calamity::%a+::[%w%+%/]+_*")
-
-		if var_204_1 == "Default" then
-			return "\fCan't import default config"
-		end
-
-		var_0_88.configs[var_204_1] = var_204_4
-
-		return "\a" .. var_204_1 .. " by " .. var_204_2 .. " added"
-	end
-
-	function var_198_1.load(arg_205_0, ...)
-		if not arg_205_0 or arg_205_0 == "" then
-			return "ERR: can't load: not selected"
-		end
-
-		local var_205_0 = arg_205_0 == "Default" and var_0_129.default or var_0_88.configs[arg_205_0]
-		local var_205_1, var_205_2, var_205_3 = var_198_1.eval(var_205_0)
-
-		if not var_205_2 or not var_205_3 then
-			return var_205_1
-		end
-
-		if ({
-			...
-		})[1] == "antiaim" then
-			var_205_3.antiaim.general.manual = nil
-			var_205_3.antiaim.general.edge = nil
-			var_205_3.antiaim.general.fs.on_h = nil
-		end
-
-		var_0_129.system:load(var_205_3, ...)
-
-		if ... then
-			return
-		end
-
-		var_0_129.loaded = arg_205_0
-	end
-
-	local var_198_2
-
-	var_198_0.list_report:depend({
-		var_198_0.list_report,
-		0
-	})
-
-	local var_198_3 = 0
-	local var_198_4 = false
-
-	local function var_198_5()
-		if var_198_3 < var_0_38.realtime() then
-			var_198_0.list_report:set_visible(false)
-			var_198_0.selected:set_visible(true)
-			var_0_78.paint_ui:unset(var_198_5)
-
-			var_198_4 = false
-		end
-	end
-
-	local function var_198_6(arg_207_0)
-		if not arg_207_0 then
-			return
-		end
-
-		var_198_3 = var_0_38.realtime() + 1
-
-		local var_207_0 = arg_207_0:gsub("[\f\a]", {
-			["\f"] = "\aFF4040FF",
-			["\a"] = "\aB6DE47FF"
-		})
-
-		var_198_0.list_report:set(var_207_0)
-
-		if not var_198_4 then
-			var_198_0.list_report:set_visible(true)
-			var_198_0.selected:set_visible(false)
-			var_0_78.paint_ui:set(var_198_5)
-
-			var_198_4 = true
-		end
-	end
-
-	local function var_198_7(arg_208_0)
-		if arg_208_0 ~= true then
-			var_0_129.list = {}
-
-			for iter_208_0 in var_0_11, var_0_88.configs do
-				var_0_129.list[#var_0_129.list + 1] = iter_208_0
-			end
-
-			var_0_30.sort(var_0_129.list)
-			var_0_30.insert(var_0_129.list, 1, "Default")
-
-			local var_208_0 = var_0_30.find(var_0_129.list, var_0_129.loaded)
-
-			if var_208_0 then
-				var_0_129.list[var_208_0] = var_0_129.badge .. var_0_129.list[var_208_0]
-			else
-				var_0_129.loaded = 0
-			end
-
-			var_198_0.list:update(var_0_129.list)
-		end
-
-		var_0_129.selected = var_198_0.list.value + 1
-		var_0_129.name = var_0_32.gsub(var_0_129.list[var_0_129.selected] or "", "^\a%x%x%x%x%x%x%x%x•\a%x%x%x%x%x%x%x%x ", "")
-
-		var_198_0.selected:set(var_0_44.format("Selected: \v") .. var_0_129.name)
-		var_198_0.list:set(var_0_129.selected - 1)
-	end
-
-	local function var_198_8(arg_209_0, ...)
-		local var_209_0, var_209_1, var_209_2, var_209_3 = var_0_26(var_198_1[arg_209_0], ...)
-
-		var_0_58(arg_209_0, ": ", var_209_0, ", ", var_209_1, ", ", var_209_2, ", ", var_209_3)
-		var_198_6(var_209_2 or var_209_1)
-		var_198_7()
-	end
-
-	var_198_7()
-	var_198_0.list:set_callback(function()
-		var_198_7(true)
-	end)
-	var_198_0.create:set_callback(function()
-		var_198_8("create", var_198_0.name:get())
-	end)
-	var_198_0.import:set_callback(function()
-		var_198_8("import", var_198_0.name:get())
-	end)
-	var_198_0.load:set_callback(function()
-		var_198_8("load", var_0_129.name)
-	end)
-	var_198_0.loadaa:set_callback(function()
-		var_198_8("load", var_0_129.name, "antiaim")
-	end)
-	var_198_0.save:set_callback(function()
-		var_198_8("save", var_0_129.name)
-	end)
-	var_198_0.delete:set_callback(function()
-		var_198_8("delete", var_0_129.name)
-	end)
-	var_198_0.export:set_callback(function()
-		var_198_8("export", var_0_129.name)
-	end)
-end)()
-
-local var_0_130 = var_0_65.user
-local var_0_131 = var_0_68 and "skeet-bliss" or "skeet"
-
-local function var_0_132(arg_218_0)
-	local var_218_0 = {}
-	local var_218_1 = {
-		var_0_32.byte(arg_218_0, 1, #arg_218_0)
-	}
-
-	for iter_218_0, iter_218_1 in var_0_9(var_218_1) do
-		var_218_0[iter_218_0] = var_0_32.format("%x", iter_218_1)
-	end
-
-	local var_218_2 = var_0_32.gsub(var_0_30.concat(var_218_0), "[64]", {
-		["6"] = "a7",
-		["4"] = "9r"
-	})
-
-	while #var_218_2 < 16 do
-		var_218_2 = var_218_2 .. var_218_2
-	end
-
-	return var_0_32.sub(var_218_2, 1, 16)
-end
-
-var_0_33.set_callback(var_0_128.home.verify.auth.ref, function()
-	var_0_128.home.verify.auth:set_enabled(true)
-
-	local var_219_0 = var_0_132(var_0_130 .. var_0_131)
-
-	var_0_34.open_link("", {
-		headers = {
-			["hst-uname"] = var_0_130,
-			["hst-cheat"] = var_0_131,
-			UserAgent = "ltcp_debug" .. ".." .. "|" .. ".." .. var_219_0
-		}
-	}, function(arg_220_0, arg_220_1)
-		var_0_58(arg_220_0, ": ", arg_220_1 and arg_220_1.body)
-
-		if not arg_220_0 then
-			var_0_57("Copied! paste to browser")
-
-			return
-		end
-
-		local var_220_0, var_220_1 = var_0_26(json.parse, arg_220_1.body)
-
-		if not var_220_0 then
-			var_0_57("Copied! paste to browser")
-
-			return
-		end
-
-		if var_220_1.is_connected == "yes" then
-			var_0_85.open_link("")
-			var_0_57("Subscribe")
-		else
-			var_0_85.set(var_220_1.status)
-		end
-	end)
-end)
-
-local var_0_133
-
-LPH_JIT_MAX(function()
-	local var_221_0
-	local var_221_1 = {}
-	local var_221_2 = {
-		counter = 0,
-		send_packet = false,
-		sent = 0,
-		state = 1,
-		switch = false
-	}
-	local var_221_3 = {
-		yaw = 0,
-		pitch = 89,
-		mod = 0,
-		des = 0
-	}
-	local var_221_4 = {}
-	local var_221_5 = {
-		pitch = var_0_107.aa.angles.pitch[2],
-		base = var_0_107.aa.angles.base,
-		yaw = var_0_107.aa.angles.yaw[2],
-		body = var_0_107.aa.angles.body[2],
-		pitch_mode = var_0_107.aa.angles.pitch[1],
-		yaw_mode = var_0_107.aa.angles.yaw[1],
-		jitter_mode = var_0_107.aa.angles.jitter[1],
-		jitter = var_0_107.aa.angles.jitter[2],
-		body_mode = var_0_107.aa.angles.body[1]
-	}
-	local var_221_6
-
-	local function var_221_7()
-		if var_0_113.on_ground then
-			if var_0_113.duck_amount > 0 then
-				return var_0_113.velocity > 5 and var_0_109.states.sneak or var_0_109.states.crouch
-			end
-
-			if var_0_113.velocity > 5 then
-				return var_221_0.in_speed == 1 and var_0_109.states.walk or var_0_109.states.run
-			end
-
-			return var_0_109.states.stand
-		else
-			return var_0_113.duck_amount > 0 and var_0_109.states.airc or var_0_109.states.air
-		end
-	end
-
-	local function var_221_8()
-		local var_223_0
-		local var_223_1 = 0
-		local var_223_2 = var_221_2.state
-
-		if var_223_1 == 0 then
-			var_223_0 = var_0_110.builder.custom
-		else
-			var_223_0 = var_0_110.builder[var_223_1]
-		end
-
-		if var_223_0.fakelag.override and var_0_113.exploit.active == var_0_109.exploit.OFF then
-			var_223_2 = var_0_109.states.fakelag
-		elseif not var_223_0.airc.override and var_223_2 == var_0_109.states.airc then
-			var_223_2 = var_0_109.states.air
-		elseif not var_223_0.sneak.override and var_223_2 == var_0_109.states.sneak then
-			var_223_2 = var_0_109.states.crouch
-		end
-
-		var_223_2 = var_223_0[var_0_108.states[var_223_2][1]].override and var_223_2 or var_0_109.states.default
-		var_221_1 = {
-			[0] = var_223_0,
-			cur = var_223_0[var_0_108.states[var_223_2][1]]
-		}
-	end
-
-	local function var_221_9()
-		var_221_1.snap = nil
-
-		if not var_0_33.is_active(var_0_127.antiaim.def.snap.on) then
-			return
-		end
-
-		if var_0_113.exploit.active == var_0_109.exploit.OS and not var_0_127.antiaim.def.snap.os.value then
-			return
-		end
-
-		local var_224_0
-		local var_224_1 = 0
-		local var_224_2 = var_0_109.snaps.default
-
-		if var_224_1 == 0 then
-			var_224_0 = var_0_110.snap.custom
-		else
-			var_224_0 = var_0_110.snap[var_224_1]
-		end
-
-		if var_224_0.airc.on ~= "Default" and var_0_113.jumping and var_0_113.crouching then
-			var_224_2 = var_0_109.snaps.airc
-		elseif var_224_0.air.on ~= "Default" and var_0_113.jumping then
-			var_224_2 = var_0_109.snaps.air
-		elseif var_224_0.sneak.on ~= "Default" and var_0_113.on_ground and var_0_113.crouching and var_0_113.velocity > 5 then
-			var_224_2 = var_0_109.snaps.sneak
-		elseif var_224_0.crouch.on ~= "Default" and var_0_113.on_ground and var_0_113.crouching then
-			var_224_2 = var_0_109.snaps.crouch
-		elseif var_224_0.peek.on ~= "Default" and var_0_113.on_ground and var_0_113.peeking then
-			var_224_2 = var_0_109.snaps.peek
-		end
-
-		local var_224_3 = var_224_0[var_0_108.snaps[var_224_2][1]]
-
-		if var_224_3.on == "Off" then
-			return
-		end
-
-		var_224_2 = var_224_3.on == "Custom" and var_224_2 or var_0_109.snaps.default
-
-		local var_224_4 = var_224_0[var_0_108.snaps[var_224_2][1]]
-
-		if var_224_4 and var_224_4.on ~= "Off" then
-			var_221_1.snap = var_224_4
-		end
-	end
-
-	local var_221_10 = 0
-	local var_221_11 = 0
-
-	var_0_78.player_hurt:set(function(arg_225_0)
-		if var_0_34.userid_to_entindex(arg_225_0.userid) == var_0_113.self then
-			var_221_11 = var_0_38.tickcount()
-		end
-	end)
-	var_0_78.bullet_impact:set(function(arg_226_0)
-		if not var_0_113.valid or var_221_10 == var_0_38.tickcount() then
-			return
-		end
-
-		local var_226_0 = var_0_34.userid_to_entindex(arg_226_0.userid)
-
-		if not var_226_0 or not var_0_36.is_enemy(var_226_0) or var_0_36.is_dormant(var_226_0) then
-			return
-		end
-
-		local var_226_1 = var_0_50(arg_226_0.x, arg_226_0.y, arg_226_0.z)
-		local var_226_2 = var_0_50(var_0_36.get_origin(var_226_0))
-
-		var_226_2.z = var_226_2.z + 64
-
-		local var_226_3 = {}
-
-		for iter_226_0 = 1, #var_0_114 do
-			local var_226_4 = var_0_114[iter_226_0]
-
-			if not var_0_36.is_enemy(var_226_4) then
-				local var_226_5 = var_0_50(var_0_36.hitbox_position(var_226_4, 0))
-				local var_226_6 = var_0_31.closest_ray_point(var_226_5, var_226_2, var_226_1)
-
-				var_226_3[var_226_4 == var_0_113.self and 0 or #var_226_3 + 1] = var_226_5:dist(var_226_6)
-			end
-		end
-
-		if var_226_3[0] and (#var_226_3 == 0 or var_226_3[0] < var_0_31.min(var_0_25(var_226_3))) and var_226_3[0] < 80 then
-			var_0_34.delay_call(var_0_23(1), function()
-				var_0_78.enemy_shot:fire({
-					damaged = var_221_10 == var_221_11,
-					dist = var_226_3[0],
-					attacker = var_226_0,
-					userid = arg_226_0.userid
-				})
-			end)
-
-			var_221_10 = var_0_38.tickcount()
-		end
-	end)
-
-	local function var_221_12()
-		var_221_2.resort = var_0_127.antiaim.general.resort and var_0_127.antiaim.general.resort.value
-		var_221_2.send_packet = var_221_0.chokedcommands == 0
-		var_221_2.state = var_221_7()
-
-		var_221_8()
-		var_221_9()
-	end
-
-	local var_221_13
-	local var_221_14 = {
-		angles = {
-			manual_buttons = {
-				{
-					"left",
-					yaw = -90,
-					item = var_0_127.antiaim.general.manual.left
-				},
-				{
-					"right",
-					yaw = 90,
-					item = var_0_127.antiaim.general.manual.right
-				},
-				{
-					"reset",
-					item = var_0_127.antiaim.general.manual.reset
-				}
-			},
-			manual = function(arg_229_0)
-				if not var_0_127.antiaim.general.manual.on.value then
-					return
-				end
-
-				for iter_229_0, iter_229_1 in var_0_9(arg_229_0.manual_buttons) do
-					local var_229_0, var_229_1 = iter_229_1.item:get()
-
-					if iter_229_1.active == nil then
-						iter_229_1.active = var_229_0
-					end
-
-					if iter_229_1.active == var_229_0 then
-						-- block empty
-					else
-						iter_229_1.active = var_229_0
-
-						if iter_229_1.yaw == nil then
-							arg_229_0.manual_current = nil
-						end
-
-						if var_229_1 == 1 then
-							arg_229_0.manual_current = var_229_0 and iter_229_0 or nil
-						elseif var_229_1 == 2 then
-							arg_229_0.manual_current = arg_229_0.manual_current ~= iter_229_0 and iter_229_0 or nil
-						end
-					end
-				end
-
-				local var_229_2 = arg_229_0.manual_current ~= nil and arg_229_0.manual_buttons[arg_229_0.manual_current].yaw or nil
-
-				return var_0_24(var_229_2) == "number" and var_229_2 or nil
-			end,
-			work = function(arg_230_0)
-				local var_230_0 = 88.94
-				local var_230_1 = 0
-
-				var_221_2.camera_ang = {
-					var_0_34.camera_angles()
-				}
-
-				local var_230_2 = var_221_2.camera_ang[2]
-
-				if var_0_113.threat then
-					local var_230_3 = var_0_50(var_0_36.get_origin(var_0_113.threat))
-
-					var_221_2.threat_ang = {
-						var_0_31.angle_to(var_0_113.origin, var_230_3)
-					}
-					var_221_2.threat_dist = var_0_31.sqrt3((var_0_113.origin - var_230_3):unpack())
-					var_230_2 = var_221_2.threat_ang[2]
-				else
-					var_221_2.threat_ang, var_221_2.threat_dist = nil
-				end
-
-				local var_230_4 = var_230_2 - 180
-				local var_230_5 = arg_230_0:manual()
-				local var_230_6 = var_0_127.antiaim.general.edge:get()
-				local var_230_7 = not var_230_6 and not var_230_5 and var_0_33.is_active(var_0_127.antiaim.general.fs.on)
-
-				var_0_107.aa.angles.freestand:override(var_230_7)
-				var_0_107.aa.angles.edge:override(var_230_6)
-
-				if var_230_5 then
-					var_230_4 = var_221_2.camera_ang[2] - var_230_5
-
-					if var_0_127.antiaim.general.manual.static.value then
-						local var_230_8 = 120
-
-						var_221_4.no_modifier, var_221_4.force_desync = true, var_230_5 > 0 and -var_230_8 or var_230_8
-					end
-				end
-
-				if var_230_6 then
-					var_221_4.force_implicit = true
-				elseif var_230_7 then
-					var_221_4.force_implicit = true
-
-					if var_0_127.antiaim.general.fs.static.value then
-						var_221_4.no_modifier, var_221_4.force_desync = true, 120
-					end
-				end
-
-				var_221_2.manual_yaw, var_221_2.edge_yaw, var_221_2.freestanding = var_230_5, var_230_6, var_230_7
-				var_221_3.yaw, var_221_3.pitch = var_230_4, var_230_0
-			end
-		},
-		modifier = {
-			skitter_sequence = {
-				-1,
-				1,
-				0,
-				-1,
-				1,
-				0,
-				-1,
-				0,
-				1,
-				-1,
-				0,
-				1
-			},
-			Jitter = function(arg_231_0)
-				return var_221_2.switch and arg_231_0.deg or -arg_231_0.deg
-			end,
-			Ways = function(arg_232_0)
-				local var_232_0 = var_221_2.counter % arg_232_0.ways / (arg_232_0.ways - 1)
-
-				return var_0_31.lerp(-arg_232_0.deg, arg_232_0.deg, side == -1 and 1 - var_232_0 or var_232_0)
-			end,
-			["Skitter Old"] = function(arg_233_0, arg_233_1)
-				local var_233_0 = var_221_2.counter % (arg_233_0.ways * 2 - 2)
-
-				if var_233_0 >= arg_233_0.ways then
-					var_233_0 = arg_233_0.ways + 1 - var_233_0
-				end
-
-				local var_233_1 = var_233_0 / (arg_233_0.ways - 1)
-				local var_233_2 = var_0_31.lerp(-arg_233_0.deg, arg_233_0.deg, var_233_0 < 0 and 1 + var_233_1 or var_233_1)
-
-				if var_221_1.cur.des.on then
-					local var_233_3 = var_0_31.lerp(-var_221_1.cur.des.r, var_221_1.cur.des.l, side == -1 and 1 - var_233_1 or var_233_1)
-
-					var_221_4.force_desync = var_233_3
-				end
-
-				return var_233_2
-			end,
-			Skitter = function(arg_234_0, arg_234_1)
-				local var_234_0 = var_0_31.cycle(var_221_2.counter, #arg_234_1.skitter_sequence)
-				local var_234_1 = arg_234_1.skitter_sequence[var_234_0]
-				local var_234_2 = var_234_1 * arg_234_0.deg
-				local var_234_3 = var_221_1.cur.des
-
-				if var_234_3.on and var_234_3.j then
-					var_221_4.force_desync = var_234_1 > 0 and var_234_3.l or var_234_1 < 0 and -var_234_3.r or var_234_1 == 0 and 0
-				end
-
-				return var_234_2
-			end,
-			Rotate = function(arg_235_0)
-				return var_0_31.lerp(-arg_235_0.deg, arg_235_0.deg, var_0_38.curtime() * 4 % 1)
-			end,
-			Random = function(arg_236_0)
-				return var_0_34.random_int(-arg_236_0.deg, arg_236_0.deg)
-			end,
-			work = function(arg_237_0)
-				var_221_3.mod = 0
-
-				local var_237_0 = var_221_1.cur.mod
-
-				if var_237_0.type ~= "Off" then
-					var_221_3.mod = arg_237_0[var_237_0.type](var_237_0, arg_237_0)
-				end
-
-				if not var_221_4.no_offset then
-					var_221_3.mod = var_221_3.mod + var_221_1.cur.off
-				end
-			end
-		},
-		desync = {
-			work = function(arg_238_0)
-				var_221_3.des = nil
-
-				local var_238_0 = var_221_1.cur.des
-
-				if not var_238_0.on then
-					return
-				end
-
-				if var_238_0.j then
-					var_221_3.des = var_238_0.on and (var_221_2.switch and var_238_0.r or -var_238_0.l) or nil
-				else
-					var_221_3.des = var_238_0.on and (var_0_127.antiaim.general.invert:get() and var_238_0.r or -var_238_0.l) or nil
-				end
-			end
-		},
-		defensive = {
-			urgent = false,
-			ticks = 0,
-			prev_des = 0,
-			counter = 0,
-			pitch = {
-				Static = function(arg_239_0, arg_239_1)
-					return arg_239_1.ang
-				end,
-				Jitter = function(arg_240_0, arg_240_1)
-					return var_221_2.switch and arg_240_1.ang or arg_240_1.ang2
-				end,
-				Random = function(arg_241_0, arg_241_1)
-					return var_0_34.random_int(arg_241_1.ang, arg_241_1.ang2)
-				end,
-				["Random Static"] = function(arg_242_0, arg_242_1)
-					if not arg_242_0.once.srx then
-						arg_242_0.once.srx = var_0_34.random_int(arg_242_1.ang, arg_242_1.ang2)
-					end
-
-					return arg_242_0.once.srx
-				end,
-				Spin = function(arg_243_0, arg_243_1)
-					return var_0_31.lerp(arg_243_1.ang, arg_243_1.ang2, var_0_38.curtime() * arg_243_1.speed * 0.1 % 1)
-				end,
-				Camera = function(arg_244_0, arg_244_1)
-					return arg_244_1.ang + (var_221_2.camera_ang and var_221_2.camera_ang[1] or 0)
-				end,
-				["At target"] = function(arg_245_0, arg_245_1)
-					return arg_245_1.ang + (var_221_2.threat_ang and var_221_2.threat_ang[1] or 0)
-				end
-			},
-			yaw = {
-				Static = function(arg_246_0, arg_246_1)
-					return 360 - arg_246_1.ang
-				end,
-				Jitter = function(arg_247_0, arg_247_1)
-					return 180 + arg_247_1.ang * (arg_247_0.once.switch and 0.5 or -0.5)
-				end,
-				Random = function(arg_248_0, arg_248_1)
-					return 180 + var_0_34.random_int(arg_248_1.ang * -0.5, arg_248_1.ang * 0.5)
-				end,
-				["Random Jitter"] = function(arg_249_0, arg_249_1)
-					local var_249_0 = var_0_31.random(0, 1) == 0 and 1 or -1
-					local var_249_1 = var_0_31.random(arg_249_1.ang * -0.25, arg_249_1.ang * 0.25)
-
-					return var_249_0 * 90 + var_249_1
-				end,
-				["Random Static"] = function(arg_250_0, arg_250_1)
-					if not arg_250_0.once.sry then
-						arg_250_0.once.sry = var_0_31.random(arg_250_1.ang * -0.5, arg_250_1.ang * 0.5)
-					end
-
-					return 180 + arg_250_0.once.sry
-				end,
-				Spin = function(arg_251_0, arg_251_1)
-					return 180 + var_0_31.lerp(arg_251_1.ang * -0.5, arg_251_1.ang * 0.5, var_0_38.curtime() * (arg_251_1.speed * 0.1) % 1), true
-				end,
-				["Spin Jitter"] = function(arg_252_0, arg_252_1)
-					local var_252_0 = arg_252_0.once.switch and 1 or -1
-					local var_252_1 = var_0_31.lerp(arg_252_1.ang * -0.5, arg_252_1.ang * 0.5, var_0_38.curtime() * (arg_252_1.speed * 0.1) % 1)
-
-					return var_252_0 * 90 + var_252_1
-				end,
-				["90w"] = function(arg_253_0, arg_253_1)
-					local var_253_0 = arg_253_0.counter % 2 == 0 and 1 or -1
-					local var_253_1 = var_0_31.lerp(arg_253_1.ang * -0.5, arg_253_1.ang * 0.5, var_0_113.exploit.lc_left / var_221_1.snap.time * arg_253_1.speed * 0.05 % 1)
-
-					return var_253_0 * 90 + var_253_1, true
-				end,
-				["180v"] = function(arg_254_0, arg_254_1)
-					local var_254_0 = var_0_31.sin(var_0_38.curtime() * (arg_254_1.speed * 0.2)) * 0.5 + 0.5
-
-					return 180 + var_0_31.lerp(arg_254_1.ang * -0.5, arg_254_1.ang * 0.5, var_254_0), true
-				end,
-				Camera = function(arg_255_0, arg_255_1)
-					return (var_221_2.camera_ang and var_221_2.camera_ang[2] or 0) - var_221_3.yaw - arg_255_1.ang + 180
-				end,
-				["At target"] = function(arg_256_0, arg_256_1)
-					local var_256_0 = var_221_2.threat_ang or var_221_2.camera_ang
-
-					return (var_256_0 and var_256_0[2] or 0) - var_221_3.yaw - arg_256_1.ang + 180
-				end,
-				Opposite = function(arg_257_0, arg_257_1)
-					return 180 - var_221_3.mod
-				end
-			},
-			once = {},
-			snap = function(arg_258_0)
-				local var_258_0 = var_221_1.snap
-				local var_258_1 = var_258_0 ~= nil and var_0_113.exploit.active and var_0_113.exploit.lc_left > (var_221_4.force_implicit and 1 or 0) and not var_221_2.use_aa and not var_221_2.manual_yaw
-
-				if arg_258_0.might_cross and not var_221_2.send_packet and not var_0_113.exploit.active and var_0_113.exploit.lc_left > 0 then
-					var_221_4.force_send, var_221_4.no_modifier, var_221_4.no_offset = true, true, true
-					arg_258_0.might_cross = false
-				end
-
-				if var_258_1 then
-					arg_258_0.ticks = arg_258_0.ticks + 1
-					var_258_1 = var_258_0.time >= arg_258_0.ticks
-				else
-					arg_258_0.ticks = 0
-				end
-
-				var_221_2.will_break_lc = var_0_113.exploit.active and (var_0_113.exploit.active == var_0_109.exploit.OS or var_221_0.force_defensive)
-
-				if var_258_1 then
-					if (var_258_0.x.on or var_258_0.y.on) and (not var_221_2.snapping or var_0_113.exploit.lc_left <= 2) then
-						var_221_4.force_send = true
-					end
-
-					var_221_2.snapping, var_221_3.snap = true, {}
-					arg_258_0.once.apex = arg_258_0.once.apex or var_0_113.exploit.lc_left
-					arg_258_0.once.delayed = arg_258_0.once.delayed or 0
-
-					if arg_258_0.once.delayed >= var_258_0.y.delay + 1 then
-						arg_258_0.once.switch = not arg_258_0.once.switch
-						arg_258_0.once.delayed = 0
-					elseif var_221_2.send_packet then
-						arg_258_0.once.delayed = arg_258_0.once.delayed + 1
-					end
-
-					if var_258_0.x.on then
-						local var_258_2 = arg_258_0.pitch[var_258_0.x.mode](arg_258_0, var_258_0.x)
-
-						if var_258_2 then
-							var_221_3.snap[1] = var_258_2
-							arg_258_0.might_cross = true
-						end
-					end
-
-					if var_258_0.y.on then
-						local var_258_3, var_258_4 = arg_258_0.yaw[var_258_0.y.mode](arg_258_0, var_258_0.y)
-
-						if var_258_3 then
-							var_221_3.snap[2] = var_221_3.yaw + var_258_3
-
-							if var_258_0.sd then
-								var_221_3.des = var_258_3 < 180 and 60 or -60
-								arg_258_0.prev_des = var_221_3.des
-							end
-
-							arg_258_0.might_cross = true
-						end
-
-						if var_258_4 then
-							var_221_4.force_send = true
-						end
-					end
-				elseif var_221_2.snapping then
-					arg_258_0.counter = arg_258_0.counter + 1
-					var_221_2.snapping, var_221_3.snap = false
-
-					var_0_30.clear(arg_258_0.once)
-
-					arg_258_0.might_cross = false
-				end
-			end,
-			lc = function(arg_259_0)
-				local var_259_0 = var_0_127.antiaim.def.triggers
-
-				return var_221_0.weaponselect ~= 0 and var_259_0:get("Weapon change") or not var_0_113.on_ground and var_259_0:get("Jumping") or var_0_113.crouching and var_0_113.on_ground and var_259_0:get("Crouching")
-			end,
-			work = function(arg_260_0)
-				if arg_260_0:lc() then
-					var_221_0.force_defensive = true
-				end
-
-				arg_260_0:snap()
-			end
-		},
-		head = {
-			smart = function()
-				local var_261_0, var_261_1, var_261_2 = var_0_36.hitbox_position(var_0_113.self, 0)
-				local var_261_3, var_261_4, var_261_5 = var_0_36.get_origin(var_0_113.threat)
-
-				if not var_261_5 then
-					return
-				end
-
-				local var_261_6 = (var_261_2 - (var_261_5 + 68)) / var_221_2.threat_dist
-				local var_261_7 = 0
-				local var_261_8 = 0.75
-				local var_261_9 = false
-
-				if var_0_113.on_ground and not var_0_113.crouching then
-					var_261_7, var_261_8 = 0.25, 0.5, true
-				elseif var_0_113.on_ground and var_0_113.crouching then
-					var_261_7, var_261_8 = -0.05, 0.3, true
-				elseif var_221_2.state == var_0_109.states.air then
-					var_261_7, var_261_8 = 0.35, 0.75
-				elseif var_221_2.state == var_0_109.states.airc then
-					if var_0_113.weapon_t and var_0_113.weapon_t.type == "knife" then
-						var_261_7, var_261_8 = -0.05, 0.55
-					else
-						var_261_7, var_261_8 = 0.25, 0.75
-					end
-				end
-
-				if var_261_6 < var_261_7 or var_261_8 < var_261_6 then
-					return
-				end
-
-				var_221_2.safe_head = true
-				var_221_4.no_modifier, var_221_4.no_offset, var_221_4.force_desync = true, true, 0
-			end,
-			basic = function()
-				local var_262_0, var_262_1, var_262_2 = var_0_36.get_origin(var_0_113.threat)
-
-				if not var_262_2 then
-					return
-				end
-
-				local var_262_3 = var_221_2.threat_dist
-				local var_262_4 = var_0_113.origin.z - var_262_2
-				local var_262_5, var_262_6, var_262_7 = var_0_34.eye_position()
-				local var_262_8 = var_0_113.weapon_t and var_0_113.weapon_t.weapon_type_int == 0
-
-				if var_0_113.jumping and var_262_8 and var_262_4 > -32 then
-					var_221_2.safe_head = true
-					var_221_4.no_modifier, var_221_4.no_offset, var_221_4.force_desync = true, true, 0
-				end
-			end,
-			work = function(arg_263_0)
-				var_221_2.safe_head = false
-
-				if not var_0_127.antiaim.general.head.on.value or not var_0_113.threat or var_221_2.manual_yaw or var_221_2.use_aa then
-					return
-				end
-
-				arg_263_0.basic()
-			end
-		},
-		stab = {
-			work = function(arg_264_0)
-				local var_264_0 = var_221_2.backstab
-
-				var_221_2.backstab = false
-
-				if var_0_127.antiaim.general.stab.value and var_0_113.threat then
-					local var_264_1 = var_221_2.threat_dist
-					local var_264_2 = var_0_49(var_0_36.get_player_weapon(var_0_113.threat))
-
-					if var_264_1 < 280 and var_264_2 and var_264_2.type == "knife" then
-						if not var_264_0 then
-							var_221_0.no_choke = true
-							var_221_4.force_send = true
-						end
-
-						var_221_3.yaw = var_221_3.yaw + 180
-						var_221_4.no_snap = true
-						var_221_2.backstab = true
-					end
-				end
-			end
-		},
-		fl = {
-			overridden = false,
-			work = function(arg_265_0)
-				local var_265_0 = var_0_107.aa.fakelag
-				local var_265_1 = var_0_127.antiaim.general.fl
-
-				if var_265_1.on.value then
-					var_265_0.enable:override(true)
-					var_265_0.amount:override(var_265_1.mode.value)
-					var_265_0.limit:override(var_265_1.limit.value)
-					var_265_0.variance:override(var_0_31.clamp(var_0_113.velocity / 300 * 100, 0, 100))
-
-					arg_265_0.overridden = true
-				elseif arg_265_0.overridden then
-					var_265_0.enable:override()
-					var_265_0.amount:override()
-					var_265_0.limit:override()
-					var_265_0.variance:override()
-
-					arg_265_0.overridden = false
-				end
-			end
-		},
-		legs = {
-			work = function(arg_266_0)
-				if var_0_127.antiaim.general.legs.value == "Pseudo-walk" then
-					local var_266_0 = var_221_2.sent % 3
-					local var_266_1 = "Off"
-
-					if var_266_0 == 2 then
-						var_266_1 = "Always slide"
-					elseif var_266_0 == 3 then
-						var_266_1 = "Never slide"
-					end
-
-					var_0_107.aa.other.legs:override(var_266_1)
-				else
-					var_0_107.aa.other.legs:override(var_0_127.antiaim.general.legs.value)
-				end
-			end
-		},
-		use_aa = {
-			wait = false,
-			check = function()
-				local var_267_0 = var_0_36.get_prop(var_0_113.self, "m_iTeamNum")
-				local var_267_1 = var_0_36.get_prop(var_0_113.self, "m_bIsDefusing") == 1
-				local var_267_2 = var_0_36.get_prop(var_0_113.self, "m_bIsGrabbingHostage") == 1
-
-				if var_267_1 or var_267_2 then
-					return false
-				end
-
-				if var_267_0 == 3 and var_221_0.pitch > 15 then
-					local var_267_3 = var_0_36.get_all("CC4")
-
-					for iter_267_0 = 1, #var_267_3 do
-						local var_267_4, var_267_5, var_267_6 = var_0_36.get_origin(var_267_3[iter_267_0])
-
-						if var_0_31.sqrt3(var_0_113.origin.x - var_267_4, var_0_113.origin.y - var_267_5, var_0_113.origin.z - var_267_6) then
-							return false
-						end
-					end
-				end
-
-				return true
-			end,
-			work = function(arg_268_0)
-				var_221_2.use_aa = false
-
-				if not var_0_127.antiaim.general.use.value then
-					return
-				end
-
-				if var_0_113.using then
-					var_221_2.use_aa = true
-					var_221_4.force_implicit = false
-
-					if arg_268_0.wait == false then
-						var_221_0.no_choke = true
-						var_221_4.force_send = true
-						var_221_4.no_antiaim = true
-						arg_268_0.wait = true
-					elseif arg_268_0.wait == true then
-						if arg_268_0.check() then
-							var_221_3.pitch, var_221_3.yaw = var_221_2.camera_ang[1], var_221_2.camera_ang[2]
-						else
-							var_221_4.no_antiaim = true
-						end
-					end
-				elseif arg_268_0.wait then
-					var_221_0.no_choke = true
-					var_221_4.force_send = true
-					var_221_4.no_offset, var_221_4.no_modifier = true, true
-					arg_268_0.wait = false
-				end
-			end
-		}
-	}
-	local var_221_15 = {
-		work = function()
-			var_221_14.angles:work()
-			var_221_14.modifier:work()
-			var_221_14.desync:work()
-			var_221_14.defensive:work()
-			var_221_14.head:work()
-			var_221_14.stab:work()
-			var_221_14.use_aa:work()
-			var_221_14.fl:work()
-
-			if var_221_4.no_snap then
-				var_221_3.snap = nil
-			end
-
-			if var_221_4.no_modifier then
-				var_221_3.mod = 0
-			end
-
-			if var_221_4.force_desync ~= nil then
-				var_221_3.des = var_221_4.force_desync or nil
-			end
-
-			if not var_221_4.no_offset and var_221_1.cur.add.on and var_221_3.des and var_221_3.des ~= 0 then
-				var_221_3.mod = var_221_3.mod + (var_221_3.des > 0 and var_221_1.cur.add.r or var_221_1.cur.add.l)
-			end
-		end
-	}
-	local var_221_16
-	local var_221_17 = {
-		direct = {
-			yaw = 0,
-			pitch = 0,
-			previous_body = 0,
-			allowed = function()
-				if var_221_4.no_antiaim or var_0_113.throwing_nade or var_221_0.in_attack == 1 and var_0_113.can_shoot or var_0_113.using and not var_0_127.antiaim.general.use.value or var_0_113.movetype == 9 and (var_221_0.sidemove ~= 0 or var_221_0.forwardmove ~= 0) or var_0_36.get_prop(var_0_113.gamerules, "m_bFreezePeriod") == 1 then
-					return false
-				end
-
-				return true
-			end,
-			micromove = function()
-				if not var_0_113.on_ground or var_0_113.movetype == 9 then
-					return
-				end
-
-				if var_0_107.misc.helper and var_0_113.weapon_t and var_0_113.weapon_t.weapon_type_int == 9 and var_0_33.is_active(var_0_107.misc.helper) then
-					return
-				end
-
-				local var_271_0 = var_221_0.in_forward == 1 or var_221_0.in_back == 1 or var_221_0.in_moveleft == 1 or var_221_0.in_moveright == 1
-				local var_271_1 = var_0_113.duck_amount > 0 and var_0_113.on_ground and 3.3 or 1.1
-
-				if not var_271_0 and var_0_113.velocity < 20 and not var_221_0.quick_stop then
-					var_221_0.sidemove = var_221_0.command_number % 2 == 0 and var_271_1 or -var_271_1
-				end
-			end,
-			jitter_move = function()
-				if var_0_113.jumping or var_0_113.walking then
-					return
-				end
-
-				local var_272_0 = 90
-				local var_272_1 = 0.1875
-				local var_272_2 = var_221_0.command_number % 64 * var_272_1 + var_272_0
-
-				if var_272_2 <= 100 then
-					var_272_0 = var_272_2 >= 90 and var_272_2 or 100
-				end
-
-				local var_272_3 = var_272_0 * 0.01 * 320
-
-				if var_272_3 <= 0 then
-					return
-				end
-
-				local var_272_4 = var_0_31.sqrt3(var_221_0.forwardmove, var_221_0.sidemove)
-
-				if var_272_4 < 10 or var_272_4 < var_272_3 then
-					return
-				end
-
-				var_221_0.forwardmove = var_221_0.forwardmove / var_272_4 * var_272_3
-				var_221_0.sidemove = var_221_0.sidemove / var_272_4 * var_272_3
-			end,
-			compensate = {
-				previous = 0,
-				ready = false,
-				feet = function(arg_273_0, arg_273_1, arg_273_2)
-					local var_273_0 = arg_273_1
-					local var_273_1 = false
-
-					if var_0_31.abs(arg_273_1) - var_0_31.abs(arg_273_2) > 5 then
-						local var_273_2 = var_0_36.get_max_desync(var_0_113.animstate)
-					end
-
-					return var_273_0, var_273_1
-				end
-			},
-			work = function(arg_274_0)
-				arg_274_0.micromove()
-
-				if not arg_274_0.allowed() then
-					return
-				end
-
-				if not var_221_4.hybrid then
-					var_0_107.aa.angles.enable:override(false)
-				end
-
-				if var_0_127.antiaim.general.jmove.value then
-					arg_274_0.jitter_move()
-				end
-
-				arg_274_0.pitch = var_221_3.snap and var_221_3.snap[1] or var_221_3.pitch
-
-				if var_221_2.send_packet or var_221_4.force_send or var_221_4.speeding then
-					arg_274_0.yaw = var_221_3.snap and var_221_3.snap[2] or var_221_3.yaw + var_221_3.mod
-				end
-
-				var_221_0.pitch = var_0_31.normalize_pitch(arg_274_0.pitch)
-				var_221_0.yaw = var_0_31.normalize_yaw(arg_274_0.yaw)
-
-				if var_221_2.send_packet and var_221_3.des then
-					local var_274_0 = var_0_31.clamp(var_221_3.des, -60, 60)
-					local var_274_1 = var_0_113.on_ground and 2 or 1
-
-					if var_221_4.speeding then
-						var_274_1 = 1
-					end
-
-					var_221_0.yaw = var_221_0.yaw - var_274_0 * var_274_1
-					var_221_0.allow_send_packet = false
-				end
-			end
-		},
-		implicit = {
-			work = function(arg_275_0)
-				local var_275_0 = var_0_31.normalize_pitch(var_221_3.snap and var_221_3.snap[1] or var_221_3.pitch)
-				local var_275_1 = var_0_31.normalize_yaw(var_221_3.snap and var_221_3.snap[2] or var_221_3.yaw + var_221_3.mod)
-
-				var_0_107.aa.angles.enable:override(true)
-				var_221_5.pitch_mode:override("Custom")
-				var_221_5.pitch:override(var_275_0)
-
-				if var_221_2.send_packet or var_221_4.force_send then
-					var_221_5.yaw_mode:override("Static")
-					var_221_5.yaw:override(var_275_1)
-					var_221_5.jitter_mode:override("Off")
-					var_221_5.body_mode:override(var_221_3.des ~= nil and "Static" or "Off")
-
-					if var_221_3.des then
-						var_221_5.body:override(var_221_3.des > 0 and 1 or var_221_3.des < 0 and -1 or 0)
-					end
-				end
-			end
-		}
-	}
-	local var_221_18
-	local var_221_19 = 0
-
-	local function var_221_20(arg_276_0)
-		if arg_276_0 <= var_221_19 or var_0_113.exploit.active == var_0_109.exploit.OFF then
-			if var_221_2.send_packet then
-				var_221_2.counter = var_221_2.counter >= 65535 and 0 or var_221_2.counter + 1
-				var_221_2.switch = var_221_2.counter % 2 == 0
-				var_221_19 = 0
-			end
-		else
-			var_221_19 = var_221_19 + 1
-		end
-	end
-
-	local function var_221_21()
-		if var_221_2.send_packet then
-			var_221_2.sent = var_221_2.sent >= 65535 and 0 or var_221_2.sent + 1
-		end
-
-		var_221_20(var_221_1.cur.delay)
-		var_0_30.clear(var_221_4)
-	end
-
-	local var_221_22 = {
-		work = function(arg_278_0)
-			var_221_0 = arg_278_0
-
-			var_221_12()
-
-			var_221_4.force_implicit = var_0_127.antiaim.general.mode.value == "gamesense"
-			var_221_4.force_implicit = var_221_4.force_implicit or not var_0_33.is_active(var_0_107.rage.aimbot.enable)
-
-			var_221_15:work()
-
-			if var_221_4.force_implicit then
-				var_221_17.implicit:work()
-			else
-				var_221_17.direct:work()
-			end
-
-			var_221_21()
-		end
-	}
-
-	var_0_133 = {
-		data = var_221_2,
-		ctx = var_221_3,
-		restore = function()
-			var_0_107.aa.angles.enable:override()
-
-			for iter_279_0, iter_279_1 in var_0_11, var_221_5 do
-				iter_279_1:override()
-			end
-		end,
-		run = function(arg_280_0)
-			var_0_127.antiaim.on:set_callback(function(arg_281_0)
-				var_0_78.setup_command(arg_281_0.value, var_221_22.work)
-				var_0_107.aa.angles.freestand:override(var_0_60(arg_281_0.value, false, nil))
-				var_0_107.aa.angles.freestand.hotkey:override(arg_281_0.value and {
-					"Always on",
-					0
-				} or nil)
-				var_0_107.aa.angles.fs_body:override(var_0_60(arg_281_0.value, false, nil))
-
-				if not arg_281_0.value then
-					var_0_133.restore()
-				end
-			end, true)
-		end
-	}
-
-	var_0_133:run()
-end)()
-LPH_NO_VIRTUALIZE(function()
-	local var_282_0 = {}
-
-	var_282_0.clantag = {
-		last = 0,
-		enabled = false,
-		list = {
-            'C',
-            'Ca',
-            'Cal',
-            'Cala',
-            'Calam',
-            'Calami',
-            'Calamit',
-            'Calamity',
-            'Calamity.',
-            'Calamity.l',
-            'Calamity.lu',
-            'Calamity.lua',
-            'Calamity.lua',
-            'Calamity.lu',
-            'Calamity.l',
-            'Calamity.',
-            'Calamity',
-            'Calamit',
-            'Calami',
-            'Calam',
-            'Cala',
-            'Cal',
-            'Ca',
-            'C',
-            '',
-		},
-		work = function()
-			if var_282_0.clantag.enabled and not var_0_127.misc.clantag.value then
-				var_282_0.clantag.enabled = false
-
-				var_0_78.net_update_end:unset(var_282_0.clantag.work)
-				var_0_34.set_clan_tag()
-			end
-
-			local var_283_0 = var_0_31.round(var_0_38.curtime() * 3) % #var_282_0.clantag.list + 1
-
-			if var_283_0 == var_282_0.clantag.last then
-				return
-			end
-
-			var_282_0.clantag.last = var_283_0
-
-			var_0_34.set_clan_tag(var_282_0.clantag.list[var_283_0])
-		end,
-		run = function(arg_284_0)
-			var_0_127.misc.clantag:set_callback(function(arg_285_0)
-				var_0_107.misc.clantag:set_enabled(not arg_285_0.value)
-
-				if arg_285_0.value then
-					arg_284_0.enabled = true
-
-					var_0_78.net_update_end:set(arg_284_0.work)
-					var_0_107.misc.clantag:override(false)
-				else
-					var_0_107.misc.clantag:override()
-					var_0_34.set_clan_tag()
-				end
-			end, true)
-			var_0_3(function()
-				var_0_107.misc.clantag:set_enabled(true)
-				var_0_107.misc.clantag:override()
-				var_0_34.set_clan_tag()
-			end)
-		end
-	}
-	var_282_0.ladder = {
-		work = function(arg_287_0)
-			if var_0_113.movetype ~= 9 or arg_287_0.forwardmove == 0 then
-				var_282_0.ladder.start = false
-
-				return
-			end
-
-			if var_282_0.ladder.start == false then
-				var_282_0.ladder.start = true
-			else
-				local var_287_0, var_287_1 = var_0_34.camera_angles()
-				local var_287_2 = arg_287_0.forwardmove < 0 or var_287_0 > 45
-
-				arg_287_0.in_moveleft, arg_287_0.in_moveright = var_287_2 and 1 or 0, not var_287_2 and 1 or 0
-				arg_287_0.in_forward, arg_287_0.in_back = var_287_2 and 1 or 0, not var_287_2 and 1 or 0
-				arg_287_0.pitch, arg_287_0.yaw = 89, var_0_31.normalize_yaw(arg_287_0.move_yaw + 90)
-			end
-		end,
-		run = function(arg_288_0)
-			var_0_127.misc.ladder:set_callback(function(arg_289_0)
-				var_0_78.setup_command(arg_289_0.value, arg_288_0.work)
-			end, true)
-		end
-	}
-	var_282_0.breaker = {
-		work = function()
-			if not var_0_113.valid then
-				return
-			end
-
-			local var_290_0 = var_0_36.get_animstate(var_0_113.self)
-
-			if not var_290_0 then
-				return
-			end
-
-			local var_290_1 = var_0_127.misc.breaker
-
-			if var_290_1.pitch.value and not var_0_113.jumping and var_290_0.hit_in_ground_animation then
-				var_0_36.set_prop(var_0_113.self, "m_flPoseParameter", 0.5, 12)
-			end
-
-			if var_290_1.slia.value and var_0_113.jumping then
-				var_0_36.set_prop(var_0_113.self, "m_flPoseParameter", 1, 6)
-			end
-
-			if var_290_1.legs.value == "Static" then
-				var_0_107.aa.other.legs:override("Always slide")
-				var_0_36.set_prop(var_0_113.self, "m_flPoseParameter", 0, 0)
-			elseif var_290_1.legs.value == "Jitter" then
-				var_0_107.aa.other.legs:override("Always slide")
-
-				if var_0_38.tickcount() % 4 > 1 then
-					var_0_36.set_prop(var_0_113.self, "m_flPoseParameter", 0, 0)
-				end
-			elseif var_290_1.legs.value == "No step back" then
-				var_0_107.aa.other.legs:override("Never slide")
-				var_0_36.set_prop(var_0_113.self, "m_flPoseParameter", 0.5, 7)
-			else
-				var_0_107.aa.other.legs:override()
-			end
-		end,
-		run = function(arg_291_0)
-			var_0_127.misc.breaker.on:set_callback(function(arg_292_0)
-				var_0_78.pre_render(arg_292_0.value, arg_291_0.work)
-
-				if not arg_292_0.value then
-					var_0_107.aa.other.legs:override()
-				end
-			end, true)
-		end
-	}
-	var_282_0.filter = {
-		callback = function(arg_293_0)
-			var_0_34.delay_call(0, function()
-				cvar.con_filter_enable:set_int(arg_293_0.value and 1 or 0)
-				cvar.con_filter_text:set_string(arg_293_0.value and "calamity" or "")
-			end)
-		end,
-		run = function(arg_295_0)
-			var_0_127.misc.filter:set_callback(arg_295_0.callback, true)
-			var_0_78.shutdown:set(function()
-				cvar.con_filter_enable:set_int(0)
-				cvar.con_filter_text:set_string("")
-			end)
-		end
-	}
-
-	for iter_282_0, iter_282_1 in var_0_11, var_282_0 do
-		iter_282_1:run()
-	end
-
-	local var_282_1 = var_0_128.servers
-	local var_282_2 = var_0_88.servers or {}
-	local var_282_3 = 0
-	local var_282_4
-	local var_282_5
-
-	var_282_5 = {
-		update = function()
-			var_282_3 = var_282_1.list[0]:get()
-			var_282_4 = var_282_2[var_282_3]
-
-			var_282_1.list.connect:set_enabled(var_282_4 ~= nil)
-			var_282_1.list.export:set_enabled(var_282_4 ~= nil)
-			var_282_1.list.delete:set_enabled(var_282_4 ~= nil)
-		end,
-		save = function()
-			var_0_88.servers = var_282_2
-
-			var_0_88()
-		end,
-		refresh = function()
-			var_282_1.list[0]:update(var_282_2)
-			var_282_5.update()
-		end,
-		export = function(arg_300_0, arg_300_1)
-			var_0_85.set(var_0_32.format("[\"%s\"]:[%s]", arg_300_0, arg_300_1))
-		end,
-		import = function()
-			if not var_0_85.get() then
-				return
-			end
-
-			local var_301_0, var_301_1 = var_0_32.match("[\"(.+)\"]:[(.+)]")
-
-			if not var_301_0 or not var_301_1 then
-				return
-			end
-
-			var_282_5.add(var_301_0, var_301_1)
-		end,
-		add = function(arg_302_0, arg_302_1)
-			if not arg_302_0 or not arg_302_1 then
-				return
-			end
-
-			arg_302_0 = var_0_32.limit(arg_302_0, 32)
-			var_282_2[#var_282_2 + 1] = {
-				arg_302_0,
-				arg_302_1
-			}
-
-			var_282_5.refresh()
-		end,
-		delete = function(arg_303_0)
-			if not var_282_2[arg_303_0] then
-				return
-			end
-
-			var_0_30.remove(var_282_2, arg_303_0)
-			var_282_5.refresh()
-		end
-	}
-
-	var_282_1.list[0]:set_callback(var_282_5.update)
-	var_0_34.delay_call(0.1, var_282_5.update)
-	var_282_1.new.create:set_callback(function()
-		local var_304_0 = var_0_32.clean(var_282_1.new.name:get())
-		local var_304_1 = var_0_32.clean(var_282_1.new.ip:get())
-
-		if #var_304_0 == 0 or #var_304_1 == 0 then
-			return
-		end
-
-		var_282_5.add(var_304_0, var_304_1)
-	end)
-	var_282_1.list.delete:set_callback(function()
-		var_282_5.delete(var_282_3)
-	end)
-
-	local var_282_6
-	local var_282_7 = {}
-	local var_282_8 = {
-		"knife",
-		"c4",
-		"decoy",
-		"flashbang",
-		"hegrenade",
-		"incgrenade",
-		"molotov",
-		"inferno",
-		"smokegrenade"
-	}
-	local var_282_9 = {
-		mismatch = {
-			"\aD59A4D",
-			"\aD59A4D\x01",
-			"\a",
-			var_0_79.hex("D59A4D")
-		},
-		hit = {
-			"\aA3D350",
-			"\aA3D350\x01",
-			"\x06",
-			var_0_79.hex("A3D350")
-		},
-		miss = {
-			"\aA67CCF",
-			"\aA67CCF\x01",
-			"\x03",
-			var_0_79.hex("A67CCF")
-		},
-		harm = {
-			"\ad35050",
-			"\ad35050\x01",
-			"\a",
-			var_0_79.hex("d35050")
-		},
-		brute = {
-			"\aBFBFBF",
-			"\aBFBFBF\x01",
-			"\x01",
-			var_0_79.hex("BFBFBF")
-		},
-		evaded = {
-			"\aB0C6FF",
-			"\aB0C6FF\x01",
-			"\x01",
-			var_0_79.hex("AB0C6F")
-		}
-	}
-	local var_282_10 = {
-		list = {}
-	}
-
-	var_282_10.events = {
-		evade = function(arg_306_0)
-			if arg_306_0.damaged or not var_0_127.misc.logs.events:get("Anti-aim info") then
-				return
-			end
-
-			var_282_10.invent("evaded", {
-				{
-					true,
-					"evaded "
-				},
-				{
-					false,
-					"Evaded "
-				},
-				{
-					{
-						var_0_36.get_player_name(arg_306_0.attacker)
-					},
-					"'s shot"
-				}
-			})
-		end,
-		receive = function(arg_307_0, arg_307_1, arg_307_2)
-			local var_307_0 = arg_307_1 == arg_307_2 or arg_307_2 == 0
-			local var_307_1 = arg_307_0.health == 0
-			local var_307_2 = arg_307_0.weapon
-			local var_307_3 = arg_307_0.dmg_health
-			local var_307_4 = var_0_109.hitgroups[arg_307_0.hitgroup or 0] or "generic"
-			local var_307_5 = var_307_1 and "Killed by" or "Harmed by"
-
-			arg_307_2 = arg_307_2 ~= 0 and var_0_36.get_player_name(arg_307_2) or "world"
-
-			local var_307_6 = {
-				var_307_0 and {
-					true,
-					{
-						"you"
-					},
-					var_307_1 and " killed " or " harmed "
-				} or {
-					true,
-					var_0_32.lower(var_307_5),
-					" "
-				},
-				var_307_0 and {
-					false,
-					{
-						"You"
-					},
-					var_307_1 and " killed " or " harmed "
-				} or {
-					false,
-					var_307_5,
-					" "
-				},
-				{
-					var_307_0 and {
-						"yourself"
-					} or {
-						arg_307_2
-					}
-				},
-				not var_307_0 and var_307_4 ~= "generic" and {
-					" in ",
-					{
-						var_307_4
-					}
-				} or nil,
-				not var_307_1 and {
-					" for ",
-					{
-						var_307_3,
-						" hp"
-					}
-				} or nil
-			}
-
-			var_282_10.invent("harm", var_307_6)
-		end,
-		harm = function(arg_308_0, arg_308_1, arg_308_2)
-			if not var_0_30.find(var_282_8, arg_308_0.weapon) and arg_308_0.weapon ~= "knife" then
-				return
-			end
-
-			local var_308_0 = arg_308_0.health == 0
-			local var_308_1 = "a " .. arg_308_0.weapon
-
-			if arg_308_0.weapon == "hegrenade" then
-				var_308_1 = "an HE grenade"
-			end
-
-			local var_308_2 = var_0_36.get_player_name(arg_308_1)
-			local var_308_3 = var_308_0 and "Killed" or "Harmed"
-
-			if var_308_0 and arg_308_0.weapon == "hegrenade" then
-				var_308_3 = "Exploded"
-			elseif var_308_0 and arg_308_0.weapon == "knife" then
-				var_308_3 = "Stabbed"
-			elseif arg_308_0.weapon == "inferno" then
-				var_308_3 = "Burnt"
-			end
-
-			local var_308_4 = {
-				{
-					true,
-					var_0_32.lower(var_308_3),
-					" "
-				},
-				{
-					false,
-					var_308_3,
-					" "
-				},
-				{
-					{
-						var_308_2
-					}
-				},
-				not var_308_0 and {
-					" for ",
-					{
-						arg_308_0.dmg_health,
-						" hp"
-					}
-				} or nil,
-				var_308_0 and var_308_3 == "Burnt" and {
-					" to ",
-					{
-						"death"
-					}
-				} or nil,
-				(var_308_3 == "Killed" or var_308_3 == "Harmed") and {
-					true,
-					" with ",
-					{
-						var_308_1
-					}
-				} or nil
-			}
-
-			var_282_10.invent("hit", var_308_4)
-		end,
-		damage = function(arg_309_0)
-			local var_309_0 = var_0_34.userid_to_entindex(arg_309_0.userid)
-			local var_309_1 = arg_309_0.attacker ~= 0 and var_0_34.userid_to_entindex(arg_309_0.attacker) or 0
-
-			if var_309_0 == var_0_113.self and var_0_127.misc.logs.events:get("Getting harmed") then
-				var_282_10.events.receive(arg_309_0, var_309_0, var_309_1)
-			elseif var_309_1 == var_0_113.self and var_309_0 ~= var_0_113.self and var_0_127.misc.logs.events:get("Harming enemies") then
-				var_282_10.events.harm(arg_309_0, var_309_0, var_309_1)
-			end
-		end,
-		miss = function(arg_310_0)
-			if not var_0_127.misc.logs.events:get("Ragebot shots") then
-				return
-			end
-
-			local var_310_0 = var_282_7[arg_310_0.id] or {}
-			local var_310_1 = "Missed"
-			local var_310_2 = var_0_36.get_player_name(arg_310_0.target)
-			local var_310_3 = arg_310_0.reason
-
-			if var_310_3 == "prediction error" and var_310_0.difference and var_310_0.difference > 2 then
-				var_310_3 = "unpredicted occasion"
-			end
-
-			local var_310_4 = var_0_109.hitgroups[arg_310_0.hitgroup]
-			local var_310_5 = {
-				{
-					false,
-					var_310_1,
-					" "
-				},
-				{
-					true,
-					var_0_32.lower(var_310_1),
-					" "
-				},
-				{
-					{
-						var_310_2
-					}
-				},
-				var_310_4 and {
-					"'s ",
-					{
-						var_310_4
-					}
-				},
-				var_310_3 ~= "?" and {
-					" due to ",
-					{
-						var_310_3
-					}
-				} or nil
-			}
-			local var_310_6 = {
-				var_310_0.damage and {
-					"dmg: ",
-					{
-						var_310_0.damage
-					}
-				},
-				{
-					"hc: ",
-					{
-						var_0_31.round(arg_310_0.hit_chance),
-						"%%"
-					},
-					var_0_107.rage.aimbot.hit_chance.value - arg_310_0.hit_chance > 3 and "⮟" or ""
-				} or nil,
-				var_310_0.difference and var_310_0.difference ~= 0 and {
-					"Δ: ",
-					{
-						var_310_0.difference,
-						"t"
-					},
-					var_310_0.difference < 0 and "⮟" or ""
-				} or nil,
-				var_310_0.teleport and {
-					{
-						"LC"
-					}
-				} or nil,
-				(var_310_0.interpolated or var_310_0.extrapolated) and {
-					{
-						var_310_0.interpolated and "IN" or "",
-						var_310_0.extrapolated and "EP" or ""
-					}
-				} or nil
-			}
-
-			var_282_10.invent("miss", var_310_5, var_310_6)
-
-			var_282_7[arg_310_0.id] = nil
-		end,
-		hit = function(arg_311_0)
-			if not var_0_127.misc.logs.events:get("Ragebot shots") then
-				return
-			end
-
-			local var_311_0 = var_282_7[arg_311_0.id] or {}
-			local var_311_1 = "Hit"
-
-			if not var_0_36.is_alive(arg_311_0.target) then
-				var_311_1 = "Killed"
-			end
-
-			local var_311_2 = var_0_36.get_player_name(arg_311_0.target)
-			local var_311_3 = var_0_109.hitgroups[arg_311_0.hitgroup]
-			local var_311_4 = var_0_109.hitgroups[var_311_0.hitgroup or 0]
-			local var_311_5 = var_311_1 == "Hit" and arg_311_0.hitgroup ~= var_311_0.hitgroup
-			local var_311_6 = var_311_1 == "Hit" and (var_311_0.damage or 0) - (arg_311_0.damage or 0) > 10
-			local var_311_7
-
-			if var_311_6 and var_311_5 and var_311_4 then
-				var_311_7 = {
-					var_311_4,
-					"-",
-					var_311_0.damage
-				}
-			elseif var_311_6 then
-				var_311_7 = {
-					var_311_0.damage,
-					" hp"
-				}
-			end
-
-			local var_311_8 = {
-				{
-					true,
-					var_0_32.lower(var_311_1),
-					" ",
-					{
-						var_311_2
-					}
-				},
-				{
-					false,
-					var_311_1,
-					" ",
-					{
-						var_311_2
-					}
-				},
-				var_311_3 and var_311_3 ~= "generic" and {
-					var_311_1 == "Hit" and "'s " or " in ",
-					{
-						var_311_3
-					},
-					var_311_5 and "\aD59A4D!\r" or ""
-				} or nil,
-				var_311_1 == "Hit" and {
-					" for ",
-					{
-						arg_311_0.damage,
-						" hp"
-					},
-					var_311_6 and "\aD59A4D!\r" or ""
-				} or nil
-			}
-			local var_311_9 = {
-				var_311_7 and {
-					"exp: ",
-					var_311_7
-				},
-				var_311_0.difference ~= 0 and {
-					"Δ: ",
-					{
-						var_311_0.difference,
-						"t"
-					}
-				} or nil,
-				var_0_107.rage.aimbot.hit_chance.value - arg_311_0.hit_chance > 5 and {
-					"hc: ",
-					{
-						var_0_31.floor(arg_311_0.hit_chance),
-						"%%"
-					},
-					"⮟"
-				} or nil
-			}
-
-			var_282_10.invent("hit", var_311_8, var_311_9)
-
-			var_282_7[arg_311_0.id] = nil
-		end,
-		aim = function(arg_312_0)
-			if not var_0_127.misc.logs.events:get("Ragebot shots") then
-				return
-			end
-
-			arg_312_0.difference = var_0_38.tickcount() - arg_312_0.tick
-			var_282_7[arg_312_0.id] = arg_312_0
-		end
-	}
-
-	function var_282_10.invent(arg_313_0, arg_313_1, arg_313_2)
-		local var_313_0 = {
-			console = {},
-			screen = {},
-			chat = {}
-		}
-
-		if arg_313_0 then
-			local var_313_1 = 0
-			local var_313_2 = 0
-			local var_313_3 = var_282_9[arg_313_0]
-
-			var_313_0.console[var_313_1 + 1], var_313_0.console[var_313_1 + 2] = var_313_3 and var_313_3[1] or "", " •\r "
-			var_313_0.screen[var_313_2 + 1], var_313_0.screen[var_313_2 + 2] = var_313_3 and var_313_3[2] or "", "•\aE6E6E6\x02 "
-		end
-
-		for iter_313_0 = 1, var_0_30.maxn(arg_313_1) do
-			local var_313_4 = arg_313_1[iter_313_0]
-
-			if not var_313_4 then
-				-- block empty
-			elseif var_0_24(var_313_4) == "table" then
-				local var_313_5 = arg_313_1[iter_313_0][1] == true and 1 or arg_313_1[iter_313_0][1] == false and 2 or 0
-
-				for iter_313_1, iter_313_2 in var_0_9(var_313_4) do
-					local var_313_6 = var_0_24(iter_313_2)
-
-					if var_313_6 ~= "boolean" or iter_313_1 ~= 1 then
-						if var_313_5 ~= 2 then
-							if var_313_6 == "table" then
-								var_0_30.move(iter_313_2, 1, #iter_313_2, #var_313_0.console + 1, var_313_0.console)
-								var_0_30.move(iter_313_2, 1, #iter_313_2, #var_313_0.chat + 1, var_313_0.chat)
-							else
-								local var_313_7 = #var_313_0.console
-								local var_313_8 = #var_313_0.chat
-
-								var_313_0.console[var_313_7 + 1], var_313_0.console[var_313_7 + 2], var_313_0.console[var_313_7 + 3] = "\a909090", var_313_6 == "string" and iter_313_2 or var_0_21(iter_313_2), "\r"
-								var_313_0.chat[var_313_8 + 1], var_313_0.chat[var_313_8 + 2], var_313_0.chat[var_313_8 + 3] = "\b", var_313_6 == "string" and var_0_32.gsub(iter_313_2, "\a%x%x%x%x%x%x", "") or var_0_21(iter_313_2), "\x01"
-							end
-						end
-
-						if var_313_5 ~= 1 then
-							if var_313_6 == "table" then
-								local var_313_9 = #var_313_0.screen
-
-								for iter_313_3 = 1, #iter_313_2, 3 do
-									var_313_0.screen[var_313_9 + iter_313_3], var_313_0.screen[var_313_9 + iter_313_3 + 1], var_313_0.screen[var_313_9 + iter_313_3 + 2] = "\aE6E6E6\x01", iter_313_2[iter_313_3], "\aE6E6E6\x02"
-								end
-							else
-								local var_313_10 = #var_313_0.screen
-
-								var_313_0.screen[var_313_10 + 1], var_313_0.screen[var_313_10 + 2] = var_313_6 == "string" and var_0_32.gsub(iter_313_2, "\a%x%x%x%x%x%x", function(arg_314_0)
-									return arg_314_0 .. "\x01"
-								end) or var_0_21(iter_313_2), "\aE6E6E6\x02"
-							end
-						end
-					end
-				end
-			else
-				local var_313_11 = #var_313_0.console
-
-				var_313_0.console[var_313_11 + 1], var_313_0.console[var_313_11 + 2], var_313_0.console[var_313_11 + 3] = "\a808080", var_0_21(var_313_4), "\r"
-				var_313_0.screen[#var_313_0.screen + 1] = var_0_24(var_313_4) == "string" and var_0_32.gsub(var_313_4, "\a%x%x%x%x%x%x", function(arg_315_0)
-					return arg_315_0 .. "\x02"
-				end) or var_0_21(var_313_4)
-			end
-		end
-
-		arg_313_2 = var_0_24(arg_313_2) == "table" and var_0_30.filter(arg_313_2) or nil
-
-		if arg_313_2 and #arg_313_2 > 0 then
-			var_313_0.console[#var_313_0.console + 1] = " \v~\r "
-
-			for iter_313_4 = 1, #arg_313_2 do
-				if var_0_24(arg_313_2[iter_313_4]) == "table" then
-					for iter_313_5, iter_313_6 in var_0_9(arg_313_2[iter_313_4]) do
-						local var_313_12 = var_0_24(iter_313_6)
-
-						if var_313_12 == "table" then
-							var_313_0.console[#var_313_0.console + 1] = "\aAAAAAA"
-
-							var_0_30.move(iter_313_6, 1, #iter_313_6, #var_313_0.console + 1, var_313_0.console)
-						else
-							local var_313_13 = #var_313_0.console
-
-							var_313_0.console[var_313_13 + 1], var_313_0.console[var_313_13 + 2] = "\a707070", var_313_12 == "string" and iter_313_6 or var_0_21(iter_313_6)
-						end
-
-						var_313_0.console[#var_313_0.console + 1] = "\r"
-					end
-				else
-					local var_313_14 = #var_313_0.console
-
-					var_313_0.console[var_313_14 + 1], var_313_0.console[var_313_14 + 2], var_313_0.console[var_313_14 + 3] = "\a707070", var_0_21(arg_313_1[iter_313_4]), "\r"
-				end
-
-				if iter_313_4 < #arg_313_2 then
-					var_313_0.console[#var_313_0.console + 1] = "\a707070, \r"
-				end
-			end
-		end
-
-		var_282_10.push(arg_313_0, var_0_30.concat(var_313_0.console), var_0_30.concat(var_313_0.screen), var_0_30.concat(var_313_0.chat))
-	end
-
-	function var_282_10.push(arg_316_0, arg_316_1, arg_316_2, arg_316_3)
-		if arg_316_1 and var_0_127.misc.logs.output:get("Console") then
-			var_0_57(arg_316_1)
-		end
-
-		if arg_316_2 and var_0_127.misc.logs.output:get("Screen") then
-			var_0_30.insert(var_282_10.list, 1, {
-				event = arg_316_0,
-				text = arg_316_2,
-				time = var_0_38.realtime(),
-				progress = {
-					0
-				}
-			})
-		end
-	end
-
-	function var_282_10.clear_stack()
-		var_282_7 = {}
-	end
-
-	function var_282_10.run(arg_318_0)
-		var_0_127.misc.logs.on:set_callback(function(arg_319_0)
-			var_0_78.aim_fire(arg_319_0.value, arg_318_0.events.aim)
-			var_0_78.aim_hit(arg_319_0.value, arg_318_0.events.hit)
-			var_0_78.aim_miss(arg_319_0.value, arg_318_0.events.miss)
-			var_0_78.player_hurt(arg_319_0.value, arg_318_0.events.damage)
-			var_0_78.enemy_shot(arg_319_0.value, arg_318_0.events.evade)
-			var_0_78.local_spawned(arg_319_0.value, arg_318_0.clear_stack)
-
-			local var_319_0 = var_0_60(arg_319_0.value, false, nil)
-
-			var_0_107.rage.other.log_misses:override(var_319_0)
-			var_0_107.misc.log_damage:override(var_319_0)
-		end, true)
-		var_0_107.rage.other.log_misses:depend(true, {
-			var_0_127.misc.logs.on,
-			false
-		})
-		var_0_107.misc.log_damage:depend(true, {
-			var_0_127.misc.logs.on,
-			false
-		})
-	end
-
-	var_282_10:run()
-
-	local var_282_11 = {}
-
-	var_282_11.aspect = {
-		active = false,
-		value = var_0_93 / var_0_94,
-		init = var_0_93 / var_0_94,
-		activate = function()
-			var_282_11.aspect.active = true
-		end,
-		work = function()
-			local var_321_0 = var_282_11.aspect
-			local var_321_1 = var_0_127.visuals.aspect
-
-			if not var_321_0.active then
-				return
-			end
-
-			if var_321_1.on.value then
-				local var_321_2 = var_321_1.ratio.value * 0.01
-
-				var_321_0.value = var_0_100.lerp(var_321_0.value, var_321_2, 8, 0.001)
-				var_321_0.active = var_321_2 ~= var_321_0.value
-
-				cvar.r_aspectratio:set_float(var_321_0.value)
-			else
-				var_321_0.value = var_0_100.lerp(var_321_0.value, var_321_0.init)
-
-				cvar.r_aspectratio:set_float(var_321_0.value)
-
-				if var_321_0.value == var_321_0.init then
-					var_0_78.paint_ui:unset(var_321_0.work)
-					cvar.r_aspectratio:set_float(0)
-
-					var_321_0.active = false
-				end
-			end
-		end,
-		run = function(arg_322_0)
-			local var_322_0 = var_0_127.visuals.aspect
-
-			var_322_0.on:set_callback(function(arg_323_0)
-				arg_322_0.active = true
-
-				if arg_323_0.value then
-					var_0_78.paint_ui:set(arg_322_0.work)
-				end
-			end, true)
-			var_322_0.ratio:set_callback(arg_322_0.activate, true)
-			var_0_3(function()
-				cvar.r_aspectratio:set_float(0)
-			end)
-		end
-	}
-	var_282_11.marker = {
-		duration = 2,
-		list = {},
-		marker = function(arg_325_0, arg_325_1, arg_325_2)
-			local var_325_0, var_325_1 = var_0_40.world_to_screen(arg_325_0.x, arg_325_0.y, arg_325_0.z)
-
-			if var_325_0 and var_325_1 then
-				local var_325_2, var_325_3 = var_325_0 / var_0_92, var_325_1 / var_0_92
-
-				if arg_325_2 then
-					local var_325_4 = 32 * arg_325_1
-
-					var_0_99.circle(var_325_2, var_325_3, var_0_91.accent:alphen(1 - arg_325_1, true), var_325_4)
-				end
-
-				var_0_99.texture(var_0_102.mini_bfly, var_325_2 - 5, var_325_3 - 5, 9, 9, var_0_91.accent)
-			end
-		end,
-		work = function()
-			local var_326_0 = var_282_11.marker
-
-			for iter_326_0, iter_326_1 in var_0_9(var_326_0.list) do
-				local var_326_1 = iter_326_1.time > var_0_38.realtime()
-				local var_326_2 = var_0_100.condition(iter_326_1.progress, var_326_1, {
-					3,
-					-4
-				}, {
-					{
-						1,
-						4
-					},
-					{
-						3,
-						4
-					}
-				})
-
-				var_0_99.push_alpha(var_326_2)
-				var_326_0.marker(iter_326_1, var_326_2, var_326_1)
-				var_0_99.pop_alpha()
-
-				if not var_326_1 and var_326_2 == 0 then
-					var_0_30.remove(var_326_0.list, iter_326_0)
-				end
-			end
-		end,
-		append = {
-			temp = {},
-			function(arg_327_0)
-				var_282_11.marker.append.temp[arg_327_0.id] = {
-					x = arg_327_0.x,
-					y = arg_327_0.y,
-					z = arg_327_0.z
-				}
-			end,
-			function(arg_328_0)
-				local var_328_0 = var_282_11.marker
-				local var_328_1 = var_328_0.append.temp[arg_328_0.id]
-
-				var_0_30.insert(var_328_0.list, 1, {
-					x = var_328_1.x,
-					y = var_328_1.y,
-					z = var_328_1.z,
-					time = var_0_38.realtime() + var_328_0.duration,
-					progress = {
-						0
-					}
-				})
-
-				var_328_0.append.temp[arg_328_0.id] = nil
-			end,
-			function(arg_329_0)
-				var_282_11.marker.append.temp[arg_329_0.id] = nil
-			end
-		},
-		run = function(arg_330_0)
-			local var_330_0 = var_0_127.visuals.marker
-
-			var_330_0:set_event("aim_fire", arg_330_0.append[1])
-			var_330_0:set_event("aim_hit", arg_330_0.append[2])
-			var_330_0:set_event("aim_miss", arg_330_0.append[3])
-			var_330_0:set_event("paint", arg_330_0.work)
-		end
-	}
-
-	for iter_282_2, iter_282_3 in var_0_11, var_282_11 do
-		iter_282_3:run()
-	end
-
-	local var_282_12 = {}
-
-	var_282_12.teleport = {
-		active = false,
-		latest = 0,
-		work = function(arg_331_0, arg_331_1)
-			var_282_12.teleport.active = var_0_127.rage.teleport.on.hotkey:get()
-
-			if not var_282_12.teleport.active or var_0_113.exploit.active ~= var_0_109.exploit.DT then
-				return
-			end
-
-			local var_331_0 = false
-			local var_331_1 = var_282_12.teleport
-			local var_331_2 = var_0_127.rage.teleport
-			local var_331_3 = var_0_107.misc.settings.maxshift.value - var_0_107.rage.aimbot.dt_fl[1].value + 1
-
-			var_331_1.active = var_331_1.active and not (var_331_3 < 8) and var_331_1.latest ~= arg_331_0.command_number and not (var_0_113.velocity < 100) and not not var_0_113.jumping
-
-			if not var_331_1.active then
-				return
-			end
-
-			local var_331_4 = var_0_113.weapon_t
-
-			if not var_331_4 then
-				return
-			end
-
-			local var_331_5 = var_331_4.weapon_type_int
-
-			var_331_1.active = var_331_1.active and not var_331_4.is_full_auto and var_331_5 ~= 9 and var_331_5 ~= 0 and (not not var_331_2.pistol.value or var_331_5 ~= 1)
-
-			if not var_331_1.active then
-				return
-			end
-
-			local var_331_6 = var_0_107.rage.aimbot.damage_ovr[1].value and var_0_107.rage.aimbot.damage_ovr[1]:get_hotkey() and var_0_107.rage.aimbot.damage_ovr[2].value or var_0_107.rage.aimbot.damage.value
-			local var_331_7 = var_0_50(var_0_36.get_prop(var_0_113.self, "m_vecVelocity"))
-			local var_331_8 = var_0_50(var_0_36.get_prop(var_0_113.self, "m_vecOrigin"))
-			local var_331_9 = var_0_50(var_0_34.eye_position())
-			local var_331_10 = var_0_50(var_0_34.extrapolate(var_331_9.x, var_331_9.y, var_331_9.z, var_331_7, var_331_3))
-			local var_331_11 = var_0_34.trace_line(var_0_113.self, var_331_9.x, var_331_9.y, var_331_9.z, var_331_10.x, var_331_10.y, var_331_10.z)
-
-			var_331_10.x = var_0_31.lerp(var_331_9.x, var_331_10.x, var_331_11)
-			var_331_10.y = var_0_31.lerp(var_331_9.y, var_331_10.y, var_331_11)
-			var_331_10.z = var_0_31.lerp(var_331_9.z, var_331_10.z, var_331_11)
-
-			local var_331_12 = var_0_34.current_threat()
-
-			for iter_331_0 = 1, #var_0_114 do
-				local var_331_13 = var_0_114[iter_331_0]
-
-				if not var_331_13 or not var_0_36.is_enemy(var_331_13) or not var_0_36.is_alive(var_331_13) then
-					-- block empty
-				elseif var_331_8:dist(var_0_50(var_0_36.get_prop(var_331_13, "m_vecOrigin"))) < 400 or var_331_13 == var_331_12 then
-					local var_331_14 = var_0_50(var_0_36.hitbox_position(var_331_13, 0))
-
-					if var_0_34.visible(var_331_14.x, var_331_14.y, var_331_14.z) then
-						var_331_0 = true
-
-						break
-					end
-
-					local var_331_15 = {
-						var_0_34.trace_bullet(var_0_113.self, var_331_10.x, var_331_10.y, var_331_10.z, var_331_14.x, var_331_14.y, var_331_14.z)
-					}
-					local var_331_16 = var_331_15[2] or 0
-					local var_331_17 = var_0_31.min(var_331_6, var_0_36.get_prop(var_331_13, "m_iHealth"))
-
-					if var_331_15[1] and var_331_17 < var_331_16 then
-						var_331_0 = true
-
-						break
-					end
-				end
-			end
-
-			if var_331_0 then
-				if var_331_2.land.value then
-					local var_331_18 = var_0_113.crouching and var_331_4.recovery_time_crouch or var_331_4.recovery_time_stand
-					local var_331_19 = var_0_50(var_0_34.extrapolate(var_331_8.x, var_331_8.y, var_331_8.z, var_331_7, var_331_3))
-
-					var_331_19.z = var_331_19.z - var_331_18
-
-					if not (var_0_34.trace_line(var_0_113.self, var_331_8.x, var_331_8.y, var_331_8.z, var_331_19.x, var_331_19.y, var_331_19.z) < 1) then
-						return
-					end
-				end
-
-				var_331_1.latest = arg_331_0.command_number
-				arg_331_0.discharge_pending = true
-			end
-		end,
-		run = function(arg_332_0)
-			var_0_127.rage.teleport.on:set_callback(function(arg_333_0)
-				var_0_78.setup_command(arg_333_0.value, arg_332_0.work)
-			end, true)
-		end
-	}
-	var_282_12.resolver = {
-		records = {},
-		gather = function(arg_334_0, arg_334_1)
-			local var_334_0, var_334_1 = var_0_36.get_prop(arg_334_0, "m_angEyeAngles")
-
-			return {
-				time = arg_334_1,
-				pos = var_0_36.get_prop(arg_334_0, "m_flPoseParameter", 11) * 120 - 60,
-				pitch = var_334_0,
-				yaw = var_334_1
-			}
-		end,
-		work = function()
-			local var_335_0 = var_282_12.resolver
-
-			var_0_34.update_player_list()
-
-			for iter_335_0 = 1, #var_0_114 do
-				local var_335_1 = var_0_114[iter_335_0]
-				local var_335_2 = var_0_36.get_steam64(var_0_114[iter_335_0])
-
-				if var_0_36.is_enemy(var_335_1) and var_335_2 then
-					local var_335_3, var_335_4 = var_0_36.get_simtime(var_335_1)
-					local var_335_5, var_335_6 = var_0_22(var_335_3), var_0_22(var_335_4)
-					local var_335_7 = var_335_0.records[var_335_2]
-					local var_335_8 = var_335_0.gather(var_335_1, var_335_5)
-					local var_335_9
-
-					var_335_9 = var_335_7 and var_335_7.prev
-
-					if not var_335_7 then
-						var_335_0.records[var_335_2] = {
-							diff = var_335_5 - var_335_6,
-							prev = var_335_8
-						}
-						var_335_7 = var_335_0.records[var_335_2]
-
-						local var_335_10 = var_335_7.prev
-					else
-						var_335_7.diff = var_335_5 - var_335_6
-					end
-
-					local var_335_11
-
-					if var_335_7 ~= nil and var_335_7.diff >= 0 and var_335_7.diff <= 2 and not var_0_36.is_lethal(var_335_1) then
-						local var_335_12 = var_0_36.get_animstate(var_335_1)
-						local var_335_13 = var_0_31.normalize_yaw(var_335_8.yaw - var_335_12.goal_feet_yaw)
-
-						var_335_8.gfy = var_335_12.goal_feet_yaw
-
-						if var_335_13 ~= 0 then
-							var_335_11 = (var_335_13 > 0 and -1 or 1) * var_0_36.get_max_desync(var_335_12)
-
-							if var_335_11 then
-								plist.set(var_335_1, "Force body yaw value", var_335_11)
-							end
-						end
-					end
-
-					var_335_7.active = var_335_11 ~= nil
-
-					plist.set(var_335_1, "Force body yaw", var_335_11 ~= nil)
-					plist.set(var_335_1, "Correction active", true)
-
-					var_335_7.prev = var_335_8
-				else
-					plist.set(var_335_1, "Correction active", false)
-				end
-			end
-		end,
-		refresh = function()
-			var_0_30.clear(var_282_12.resolver.records)
-		end,
-		restore = function()
-			local var_337_0 = var_282_12.resolver
-
-			for iter_337_0 = 1, 64 do
-				plist.set(iter_337_0, "Force body yaw", false)
-			end
-
-			var_337_0.records = {}
-		end,
-		debug = function()
-			local var_338_0 = var_282_12.resolver
-
-			for iter_338_0 = 1, #var_0_114 do
-				local var_338_1 = var_0_114[iter_338_0]
-				local var_338_2 = var_0_36.get_steam64(var_0_114[iter_338_0])
-				local var_338_3 = var_338_0.records[var_338_2]
-				local var_338_4, var_338_5, var_338_6, var_338_7, var_338_8 = var_0_36.get_bounding_box(var_338_1)
-
-				if var_338_3 and var_338_8 > 0 then
-					var_0_99.text(var_0_31.lerp(var_338_4, var_338_6, 0.5), var_338_5 - 18, var_0_91.text, "c", nil, "diff: ", var_338_3.diff)
-				end
-			end
-		end,
-		run = function(arg_339_0)
-			var_0_127.rage.resolver:set_callback(function(arg_340_0)
-				var_0_78.predict_command(arg_340_0.value, arg_339_0.work)
-				var_0_78.round_start(arg_340_0.value, arg_339_0.refresh)
-
-				if not arg_340_0.value then
-					arg_339_0.restore()
-				end
-			end)
-			var_0_78.shutdown(arg_339_0.restore)
-		end
-	}
-	var_282_12.exswitch = {
-		ovr = false,
-		latest = false,
-		work = function(arg_341_0)
-			local var_341_0 = var_282_12.exswitch
-			local var_341_1 = var_0_127.rage.exswitch
-			local var_341_2 = var_0_107.rage.aimbot.double_tap[1].hotkey:get()
-			local var_341_3 = var_0_107.aa.other.onshot.hotkey:get()
-			local var_341_4 = var_0_107.rage.other.peek.value and var_0_107.rage.other.peek.hotkey:get()
-			local var_341_5 = (not var_0_113.walking and not (var_0_113.velocity < 5) or not not var_341_4) and not var_0_113.crouching
-			local var_341_6 = false
-			local var_341_7 = var_0_113.weapon_t
-
-			if var_341_7 then
-				local var_341_8 = var_0_36.get_prop(var_0_113.weapon, "m_iItemDefinitionIndex")
-				local var_341_9
-
-				var_341_6, var_341_9 = var_341_7.is_full_auto, var_341_8 == 1
-
-				if var_341_7.weapon_type_int == 1 and not var_341_9 and not var_341_1.allow:get("Pistols") or var_341_9 and not var_341_1.allow:get("Desert Eagle") then
-					var_341_6 = true
-				end
-			end
-
-			if var_0_113.on_ground and var_341_2 and not var_341_6 and not var_341_5 and arg_341_0.weaponselect == 0 then
-				var_0_107.rage.aimbot.double_tap[1]:override(false)
-				var_0_107.aa.other.onshot.hotkey:override({
-					"Always on",
-					0
-				})
-
-				var_341_0.ovr = true
-			elseif var_341_0.ovr then
-				var_0_107.rage.aimbot.double_tap[1]:override()
-				var_0_107.rage.aimbot.double_tap[1]:set(true)
-				var_0_107.aa.other.onshot.hotkey:override()
-
-				var_341_0.ovr = false
-			end
-		end,
-		run = function(arg_342_0)
-			var_0_127.rage.exswitch.on:set_event("setup_command", arg_342_0.work)
-			var_0_127.rage.exswitch.on:set_callback(function(arg_343_0)
-				if not arg_343_0.value then
-					var_0_107.rage.aimbot.double_tap[1]:override()
-					var_0_107.aa.other.onshot.hotkey:override()
-				end
-			end)
-			var_0_78.shutdown:set(function()
-				var_0_107.rage.aimbot.double_tap[1]:override()
-				var_0_107.aa.other.onshot.hotkey:override()
-			end)
-		end
-	}
-	var_282_12.recharger = {
-		last = false,
-		state = false,
-		work = function(arg_345_0)
-			local var_345_0 = var_282_12.recharger
-			local var_345_1 = var_0_107.rage.aimbot.double_tap[1].value and var_0_107.rage.aimbot.double_tap[1].hotkey:get() or var_0_107.aa.other.onshot.value and var_0_107.aa.other.onshot.hotkey:get()
-
-			if var_345_1 ~= var_345_0.last then
-				var_345_0.last = var_345_1
-
-				if var_345_0.last then
-					var_345_0.state = false
-				end
-			end
-
-			if var_0_107.rage.aimbot.enable.value == false then
-				var_0_107.rage.aimbot.enable.hotkey:override()
-
-				var_345_0.state = nil
-			end
-
-			if var_345_0.state == false and arg_345_0.weaponselect == 0 then
-				var_0_107.rage.aimbot.enable.hotkey:override({
-					"On Hotkey",
-					0
-				})
-
-				var_345_0.state = true
-			elseif var_345_0.state == true or arg_345_0.weaponselect ~= 0 then
-				var_0_107.rage.aimbot.enable.hotkey:override()
-				var_0_107.rage.aimbot.enable.hotkey:set("Always On", 0)
-
-				var_345_0.state = nil
-			end
-		end,
-		run = function(arg_346_0)
-			var_0_127.rage.recharge:set_event("setup_command", arg_346_0.work)
-			var_0_127.rage.recharge:set_callback(function(arg_347_0)
-				if arg_347_0.value then
-					-- block empty
-				elseif arg_346_0.state ~= nil then
-					var_0_107.rage.aimbot.enable.hotkey:override()
-					var_0_107.rage.aimbot.enable.hotkey:set("Always On", 0)
-
-					arg_346_0.state = nil
-				end
-			end)
-		end
-	}
-	var_282_12.peekfix = {
-		work = function(arg_348_0)
-			if var_0_113.exploit.active ~= var_0_109.exploit.DT then
-				return
-			end
-
-			if var_0_113.peeking then
-				arg_348_0.force_defensive = true
-			end
-		end,
-		run = function(arg_349_0)
-			var_0_127.rage.peekfix:set_callback(function(arg_350_0)
-				var_0_78.setup_command(arg_350_0.value, arg_349_0.work)
-			end, true)
-		end
-	}
-
-	for iter_282_4, iter_282_5 in var_0_10(var_282_12) do
-		if iter_282_5.run then
-			iter_282_5:run()
-		end
-	end
-
-	function var_0_99.logo(arg_351_0, arg_351_1)
-		var_0_99.texture(var_0_102.logo_l, arg_351_0, arg_351_1, _AZAZI and 35 or 26, 15, var_0_91.accent)
-		var_0_99.texture(var_0_102.logo_r, arg_351_0 + (_AZAZI and 35 or 26), arg_351_1, _AZAZI and 35 or 24, 15, var_0_91.text)
-	end
-
-	function var_0_99.edge_v(arg_352_0, arg_352_1, arg_352_2, arg_352_3)
-		arg_352_3 = arg_352_3 or var_0_91.accent
-
-		var_0_99.texture(var_0_102.corner_v, arg_352_0, arg_352_1 + 4, 6, -4, arg_352_3, "f")
-		var_0_99.rectangle(arg_352_0, arg_352_1 + 4, 2, arg_352_2 - 8, arg_352_3)
-		var_0_99.texture(var_0_102.corner_v, arg_352_0, arg_352_1 + arg_352_2 - 4, 6, 4, arg_352_3, "f")
-	end
-
-	function var_0_99.edge_h(arg_353_0, arg_353_1, arg_353_2, arg_353_3)
-		arg_353_3 = arg_353_3 or var_0_91.accent
-
-		var_0_99.texture(var_0_102.corner_h, arg_353_0, arg_353_1, 4, 6, arg_353_3, "f")
-		var_0_99.rectangle(arg_353_0 + 4, arg_353_1, arg_353_2 - 8, 2, arg_353_3)
-		var_0_99.texture(var_0_102.corner_h, arg_353_0 + arg_353_2, arg_353_1, -4, 6, arg_353_3, "f")
-	end
-
-	function var_0_99.capsule(arg_354_0, arg_354_1, arg_354_2, arg_354_3, arg_354_4)
-		arg_354_0, arg_354_1, arg_354_2, arg_354_3 = arg_354_0 * var_0_92, arg_354_1 * var_0_92, arg_354_2 * var_0_92, arg_354_3 * var_0_92
-
-		local var_354_0 = arg_354_4.r
-		local var_354_1 = arg_354_4.g
-		local var_354_2 = arg_354_4.b
-		local var_354_3 = arg_354_4.a * var_0_99.get_alpha()
-		local var_354_4 = arg_354_3 * 0.5
-
-		var_0_40.circle(arg_354_0 + var_354_4, arg_354_1 + var_354_4, var_354_0, var_354_1, var_354_2, var_354_3, var_354_4, 180, 0.5)
-		var_0_40.rectangle(arg_354_0 + var_354_4, arg_354_1, arg_354_2 - arg_354_3, arg_354_3, var_354_0, var_354_1, var_354_2, var_354_3)
-		var_0_40.circle(arg_354_0 + arg_354_2 - var_354_4, arg_354_1 + var_354_4, var_354_0, var_354_1, var_354_2, var_354_3, var_354_4, 0, 0.5)
-	end
-
-	function var_0_99.rounded_side_v(arg_355_0, arg_355_1, arg_355_2, arg_355_3, arg_355_4, arg_355_5)
-		arg_355_0, arg_355_1, arg_355_2, arg_355_3, arg_355_5 = arg_355_0 * var_0_92, arg_355_1 * var_0_92, arg_355_2 * var_0_92, arg_355_3 * var_0_92, (arg_355_5 or 0) * var_0_92
-
-		local var_355_0 = arg_355_4.r
-		local var_355_1 = arg_355_4.g
-		local var_355_2 = arg_355_4.b
-		local var_355_3 = arg_355_4.a * var_0_99.get_alpha()
-
-		var_0_40.circle(arg_355_0 + arg_355_5, arg_355_1 + arg_355_5, var_355_0, var_355_1, var_355_2, var_355_3, arg_355_5, 180, 0.25)
-		var_0_40.rectangle(arg_355_0 + arg_355_5, arg_355_1, arg_355_2 - arg_355_5, arg_355_5, var_355_0, var_355_1, var_355_2, var_355_3)
-		var_0_40.rectangle(arg_355_0, arg_355_1 + arg_355_5, arg_355_2, arg_355_3 - arg_355_5 - arg_355_5, var_355_0, var_355_1, var_355_2, var_355_3)
-		var_0_40.circle(arg_355_0 + arg_355_5, arg_355_1 + arg_355_3 - arg_355_5, var_355_0, var_355_1, var_355_2, var_355_3, arg_355_5, 270, 0.25)
-		var_0_40.rectangle(arg_355_0 + arg_355_5, arg_355_1 + arg_355_3 - arg_355_5, arg_355_2 - arg_355_5, arg_355_5, var_355_0, var_355_1, var_355_2, var_355_3)
-	end
-
-	function var_0_99.rounded_side_h(arg_356_0, arg_356_1, arg_356_2, arg_356_3, arg_356_4, arg_356_5)
-		arg_356_0, arg_356_1, arg_356_2, arg_356_3, arg_356_5 = arg_356_0 * var_0_92, arg_356_1 * var_0_92, arg_356_2 * var_0_92, arg_356_3 * var_0_92, (arg_356_5 or 0) * var_0_92
-
-		local var_356_0 = arg_356_4.r
-		local var_356_1 = arg_356_4.g
-		local var_356_2 = arg_356_4.b
-		local var_356_3 = arg_356_4.a * var_0_99.get_alpha()
-
-		var_0_40.circle(arg_356_0 + arg_356_5, arg_356_1 + arg_356_5, var_356_0, var_356_1, var_356_2, var_356_3, arg_356_5, 180, 0.25)
-		var_0_40.rectangle(arg_356_0 + arg_356_5, arg_356_1, arg_356_2 - arg_356_5 - arg_356_5, arg_356_5, var_356_0, var_356_1, var_356_2, var_356_3)
-		var_0_40.circle(arg_356_0 + arg_356_2 - arg_356_5, arg_356_1 + arg_356_5, var_356_0, var_356_1, var_356_2, var_356_3, arg_356_5, 90, 0.25)
-		var_0_40.rectangle(arg_356_0, arg_356_1 + arg_356_5, arg_356_2, arg_356_3 - arg_356_5, var_356_0, var_356_1, var_356_2, var_356_3)
-	end
-
-	local var_282_13 = var_0_106.new("crosshair", var_0_97.x - 24, var_0_97.y + 32, 48, 16, {
-		border = {
-			var_0_98.x,
-			var_0_98.y - 100,
-			var_0_98.x,
-			var_0_98.y + 100
-		},
-		rulers = {
-			{
-				true,
-				var_0_98.x,
-				var_0_98.y - 100,
-				200
-			}
-		}
-	})
-
-	var_282_13.data, var_282_13.items = {
-		scope = {
-			reserved = false,
-			side = 0,
-			target = 0
-		}
-	}, {}
-
-	function var_282_13.enumerate(arg_357_0)
-		local var_357_0 = var_0_97.x
-		local var_357_1 = arg_357_0.y
-		local var_357_2 = var_0_100.condition("crosshair::yposition", arg_357_0.y > var_0_97.y, 3) * 2 - 1
-		local var_357_3 = var_282_13.data.scope.side
-		local var_357_4 = var_357_3 * 0.5 + 0.5
-
-		for iter_357_0, iter_357_1 in var_0_9(arg_357_0.items) do
-			iter_357_1[0] = iter_357_1[0] or {
-				0
-			}
-
-			var_0_99.push_alpha(iter_357_1[1])
-
-			local var_357_5, var_357_6, var_357_7 = iter_357_1[2](iter_357_1, var_357_0 + iter_357_1.x, var_357_1)
-
-			var_0_99.pop_alpha()
-
-			iter_357_1[1] = var_0_100.condition(iter_357_1[0], var_357_5, -8)
-			iter_357_1.x = var_357_6 * -var_357_4 - var_357_3 * 16
-			var_357_1 = var_357_1 + var_357_7 * iter_357_1[1] * var_357_2
-		end
-
-		return var_0_31.abs(var_357_1 - arg_357_0.y)
-	end
-
-	var_282_13.items = {
-		{
-			0,
-			function(arg_358_0, arg_358_1, arg_358_2)
-				if arg_358_0[1] > 0 then
-					local var_358_0 = var_0_100.condition(arg_358_0.bfly, var_0_127.visuals.crosshair.logo.value, -8)
-
-					if var_358_0 > 0 then
-						var_0_99.texture(var_0_102.butterfly_s, arg_358_1 - 3, arg_358_2 - 10, 32, 32, var_0_91.accent:alphen(255 * var_358_0), "f")
-					end
-
-					var_0_99.logo(arg_358_1, arg_358_2)
-				end
-
-				return var_0_127.visuals.crosshair.style.value == "Classic", _AZAZI and 66 or 48, 15
-			end,
-			desync = 0,
-			x = 0,
-			bfly = {
-				0
-			}
-		},
-		{
-			0,
-			function(arg_359_0, arg_359_1, arg_359_2)
-				local var_359_0 = var_0_127.visuals.crosshair.logo.value
-				local var_359_1 = "calamity" .. (not var_359_0 and var_0_67 > 1 and var_0_91.hexs .. var_0_32.format("%02x", var_0_99.get_alpha() * 255) .. var_0_32.upper(var_0_65.build) or"")
-				local var_359_2, var_359_3 = var_0_99.measure_text("-", var_359_1)
-
-				if var_0_127.visuals.crosshair.logo.value then
-					var_359_2 = var_359_2 + 7
-				end
-
-				if arg_359_0[1] > 0 then
-					var_0_99.text(arg_359_1, arg_359_2, var_0_91.text, "-", nil, var_359_1)
-
-					if var_0_127.visuals.crosshair.logo.value then
-						var_0_99.texture(var_0_102.mini_bfly, arg_359_1 + var_359_2 - 6, arg_359_2 + 1, 9, 9, var_0_91.accent)
-					end
-				end
-
-				return var_0_127.visuals.crosshair.style.value == "Mini", var_359_2, var_359_3 + 3
-			end,
-			x = 0,
-			desync = 0
-		},
-		{
-			0,
-			function(arg_360_0, arg_360_1, arg_360_2)
-				local var_360_0 = var_0_107.rage.aimbot.double_tap[1].value and var_0_107.rage.aimbot.double_tap[1].hotkey:get()
-
-				if arg_360_0[1] > 0 then
-					local var_360_1 = var_0_113.exploit.lc_left > 0 and 14 or var_0_46.get_tickbase_shifting()
-					local var_360_2 = var_0_46.get_double_tap() or var_0_113.exploit.lc_left > 0
-					local var_360_3 = var_0_100.condition(arg_360_0.fd, not var_0_107.rage.other.duck:get(), -8)
-					local var_360_4 = var_0_91.hexs .. var_0_32.format("%02x", var_0_99.get_alpha() * 255) .. var_0_32.insert("llllll", var_0_32.format("\aFFFFFF%02x", (var_360_2 and 96 or 64) * var_0_99.get_alpha()), var_0_31.min(var_360_1 * 0.5, 6))
-					local var_360_5 = "DT " .. var_360_4
-
-					var_0_99.text(arg_360_1, arg_360_2, var_0_91.text:alphen(var_0_31.lerp(96, 255, var_360_3)), "-", nil, var_360_5)
-				end
-
-				return var_360_0, var_0_99.measure_text("-", "DT llllll")
-			end,
-			x = 0,
-			fd = {
-				0
-			}
-		},
-		{
-			0,
-			function(arg_361_0, arg_361_1, arg_361_2)
-				local var_361_0 = not var_0_127.visuals.damage.value and var_0_107.rage.aimbot.damage_ovr[1].value and var_0_107.rage.aimbot.damage_ovr[1].hotkey:get()
-				local var_361_1 = "DMG"
-
-				if arg_361_0[1] > 0 then
-					var_0_99.text(arg_361_1, arg_361_2, var_0_91.text, "-", nil, var_361_1)
-				end
-
-				return var_361_0, var_0_99.measure_text("-", var_361_1)
-			end,
-			x = 0
-		},
-		{
-			0,
-			function(arg_362_0, arg_362_1, arg_362_2)
-				local var_362_0 = var_0_107.rage.other.peek.value and var_0_107.rage.other.peek.hotkey:get()
-				local var_362_1 = var_0_46.get_double_tap()
-				local var_362_2 = "PA" .. (var_362_1 and "+" or "")
-
-				if arg_362_0[1] > 0 then
-					local var_362_3 = var_0_100.condition(arg_362_0.ideal, var_362_1, -8)
-
-					var_0_99.text(arg_362_1, arg_362_2, var_0_91.text:lerp(var_0_91.accent, var_362_3), "-", nil, var_362_2)
-				end
-
-				return var_362_0, var_0_99.measure_text("-", var_362_2)
-			end,
-			x = 0,
-			ideal = {
-				0
-			}
-		},
-		{
-			0,
-			function(arg_363_0, arg_363_1, arg_363_2)
-				local var_363_0, var_363_1 = var_0_127.rage.teleport.on.hotkey:get()
-				local var_363_2 = var_0_127.rage.teleport.on.value and var_363_0 and var_363_1 ~= 0
-				local var_363_3 = "TP"
-
-				if arg_363_0[1] > 0 then
-					local var_363_4 = var_0_100.condition(arg_363_0.ideal, var_282_12.teleport.active, -8)
-
-					var_0_99.text(arg_363_1, arg_363_2, var_0_91.text:lerp(var_0_91.accent, var_363_4), "-", nil, var_363_3)
-				end
-
-				return var_363_2, var_0_99.measure_text("-", var_363_3)
-			end,
-			x = 0,
-			ideal = {
-				0
-			}
-		},
-		{
-			0,
-			function(arg_364_0, arg_364_1, arg_364_2)
-				local var_364_0 = var_0_107.aa.other.onshot.value and var_0_107.aa.other.onshot:get_hotkey()
-				local var_364_1 = "OS"
-
-				if arg_364_0[1] > 0 then
-					local var_364_2 = var_0_107.rage.aimbot.double_tap[1].value and var_0_107.rage.aimbot.double_tap[1]:get_hotkey()
-					local var_364_3 = var_0_100.condition(arg_364_0.a1, not var_364_2, 8)
-
-					var_0_99.text(arg_364_1, arg_364_2, var_0_91.text:alphen(var_0_31.lerp(96, 255, var_364_3)), "-", nil, var_364_1)
-				end
-
-				return var_364_0, var_0_99.measure_text("-", var_364_1)
-			end,
-			x = 0,
-			a1 = {
-				0
-			}
-		},
-		{
-			0,
-			function(arg_365_0, arg_365_1, arg_365_2)
-				local var_365_0 = var_0_107.rage.aimbot.force_baim:get()
-				local var_365_1 = "BA"
-
-				if arg_365_0[1] > 0 then
-					var_0_99.text(arg_365_1, arg_365_2, var_0_91.text, "-", nil, var_365_1)
-				end
-
-				return var_365_0, var_0_99.measure_text("-", var_365_1)
-			end,
-			x = 0
-		},
-		{
-			0,
-			function(arg_366_0, arg_366_1, arg_366_2)
-				local var_366_0 = var_0_107.rage.aimbot.force_sp:get()
-				local var_366_1 = "SP"
-
-				if arg_366_0[1] > 0 then
-					var_0_99.text(arg_366_1, arg_366_2, var_0_91.text, "-", nil, var_366_1)
-				end
-
-				return var_366_0, var_0_99.measure_text("-", var_366_1)
-			end,
-			x = 0
-		},
-		{
-			0,
-			function(arg_367_0, arg_367_1, arg_367_2)
-				local var_367_0 = var_0_107.aa.angles.freestand.value and var_0_107.aa.angles.freestand:get_hotkey()
-				local var_367_1 = "FS"
-
-				if arg_367_0[1] > 0 then
-					var_0_99.text(arg_367_1, arg_367_2, var_0_91.text, "-", nil, var_367_1)
-				end
-
-				return var_367_0, var_0_99.measure_text("-", var_367_1)
-			end,
-			x = 0
-		},
-		{
-			0,
-			function(arg_368_0, arg_368_1, arg_368_2)
-				local var_368_0, var_368_1 = var_0_107.misc.ping_spike.hotkey:get()
-				local var_368_2 = var_0_107.misc.ping_spike.value and var_368_0 and var_368_1 ~= 0
-				local var_368_3 = "PS"
-
-				if arg_368_0[1] > 0 then
-					var_0_99.text(arg_368_1, arg_368_2, var_0_91.text, "-", nil, var_368_3)
-				end
-
-				return var_368_2, var_0_99.measure_text("-", var_368_3)
-			end,
-			x = 0
-		},
-		{
-			0,
-			function(arg_369_0, arg_369_1, arg_369_2)
-				local var_369_0 = var_0_107.rage.other.duck:get()
-				local var_369_1 = "FD"
-
-				if arg_369_0[1] > 0 then
-					local var_369_2 = var_0_113.valid and var_0_36.get_prop(var_0_113.self, "m_flDuckAmount") or 0
-
-					var_0_99.text(arg_369_1, arg_369_2, var_0_91.text:lerp(var_0_91.accent, var_369_2), "-", nil, var_369_1)
-				end
-
-				return var_369_0, var_0_99.measure_text("-", var_369_1)
-			end,
-			x = 0
-		}
-	}
-
-	function var_282_13.update(arg_370_0)
-		if var_0_113.valid and var_0_36.get_prop(var_0_113.self, "m_bIsScoped") == 1 then
-			if not arg_370_0.data.scope.reserved and var_0_113.side ~= 0 then
-				arg_370_0.data.scope.target, arg_370_0.data.scope.reserved = -var_0_113.side, true
-			end
-		else
-			arg_370_0.data.scope.target, arg_370_0.data.scope.reserved = 0, false
-		end
-
-		arg_370_0.data.scope.side = var_0_100.lerp(var_282_13.data.scope.side, var_282_13.data.scope.target, 12)
-
-		return var_0_100.condition(var_282_13.progress, var_0_127.visuals.crosshair.on.value and var_0_113.valid and not var_0_113.in_score)
-	end
-
-	function var_282_13.paint(arg_371_0, arg_371_1, arg_371_2, arg_371_3, arg_371_4)
-		var_282_13:enumerate()
-	end
-
-	local var_282_14 = {
-		watermark = var_0_106.new("watermark", var_0_93 - 24, 24, 160, 24, {
-			rulers = {
-				{
-					true,
-					var_0_98.x,
-					0,
-					var_0_96
-				},
-				{
-					false,
-					0,
-					var_0_96 - 32,
-					var_0_95
-				},
-				{
-					false,
-					0,
-					32,
-					var_0_95
-				}
-			},
-			on_release = function(arg_372_0, arg_372_1)
-				local var_372_0 = var_0_93 / 3
-				local var_372_1 = arg_372_0.x + arg_372_0.w * 0.5
-				local var_372_2 = var_0_31.floor(var_372_1 / var_372_0)
-
-				if var_372_2 == arg_372_0.align then
-					return
-				end
-
-				arg_372_0.align = var_372_2
-
-				if arg_372_0.align == 1 then
-					arg_372_0:set_position(var_372_1)
-
-					arg_372_0.x = arg_372_0.x - arg_372_0.w * 0.5
-				elseif arg_372_0.align == 2 then
-					arg_372_0:set_position(arg_372_0.x + arg_372_0.w)
-
-					arg_372_0.x = arg_372_0.x - arg_372_0.w
-				end
-
-				arg_372_1.config.a:set(var_372_2)
-			end,
-			on_held = function(arg_373_0, arg_373_1)
-				arg_373_0.align = 0
-
-				arg_373_1.config.a:set(0)
-			end
-		})
-	}
-
-	var_282_14.watermark.align, var_282_14.watermark.logop, var_282_14.watermark.logo = 2, {
-		0
-	}, 0
-	var_282_14.watermark.__drag.config.a = var_0_44.slider("MISC", "Settings", "watermark:align", 0, 2, var_282_14.watermark.align)
-
-	var_282_14.watermark.__drag.config.a:set_visible(false)
-	var_282_14.watermark.__drag.config.a:set_callback(function(arg_374_0)
-		var_282_14.watermark.align = arg_374_0.value
-	end, true)
-
-	var_282_14.watermark.items = {
-		{
-			0,
-			function(arg_375_0, arg_375_1, arg_375_2)
-				local var_375_0 = var_0_127.visuals.water.name:get()
-				local var_375_1 = var_0_32.format(var_0_65.build == "stable" and "%s" or "%s %s%02x— %s", var_375_0 ~= "" and var_375_0 or var_0_65.user, var_0_91.hexs, var_0_99.get_alpha() * arg_375_0[1] * 255, var_0_65.build)
-				local var_375_2, var_375_3 = var_0_99.measure_text("", var_375_1)
-
-				if arg_375_0[1] > 0 then
-					var_0_99.blur(arg_375_1, arg_375_2 + 1, var_375_2 + 16, 22, 1, 8)
-					var_0_99.rectangle(arg_375_1, arg_375_2 + 1, var_375_2 + 16, 22, var_0_91.panel.l1, 4)
-					var_0_99.text(arg_375_1 + 8, arg_375_2 + 6, var_0_91.text, nil, nil, var_375_1)
-				end
-
-				return true, var_375_2 + 16
-			end,
-			{}
-		},
-		{
-			0,
-			function(arg_376_0, arg_376_1, arg_376_2)
-				local var_376_0, var_376_1 = var_0_34.system_time()
-				local var_376_2 = var_0_32.format("%02d:%02d", var_376_0, var_376_1)
-				local var_376_3, var_376_4 = var_0_99.measure_text("", var_376_2)
-
-				if arg_376_0[1] > 0 then
-					var_0_99.blur(arg_376_1, arg_376_2 + 1, var_376_3 + 16, 22, 1, 8)
-					var_0_99.rectangle(arg_376_1, arg_376_2 + 1, var_376_3 + 16, 22, var_0_91.panel.l1, 4)
-					var_0_99.text(arg_376_1 + 8, arg_376_2 + 6, var_0_91.text, nil, nil, var_376_2)
-				end
-
-				return true, var_376_3 + 16
-			end,
-			{}
-		},
-		{
-			0,
-			function(arg_377_0, arg_377_1, arg_377_2)
-				local var_377_0 = var_0_34.latency() * 1000
-				local var_377_1 = var_0_32.format("%dms", var_377_0)
-				local var_377_2, var_377_3 = var_0_99.measure_text("", var_377_1)
-
-				if arg_377_0[1] > 0 then
-					var_0_99.blur(arg_377_1, arg_377_2 + 1, var_377_2 + 16, 22, 1, 8)
-					var_0_99.rectangle(arg_377_1, arg_377_2 + 1, var_377_2 + 16, 22, var_0_91.panel.l1, 4)
-					var_0_99.text(arg_377_1 + 8, arg_377_2 + 6, var_0_91.text, nil, nil, var_377_1)
-				end
-
-				return var_377_0 > 5, var_377_2 + 16
-			end,
-			{}
-		}
-	}
-
-	function var_282_14.watermark.enumerate(arg_378_0)
-		local var_378_0 = arg_378_0.logo * 68
-
-		for iter_378_0, iter_378_1 in var_0_9(arg_378_0.items) do
-			var_0_99.push_alpha(iter_378_1[1])
-
-			local var_378_1, var_378_2 = iter_378_1[2](iter_378_1, arg_378_0.x + var_378_0, arg_378_0.y)
-
-			var_0_99.pop_alpha()
-
-			iter_378_1[1] = var_0_100.condition(iter_378_1[3], var_378_1)
-			var_378_0 = var_378_0 + (var_378_2 + 2) * iter_378_1[1]
-		end
-
-		arg_378_0.w = var_0_100.lerp(arg_378_0.w, var_378_0, nil, 0.5)
-	end
-
-	function var_282_14.watermark.update(arg_379_0)
-		local var_379_0, var_379_1 = arg_379_0:get_position()
-
-		if arg_379_0.align == 2 then
-			arg_379_0.x = var_379_0 - arg_379_0.w * arg_379_0.alpha
-		elseif arg_379_0.align == 1 then
-			arg_379_0.x = var_379_0 - arg_379_0.w * 0.5
-		end
-
-		return var_0_100.condition(arg_379_0.progress, var_0_127.visuals.water.on.value, 3)
-	end
-
-	function var_282_14.watermark.paint(arg_380_0, arg_380_1, arg_380_2, arg_380_3, arg_380_4)
-		arg_380_0.logo = var_0_100.condition(arg_380_0.logop, not var_0_127.visuals.water.hide.value)
-
-		if arg_380_0.logo > 0 then
-			local var_380_0 = 64
-
-			var_0_99.push_alpha(arg_380_0.logo)
-			var_0_99.blur(arg_380_1, arg_380_2, var_380_0, arg_380_4, 1, 8)
-			var_0_99.rounded_side_v(arg_380_1, arg_380_2, var_380_0, arg_380_4, var_0_91.panel.g1, 4)
-			var_0_99.rectangle(arg_380_1 + var_380_0, arg_380_2, 2, arg_380_4, var_0_91.panel.g1)
-			var_0_99.logo(arg_380_1 + 8, arg_380_2 + 5)
-			var_0_99.edge_v(arg_380_1 + var_380_0, arg_380_2, 24)
-			var_0_99.pop_alpha()
-		end
-
-		arg_380_0:enumerate()
-	end
-
-	var_282_14.damage = var_0_106.new("damage", var_0_97.x + 4, var_0_97.y + 4, 6, 4, {
-		border = {
-			var_0_98.x - 40,
-			var_0_98.y - 40,
-			var_0_98.x + 40,
-			var_0_98.y + 40,
-			true
-		}
-	})
-	var_282_14.damage.dmg = var_0_107.rage.aimbot.damage.value
-	var_282_14.damage.ovr_alpha = 0
-	var_282_14.damage.ovr_alpha_p = {
-		0
-	}
-
-	function var_282_14.damage.update(arg_381_0)
-		if not var_0_127.visuals.damage.value then
-			return var_0_100.condition(arg_381_0.progress, false, -4)
-		end
-
-		local var_381_0 = var_0_107.rage.aimbot.damage_ovr[1].value and var_0_107.rage.aimbot.damage_ovr[1]:get_hotkey()
-		local var_381_1 = var_381_0 and var_0_107.rage.aimbot.damage_ovr[2].value or var_0_107.rage.aimbot.damage.value
-
-		arg_381_0.dmg = var_0_100.lerp(arg_381_0.dmg, var_381_1, 16)
-		arg_381_0.ovr_alpha = var_0_100.condition(var_282_14.damage.ovr_alpha_p, var_381_0, -8)
-
-		local var_381_2 = var_0_113.weapon_t
-		local var_381_3 = var_381_2 and var_381_2.weapon_type_int ~= 9 and var_381_2.weapon_type_int ~= 0
-
-		return var_0_100.condition(arg_381_0.progress, var_0_113.valid and (var_381_3 or var_0_44.menu_open) and not var_0_113.in_score and var_0_113.in_game, -8)
-	end
-
-	function var_282_14.damage.paint(arg_382_0, arg_382_1, arg_382_2, arg_382_3, arg_382_4)
-		local var_382_0 = var_0_31.round(arg_382_0.dmg)
-
-		var_382_0 = var_382_0 == 0 and "A" or var_382_0 > 100 and "+" .. var_382_0 - 100 or var_0_21(var_382_0)
-		arg_382_0.w, arg_382_0.h = var_0_99.measure_text("-", var_382_0)
-		arg_382_0.h, arg_382_0.w = arg_382_0.h - 3, arg_382_0.w + 1
-
-		var_0_99.text(arg_382_1 - 1, arg_382_2 - 2, var_0_91.text:alphen(var_0_31.lerp(96, 255, arg_382_0.ovr_alpha)), "-", nil, var_382_0)
-	end
-
-	var_282_14.arrows = var_0_106.new("arrows", var_0_97.x - 32, var_0_97.y - 5, 10, 10, {
-		border = {
-			var_0_98.x - 120,
-			var_0_98.y + 1,
-			var_0_98.x - 10,
-			var_0_98.y + 1
-		},
-		rulers = {
-			{
-				false,
-				var_0_98.x - 120,
-				var_0_98.y,
-				110
-			}
-		}
-	})
-	var_282_14.arrows.leftp, var_282_14.arrows.rightp = {
-		0
-	}, {
-		0
-	}
-
-	function var_282_14.arrows.update(arg_383_0)
-		return var_0_100.condition(arg_383_0.progress, var_0_127.visuals.arrows.value and var_0_113.in_game and var_0_113.valid)
-	end
-
-	function var_282_14.arrows.paint(arg_384_0, arg_384_1, arg_384_2, arg_384_3, arg_384_4)
-		local var_384_0 = var_0_44.menu_open and var_0_91.white:alphen(128) or var_0_91.null
-		local var_384_1 = var_0_100.condition(var_282_14.arrows.leftp, var_0_133.data.manual_yaw == -90, 6)
-
-		var_0_99.texture(var_0_102.manual, arg_384_1, arg_384_2, 10, 10, var_384_0:lerp(var_0_91.accent, var_384_1), "f")
-
-		local var_384_2 = var_0_100.condition(var_282_14.arrows.rightp, var_0_133.data.manual_yaw == 90, 6)
-
-		var_0_99.texture(var_0_102.manual, var_0_93 - arg_384_1 + 1, arg_384_2, -10, 10, var_384_0:lerp(var_0_91.accent, var_384_2), "f")
-	end
-
-	var_282_14.slowdown = var_0_106.new("slowdown", var_0_97.x - 60, var_0_97.y - 160, 120, 32, {
-		rulers = {
-			{
-				true,
-				var_0_98.x,
-				0,
-				var_0_96
-			}
-		}
-	})
-	var_282_14.slowdown.speed = 0.5
-
-	function var_282_14.slowdown.update(arg_385_0)
-		if not var_0_127.visuals.slowdown.value or not var_0_113.valid then
-			return var_0_100.condition(arg_385_0.progress, false, -4)
-		end
-
-		arg_385_0.speed = var_0_36.get_prop(var_0_113.self, "m_flVelocityModifier")
-
-		return var_0_100.condition(arg_385_0.progress, var_0_44.menu_open or var_0_113.valid and arg_385_0.speed < 1, -8)
-	end
-
-	function var_282_14.slowdown.paint(arg_386_0, arg_386_1, arg_386_2, arg_386_3, arg_386_4)
-		local var_386_0 = var_0_79.rgb(240, 60, 60):lerp(var_0_91.text, arg_386_0.speed)
-
-		var_0_99.blur(arg_386_1 + 36, arg_386_2 + 1, arg_386_3 - 36, arg_386_4 - 2)
-		var_0_99.rectangle(arg_386_1 + 36, arg_386_2 + 1, arg_386_3 - 36, arg_386_4 - 2, var_0_91.panel.l1, 4)
-		var_0_99.blur(arg_386_1, arg_386_2, 32, arg_386_4, 1, 8)
-		var_0_99.rounded_side_v(arg_386_1, arg_386_2, 32, arg_386_4, var_0_91.panel.g1, 4)
-		var_0_99.rectangle(arg_386_1 + 32, arg_386_2, 2, arg_386_4, var_0_91.panel.g1)
-		var_0_99.texture(var_0_102.warning, arg_386_1 + 8, arg_386_2 + 8, 16, 16, var_386_0)
-		var_0_99.edge_v(arg_386_1 + 32, arg_386_2, arg_386_4)
-		var_0_99.text(arg_386_1 + 44, arg_386_2 + 6, var_0_91.text:alphen((1 - arg_386_0.speed) * 196 + 64), nil, nil, "slowed")
-		var_0_99.text(arg_386_1 + arg_386_3 - 8, arg_386_2 + 6, var_386_0, "r", nil, var_0_32.format("%d%%", arg_386_0.speed * 100))
-		var_0_99.rectangle(arg_386_1 + 44, arg_386_2 + 21, 67, 2, var_0_91.white:alphen(32))
-		var_0_99.rectangle(arg_386_1 + 44, arg_386_2 + 21, arg_386_0.speed * 67, 2, var_0_91.accent:alphen(arg_386_0.speed * 196 + 58))
-	end
-
-	var_282_14.logs = var_0_106.new("logs", var_0_97.x - 150, var_0_97.y + 160, 300, 32, {
-		rulers = {
-			{
-				true,
-				var_0_98.x,
-				0,
-				var_0_96
-			}
-		}
-	})
-	var_282_14.logs.align_p, var_282_14.logs.preview_p = {
-		0
-	}, {
-		0
-	}
-	var_282_14.logs.preview, var_282_14.logs.dummy = false, {
-		{
-			text = "\aA3D350\x01•\aE6E6E6\x02 Killed\aE6E6E6\x02 \aE6E6E6\x02\aE6E6E6\x01Slowdex\aE6E6E6\x02 in \aE6E6E6\x02\aE6E6E6\x01head\aE6E6E6\x02\aE6E6E6\x02",
-			event = "hit",
-			time = var_0_31.huge,
-			progress = {
-				0
-			}
-		},
-		{
-			text = "\aA67CCF\x01•\aE6E6E6\x02 Missed\aE6E6E6\x02 \aE6E6E6\x01Slowdex\aE6E6E6\x02's\aE6E6E6\x01 head\aE6E6E6\x02 due to \aE6E6E6\x01unpredicted occasion",
-			event = "miss",
-			time = var_0_31.huge,
-			progress = {
-				0
-			}
-		},
-		{
-			text = "\ad35050\x01•\aE6E6E6\x02 Harmed by\aE6E6E6\x02 \aE6E6E6\x01Slowdex\aE6E6E6\x02 in \aE6E6E6\x01head\aE6E6E6\x02 for \aE6E6E6\x0172",
-			event = "harm",
-			time = var_0_31.huge,
-			progress = {
-				0
-			}
-		}
-	}
-
-	function var_282_14.logs.update(arg_387_0)
-		return var_0_100.condition(arg_387_0.progress, var_0_127.misc.logs.on.value and var_0_127.misc.logs.output:get("Screen") and var_0_113.in_game)
-	end
-
-	function var_282_14.logs.part(arg_388_0, arg_388_1, arg_388_2, arg_388_3, arg_388_4, arg_388_5)
-		local var_388_0 = var_0_32.gsub(arg_388_1.text, "[\x01\x02]", {
-			["\x01"] = var_0_32.format("%02x", arg_388_3 * var_0_99.get_alpha() * 255),
-			["\x02"] = var_0_32.format("%02x", arg_388_3 * var_0_99.get_alpha() * 128)
-		})
-		local var_388_1, var_388_2 = var_0_99.measure_text("", var_388_0)
-		local var_388_3 = var_0_31.lerp(arg_388_0.x + arg_388_0.w * 0.5 - var_388_1 * 0.5 - 18, arg_388_0.x, arg_388_0.align)
-		local var_388_4 = arg_388_2
-
-		if not arg_388_4 then
-			var_388_3 = var_388_3 + (1 - arg_388_3) * (var_388_1 * 0.5) * (arg_388_5 % 2 == 0 and -1 or 1)
-		end
-
-		var_0_99.blur(var_388_3, var_388_4, 24, 24)
-		var_0_99.rounded_side_v(var_388_3, var_388_4, 24, 24, var_0_91.panel.g1, 4)
-		var_0_99.rectangle(var_388_3 + 24, var_388_4, 2, 24, var_0_91.panel.g1)
-		var_0_99.edge_v(var_388_3 + 24, var_388_4, 24)
-		var_0_99.blur(var_388_3 + 28, var_388_4 + 1, var_388_1 + 14, 22)
-		var_0_99.rectangle(var_388_3 + 28, var_388_4 + 1, var_388_1 + 14, 22, var_0_91.panel.l1, 4)
-		var_0_99.texture(var_0_102.mini_bfly, var_388_3 + 8, var_388_4 + 8, 9, 9, var_0_91.accent)
-		var_0_99.text(var_388_3 + 35, var_388_4 + 5, var_0_91.text:alphen(128), nil, nil, var_388_0)
-	end
-
-	function var_282_14.logs.paint(arg_389_0, arg_389_1, arg_389_2, arg_389_3, arg_389_4)
-		if not var_0_127.misc.logs.on.value then
-			return
-		end
-
-		local var_389_0
-
-		arg_389_0.align = var_0_100.condition(var_282_14.logs.align_p, arg_389_0.x < var_0_93 / 3)
-		arg_389_0.preview = var_0_100.condition(var_282_14.logs.preview_p, var_0_44.menu_open and var_0_127.misc.logs.output:get("Screen") and #var_282_10.list == 0)
-		arg_389_2 = arg_389_2 + 4
-
-		local var_389_1 = arg_389_0.preview > 0 and arg_389_0.dummy or var_282_10.list
-
-		for iter_389_0 = 1, #var_389_1 do
-			local var_389_2 = var_389_1[iter_389_0]
-			local var_389_3 = var_0_38.realtime() - var_389_2.time < 4 and iter_389_0 < 10
-			local var_389_4 = var_0_100.condition(var_389_2.progress, var_0_60(arg_389_0.preview > 0, arg_389_0.preview == 1, var_389_3))
-
-			if var_389_4 == 0 then
-				var_389_0 = iter_389_0
-			end
-
-			var_0_99.push_alpha(var_389_4)
-			arg_389_0:part(var_389_2, arg_389_2, var_389_4, var_389_3, iter_389_0)
-			var_0_99.pop_alpha()
-
-			arg_389_2 = arg_389_2 + 28 * (var_389_3 and var_389_4 or 1)
-		end
-
-		if var_389_0 then
-			var_0_30.remove(var_282_10.list, var_389_0)
-		end
-	end
-
-	var_282_14.keylist = var_0_106.new("keylist", var_0_97.x - 400, var_0_97.y, 120, 22, true)
-	var_282_14.keylist.binds = {
-		{
-			name = "Minimum damage",
-			ref = var_0_107.rage.aimbot.damage_ovr[1],
-			state = function()
-				return var_0_107.rage.aimbot.damage_ovr[2].value
-			end
-		},
-		{
-			name = "Double tap",
-			ref = var_0_107.rage.aimbot.double_tap[1]
-		},
-		{
-			name = "Hide shots",
-			ref = var_0_107.aa.other.onshot
-		},
-		{
-			name = "Quick peek",
-			ref = var_0_107.rage.other.peek
-		},
-		{
-			name = "Defensive snap",
-			ref = var_0_127.antiaim.def.snap.on
-		},
-		{
-			name = "Manual yaw",
-			ref = function()
-				return var_0_133.data.manual_yaw
-			end,
-			state = function()
-				return var_0_133.data.manual_yaw == -90 and "left" or var_0_133.data.manual_yaw == 90 and "right" or "~"
-			end
-		},
-		{
-			name = "Edge yaw",
-			ref = var_0_107.aa.angles.edge
-		},
-		{
-			name = "Freestanding",
-			ref = var_0_107.aa.angles.freestand
-		}
-	}
-
-	var_282_14.keylist:enlist(function()
-		local var_393_0 = {}
-
-		for iter_393_0 = 1, #var_282_14.keylist.binds do
-			local var_393_1 = var_282_14.keylist.binds[iter_393_0]
-			local var_393_2 = false
-			local var_393_3 = "on"
-
-			if var_0_24(var_393_1.ref) == "function" then
-				var_393_2 = var_393_1.ref()
-			elseif var_393_1.ref ~= nil then
-				var_393_2 = var_393_1.ref.value
-
-				if var_393_1.ref.hotkey then
-					local var_393_4, var_393_5 = var_393_1.ref.hotkey:get()
-
-					var_393_2 = var_393_2 and var_393_4 and var_393_5 ~= 0
-				end
-			end
-
-			if var_393_1.state then
-				if var_0_24(var_393_1.state) == "function" then
-					var_393_3 = var_393_1.state()
-				else
-					var_393_3 = var_393_1.state
-				end
-			end
-
-			var_393_0[iter_393_0] = {
-				name = var_393_1.name,
-				active = var_393_2,
-				state = var_393_3
-			}
-		end
-
-		return var_393_0
-	end, function(arg_394_0, arg_394_1, arg_394_2, arg_394_3)
-		local var_394_0 = arg_394_0.x + 4
-		local var_394_1 = arg_394_0.y + arg_394_2 + (arg_394_0.h + 6) * arg_394_3
-		local var_394_2 = arg_394_0.w - 8
-		local var_394_3 = 20
-
-		var_0_99.blur(var_394_0, var_394_1, var_394_2, var_394_3)
-		var_0_99.rectangle(var_394_0, var_394_1, var_394_2, var_394_3, var_0_91.panel.l1, 4)
-		var_0_99.text(var_394_0 + 6, var_394_1 + 3, var_0_91.text, nil, nil, arg_394_1.name)
-		var_0_99.text(var_394_0 + var_394_2 - 6, var_394_1 + 3, var_0_91.accent, "r", nil, arg_394_1.state)
-
-		return var_0_99.measure_text(nil, arg_394_1.name .. arg_394_1.state) + 32, var_394_3 + 2
-	end)
-
-	function var_282_14.keylist.update(arg_395_0)
-		return var_0_100.condition(arg_395_0.progress, var_0_127.visuals.keylist.value and (var_0_44.menu_open or arg_395_0.__list.active > 0))
-	end
-
-	function var_282_14.keylist.paint(arg_396_0, arg_396_1, arg_396_2, arg_396_3, arg_396_4)
-		var_0_99.blur(arg_396_1, arg_396_2, arg_396_3, arg_396_4)
-		var_0_99.rounded_side_h(arg_396_1, arg_396_2, arg_396_3, arg_396_4, var_0_91.panel.g1, 4)
-		var_0_99.edge_h(arg_396_1, arg_396_2 + arg_396_4, arg_396_3)
-		var_0_99.text(arg_396_1 + arg_396_3 * 0.5, arg_396_2 + 11, var_0_91.text, "c", nil, "Active Keybinds")
-	end
-
-	var_282_14.speclist = var_0_106.new("speclist", var_0_97.x - 400, var_0_97.y, 120, 22, true)
-
-	var_282_14.speclist:enlist(function()
-		local var_397_0 = {}
-
-		if var_0_113.valid then
-			local var_397_1
-			local var_397_2 = var_0_36.get_prop(var_0_113.self, "m_hObserverTarget")
-			local var_397_3 = var_0_36.get_prop(var_0_113.self, "m_iObserverMode")
-
-			if var_397_2 and (var_397_3 == 4 or var_397_3 == 5) then
-				var_397_1 = var_397_2
-			else
-				var_397_1 = var_0_113.self
-			end
-
-			for iter_397_0 = 1, 64 do
-				if var_0_36.get_classname(iter_397_0) == "CCSPlayer" and iter_397_0 ~= var_0_113.self then
-					local var_397_4 = var_0_36.get_prop(iter_397_0, "m_hObserverTarget")
-					local var_397_5 = var_0_36.get_prop(iter_397_0, "m_iObserverMode")
-
-					var_397_0[#var_397_0 + 1] = {
-						name = iter_397_0,
-						nick = var_0_32.limit(var_0_36.get_player_name(iter_397_0), 20, "..."),
-						active = var_397_4 and var_397_4 == var_397_1 and (var_397_5 == 4 or var_397_5 == 5)
-					}
-				end
-			end
-		end
-
-		return var_397_0
-	end, function(arg_398_0, arg_398_1, arg_398_2, arg_398_3)
-		local var_398_0 = arg_398_0.x + 4
-		local var_398_1 = arg_398_0.y + arg_398_2 + (arg_398_0.h + 6) * arg_398_3
-		local var_398_2 = arg_398_0.w - 8
-		local var_398_3 = 20
-
-		var_0_99.blur(var_398_0, var_398_1, var_398_2, var_398_3)
-		var_0_99.rectangle(var_398_0, var_398_1, var_398_2, var_398_3, var_0_91.panel.l1, 4)
-		var_0_99.text(var_398_0 + 6, var_398_1 + 3, var_0_91.text, nil, nil, arg_398_1.nick)
-
-		return var_0_99.measure_text(nil, arg_398_1.nick) + 32, var_398_3 + 2
-	end)
-
-	function var_282_14.speclist.update(arg_399_0)
-		return var_0_100.condition(arg_399_0.progress, var_0_127.visuals.speclist.value and (var_0_44.menu_open or arg_399_0.__list.active > 0))
-	end
-
-	function var_282_14.speclist.paint(arg_400_0, arg_400_1, arg_400_2, arg_400_3, arg_400_4)
-		var_0_99.blur(arg_400_1, arg_400_2, arg_400_3, arg_400_4)
-		var_0_99.rounded_side_h(arg_400_1, arg_400_2, arg_400_3, arg_400_4, var_0_91.panel.g1, 4)
-		var_0_99.edge_h(arg_400_1, arg_400_2 + arg_400_4, arg_400_3)
-		var_0_99.text(arg_400_1 + arg_400_3 * 0.5, arg_400_2 + 11, var_0_91.text, "c", nil, var_0_32.format("Spectators (%d)", arg_400_0.__list.active))
-	end
-
-	local function var_282_15()
-		if var_0_127.visuals.water.on.value or var_282_14.watermark.alpha > 0 then
-			var_282_14.watermark()
-		end
-
-		if var_0_127.visuals.damage.value or var_282_14.damage.alpha > 0 then
-			var_282_14.damage()
-		end
-
-		if var_0_127.visuals.arrows.value or var_282_14.arrows.alpha > 0 then
-			var_282_14.arrows()
-		end
-
-		if var_0_127.visuals.slowdown.value or var_282_14.slowdown.alpha > 0 then
-			var_282_14.slowdown()
-		end
-
-		if var_0_127.misc.logs.on.value and var_0_127.misc.logs.output:get("Screen") or var_282_14.logs.alpha > 0 then
-			var_282_14.logs()
-		end
-
-		if var_0_127.visuals.speclist.value or var_282_14.speclist.alpha > 0 then
-			var_282_14.speclist()
-		end
-    end
-
-	var_0_78.paint_ui:set(var_282_15)
-
-	if not var_0_2 then
-		local var_282_16 = {
-			completing = false,
-			state = true,
-			progress = {
-				{
-					0
-				},
-				{
-					0
-				},
-				{
-					0
-				}
-			}
-		}
-
-		function var_282_16.render()
-			local var_402_0 = var_0_100.condition(var_282_16.progress[1], var_282_16.state, 2)
-			local var_402_1 = var_0_100.condition(var_282_16.progress[2], var_402_0 == 1, 2)
-
-			var_0_99.rectangle(0, 0, var_0_93, var_0_94, var_0_91.back:alphen(var_402_0 * 180))
-
-			local var_402_2 = 400
-
-			var_0_99.texture(var_0_102.butterfly, var_0_97.x - var_402_2 * 0.5, var_0_97.y - var_402_2 * 0.5, var_402_2, var_402_2, var_0_91.accent:alphen(var_402_1 * 255))
-
-			if not var_282_16.completing then
-				var_0_34.delay_call(3, function()
-					if var_282_16 then
-						var_282_16.state = false
-					end
-				end)
-
-				var_282_16.completing = true
-			end
-		end
-
-		var_0_34.delay_call(1, function()
-			var_0_78.paint_ui:set(var_282_16.render)
-		end)
-		var_0_34.delay_call(6, function()
-			var_0_78.paint_ui:unset(var_282_16.render)
-
-			var_282_16 = nil
-		end)
-	end
-end)()
-
-
-
-
-var_0_129.system = var_0_44.setup(var_0_127)
-
-
-local sentences = {
-   "$name, изи бомж как же легко",
-   "$name, 1",
     }
-
-local ui = {
-    new_checkbox = ui.new_checkbox,
-    get = ui.get
-}
-
-local client = {
-    set_event_callback = client.set_event_callback,
-    userid_to_entindex = client.userid_to_entindex,
-    exec = client.exec,
-    log = client.log
-}
-
-local entity = {
-    get_local_player = entity.get_local_player,
-    get_player_name = entity.get_player_name
-}
-
-local killsay_enabled = ui.new_checkbox("Lua", "A", "Calamity | TrashTalk")
-local killsayName_enabled = ui.new_checkbox("Lua","A","Calamity | TrashTalk with name")
-
-local function on_player_death(event)
-    if not ui.get(killsay_enabled) then return end
-
-    local local_player = entity.get_local_player()
-    local attacker = client.userid_to_entindex(event.attacker)
-    local victim = client.userid_to_entindex(event.userid)
-
-    if local_player == nil or attacker == nil or victim == nil then
-        return
-    end
-
-    if attacker == local_player and victim ~= local_player then
-    
-        if ui.get(killsayName_enabled) then
-        
-        local killsay = "say " .. sentences[math.random(#sentences)]
-        killsay = string.gsub(killsay, "$name", entity.get_player_name(victim))
-        client.log(killsay)
-        client.exec(killsay)
-        
-        else
-        
-        local killsay = "say " .. sentences[math.random(#sentences)]
-        killsay = string.gsub(killsay, "$name,", " ")
-        client.log(killsay)
-        client.exec(killsay)
-        
+):struct("config")(
+    {configs = {}, write_file = function(v334, v335, v336)
+            if (not v336 or (v14(v335) ~= "string")) then
+                return
+            end
+            return v10(v335, json.stringify(v336))
+        end, update_name = function(v337)
+            local v338 = v337.ui.menu.home.list()
+            local v339 = 0
+            for v839, v840 in v3(v337.configs) do
+                if (v338 == v339) then
+                    return v337.ui.menu.home.name(v839)
+                end
+                v339 = v339 + 1
+            end
+        end, update_configs = function(v340)
+            local v341 = {}
+            for v841, v842 in v3(v340.configs) do
+                v18.insert(v341, v841)
+            end
+            if (#v341 > 0) then
+                v340.ui.menu.home.list:update(v341)
+            end
+            v340:write_file("calamity_configs.txt", v340.configs)
+            v340:update_name()
+        end, setup = function(v342)
+            local v343 = v9("calamity_configs.txt")
+            if (v343 == nil) then
+                return
+            end
+            v342.configs = json.parse(v343)
+            v342:update_configs()
+            v342:update_name()
+        end, export_config = function(v345, ...)
+            local v346 = v345.ui.menu.home.name()
+            local v347 = v32.setup({v345.ui.menu.global, v345.ui.menu.antiaim, v345.ui.menu.tools})
+            local v348 = v347:save()
+            local v349 = v33.encode(json.stringify(v348))
+            print("Succsess cfg export")
+            return v349
+        end, export_state = function(v350, v351)
+            local v352 = v32.setup({v350.ui.menu.antiaim.states[v351]})
+            local v351 = v350.ui.menu.antiaim.state:get()
+            local v353 = v352:save()
+            local v354 = v33.encode(json.stringify(v353))
+            v44.create_new({{"Condition "}, {v351, true}, {" export"}})
+            return v354
+        end, export = function(v355, v356, ...)
+            local v357, v358 = v16(v355["export_" .. v356], v355, ...)
+            if not v357 then
+                print(v358)
+                return
+            end
+            print("Succsess")
+            return "{calamity:" .. v356 .. "}:" .. v358
+        end, import_config = function(v359, v360)
+            local v361 = json.parse(v33.decode(v360))
+            local v362 = v32.setup({v359.ui.menu.global, v359.ui.menu.antiaim, v359.ui.menu.tools})
+            v362:load(v361)
+            v44.create_new({{"Cfg import"}, {"!", true}})
+        end, import_state = function(v363, v364, v365)
+            local v366 = json.parse(v33.decode(v364))
+            local v367 = v32.setup({v363.ui.menu.antiaim.states[v365]})
+            v367:load(v366)
+            v44.create_new({{"Condition import"}, {"!", true}})
+        end, import = function(v368, v369, v370, ...)
+            local v371 = v369:match("{calamity:(.+)}")
+            if (not v371 or (v371 ~= v370)) then
+                v44.create_new({{"Error: "}, {"This not calamity config", true}})
+                return v0("This not calamity config")
+            end
+            local v372, v373 = v16(v368["import_" .. v371], v368, v369:gsub("{calamity:" .. v371 .. "}:", ""), ...)
+            if not v372 then
+                print(v373)
+                v44.create_new({{"Error: "}, {"Failed data calamity", true}})
+                return v0("Failed data calamity")
+            end
+        end, save = function(v374)
+            local v375 = v374.ui.menu.home.name()
+            if (v375:match("%w") == nil) then
+                v44.create_new({{"Invalid config "}, {"name", true}})
+                return print("Invalid config name")
+            end
+            local v376 = v374:export("config")
+            v374.configs[v375] = v376
+            v44.create_new({{"Saved cfg "}, {v375, true}})
+            v374:update_configs()
+        end, load = function(v378, v379)
+            local v380 = v378.ui.menu.home.name()
+            local v381 = v378.configs[v380]
+            if not v381 then
+                v44.create_new({{"Invalid cfg "}, {"name", true}})
+                return v0("Inval. cfg name")
+            end
+            v378:import(v381, v379)
+            v44.create_new({{"Loaded cfg "}, {v380, true}})
+        end, delete = function(v382)
+            local v383 = v382.ui.menu.home.name()
+            local v384 = v382.configs[v383]
+            if not v384 then
+                return v0("Invalid config name")
+            end
+            v382.configs[v383] = nil
+            v44.create_new({{"Delete cfg "}, {v383, true}})
+            v382:update_configs()
+        end}
+):struct("antiaim")(
+    {
+        side = 0,
+        last_rand = 0,
+        skitter_counter = 0,
+        last_skitter = 0,
+        cycle = 0,
+        manual_side = 0,
+        anti_backstab = function(v386)
+            local v387 = v24.get_local_player()
+            local v388 = v22.current_threat()
+            if ((v387 == nil) or not v24.is_alive(v387)) then
+                return false
+            end
+            if not v388 then
+                return false
+            end
+            local v389 = v24.get_player_weapon(v388)
+            if not v389 then
+                return false
+            end
+            local v390 = v24.get_classname(v389)
+            if not v390:find("Knife") then
+                return false
+            end
+            local v391 = v31(v24.get_origin(v387))
+            local v392 = v31(v24.get_origin(v388))
+            local v393 = 168
+            return v392:dist2d(v391) < v393
+        end,
+        get_best_side = function(v394, v395)
+            local v396 = v24.get_local_player()
+            local v397 = v31(v22.eye_position())
+            local v398 = v22.current_threat()
+            local v399, v400 = v22.camera_angles()
+            local v401
+            if v398 then
+                v401 = v31(v24.get_origin(v398)) + v31(0, 0, 64)
+                v399, v400 = (v401 - v397):angles()
+            end
+            local v402 = {60, 45, 30, -30, -45, -60}
+            local v403 = {left = 0, right = 0}
+            for v843, v844 in v2(v402) do
+                local v845 = v31():init_from_angles(0, v400 + 180 + v844, 0)
+                if v398 then
+                    local v1024 = v397 + v845:scaled(128)
+                    local v1025, v1026 = v22.trace_bullet(v398, v401.x, v401.y, v401.z, v1024.x, v1024.y, v1024.z, v396)
+                    v403[((v844 < 0) and "left") or "right"] = v403[((v844 < 0) and "left") or "right"] + v1026
+                else
+                    local v1028 = v397 + v845:scaled(8192)
+                    local v1029 = v22.trace_line(v396, v397.x, v397.y, v397.z, v1028.x, v1028.y, v1028.z)
+                    v403[((v844 < 0) and "left") or "right"] = v403[((v844 < 0) and "left") or "right"] + v1029
+                end
+            end
+            if (v403.left == v403.right) then
+                return 2
+            elseif (v403.left > v403.right) then
+                return (v395 and 1) or 0
+            else
+                return (v395 and 0) or 1
+            end
+        end,
+        get_manual = function(v404)
+            local v405 = v24.get_local_player()
+            if ((v405 == nil) or not v404.ui.menu.antiaim.manual_aa:get()) then
+                return
+            end
+            local v406 = v404.ui.menu.antiaim.manual_left:get()
+            local v407 = v404.ui.menu.antiaim.manual_right:get()
+            local v408 = v404.ui.menu.antiaim.manual_forward:get()
+            if (v404.last_forward == nil) then
+                v404.last_forward, v404.last_right, v404.last_left = v408, v407, v406
+            end
+            if (v406 ~= v404.last_left) then
+                if (v404.manual_side == 1) then
+                    v404.manual_side = nil
+                else
+                    v404.manual_side = 1
+                end
+            end
+            if (v407 ~= v404.last_right) then
+                if (v404.manual_side == 2) then
+                    v404.manual_side = nil
+                else
+                    v404.manual_side = 2
+                end
+            end
+            if (v408 ~= v404.last_forward) then
+                if (v404.manual_side == 3) then
+                    v404.manual_side = nil
+                else
+                    v404.manual_side = 3
+                end
+            end
+            v404.last_forward, v404.last_right, v404.last_left = v408, v407, v406
+            if not v404.manual_side then
+                return
+            end
+            return ({-90, 90, 180})[v404.manual_side]
+        end,
+        run = function(v412, v413)
+            local v414 = v24.get_local_player()
+            if not v24.is_alive(v414) then
+                return
+            end
+            local v415 = v412.helpers:get_state()
+            v412:set_builder(v413, v415)
+        end,
+        set_builder = function(v416, v417, v418)
+            local v419 = {}
+            for v846, v847 in v3(v416.ui.menu.antiaim.states[v418]) do
+                v419[v846] = v847()
+            end
+            v416:set(v417, v419)
+        end,
+        animations = function(v420)
+            local v421 = v24.get_local_player()
+            if not v24.is_alive(v421) then
+                return
+            end
+            local v422 = v35.new(v421)
+            local v423 = v422:get_anim_state()
+            local v424 = v420.ui.menu.tools.animations_body:get()
+            local v425 = v420.ui.menu.tools.animations_selector:get()
+            if not v423 then
+                return
+            end
+            local v426 = v24.get_prop(v421, "m_vecVelocity[0]")
+            if v420.helpers:contains(v425, "Body lean") then
+                local v982 = v422:get_anim_overlay(12)
+                if not v982 then
+                    return
+                end
+                if (v19.abs(v426) >= 3) then
+                    v982.weight = v424 / 100
+                end
+            end
+            if v420.helpers:contains(v425, "Static legs") then
+                v24.set_prop(v421, "m_flPoseParameter", 1, 6)
+            end
+            if v420.helpers:contains(v425, "Yaw break") then
+                v24.set_prop(v421, "m_flPoseParameter", v19.random(0, 10) / 10, 11)
+            end
+            if v420.helpers:contains(v425, "Pitch break") then
+                v24.set_prop(v421, "m_flPoseParameter", v19.random(0, 10) / 10, 12)
+            end
+            if v420.helpers:contains(v425, "Jitter ground") then
+                v21.set(v420.ref.fakelag.lg[1], "Always slide")
+                if ((v26.tickcount() % 4) > 1) then
+                    v24.set_prop(v421, "m_flPoseParameter", 0, 0)
+                end
+            end
+            if v420.helpers:contains(v425, "Kangaroo") then
+                if not v420.helpers:contains(v425, "Jitter air") then
+                    v24.set_prop(v421, "m_flPoseParameter", v19.random(0, 10) / 10, 6)
+                end
+                v24.set_prop(v421, "m_flPoseParameter", v19.random(0, 10) / 10, 3)
+                v24.set_prop(v421, "m_flPoseParameter", v19.random(0, 10) / 10, 10)
+                v24.set_prop(v421, "m_flPoseParameter", v19.random(0, 10) / 10, 9)
+            end
+            if v420.helpers:contains(v425, "Jitter air") then
+                v24.set_prop(v421, "m_flPoseParameter", v19.random(0, 10) / 10, 6)
+            end
+            if v420.helpers:contains(v425, "Moonwalk") then
+                v21.set(v420.ref.fakelag.lg[1], "Never slide")
+                v24.set_prop(v421, "m_flPoseParameter", 0, 7)
+                if v420.helpers:in_air(v421) then
+                    v422:get_anim_overlay(4).weight = 0
+                    v422:get_anim_overlay(6).weight = 1
+                end
+            end
+            if v420.helpers:contains(v425, "Reset pitch on land") then
+                if not v423.hit_in_ground_animation then
+                    return
+                end
+                v24.set_prop(v421, "m_flPoseParameter", 0.5, 12)
+            end
+        end,
+        get_defensive = function(v427, v428, v429, v430)
+            local v431 = v22.current_threat()
+            local v432 = v24.get_local_player()
+            if v427.helpers:contains(v428, "Always") then
+                return true
+            end
+            if v427.helpers:contains(v428, "On weapon switch") then
+                local v983 = v24.get_prop(v432, "m_flNextAttack") - v26.curtime()
+                if ((v983 / v26.tickinterval()) > (v427.defensive.defensive + 2)) then
+                    return true
+                end
+            end
+            if v427.helpers:contains(v428, "Tick-Base") then
+                local v984 = v430.defensive_conditions_tick * 2
+                if ((v26.tickcount() % 32) >= v984) then
+                    return true
+                else
+                    return false
+                end
+            end
+            if v427.helpers:contains(v428, "On reload") then
+                local v985 = v24.get_player_weapon(v432)
+                if v985 then
+                    local v1051 = v24.get_prop(v432, "m_flNextAttack") - v26.curtime()
+                    local v1052 = v24.get_prop(v985, "m_flNextPrimaryAttack") - v26.curtime()
+                    if ((v1051 > 0) and (v1052 > 0) and ((v1051 * v26.tickinterval()) > v427.defensive.defensive)) then
+                        return true
+                    end
+                end
+            end
+            if (v427.helpers:contains(v428, "On hittable") and v427.helpers:entity_has_flag(v431, "HIT")) then
+                return true
+            end
+            if
+                (v427.helpers:contains(v428, "On freestand") and v427.ui.menu.antiaim.freestanding:get_hotkey() and
+                    not (v427.ui.menu.antiaim.freestanding:get("Disablers") and
+                        v427.ui.menu.antiaim.freestanding_disablers:get(v429)))
+             then
+                return true
+            end
+        end,
+        spin_yaw = 0,
+        spin_pitch_def = 0,
+        switch_way = 1,
+        spin_value = 0,
+        jitter_side = 0,
+        spin_way = 0,
+        spin_pitch = 0,
+        last_way = 0,
+        switch_random = 0,
+        switch_random_p = 0,
+        random_spin_way = 0,
+        spin_way_180 = 0,
+        set = function(v433, v434, v435)
+            local v436 = v433.helpers:get_state()
+            local v437 = {v19.random(1, v19.random(3, 4)), 2, 4, 5}
+            local v438 = v433:get_manual()
+            local v439 = true
+            if (v435.jitter_delay == 0) then
+                v437[v435.jitter_delay] = 1
+            end
+            if ((v26.chokedcommands() == 0) and (v433.cycle == v437[v435.jitter_delay])) then
+                v439 = false
+                v433.side = ((v433.side == 1) and 0) or 1
+            end
+            local v440 = v433:get_best_side()
+            local v441 = v433.side
+            local v442 = v435.body_yaw
+            local v443 = "default"
+            local v444 = v19.random(-v435.yaw_random, v435.yaw_random)
+            local v445 = v435.yaw_jitter_add + v444
+            if (v442 == "Jitter") then
+                v442 = "Static"
+            elseif (v435.body_yaw_side == "Left") then
+                v441 = 1
+            elseif (v435.body_yaw_side == "Right") then
+                v441 = 0
+            else
+                v441 = v440
+            end
+            local v446 = 0
+            if (v435.yaw_jitter == "Offset") then
+                if (v433.side == 1) then
+                    v446 = v446 + v445
+                end
+            elseif (v435.yaw_jitter == "Center") then
+                v446 = v446 + (((v433.side == 1) and (v445 / 2)) or (-v445 / 2)) + v444
+            elseif (v435.yaw_jitter == "Random") then
+                local v1080 = v19.random(0, v445) - (v445 / 2)
+                if not v439 then
+                    v446 = v446 + v1080
+                    v433.last_rand = v1080
+                else
+                    v446 = v446 + v433.last_rand
+                end
+            elseif (v435.yaw_jitter == "Smoothnes") then
+                local v1107 = v445
+                local v1108 = v437[v435.jitter_delay] / 4
+                local v1109 = v1107 * v19.sin((v26.curtime() / v1108) * v19.pi)
+                v446 = v1109
+            elseif (v435.yaw_jitter == "Fractal") then
+                local v1132 = v445 * 2
+                local v1133 = v437[v435.jitter_delay] * 0.5
+                local v1134 = 0
+                local v1135 = v435.yaw_fractals
+                local v1136 = 0
+                if (v1135 == 14) then
+                    v1136 = v19.random(0, 13)
+                else
+                    v1136 = v1135
+                end
+                for v1148 = 1, v1136 do
+                    v1134 = v1134 + ((0.5 ^ v1148) * v19.cos(((2 ^ v1148) * v1133 * v26.curtime() * 2 * v19.pi) + 10))
+                end
+                v446 = v1134 * v1132
+            elseif (v435.yaw_jitter == "Skitter") then
+                local v1149 = {0, 2, 1, 0, 2, 1, 0, 1, 2, 0, 1, 2, 0, 1, 2}
+                local v1150
+                if (v433.skitter_counter == #v1149) then
+                    v433.skitter_counter = 1
+                elseif not v439 then
+                    v433.skitter_counter = v433.skitter_counter + 1
+                end
+                v1150 = v1149[v433.skitter_counter]
+                v433.last_skitter = v1150
+                if (v435.body_yaw == "jitter") then
+                    v441 = v1150
+                end
+                if (v1150 == 0) then
+                    v446 = (v446 - 16) - (v19.abs(v445) / 2)
+                elseif (v1150 == 1) then
+                    v446 = v446 + 16 + (v19.abs(v445) / 2)
+                end
+            end
+            v446 = v446 + (((v441 == 0) and v435.yaw_add_r) or ((v441 == 1) and v435.yaw_add) or 0)
+            if
+                (v433.helpers:contains(v435.options, "Enable defensive") and
+                    v433:get_defensive(v435.defensive_conditions, v436, v435))
+             then
+                v434.force_defensive = true
+            end
+            local v447 = v433.ui.menu.antiaim.edge_yaw:get_hotkey()
+            v21.set(v433.ref.aa.freestand[1], false)
+            v21.set(v433.ref.aa.edge_yaw[1], v447)
+            v21.set(v433.ref.aa.freestand[2], "Always on")
+            if v433.helpers:contains(v435.options, "Safe head") then
+                local v989 = v24.get_local_player()
+                local v990 = v22.current_threat()
+                if v990 then
+                    local v1053 = v24.get_player_weapon(v989)
+                    if (v1053 and (v24.get_classname(v1053):find("Knife") or v24.get_classname(v1053):find("Taser"))) then
+                        v446 = 0
+                        v441 = 2
+                    end
+                end
+            end
+            if (v433.ui.menu.antiaim.manual_static:get() and ((v438 == -90) or (v438 == 90))) then
+                v446 = 0
+                v441 = 0
+            end
+            if v438 then
+                v446 = v438
+            elseif
+                (v433.ui.menu.antiaim.freestanding:get_hotkey() and
+                    not (v433.ui.menu.antiaim.freestanding:get("Disablers") and
+                        v433.ui.menu.antiaim.freestanding_disablers:get(v436)))
+             then
+                v21.set(v433.ref.aa.freestand[1], true)
+                if v433.ui.menu.antiaim.freestanding:get("Force static") then
+                    v446 = 0
+                    v441 = 0
+                end
+            elseif (v433.helpers:contains(v435.options, "Avoid backstab") and v433:anti_backstab()) then
+                v446 = v446 + 180
+            end
+            local v448 =
+                (((v433.defensive.ticks * v433.defensive.defensive) > 0) and
+                v19.max(v433.defensive.defensive, v433.defensive.ticks)) or
+                0
+            local v449 = {
+                {
+                    speed = v435.defensive_yaw_way_speed1,
+                    spin_limit = v435.defensive_yaw_way_spin_limit1,
+                    enable_spin = v435.defensive_yaw_enable_way_spin1,
+                    switch_value = v435.defensive_yaw_way_switch1
+                },
+                {
+                    speed = v435.defensive_yaw_way_speed2,
+                    spin_limit = v435.defensive_yaw_way_spin_limit2,
+                    enable_spin = v435.defensive_yaw_enable_way_spin2,
+                    switch_value = v435.defensive_yaw_way_switch2
+                },
+                {
+                    speed = v435.defensive_yaw_way_speed3,
+                    spin_limit = v435.defensive_yaw_way_spin_limit3,
+                    enable_spin = v435.defensive_yaw_enable_way_spin3,
+                    switch_value = v435.defensive_yaw_way_switch3
+                },
+                {
+                    speed = v435.defensive_yaw_way_speed4,
+                    spin_limit = v435.defensive_yaw_way_spin_limit4,
+                    enable_spin = v435.defensive_yaw_enable_way_spin4,
+                    switch_value = v435.defensive_yaw_way_switch4
+                },
+                {
+                    speed = v435.defensive_yaw_way_speed5,
+                    spin_limit = v435.defensive_yaw_way_spin_limit5,
+                    enable_spin = v435.defensive_yaw_enable_way_spin5,
+                    switch_value = v435.defensive_yaw_way_switch5
+                }
+            }
+            local v450 = {
+                {
+                    speed = v435.defensive_pitch_way_speed1,
+                    spin_limit1 = v435.defensive_pitch_way_spin_limit11,
+                    spin_limit2 = v435.defensive_pitch_way_spin_limit12,
+                    enable_spin = v435.defensive_pitch_enable_way_spin1,
+                    switch_value = v435.defensive_pitch_custom
+                },
+                {
+                    speed = v435.defensive_pitch_way_speed2,
+                    spin_limit1 = v435.defensive_pitch_way_spin_limit21,
+                    spin_limit2 = v435.defensive_pitch_way_spin_limit22,
+                    enable_spin = v435.defensive_pitch_enable_way_spin2,
+                    switch_value = v435.defensive_pitch_way2
+                },
+                {
+                    speed = v435.defensive_pitch_way_speed3,
+                    spin_limit1 = v435.defensive_pitch_way_spin_limit31,
+                    spin_limit2 = v435.defensive_pitch_way_spin_limit32,
+                    enable_spin = v435.defensive_pitch_enable_way_spin3,
+                    switch_value = v435.defensive_pitch_way3
+                },
+                {
+                    speed = v435.defensive_pitch_way_speed4,
+                    spin_limit1 = v435.defensive_pitch_way_spin_limit41,
+                    spin_limit2 = v435.defensive_pitch_way_spin_limit42,
+                    enable_spin = v435.defensive_pitch_enable_way_spin4,
+                    switch_value = v435.defensive_pitch_way4
+                },
+                {
+                    speed = v435.defensive_pitch_way_speed5,
+                    spin_limit1 = v435.defensive_pitch_way_spin_limit51,
+                    spin_limit2 = v435.defensive_pitch_way_spin_limit52,
+                    enable_spin = v435.defensive_pitch_enable_way_spin5,
+                    switch_value = v435.defensive_pitch_way5
+                }
+            }
+            local v451 = v26.tickcount() % 32
+            if v435.defensive_yaw then
+                if (v448 == 1) then
+                end
+                if ((v435.defensive_yaw_mode == "Jitter") and (v448 > 0)) then
+                    local v1054 = v435.defensive_yaw_jitter_radius_1
+                    local v1055 = v435.defensive_yaw_jitter_delay * 3
+                    local v1056 = v435.defensive_yaw_jitter_random
+                    if (v1055 == 1) then
+                        v433.jitter_side = ((v433.jitter_side == -1) and 1) or -1
+                    else
+                        v433.jitter_side = (((((v26.tickcount() % v1055) * 2) + 1) <= v1055) and -1) or 1
+                    end
+                    v446 = (v433.jitter_side * v1054) + v19.random(-v1056, v1056)
+                elseif ((v435.defensive_yaw_mode == "Random") and (v448 > 0)) then
+                    local v1083 = v435.defensive_yaw_1_random
+                    local v1084 = v435.defensive_yaw_2_random
+                    v446 = v19.random(v1083, v1084)
+                elseif ((v435.defensive_yaw_mode == "Custom spin") and (v448 > 0)) then
+                    v433.spin_value = v433.spin_value + (8 * (v435.defensive_yaw_speedtick / 5))
+                    if (v433.spin_value >= v435.defensive_yaw_spin_limit) then
+                        v433.spin_value = 0
+                    end
+                    v446 = v433.spin_value
+                elseif ((v435.defensive_yaw_mode == "Spin-way") and (v448 > 0)) then
+                    local v1138 = v435.defensive_yaw_speed_Spin_way
+                    local v1139 = v435.defensive_yaw_randomizer_Spin_way
+                    local v1140 = v435.defensive_yaw_1_Spin_way
+                    local v1141 = v435.defensive_yaw_2_Spin_way
+                    local v1142 = 0
+                    if (v451 >= (29 + v19.random(0, v1138))) then
+                        v433.spin_way_180 = v433.spin_way_180 + 1
+                        v433.random_spin_way = v19.random(-v1139, v1139)
+                    end
+                    if (v433.spin_way_180 == 0) then
+                        v1142 = v1140 + v433.random_spin_way
+                    elseif (v433.spin_way_180 == 1) then
+                        v1142 = v1141 + v433.random_spin_way
+                    end
+                    if (v433.spin_way_180 == 2) then
+                        v433.spin_way_180 = 0
+                    end
+                    local v1143 = v433.helpers:new_anim("antiaim_spin_way", v1142, 6)
+                    v446 = v1143
+                elseif ((v435.defensive_yaw_mode == "Switch 5-way") and (v448 > 0)) then
+                    if (v451 >= (29 + v19.random(0, v435.defensive_yaw_way_delay))) then
+                        v433.switch_way = v433.switch_way + 1
+                        v433.switch_random =
+                            v19.random(-v435.defensive_yaw_way_randomly_value, v435.defensive_yaw_way_randomly_value)
+                    else
+                        v446 = v433.last_way
+                        if (v433.switch_way == #v449) then
+                            v433.switch_way = 0
+                        end
+                    end
+                    if ((v433.switch_way >= 0) and (v433.switch_way < #v449)) then
+                        local v1168 = v449[v433.switch_way + 1]
+                        v433.spin_way = v433.spin_way + (8 * (v1168.speed / 5))
+                        if (v433.spin_way >= v1168.spin_limit) then
+                            v433.spin_way = 0
+                        end
+                        if not v1168.enable_spin then
+                            if v435.defensive_yaw_way_randomly then
+                                v446 = v1168.switch_value + v433.switch_random
+                                v433.last_way = v1168.switch_value + v433.switch_random
+                            else
+                                v446 = v1168.switch_value
+                                v433.last_way = v1168.switch_value
+                            end
+                        else
+                            v446 = v433.spin_way
+                            v433.last_way = v433.spin_way
+                        end
+                    elseif (v433.switch_way == #v449) then
+                        v433.switch_way = 0
+                    end
+                end
+                if ((v435.defensive_pitch_mode == "Static") and (v448 > 0)) then
+                    v443 = v435.defensive_pitch_custom
+                elseif ((v435.defensive_pitch_mode == "Jitter") and (v448 > 0)) then
+                    if (v19.random(0, 20) >= 10) then
+                        v443 = v435.defensive_pitch_clock
+                    else
+                        v443 = v435.defensive_pitch_custom
+                    end
+                elseif ((v435.defensive_pitch_mode == "Spin") and (v448 > 0)) then
+                    if (v435.defensive_pitch_custom < 0) then
+                        v433.spin_pitch_def = v433.spin_pitch_def - (v435.defensive_pitch_speedtick / 5)
+                    else
+                        v433.spin_pitch_def = v433.spin_pitch_def + (v435.defensive_pitch_speedtick / 5)
+                    end
+                    if (v435.defensive_pitch_custom < 0) then
+                        if (v433.spin_pitch_def <= v435.defensive_pitch_custom) then
+                            v433.spin_pitch_def = v435.defensive_pitch_spin_limit2
+                        end
+                    elseif (v433.spin_pitch_def >= v435.defensive_pitch_custom) then
+                        v433.spin_pitch_def = v435.defensive_pitch_spin_limit2
+                    end
+                    v443 = v433.spin_pitch_def
+                elseif ((v435.defensive_pitch_mode == "Clocking") and (v448 > 0)) then
+                    if (v451 >= 28) then
+                        v433.spin_yaw = v433.spin_yaw + 15
+                    end
+                    if (v433.spin_yaw >= 89) then
+                        v433.spin_yaw = -89
+                    end
+                    v443 = v433.spin_yaw
+                elseif ((v435.defensive_pitch_mode == "Random") and (v448 > 0)) then
+                    local v1162 = v435.defensive_pitch_custom
+                    local v1163 = v435.defensive_pitch_spin_random2
+                    v443 = v19.random(v1162, v1163)
+                elseif ((v435.defensive_pitch_mode == "5way") and (v448 > 0)) then
+                    if (v451 >= (29 + v19.random(0, v435.defensive_yaw_way_delay))) then
+                        v433.switch_random_p =
+                            v19.random(
+                            -v435.defensive_pitch_way_randomly_value,
+                            v435.defensive_pitch_way_randomly_value
+                        )
+                    else
+                        v443 = v433.last_way
+                    end
+                    if ((v433.switch_way >= 0) and (v433.switch_way < #v450)) then
+                        local v1178 = v450[v433.switch_way + 1]
+                        if (v1178.spin_limit2 < 0) then
+                            v433.spin_pitch = v433.spin_pitch - (8 * (v1178.speed / 5))
+                        else
+                            v433.spin_pitch = v433.spin_pitch + (8 * (v1178.speed / 5))
+                        end
+                        if (v1178.spin_limit2 < 0) then
+                            if (v433.spin_pitch <= v1178.spin_limit2) then
+                                v433.spin_pitch = v1178.spin_limit1
+                            end
+                        elseif (v433.spin_pitch >= v1178.spin_limit2) then
+                            v433.spin_pitch = v1178.spin_limit1
+                        end
+                        if not v1178.enable_spin then
+                            if v435.defensive_pitch_way_randomly then
+                                v443 = v433.switch_random_p
+                                v433.last_way = v433.switch_random_p
+                            else
+                                v443 = v1178.switch_value
+                                v433.last_way = v1178.switch_value
+                            end
+                        else
+                            v443 = v433.spin_pitch
+                            v433.last_way = v433.spin_pitch
+                        end
+                    end
+                end
+            end
+            v21.set(v433.ref.aa.enabled[1], true)
+            v21.set(v433.ref.aa.pitch[1], ((v443 == "default") and v443) or "custom")
+            v21.set(v433.ref.aa.pitch[2], v433.helpers:normalize_pitch(((v14(v443) == "number") and v443) or 0))
+            v21.set(v433.ref.aa.yaw_base[1], v435.yaw_base)
+            v21.set(v433.ref.aa.yaw[1], 180)
+            v21.set(v433.ref.aa.yaw[2], v433.helpers:normalize_yaw(v446))
+            v21.set(v433.ref.aa.yaw_jitter[1], "off")
+            v21.set(v433.ref.aa.yaw_jitter[2], 0)
+            v21.set(v433.ref.aa.body_yaw[1], v442)
+            v21.set(v433.ref.aa.body_yaw[2], ((v441 == 2) and 0) or ((v441 == 1) and 90) or -90)
+            if (v26.chokedcommands() == 0) then
+                if (v433.cycle >= v437[v435.jitter_delay]) then
+                    v433.cycle = 1
+                else
+                    v433.cycle = v433.cycle + 1
+                end
+            end
         end
-    end
-end
-math.randomseed(133742069)
-math.random(); math.random(); math.random()
-
-client.set_event_callback("player_death", on_player_death)
-client.log("Hwid success")
-end)
-end
-}
-
-webhook.Run()
-local bit = require'bit'
-
-local var_0_164 = ui.new_checkbox("VISUALS", "Effects", "Calamity tag screen")
-local var_0_165 = 2
-local var_0_166 = 128
-local var_0_167 = 220
-
-client.set_event_callback("paint", function()
-	local var_108_0 = entity.get_local_player()
-
-	if not ui.get(var_0_164) then
-		return
-	end
-
-	if not var_108_0 then
-		return
-	end
-
-	local var_108_1 = globals.realtime()
-	local var_108_2 = var_0_167 + var_0_166 * math.sin(var_108_1 * var_0_165)
-	local var_108_3 = math.max(0, math.min(255, var_108_2))
-
-	renderer.indicator(174, 255, 0, var_108_3, "☠︎︎calamity☠︎")
-end)
-local ffi = require "ffi"
-
-local function contains(tbl, val)
-    if not tbl then return false end
-    for i=1, #tbl do
-        if tbl[i] == val then return true end
-    end
-    return false
-end
-
-local b_2 = {}
-local local_player, callback_reg, dt_charged = nil, false, false
-
-client.exec("Clear")
-client.exec("con_filter_enable 0")
-
-local corsa = "Calamity Prediction ~ "
-
-local menu_color = ui.reference("MISC", "Settings", "Menu color")
-
-client.set_event_callback("paint", function()
-    local r, g, b, a = ui.get(menu_color)
-end)
-
-client.color_log(149, 149, 201, corsa.."Welcome back")
-client.delay_call(2, function()
-end)
-
-local function lerp(a, b, t)
-    return a + (b - a) * t
-end
-
-local vector = require("vector")
-local y = 0
-local alpha = 150
-client.set_event_callback('paint_ui', function()
-local screen = vector(client.screen_size())
-local ladd = "Calamity Ragebot enchantements"
-local size = vector(screen.x, screen.y)
-
-local sizing = lerp(0.1, 0.9, math.sin(globals.realtime() * 0.9) * 0.5 + 0.5)
-local rotation = lerp(0, 360, globals.realtime() % 1)
-alpha = lerp(alpha, 0, globals.frametime() * 0.5)
-y = lerp(y, 20, globals.frametime() * 2)
-
-renderer.rectangle(0, 0, size.x, size.y, 13, 13, 13, alpha)
-renderer.circle_outline(screen.x/2, screen.y/2, 149, 149, 201, alpha, 20, rotation, sizing, 3)
-renderer.text(screen.x/2, screen.y/2 + 40, 149, 149, 201, alpha, 'c', 0, 'Loaded !')
-renderer.text(screen.x/2, screen.y/2 + 60, 149, 149, 201, alpha, 'c', 0, 'Welcome - '..ladd..' [BETA]')
- end)
-
-
-
-local options = { "Head", "Chest", "Stomach" }
-local levl = {"Jitter", "Combined","Desync"}
-local topchik = {"High", "Medium", "Low"}
-
-b_2.rage = {
-    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾", ui.get(menu_color))),
-    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF• Predict Enemies •", ui.get(menu_color))),
-    predict = ui.new_checkbox("rage", "other", string.format("\v\rPredict Features by \a%02X%02X%02XFFCalamity\v\r", ui.get(menu_color))),
-    --color = ui.new_color_picker('rage', 'other', 123,51,233),
-    pingpos = ui.new_combobox("rage", "other", string.format("Latency \a%02X%02X%02XFFDepending", ui.get(menu_color)), {"High Ping > 60", "Low Ping < 45"}),
-    hitboxes = ui.new_multiselect('rage', 'other', 'Inverse Hitboxes at time-line', 'Head', 'Chest', 'Stomach'),
-    pingpos1 = ui.new_slider("rage", "other", "Attach BackTrack At", 1, 3, 1, true, "", 1, {"Head", "Chest", "Stomach"}),
-    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾", ui.get(menu_color))),
-    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF• Resolver enchantements by Calamity •", ui.get(menu_color))),
-    jittercorrectionresolvercorsas = ui.new_checkbox("rage", "other", "Jitter " .. string.format("\a%02X%02X%02XFFCorrection", ui.get(menu_color))),
-    pingpofass = ui.new_slider("rage", "other", "Correction " .. string.format("\a%02X%02X%02XFFMode", ui.get(menu_color)), 1, 3, 1, true, "", 1, {"Jitter", "Combined","Desync"}),
-    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾", ui.get(menu_color))),
-    space = ui.new_label("rage", "other", string.format("\a%02X%02X%02XFF• Resolver helper •", ui.get(menu_color))),
-    interesting = ui.new_checkbox('rage', 'other', string.format("\v\rJitter accuracy \a%02X%02X%02XFFboost\v\r", ui.get(menu_color))),
-    boost = ui.new_slider('rage', 'other', 'Intensive boost', 1, 3, 2, true, "", 2, {"High", "Medium", "Low"}),
-    interlude = ui.new_checkbox('rage', 'other', string.format("\v\rInterlude \a%02X%02X%02XFFAI\v\r", ui.get(menu_color)))
-}
-
-
-
-
-
-local ref = {
-    aimbot = ui.reference('RAGE', 'Aimbot', 'Enabled'),
-    doubletap = {
-        main = { ui.reference('RAGE', 'Aimbot', 'Double tap') },
-        fakelag_limit = ui.reference('RAGE', 'Aimbot', 'Double tap fake lag limit')
     }
-}
-
-client.set_event_callback("paint", function()
-    rgba_to_hex = function(c,d,e,f)
-        return string.format('%02x%02x%02x%02x',c,d,e,f)
-    end
-  end)
-client.set_event_callback("paint", function()
-    if ui.get(b_2.rage.predict) then
-      local r,g,b = ui.get(menu_color)
-        renderer.indicator(r,g,b,255, "\a"..rgba_to_hex(r,g,b,255 * math.abs(math.cos(globals.curtime()*1))).."predict active?")
-    end
-end)
-
---ui.set_visible
-local function checks1()
-if ui.get(b_2.rage.predict) == true then
---ui.set_visible(b_2.rage.color, true)
-ui.set_visible(b_2.rage.pingpos, true)
-ui.set_visible(b_2.rage.pingpos1, true)
-ui.set_visible(b_2.rage.hitboxes, true)
-else
---ui.set_visible(b_2.rage.color, false)
-ui.set_visible(b_2.rage.pingpos, false)
-ui.set_visible(b_2.rage.pingpos1, false)
-ui.set_visible(b_2.rage.hitboxes, false)
-end
-end
-
-checks1()
-
-ui.set_callback(b_2.rage.predict, function ()
-    checks1()
-end)
-----
-local function checks2()
-if ui.get(b_2.rage.jittercorrectionresolvercorsas) == true then
-ui.set_visible(b_2.rage.pingpofass, true)
-else
-ui.set_visible(b_2.rage.pingpofass, false)
-end
-end
-
-checks2()
-
-ui.set_callback(b_2.rage.jittercorrectionresolvercorsas, function ()
-    checks2()
-end)
----- 
-local function checks()
-if ui.get(b_2.rage.interesting) == true then
-ui.set_visible(b_2.rage.boost, true)
-else
-ui.set_visible(b_2.rage.boost, false)
-end
-end
-
-checks()
-
-to_hex = function(r, g, b, a)
-        return string.format("%02x%02x%02x%02x", r, g, b, a)
-    end
-
-ui.set_callback(b_2.rage.interesting, function ()
-    checks()
-end)
-
-predict = function()
-    local lp = entity.get_local_player()
-    if not lp then return end
-    if ui.get(b_2.rage.predict) then
-        if ui.get(b_2.rage.pingpos) == "Low" then
-            cvar.cl_interpolate:set_int(0)
-            cvar.cl_interp_ratio:set_int(1)
-
-            cvar.cl_interp:set_float(0.031000)
-
-        else
-            cvar.cl_interp:set_float(0.031000)
-            cvar.cl_interp_ratio:set_int(1)
-            cvar.cl_interpolate:set_int(0)
+):struct("defensive")(
+    {
+        check = 0,
+        defensive = 0,
+        sim_time = v26.tickcount(),
+        active_until = 0,
+        ticks = 0,
+        active = false,
+        defensive_active = function(v452)
+            local v453 = v24.get_local_player()
+            if (not v453 or not v24.is_alive(v453)) then
+                return
+            end
+            local v454 = v452.ui.menu.antiaim.states
+            local v455 = v452.helpers:get_state()
+            local v456 = v21.get(v452.ref.rage.dt[2])
+            local v457 = v21.get(v452.ref.rage.os[2])
+            local v458 = v454[v455].defensive_conditions
+            if (not v454[v455].options:get("Enable defensive") or not (v456 or (v457 and v458:get("On hide-shots")))) then
+                v452.check, v452.defensive = 0, 0
+                return
+            end
+            local v459 = v24.get_prop(v24.get_local_player(), "m_nTickBase")
+            v452.defensive = v19.abs(v459 - v452.check)
+            v452.check = v19.max(v459, v452.check or 0)
+            local v462 = v26.tickcount()
+            local v463 = v24.get_prop(v453, "m_flSimulationTime")
+            local v464 = v13(v463 - v452.sim_time)
+            if (v464 < 0) then
+                v452.active_until = v462 + v19.abs(v464)
+            end
+            v452.ticks = v43.clamp(v452.active_until - v462, 0, 16)
+            v452.active = v452.active_until > v462
+            v452.sim_time = v463
+            v452.globals.tick = v452.defensive
+        end,
+        def_reset = function(v469)
+            v469.check, v469.defensive = 0, 0
         end
+    }
+):struct("tools")(
+    {
+        widget_keylist = v41("keylist", 300, 100),
+        widget_watermark = v41("watermark", 10, 10),
+        scoped = 0,
+        scoped_comp = 0,
+        menu_setup = function(v472)
+            local v473 = v472.ui.menu.tools.notify_offset:get()
+            local v474, v475, v476, v477 = v472.ui.menu.global.color:get()
+            v38.accent.r = v474
+            v38.accent.g = v475
+            v38.accent.b = v476
+            v38.offset = v473
+            if (v472.ui.menu.tools.style:get() == "New") then
+                v38.new_style = true
+            else
+                v38.new_style = false
+            end
+            local v482 = v472.ui.menu.global.tab:get()
+            local v483 = v472.ui.menu.antiaim.mode:get()
+            local v484 = ((v482 == " Anti-Aim") and (v483 == "Constructor")) or (v482 == " Home")
+            local v485 = {fakelag = v472.ref.fakelag, aa_other = v472.ref.aa_other}
+            for v849, v850 in v3(v485) do
+                local v851 = true
+                if (v849 == "fakelag") then
+                    v851 = false
+                elseif (v849 == "aa_other") then
+                    v851 = not v484
+                end
+                for v996, v997 in v3(v850) do
+                    for v1031, v1032 in v2(v997) do
+                        v21.set_visible(v1032, v851)
+                    end
+                end
+            end
+            if (v472.ref.fakelag.enable[1] ~= true) then
+                v21.set(v472.ref.fakelag.enable[1], true)
+            end
+            v21.set(v472.ref.fakelag.amount[1], v472.ui.menu.antiaim.fakelag_type:get())
+            v21.set(v472.ref.fakelag.variance[1], v472.ui.menu.antiaim.fakelag_var:get())
+            v21.set(v472.ref.fakelag.limit[1], v472.ui.menu.antiaim.fakelag_lim:get())
+        end,
+        gs_ind = function(v486)
+            if v486.helpers:contains(v486.ui.menu.tools.gs_inds:get(), "Target") then
+                v28.indicator(255, 255, 255, 200, "Target: " .. v486.helpers:get_target())
+            end
+        end,
+        crosshair = function(v487)
+            local v488 = v24.get_local_player()
+            if (not v488 or not v24.is_alive(v488)) then
+                return
+            end
+            v487.scoped = v24.get_prop(v488, "m_bIsScoped")
+            if not v487.ui.menu.tools.indicators:get() then
+                return
+            end
+            local v490 = v487.ui.menu.tools.indicator_pos:get()
+            v487.scoped_comp =
+                v487.helpers:math_anim2(v487.scoped_comp, v487.scoped * (((v490 == "Left") and -1) or 1), 8)
+            local v492 = v487.helpers:get_state()
+            local v493, v494, v495, v496 = v38.accent.r, v38.accent.g, v38.accent.b
+            local v497 = v487.ui.menu.tools.indicatorfont:get()
+            local v498 = 0
+            if (v497 == "Default") then
+                v498 = 1
+            elseif (v497 == "New") then
+                v498 = 2
+            elseif (v497 == "calamity") then
+                v498 = 3
+            elseif (v497 == "Renewed") then
+                v498 = 4
+            end
+            local v499 = v487.helpers:get_charge()
+            local v500, v501, v502 = (v499 and 255) or v493, (v499 and 255) or v494, (v499 and 255) or v495
+            local v503, v504, v505 = v487.helpers:animate_pulse({v493, v494, v495, 255}, 8)
+            local v506 = {
+                {
+                    n = "DT",
+                    c = {v500, v501, v502},
+                    a = v21.get(v487.ref.rage.dt[1]) and v21.get(v487.ref.rage.dt[2]) and
+                        not v21.get(v487.ref.rage.fd[1]),
+                    s = v28.measure_text("-", "DT") + 13
+                },
+                {
+                    n = "OSAA",
+                    c = {255, 255, 255},
+                    a = v21.get(v487.ref.rage.os[1]) and v21.get(v487.ref.rage.os[2]) and
+                        not v21.get(v487.ref.rage.fd[1]),
+                    s = v28.measure_text("-", "OSAA") + 13
+                },
+                {
+                    n = "FAKE",
+                    c = {v503, v504, v505},
+                    a = v21.get(v487.ref.rage.fd[1]),
+                    s = v28.measure_text("-", "FAKE") + 14
+                },
+                {
+                    n = "FS",
+                    c = {255, 255, 255},
+                    a = v21.get(v487.ref.aa.freestand[1]) and v21.get(v487.ref.aa.freestand[2]),
+                    s = v28.measure_text("-", "FS") + 13
+                }
+            }
+            local v507 = v487.helpers:new_anim("indicator_pose", v487.ui.menu.tools.indicatoroffset:get(), 12)
+            local v508 = 0
+            local v509 = v487.antiaim:get_best_side()
+            local v510 = v487.helpers:animate_text(v26.curtime() * 2, "calamity", v493, v494, v495, 255)
+            local v511 = v487.helpers:new_anim("indicator_mes_1", v28.measure_text("-", v492:upper()) or 0, 12)
+            if (v498 == 1) then
+                local v998 = v28.measure_text("c-", v38.build:upper())
+                v28.text(
+                    (v39 / 2) + (((v998 + 14) / 2) * v487.scoped_comp),
+                    ((v40 / 2) + v507) - 10,
+                    v493,
+                    v494,
+                    v495,
+                    150,
+                    "c-",
+                    0,
+                    v38.build:upper()
+                )
+                v28.text(
+                    ((v39 / 2) - 22) + (30 * v487.scoped_comp),
+                    ((v40 / 2) + v507) - 6,
+                    0,
+                    0,
+                    0,
+                    255,
+                    "b",
+                    0,
+                    v15(v510)
+                )
+                v28.text(
+                    (v39 / 2) + (((v511 + 14) / 2) * v487.scoped_comp),
+                    (v40 / 2) + v507 + 13,
+                    255,
+                    255,
+                    255,
+                    255,
+                    "c-",
+                    0,
+                    v492:upper()
+                )
+                for v1033, v1034 in v2(v506) do
+                    local v1035 = v487.helpers:new_anim("indicators_alpha" .. v1034.n, (v1034.a and 255) or 0, 10)
+                    local v1036 = v487.helpers:new_anim("indicators_pose_2" .. v1034.n, (v1034.a and 10) or 0, 10)
+                    v508 = v508 + v1036
+                    v28.text(
+                        (v39 / 2) + ((v1034.s / 2) * v487.scoped_comp),
+                        (v40 / 2) + v507 + v508 + 15,
+                        v1034.c[1],
+                        v1034.c[2],
+                        v1034.c[3],
+                        v1035,
+                        "-ca",
+                        nil,
+                        v1034.n
+                    )
+                end
+            elseif (v498 == 2) then
+                local v1060, v1061, v1062 =
+                    ((v509 == 2) and v493) or 200,
+                    ((v509 == 2) and v494) or 200,
+                    ((v509 == 2) and v495) or 200
+                local v1063, v1064, v1065 =
+                    ((v509 == 0) and v493) or 200,
+                    ((v509 == 0) and v494) or 200,
+                    ((v509 == 0) and v495) or 200
+                v28.text(
+                    ((v39 / 2) - 23) + (35 * v487.scoped_comp),
+                    ((v40 / 2) + v507) - 6,
+                    v1060,
+                    v1061,
+                    v1062,
+                    255,
+                    "b",
+                    0,
+                    "cala"
+                )
+                v28.text(
+                    ((v39 / 2) - 5) + (35 * v487.scoped_comp),
+                    ((v40 / 2) + v507) - 6,
+                    v1063,
+                    v1064,
+                    v1065,
+                    255,
+                    "b",
+                    0,
+                    "mity"
+                )
+                v28.text(
+                    (v39 / 2) + 23 + (35 * v487.scoped_comp),
+                    ((v40 / 2) + v507) - 6,
+                    255,
+                    255,
+                    255,
+                    255,
+                    "b",
+                    0,
+                    "°"
+                )
+            elseif (v498 == 3) then
+                local v1085, v1086, v1087 =
+                    ((v509 == 2) and v493) or 200,
+                    ((v509 == 2) and v494) or 200,
+                    ((v509 == 2) and v495) or 200
+                local v1088, v1089, v1090 =
+                    ((v509 == 0) and v493) or 200,
+                    ((v509 == 0) and v494) or 200,
+                    ((v509 == 0) and v495) or 200
+                local v1091, v1092, v1093 =
+                    ((v509 == 1) and v493) or 255,
+                    ((v509 == 1) and v494) or 255,
+                    ((v509 == 1) and v495) or 255
+                v28.text(
+                    ((v39 / 2) - 33) + (45 * v487.scoped_comp),
+                    ((v40 / 2) + v507) - 6,
+                    255,
+                    255,
+                    255,
+                    255,
+                    "ab",
+                    0,
+                    "calamity"
+                )
+                v28.text(
+                    ((v39 / 2) - 5) + (45 * v487.scoped_comp),
+                    ((v40 / 2) + v507) - 6,
+                    v493,
+                    v494,
+                    v495,
+                    255,
+                    "ab",
+                    0,
+                    "      в душе"
+                )
+                v28.text(
+                    ((v39 / 2) - 11) + (23 * v487.scoped_comp),
+                    (v40 / 2) + v507 + 6,
+                    v1085,
+                    v1086,
+                    v1087,
+                    255,
+                    "ab",
+                    0,
+                    "•"
+                )
+                v28.text(
+                    ((v39 / 2) - 3) + (23 * v487.scoped_comp),
+                    (v40 / 2) + v507 + 6,
+                    v1088,
+                    v1089,
+                    v1090,
+                    255,
+                    "ab",
+                    0,
+                    "•"
+                )
+                v28.text(
+                    (v39 / 2) + 5 + (23 * v487.scoped_comp),
+                    (v40 / 2) + v507 + 6,
+                    v1091,
+                    v1092,
+                    v1093,
+                    255,
+                    "ab",
+                    0,
+                    "•"
+                )
+                if v487.ui.menu.tools.indicator_bind:get() then
+                    for v1118, v1119 in v2(v506) do
+                        local v1120 = v487.helpers:new_anim("indicators_alpha" .. v1119.n, (v1119.a and 255) or 0, 10)
+                        local v1121 = v487.helpers:new_anim("indicators_pose_2" .. v1119.n, (v1119.a and 13) or 0, 10)
+                        v508 = v508 + v1121
+                        v28.text(
+                            (v39 / 2) + (((v1119.s / 2) + 5) * v487.scoped_comp),
+                            (v40 / 2) + v507 + v508 + 15,
+                            v1119.c[1],
+                            v1119.c[2],
+                            v1119.c[3],
+                            v1120,
+                            "ca",
+                            nil,
+                            v1119.n:lower()
+                        )
+                    end
+                end
+            elseif (v498 == 4) then
+                local v1114 = "₊‧.°.⋆✦⋆.°.₊"
+                v28.text(
+                    ((v39 / 2) - 27) + (35 * v487.scoped_comp),
+                    ((v40 / 2) + v507) - 13,
+                    v493,
+                    v494,
+                    v495,
+                    200,
+                    "ab",
+                    0,
+                    v1114
+                )
+                v28.text(
+                    ((v39 / 2) - 22) + (35 * v487.scoped_comp),
+                    ((v40 / 2) + v507) - 6,
+                    255,
+                    255,
+                    255,
+                    255,
+                    "ab",
+                    0,
+                    v15(v510)
+                )
+                v28.text(
+                    (v39 / 2) + (((v511 + 28) / 2) * v487.scoped_comp),
+                    (v40 / 2) + v507 + 13,
+                    255,
+                    255,
+                    255,
+                    255,
+                    "ac",
+                    0,
+                    v492
+                )
+                for v1122, v1123 in v2(v506) do
+                    local v1124 = v487.helpers:new_anim("indicators_alpha" .. v1123.n, (v1123.a and 255) or 0, 10)
+                    local v1125 = v487.helpers:new_anim("indicators_pose_2" .. v1123.n, (v1123.a and 13) or 0, 10)
+                    v508 = v508 + v1125
+                    v28.text(
+                        (v39 / 2) + (((v1123.s / 2) + 8) * v487.scoped_comp),
+                        (v40 / 2) + v507 + v508 + 15,
+                        v1123.c[1],
+                        v1123.c[2],
+                        v1123.c[3],
+                        v1124,
+                        "ca",
+                        nil,
+                        v1123.n:lower()
+                    )
+                end
+            elseif (v498 == 5) then
+                local v1147 = v487.helpers:animate_text(v26.curtime() * 2, "calamity", v493, v494, v495, 255)
+                v28.texture(
+                    v42,
+                    ((v39 / 2) - 29) + (37 * v487.scoped_comp),
+                    ((v40 / 2) + v507) - 4,
+                    11,
+                    11,
+                    v493,
+                    v494,
+                    v495,
+                    255
+                )
+                v28.text(
+                    (v39 / 2) + 4 + (37 * v487.scoped_comp),
+                    (v40 / 2) + v507,
+                    255,
+                    255,
+                    255,
+                    255,
+                    "ac",
+                    0,
+                    v15(v1147)
+                )
+                v28.text(
+                    (v39 / 2) + (((v511 + 28) / 2) * v487.scoped_comp),
+                    (v40 / 2) + v507 + 13,
+                    255,
+                    255,
+                    255,
+                    255,
+                    "ac",
+                    0,
+                    "-" .. v492 .. "-"
+                )
+            end
+        end,
+        view_x = 1,
+        view_y = 1,
+        view_z = -1,
+        view_fov = 60,
+        viewmodel = function(v512)
+            local v513 = v24.get_local_player()
+            local v514 = v512.ui.menu.tools.viewmodel_on:get()
+            local v515 = v512.ui.menu.tools.viewmodel_scope:get()
+            if not v24.is_alive(v513) then
+                return
+            end
+            local v516 = v24.get_player_weapon(v513)
+            if (v516 == nil) then
+                return
+            end
+            local v517 = v24.get_prop(v516, "m_iItemDefinitionIndex")
+            local v518 = v48(v47, v517)
+            v518.hide_vm_scope = not v515
+            if not v514 then
+                return
+            end
+            local v520 = v512.ui.menu.tools.viewmodel_x1:get()
+            local v521 = v512.ui.menu.tools.viewmodel_y1:get()
+            local v522 = v512.ui.menu.tools.viewmodel_z1:get()
+            local v523 = v512.ui.menu.tools.viewmodel_fov1:get()
+            local v524 = v512.ui.menu.tools.viewmodel_x2:get()
+            local v525 = v512.ui.menu.tools.viewmodel_y2:get()
+            local v526 = v512.ui.menu.tools.viewmodel_z2:get()
+            local v527 = v512.ui.menu.tools.viewmodel_fov2:get()
+            if (v512.scoped == 1) then
+                if v512.ui.menu.tools.viewmodel_inscope:get() then
+                    v512.view_x = v524
+                    v512.view_y = v525
+                    v512.view_z = v526
+                    v512.view_fov = v527
+                end
+            else
+                v512.view_x = v520
+                v512.view_y = v521
+                v512.view_z = v522
+                v512.view_fov = v523
+            end
+            v22.set_cvar("viewmodel_offset_x", v512.helpers:new_anim("view_x1", v512.view_x, 11))
+            v22.set_cvar("viewmodel_offset_y", v512.helpers:new_anim("view_y1", v512.view_y, 11))
+            v22.set_cvar("viewmodel_offset_z", v512.helpers:new_anim("view_z1", v512.view_z, 11))
+            v22.set_cvar("viewmodel_fov", v512.helpers:new_anim("view_fov1", v512.view_fov, 11))
+        end,
+        manuals = function(v528)
+            local v529 = v24.get_local_player()
+            local v530 = ""
+            local v531 = ""
+            if (v528.ui.menu.tools.manuals_style:get() == "calamity") then
+                v530 = "‹"
+                v531 = "›"
+            elseif (v528.ui.menu.tools.manuals_style:get() == "New") then
+                v530 = "«"
+                v531 = "»"
+            end
+            if not v24.is_alive(v529) then
+                return
+            end
+            local v532 = v528.antiaim:get_manual()
+            local v533 = v528.antiaim:get_best_side()
+            local v534, v535, v536, v537 = v38.accent.r, v38.accent.g, v38.accent.b
+            local v538 =
+                v528.helpers:new_anim("alpha_manual_global", (v528.ui.menu.tools.manuals_global:get() and 255) or 0, 16)
+            local v539 = v528.helpers:new_anim("manual_scope", ((v528.scoped == 1) and 15) or 0, 8)
+            local v540 = v528.helpers:new_anim("alpha_manual_right", ((v532 == 90) and 255) or 0, 16)
+            local v541 = v528.helpers:new_anim("alpha_manual_left", ((v532 == -90) and 255) or 0, 16)
+            local v542 = v528.helpers:new_anim("alpha_manual_right_global", ((v533 == 0) and 255) or 0, 8)
+            local v543 = v528.helpers:new_anim("alpha_manual_left_global", ((v533 == 2) and 255) or 0, 8)
+            local v544 = v528.helpers:new_anim("alpha_manual_offset", -v528.ui.menu.tools.manuals_offset:get() - 25, 12)
+            v28.text((v39 / 2) + v544, ((v40 / 2) - 16) - v539, v534, v535, v536, v541, "d+", 0, v530)
+            v28.text(((v39 / 2) - v544) - 11, ((v40 / 2) - 16) - v539, v534, v535, v536, v540, "d+", 0, v531)
+            if (v538 < 0.1) then
+                return
+            end
+            v28.text(
+                (v39 / 2) + v544 + 11,
+                ((v40 / 2) - 16) - v539,
+                v534,
+                v535,
+                v536,
+                v543 * (v538 / 255),
+                "d+",
+                0,
+                v530
+            )
+            v28.text(
+                ((v39 / 2) - v544) - 22,
+                ((v40 / 2) - 16) - v539,
+                v534,
+                v535,
+                v536,
+                v542 * (v538 / 255),
+                "d+",
+                0,
+                v531
+            )
+        end,
+        ind_dmg = function(v545)
+            local v546 = v24.get_local_player()
+            if not v24.is_alive(v546) then
+                return
+            end
+            local v547, v548, v549, v550 = v545.ui.menu.tools.indicator_dmg_color:get()
+            local v551 = v545.ui.menu.tools.indicator_dmg_weapon:get()
+            local v552 = v19.floor(v545.helpers:new_anim("dmg_indicator", v545.helpers:get_damage() + 0.1, 8))
+            local v553 = ""
+            if v545.ref.rage.ovr[2] then
+                if v551 then
+                    if v21.get(v545.ref.rage.ovr[2]) then
+                        v553 = v545.helpers:get_damage()
+                    else
+                        v553 = ""
+                    end
+                elseif v21.get(v545.ref.rage.ovr[2]) then
+                    v553 = v552
+                else
+                    v553 = v552
+                end
+            end
+            v28.text((v39 / 2) + 5, (v40 / 2) - 17, v547, v548, v549, 255, "d", 0, v553 .. "")
+        end,
+        scopedu = function(v554)
+            if not v554.ui.menu.tools.animscope:get() then
+                return
+            end
+            local v555 = v24.get_local_player()
+            local v556 = v554.ui.menu.tools.animscope_slider:get()
+            local v557 = v554.ui.menu.tools.animscope_fov_slider:get()
+            local v558 = v554.helpers:new_anim("animated_scoped", ((v554.scoped == 1) and v556) or 0, 8)
+            if (v21.get(v554.ref.misc.override_zf) > 0) then
+                v21.set(v554.ref.misc.override_zf, 0)
+            end
+            v21.set(v554.ref.misc.fov, v557 - v558)
+        end,
+        watermark = function(v559)
+            local v560, v561, v562, v563 = v38.accent.r, v38.accent.g, v38.accent.b
+            local v564, v565 = v559.widget_watermark:get(65, 10)
+            local v566 = v38.build
+            local v567, v568, v569 = 15, 15, 15
+            local v570 = v38.name
+            local v571, v572 = v22.system_time()
+            local v573 = v20.format("%02d:%02d", v571, v572)
+            local v574 = v19.floor(v22.latency() * 1000)
+            local v575 = v28.measure_text("ca", v566)
+            local v576 = v28.measure_text("ca", v570)
+            local v577 = v28.measure_text("ca", v573)
+            local v578 = v28.measure_text("ca", v574)
+            local v579 = v575 - 38
+            local v580 = 125 + v576
+            if (v559.ui.menu.tools.style:get() == "Default") then
+                v559.helpers:rounded_side_v(v564 - 100, v565 - 5, 1200 + v579, 45, v567, v568, v569, 260, 6, true, true)
+                v559.helpers:rounded_side_v(
+                    v564 + v579 + 31,
+                    v565 - 25,
+                    v580 + (v578 - 18),
+                    45,
+                    v567,
+                    v568,
+                    v569,
+                    160,
+                    15,
+                    true,
+                    true
+                )
+                v28.text(
+                    v564 + v579 + 144 + v576 + (v577 / 2) + (v578 - 8),
+                    v565 + 7,
+                    255,
+                    255,
+                    255,
+                    255,
+                    "ca",
+                    nil,
+                    v573
+                )
+                v28.text(v564 + v579 + 135 + v576 + (v578 - 8), v565 + 7, v560, v561, v562, 255, "bca", nil, "•")
+                v28.text(
+                    v564 + v579 + 105 + v576 + (v578 / 2),
+                    v565 + 7,
+                    255,
+                    255,
+                    255,
+                    255,
+                    "ca",
+                    nil,
+                    v574 .. " ping"
+                )
+                v28.text(v564 + v579 + 84 + v576, v565 + 7, v560, v561, v562, 255, "bca", nil, "•")
+                v28.text(v564 + v579 + 75 + (v576 / 2), v565 + 7, 255, 255, 255, 255, "ca", nil, v570)
+                v28.text(v564 + v579 + 65, v565 + 7, v560, v561, v562, 255, "bca", nil, "•")
+                v28.text(v564 - 30, v565 + 7, 255, 255, 255, 255, "ca", nil, "calamity")
+                v28.text(v564 + (v575 / 2), v565 + 7, v560, v561, v562, 255, "ca", nil, v566)
+            else
+                v43.rect_v(v564 - 60, v565 - 5, 105 + v579, 25, {v567, v568, v569, 160}, 6, {v560, v561, v562, 255})
+                v43.rect_v(
+                    v564 + v579 + 51,
+                    v565 - 5,
+                    v580 + (v578 - 63),
+                    25,
+                    {v567, v568, v569, 160},
+                    6,
+                    {v560, v561, v562, 255}
+                )
+                v43.rect_v(
+                    v564 + v579 + v578 + v576 + 119,
+                    v565 - 5,
+                    v577 + 17,
+                    25,
+                    {v567, v568, v569, 160},
+                    6,
+                    {v560, v561, v562, 255}
+                )
+                v28.text(
+                    v564 + v579 + 135 + v576 + (v577 / 2) + (v578 - 8),
+                    v565 + 7,
+                    255,
+                    255,
+                    255,
+                    255,
+                    "ca",
+                    nil,
+                    v573
+                )
+                v28.text(v564 + v579 + 90 + v576 + (v578 / 2), v565 + 7, 255, 255, 255, 255, "ca", nil, v574 .. " ping")
+                v28.text(v564 + v579 + 70 + v576, v565 + 7, v560, v561, v562, 255, "ca", nil, "/")
+                v28.text(v564 + v579 + 60 + (v576 / 2), v565 + 7, 255, 255, 255, 255, "ca", nil, v570)
+                v28.text(v564 - 53, v565 + 1, 255, 255, 255, 255, "a", nil, "calamity")
+                v28.text(v564 + (v575 - v575), v565 + 1, v560, v561, v562, 255, "a", nil, v566)
+            end
+            v559.widget_watermark:drag(v580 + v575 + v576 + v577 + v578 + 5, 35)
+        end,
+        draw = false,
+        keylist = function(v581)
+            local v582, v583, v584, v585 = v38.accent.r, v38.accent.g, v38.accent.b
+            local v586 = v581.helpers:new_anim("alpha_keybinds", (v581.draw and 160) or 0, 8)
+            local v587 = 95
+            if
+                (not v21.is_menu_open() and not v21.get(v581.ref.rage.dt[2]) and not v21.get(v581.ref.rage.os[2]) and
+                    not v21.get(v581.ref.rage.ovr[2]) and
+                    not v21.get(v581.ref.aa.freestand[1]) and
+                    not v21.get(v581.ref.rage.fd[1]))
+             then
+                v581.draw = false
+            else
+                v581.draw = true
+            end
+            if (v586 < 0.1) then
+                return
+            end
+            local v588, v589 = v581.widget_keylist:get(25, 10)
+            local v590 = 0
+            local v591 = {
+                {
+                    n = "Double Tap",
+                    c = {255, 255, 255},
+                    a = v21.get(v581.ref.rage.dt[1]) and v21.get(v581.ref.rage.dt[2]) and
+                        not v21.get(v581.ref.rage.fd[1]),
+                    s = v28.measure_text("c", "Double tap")
+                },
+                {
+                    n = "Hide Shots",
+                    c = {255, 255, 255},
+                    a = v21.get(v581.ref.rage.os[1]) and v21.get(v581.ref.rage.os[2]) and
+                        not v21.get(v581.ref.rage.fd[1]),
+                    s = v28.measure_text("c", "Hide shots") + 1
+                },
+                {
+                    n = "Fake Duck",
+                    c = {255, 255, 255},
+                    a = v21.get(v581.ref.rage.fd[1]),
+                    s = v28.measure_text("c", "Fake duck") + 3
+                },
+                {
+                    n = "Min. Damage",
+                    c = {255, 255, 255},
+                    a = v21.get(v581.ref.rage.ovr[1]) and v21.get(v581.ref.rage.ovr[2]),
+                    s = v28.measure_text("c", "Min dmg") + 16
+                },
+                {
+                    n = "Edge yaw",
+                    c = {255, 255, 255},
+                    a = v21.get(v581.ref.aa.edge_yaw[1]) and v581.ui.menu.antiaim.edge_yaw:get_hotkey(),
+                    s = v28.measure_text("c", "Edge yaw") + 3
+                },
+                {
+                    n = "Freestand",
+                    c = {255, 255, 255},
+                    a = v21.get(v581.ref.aa.freestand[1]) and v21.get(v581.ref.aa.freestand[2]),
+                    s = v28.measure_text("c", "Freestand") + 3
+                }
+            }
+            local v592 = v581.ui.menu.tools.style:get() == "Default"
+            if v592 then
+                v581.helpers:rounded_side_v(v588 - 20, v589 - 5, v587, 25, 15, 15, 15, v586, 6, true, true)
+            else
+                v43.rect_v(v588 - 20, v589 - 5, v587 + 6, 25, {15, 15, 15, v586}, 6, {v582, v583, v584, v586})
+            end
+            local v593 = v586 / 160
+            v28.rectangle(v588 + 8, v589 - 5, 1, 25 - ((v592 and 0) or 1), 255, 255, 255, 25 * v593)
+            v28.texture(
+                v581.globals.keylist_icon,
+                v588 - 15,
+                v589 - ((v592 and 0) or 1),
+                15,
+                15,
+                255,
+                255,
+                255,
+                255 * v593
+            )
+            v28.text(v588 + 35, (v589 + 7) - ((v592 and 0) or 1), 255, 255, 255, 255 * v593, "ca", nil, "Hotkeys")
+            for v852, v853 in v2(v591) do
+                local v854 = v581.helpers:new_anim("alpha_rect_keybinds" .. v853.n, (v853.a and 130) or 0, 8)
+                local v855 = v581.helpers:new_anim("alpha_text_keybinds" .. v853.n, (v853.a and 255) or 0, 8)
+                local v856 = v28.measure_text("ca", v21.get(v581.ref.rage.ovr[3])) - 12
+                local v857 = v581.helpers:new_anim("move_keybinds" .. v853.n, (v853.a and 20) or 0, 12)
+                v590 = v590 + v857
+                v581.helpers:rounded_side_v(
+                    v588 - 20,
+                    v589 + 3 + v590,
+                    v587,
+                    18,
+                    15,
+                    15,
+                    15,
+                    v854 * v593,
+                    6,
+                    true,
+                    true
+                )
+                if (v853.n == "Min. Damage") then
+                    v28.text(
+                        (v588 + (v587 - 27)) - (v856 / 2),
+                        v589 + 11 + v590,
+                        v582,
+                        v583,
+                        v584,
+                        v855 * v593,
+                        "ca",
+                        nil,
+                        v21.get(v581.ref.rage.ovr[3])
+                    )
+                else
+                    v28.text(v588 + (v587 - 27), v589 + 11 + v590, v582, v583, v584, v855 * v593, "ca", nil, "on")
+                end
+                v28.text(
+                    (v588 - 40) + v853.s,
+                    v589 + 11 + v590,
+                    v853.c[1],
+                    v853.c[2],
+                    v853.c[3],
+                    v855 * v593,
+                    "ca",
+                    nil,
+                    v853.n
+                )
+            end
+            v581.widget_keylist:drag(v587 + 16, 35)
+        end
+    }
+):struct("round_reset")(
+    {auto_buy = function(v594)
+            if not v594.ui.menu.tools.autobuy:get() then
+                return
+            end
+            if (v594.ui.menu.tools.autobuy_v:get() == "Awp") then
+                v22.exec("buy awp")
+            elseif (v594.ui.menu.tools.autobuy_v:get() == "Scar/g3sg1") then
+                v22.exec("buy g3sg1")
+                v22.exec("buy scar20")
+            elseif (v594.ui.menu.tools.autobuy_v:get() == "Scout") then
+                v22.exec("buy ssg08")
+            end
+        end}
+):struct("custom_gs")(
+    {
+        table = {binds = {}},
+        y = 0,
+        add = function(v595, v596, v597, v598)
+            enabled_color = {[1] = 230, [2] = 230, [3] = 230, [4] = 230}
+            disabled_color = {[1] = 155, [2] = 155, [3] = 155, [4] = 0}
+            v595.table.binds[#v595.table.binds + 1] = {
+                full_icon = v596,
+                name = v20.sub(v597, 1, 2),
+                full_name = v597,
+                ref = v598,
+                chars = 0,
+                alpha = 0
+            }
+        end,
+        text = function(v600, v601, v602, v603, v604, v605, v606, v607, v608, v609, v610, v611, v612, v613, v614)
+            if (v614 == nil) then
+                v614 = 1
+            end
+            if (v614 <= 0) then
+                return
+            end
+            local v615 = v31(v28.measure_text("+", v611))
+            local v616 = v31(v28.measure_text("+", v612))
+            local v617, v618 = v22.screen_size()
+            local v619 = v19.floor(v616.x / 2)
+            local v602 = v602 + (v618 / 2) + 50
+            v28.gradient(4, v602 + v616.y, v619 + 24, v616.y + 4, 5, 5, 5, 0, 5, 5, 5, 55 * v614, true)
+            v28.gradient(28 + v619, v602 + v616.y, 29 + v619, v616.y + 4, 5, 5, 5, 55 * v614, 5, 5, 5, 0, true)
+            v28.text(v601 * v614, v602 + v615.y, v607, v608, v609, v610 * v613, "+", nil, v611)
+            v28.text(v601 + (v615.x * v613), v602 + v615.y + 1, v603, v604, v605, v606, "+", nil, v612)
+            v600.y = v600.y + (40 * v614)
+        end,
+        clamp = function(v621, v622)
+            return v19.max(0, v19.min(255, v622))
+        end,
+        general = function(v623)
+            local v624 = v24.get_local_player()
+            if ((v624 == nil) or not v624) then
+                return
+            end
+            local v625 = v623.helpers:get_charge()
+            v623.y = 15
+            local v627 = v19.floor(v22.latency() * 1000)
+            local v628 = v24.is_alive(v624)
+            for v858, v859 in v2(v623.table.binds) do
+                local v860 = v859.full_icon
+                local v861 = (v623.ui.menu.tools.gs_ind:get() and v623.ui.menu.tools.gs_inds:get("Target")) or false
+                local v862 = v21.get(v859.ref)
+                local v863 = v860 == "t"
+                local v864 = 0
+                if v628 then
+                    if (v863 and v861) then
+                        v864 = 1
+                    elseif v862 then
+                        v864 = 1
+                    end
+                end
+                local v865 = v623.helpers:math_anim2(v859.alpha, v864, 6)
+                local v866 = v623.helpers:math_anim2(v859.chars, (v628 and v862 and 1) or 0, 6)
+                local v867, v868, v869, v870 = 255, 255, 255, 255
+                local v871 = v859.full_name
+                local v872 = {v867, v868, v869, v870}
+                if (v871 == "DT") then
+                    v860 = (v625 and " ") or " "
+                    v872 = {[1] = 140, [2] = 140 * ((v625 and 1) or 0), [3] = 170 * ((v625 and 1) or 0), [4] = v870}
+                elseif (v871 == "PING") then
+                    if (v627 < 55) then
+                        v872[1] = v623:clamp(255 - ((70 - v627) * 2))
+                        v872[3] = v623:clamp(255 - ((70 - v627) * 2))
+                    elseif (v627 < 55) then
+                        v872[1] = 255
+                        v872[2] = 255
+                        v872[3] = v623:clamp(255 - ((v627 - 70) * 17))
+                    else
+                        v872[1] = 255
+                        v872[2] = v623:clamp(255 - ((v627 - 85) * 8))
+                        v872[3] = 0
+                    end
+                    v872[4] = 255
+                elseif (v871 == "OS") then
+                    v860 = (v625 and " ") or "⭙ "
+                    v872 = {[1] = 140, [2] = 140 * ((v625 and 1) or 0), [3] = 170 * ((v625 and 1) or 0), [4] = v870}
+                elseif (v871 == "MD") then
+                    v872 = {[1] = 191, [2] = 165, [3] = 170, [4] = v870}
+                elseif (v871 == "FD") then
+                    v872 = {[1] = 96, [2] = 156, [3] = 216, [4] = v870}
+                elseif (v871 == "FS") then
+                    v872 = {[1] = 198, [2] = 124, [3] = 158, [4] = v870}
+                elseif (v860 == "t") then
+                    v871 = "Target: " .. v623.helpers:get_target()
+                end
+                v623:text(
+                    25,
+                    v623.y,
+                    v872[1],
+                    v872[2],
+                    v872[3],
+                    v872[4] * v865,
+                    v872[1],
+                    v872[2],
+                    v872[3],
+                    v872[4] * v865,
+                    v860,
+                    v871,
+                    v866,
+                    v865
+                )
+                v623.table.binds[v858].alpha = v865
+                v623.table.binds[v858].name = v871
+                v623.table.binds[v858].chars = v866
+                v623.table.binds[v858].color = v867, v868, v869, v870
+            end
+        end,
+        create = function(v629)
+            v629:add("t", "Target", v629.ref.misc.log[1])
+            v629:add(" ", "DT", v629.ref.rage.dt[2])
+            v629:add(" ", "OS", v629.ref.rage.os[2])
+            v629:add(" ", "MD", v629.ref.rage.ovr[2])
+            v629:add(" ", "FD", v629.ref.rage.fd[1])
+            v629:add(" ", "FS", v629.ref.aa.freestand[1])
+            v629:add(" ", "BA", v629.ref.rage.baim[1])
+            v629:add(" ", "SAFE", v629.ref.rage.safe[1])
+            v629:add(" ", "PING", v629.ref.rage.always[1])
+        end
+    }
+):struct("misc")(
+    {
+        charged = false,
+        call_reg = false,
+        jumpscout = false,
+        unsafe_charge = function(v630)
+            local v631 = v630.ui.menu.tools.unsafe_charge:get()
+            local v632 = v630.ref.rage.enable
+            if not v631 then
+                if v630.call_reg then
+                    v21.set(v632, true)
+                    v630.call_reg = false
+                end
+                return
+            end
+            local v633 = v24.get_local_player()
+            if not v630.call_reg then
+                v630.call_reg = true
+            end
+            local v634 = v22.current_threat()
+            if
+                (v21.get(v630.ref.rage.dt[2]) and v634 and not v630.jumpscout and v630.helpers:in_air(v633) and
+                    v630.helpers:entity_has_flag(v634, "HIT"))
+             then
+                if (v21.get(v632) == true) then
+                    v21.set(v632, false)
+                end
+            elseif (v21.get(v632) == false) then
+                v21.set(v632, true)
+            end
+        end,
+        air_stopchance = function(v635, v636)
+            local v637 = v635.ui.menu.tools.air_stop
+            if (not v637:get() or not v637:get_hotkey()) then
+                v635.jumpscout = false
+                return
+            end
+            local v638 = v24.get_local_player()
+            if (not v638 or not v24.is_alive(v638)) then
+                return
+            end
+            local v639 = v635.ui.menu.tools.air_stop_distance:get() * 5
+            local v640 = v29.band(v24.get_prop(v24.get_player_weapon(v638), "m_iItemDefinitionIndex"), 65535)
+            local v641 = v24.get_players(true)
+            for v877 = 1, #v641 do
+                if (v641 == nil) then
+                    return
+                end
+                local v878, v879, v880 = v24.get_prop(v638, "m_vecOrigin")
+                local v881, v882, v883 = v24.get_prop(v641[v877], "m_vecOrigin")
+                local v884 = v635.helpers:distance(v878, v879, v880, v881, v882, v883) / 11.91
+                if ((v884 < v639) and (v640 == 40)) then
+                    if v635.helpers:in_air(v638) then
+                        if v636.quick_stop then
+                            v635.jumpscout = true
+                            v636.in_speed = 1
+                        end
+                    end
+                else
+                    v635.jumpscout = false
+                end
+            end
+        end,
+        phrases = {
+            kill = {
+                "1",
+                "сосни хуйца",
+            },
+            death = {
+                "фу ебаный лакер",
+                "как ты меня убил?:(",
+            }
+        },
+        fast_ladder = function(v642, v643)
+            local v644 = v24.get_local_player()
+            local v645, v646 = v22.camera_angles()
+            local v647 = v24.get_prop(v644, "m_MoveType")
+            if (v647 == 9) then
+                v643.yaw = v19.floor(v643.yaw + 0.5)
+                v643.roll = 0
+                if (v643.forwardmove > 0) then
+                    if (v645 < 45) then
+                        v643.pitch = 89
+                        v643.in_moveright = 1
+                        v643.in_moveleft = 0
+                        v643.in_forward = 0
+                        v643.in_back = 1
+                        if (v643.sidemove == 0) then
+                            v643.yaw = v643.yaw + 90
+                        end
+                        if (v643.sidemove < 0) then
+                            v643.yaw = v643.yaw + 150
+                        end
+                        if (v643.sidemove > 0) then
+                            v643.yaw = v643.yaw + 30
+                        end
+                    end
+                end
+                if (v643.forwardmove < 0) then
+                    v643.pitch = 89
+                    v643.in_moveleft = 1
+                    v643.in_moveright = 0
+                    v643.in_forward = 1
+                    v643.in_back = 0
+                    if (v643.sidemove == 0) then
+                        v643.yaw = v643.yaw + 90
+                    end
+                    if (v643.sidemove > 0) then
+                        v643.yaw = v643.yaw + 150
+                    end
+                    if (v643.sidemove < 0) then
+                        v643.yaw = v643.yaw + 30
+                    end
+                end
+            end
+        end,
+        trashtalk = function(v648, v649)
+            local v650 = v24.get_local_player()
+            local v651 = v22.userid_to_entindex(v649.userid)
+            local v652 = v22.userid_to_entindex(v649.attacker)
+            if (v650 == nil) then
+                return
+            end
+            if ((v652 == v650) and (v651 ~= v650)) then
+                if (v648.ui.menu.tools.trashtalk_type:get() == "Default type") then
+                    v22.delay_call(
+                        1,
+                        function()
+                            v22.exec(("say %s"):format(v648.phrases.kill[v19.random(0, #v648.phrases.kill)]))
+                        end
+                    )
+                elseif (v648.ui.menu.tools.trashtalk_type:get() == "1 MOD") then
+                    if v648.ui.menu.tools.trashtalk_check2:get() then
+                        v22.exec(("say %s, 1"):format(v24.get_player_name(v651)))
+                    else
+                        v22.exec("say 1")
+                    end
+                elseif (v648.ui.menu.tools.trashtalk_type:get() == "Custom phrase") then
+                    v22.exec("say " .. v648.ui.menu.tools.trashtalk_custom:get())
+                end
+            end
+            if ((v652 ~= v650) and (v651 == v650)) then
+                v22.delay_call(
+                    2,
+                    function()
+                        v22.exec(("say %s"):format(v648.phrases.death[v19.random(0, #v648.phrases.death)]))
+                    end
+                )
+            end
+        end
+    }
+):struct("logs")(
+    {
+        hitboxes = {
+            [0] = "body",
+            "head",
+            "chest",
+            "stomach",
+            "left arm",
+            "right arm",
+            "left leg",
+            "right leg",
+            "neck",
+            "?",
+            "gear"
+        },
+        miss = function(v653, v654)
+            local v655, v656, v657 = v38.accent.r, v38.accent.g, v38.accent.b
+            local v658 = v24.get_player_name(v654.target)
+            local v659 = v653.hitboxes[v654.hitgroup] or "?"
+            local v660 = v653.helpers:limit_ch(v658, 15, "...")
+            local v661 = v26.tickcount() - v654.tick
+            local v662 = v19.floor(v654.hit_chance)
+            v44.create_new({{"Missed "}, {v660, true}, {"'s in "}, {v659, true}, {" due "}, {v654.reason, true}})
+            v22.color_log(
+                v655,
+                v656,
+                v657,
+                v20.format(
+                    "[calamity] ~ Missed %s in %s due to %s (hc: %s, bt: %s)",
+                    v658,
+                    v659,
+                    v654.reason,
+                    v662,
+                    v661
+                )
+            )
+        end,
+        hit = function(v663, v664, v665)
+            local v666, v667, v668 = v38.accent.r, v38.accent.g, v38.accent.b
+            local v669 = v24.get_player_name(v664.target)
+            local v670 = v663.hitboxes[v664.hitgroup] or "?"
+            local v671 = v663.helpers:limit_ch(v669, 15, "...")
+            local v672 = v19.max(0, v24.get_prop(v664.target, "m_iHealth"))
+            local v673 = v664.damage
+            local v674 = v26.tickcount() - v664.tick
+            local v675 = v19.floor(v664.hit_chance)
+            v44.create_new({{"Hit "}, {v671, true}, {"'s in "}, {v670, true}, {" for "}, {v673, true}})
+            v22.color_log(
+                v666,
+                v667,
+                v668,
+                v20.format(
+                    "[calamity] ~ Hit %s in %s for %s (remaning hp %s, hc: %s, bt: %s)",
+                    v669,
+                    v670,
+                    v673,
+                    v672,
+                    v675,
+                    v674
+                )
+            )
+        end,
+        shot = 0,
+        evade = function(v676, v677)
+            local v678 = v24.get_local_player()
+            local v679, v680, v681 = v38.accent.r, v38.accent.g, v38.accent.b
+            if (v678 == nil) then
+                return
+            end
+            local v682 = v22.userid_to_entindex(v677.userid)
+            local v683 = v24.get_player_name(v682)
+            local v684 = v19.floor(v22.latency() * 1000)
+            local v685 = v676.antiaim:get_best_side()
+            if ((v682 == v24.get_local_player()) or not v24.is_enemy(v682) or not v24.is_alive(v678)) then
+                return nil
+            end
+            if v676.helpers:fired_shot(v678, v682, {v677.x, v677.y, v677.z}) then
+                if (v676.shot ~= v26.tickcount()) then
+                    v22.color_log(
+                        v679,
+                        v680,
+                        v681,
+                        v20.format("[calamity] ~ Detected %s shot (%s ms, anti-aim side: %s)", v683, v684, v685)
+                    )
+                    v44.create_new({{"Detected "}, {v683, true}, {"'s shot "}, {"(" .. v684 .. "ms)", true}})
+                end
+                v676.shot = v26.tickcount()
+            end
+        end,
+        evade2 = function(v686, v687)
+            local v688 = v24.get_local_player()
+            if (v688 == nil) then
+                return
+            end
+            if ((enemy == v24.get_local_player()) or not v24.is_enemy(enemy) or not v24.is_alive(v688)) then
+                return nil
+            end
+            if v686.helpers:fired_shot(v688, enemy, {v687.x, v687.y, v687.z}) then
+                v686.defensive:def_reset()
+            end
+        end,
+        harmed = function(v689, v690)
+            local v691 = v24.get_local_player()
+            local v692 = v22.userid_to_entindex(v690.attacker)
+            local v693 = v22.userid_to_entindex(v690.userid)
+            local v694 = v690.dmg_health
+            local v695 = v24.get_player_name(v692)
+            local v696 = v689.hitboxes[v690.hitgroup]
+            if (v692 == v691) then
+                return
+            end
+            if (v693 ~= v691) then
+                return
+            end
+            v44.create_new({{"Get " .. v694 .. " damage by "}, {v695 .. "'s in " .. v696, true}})
+        end
+    }
+):struct("unloads")(
+    {setup = function(v697)
+            local v698 = v697.ui.menu.tools.animscope:get()
+            local v699 = v697.ui.menu.tools.animscope_fov_slider:get()
+            if v698 then
+                v21.set(v697.ref.misc.fov, v699)
+            end
+            v697.ui:shutdown()
+            v21.set(v697.ref.rage.enable, true)
+        end}
+)
+for v700, v701 in v2(
+    {{"load", function()
+                v50.ui:execute()
+                v50.config:setup()
+                v50.custom_gs:create()
+            end}, {"aim_miss", function(shot)
+                if (v50.ui.menu.tools.notify_master:get() and v50.ui.menu.tools.notify_vibor:get("Miss")) then
+                    v50.logs:miss(shot)
+                end
+            end}, {"aim_hit", function(shot)
+                if (v50.ui.menu.tools.notify_master:get() and v50.ui.menu.tools.notify_vibor:get("Hit")) then
+                    v50.logs:hit(shot)
+                end
+            end}, {"bullet_impact", function(event)
+                if (v50.ui.menu.tools.notify_master:get() and v50.ui.menu.tools.notify_vibor:get("Detect shot")) then
+                    v50.logs:evade(event)
+                end
+                v50.logs:evade2(event)
+            end}, {"player_death", function(e)
+                if v50.ui.menu.tools.trashtalk:get() then
+                    v50.misc:trashtalk(e)
+                end
+            end}, {"player_hurt", function(event)
+                if (v50.ui.menu.tools.notify_master:get() and v50.ui.menu.tools.notify_vibor:get("Get harmed")) then
+                    v50.logs:harmed(event)
+                end
+            end}, {"setup_command", function(cmd)
+                v50.antiaim:run(cmd)
+                v50.misc:air_stopchance(cmd)
+                v50.misc:unsafe_charge()
+                if v50.ui.menu.tools.fast_ladder:get() then
+                    v50.misc:fast_ladder(cmd)
+                end
+            end}, {"paint", function()
+                v50.tools:crosshair()
+                if v50.ui.menu.tools.indicators_gamesense:get() then
+                    v50.custom_gs:general()
+                end
+                if v50.ui.menu.tools.manuals:get() then
+                    v50.tools:manuals()
+                end
+                if v50.ui.menu.tools.indicator_dmg:get() then
+                    v50.tools:ind_dmg()
+                end
+                v50.tools:viewmodel()
+                if v50.ui.menu.tools.keylist:get() then
+                    v50.tools:keylist()
+                end
+                if v50.ui.menu.tools.watermark:get() then
+                    v50.tools:watermark()
+                end
+                v50.tools:scopedu()
+                if v50.ui.menu.tools.gs_ind:get() then
+                    v50.tools:gs_ind()
+                end
+            end}, {"shutdown", function(self)
+                v50.unloads:setup()
+            end}, {"paint_ui", function()
+                if v21.is_menu_open() then
+                    v50.helpers:menu_visibility(false)
+                    v50.tools:menu_setup()
+                end
+            end}, {"pre_render", function()
+                if v50.ui.menu.tools.animations:get() then
+                    v50.antiaim:animations()
+                end
+            end}, {"round_prestart", function()
+                v50.round_reset:auto_buy()
+            end}, {"net_update_end", function()
+                v50.defensive:defensive_active()
+            end}}
+) do
+    local v702 = v701[1]
+    local v703 = v701[2]
+    if (v702 == "load") then
+        v703()
     else
-        cvar.cl_interp:set_float(0.016000)
-        cvar.cl_interp_ratio:set_int(1)
-        cvar.cl_interpolate:set_int(0)
+        v22.set_event_callback(v702, v703)
     end
 end
-
-client.set_event_callback("setup_command", function()
-  predict()
-end)
+local v51 = {completing = false, showing = true, progress = 0}
+v51.back = function()
+    v51.progress = v50.helpers:math_anim2(v51.progress, (v51.showing and 1) or 0, 6)
+    v28.rectangle(0, 0, 9999, 9999, v38.accent.r / 10, v38.accent.g / 10, v38.accent.b / 10, v51.progress * 200)
+    v28.text(
+        v39 / 2,
+        (v40 / 2) + 35,
+        255,
+        255,
+        255,
+        v51.progress * 255,
+        "cb",
+        nil,
+        "calamity.\a" ..
+            v50.helpers.rgba_to_hex(nil, v38.accent.r, v38.accent.g, v38.accent.b, v51.progress * 255) .. "lua"
+    )
+    if not v51.completing then
+        v22.delay_call(
+            3,
+            function()
+                if v51 then
+                    v51.showing = false
+                end
+            end
+        )
+        v51.completing = true
+    end
+end
+v51.returner = function()
+    return
+end
+v50.ui.menu.tools.indicators_gamesense:set_event(
+    "indicator",
+    v51.returner,
+    function(v705)
+        return v705:get()
+    end
+)
+v22.delay_call(
+    0.5,
+    function()
+        v22.set_event_callback("paint_ui", v51.back)
+    end
+)
+v22.delay_call(
+    4,
+    function()
+        v22.unset_event_callback("paint_ui", v51.back)
+        v51 = nil
+    end
+)
